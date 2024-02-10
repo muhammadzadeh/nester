@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { ChannelDispatcherResponse } from '../../../application/dispatchers';
-import { EmailMappedData, Mailer } from '../../../application/email-provider.interface';
+import { SendEmailData, Mailer } from '../../../application/email-provider.interface';
 import { NotificationChannelStatus } from '../../../domain/entities/notification.entity';
+import { NotificationDispatcherResponse } from '../../../application/notifications.dispatcher';
 
 @Injectable()
 export class LocalMailer implements Mailer {
@@ -11,7 +11,7 @@ export class LocalMailer implements Mailer {
     return 'local';
   }
 
-  async sendMail(data: EmailMappedData): Promise<ChannelDispatcherResponse> {
+  async sendMail(data: SendEmailData): Promise<NotificationDispatcherResponse> {
     this.logger.log(`localMailer::sendMail :: ${JSON.stringify(data)}`);
     return {
       status: NotificationChannelStatus.SENT,

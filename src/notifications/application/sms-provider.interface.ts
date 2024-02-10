@@ -1,13 +1,13 @@
 import { Mobile } from "../../common/types";
-import { ChannelDispatcherResponse } from "./dispatchers";
+import { NotificationDispatcherResponse } from "./notifications.dispatcher";
 
-export const MAILER_TOKEN = Symbol('Mailer');
+export const SMS_SENDER_TOKEN = Symbol('SmsSender');
 export interface SmsSender {
-  send(data: SmsSendData): Promise<ChannelDispatcherResponse>;
+  send(data: SendSmsData): Promise<NotificationDispatcherResponse>;
   getName(): string;
 }
 
-export interface SmsSendData {
+export interface SendSmsData {
   to: Mobile;
   code: string;
 }

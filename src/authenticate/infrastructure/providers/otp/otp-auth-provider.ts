@@ -31,11 +31,11 @@ export class OTPAuthProvider implements AuthProvider {
       throw new UserAlreadyRegisteredException();
     }
 
-    const createdUser: UserEntity | undefined = undefined;
+    let createdUser: UserEntity | undefined = undefined;
     if (data.isEmail()) {
-      await this.SignupByEmail(data.identifier);
+      createdUser = await this.SignupByEmail(data.identifier);
     } else {
-      await this.SignupByMobile(data.identifier);
+      createdUser = await this.SignupByMobile(data.identifier);
     }
 
     return createdUser!;

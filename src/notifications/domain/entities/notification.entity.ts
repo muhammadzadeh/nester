@@ -49,7 +49,7 @@ export class NotificationEntity {
   ) {
     this.userId = userId ?? null;
     this.event = event;
-    this.version = version ?? '3.0';
+    this.version = version ?? '1.0';
     this.groupType = groupType ?? NotificationGroupType.INFORM;
     this.priority = priority ?? NotificationPriority.MEDIUM;
     this.showAsAlert = showAsAlert ?? false;

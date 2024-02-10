@@ -1,4 +1,13 @@
-import { Check, Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Check,
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  Index,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { Email, Mobile, UserId, Username } from '../../../../common/types';
 import { Permission, UserEntity } from '../../../domain/entities/user.entity';
 
@@ -7,55 +16,57 @@ import { Permission, UserEntity } from '../../../domain/entities/user.entity';
 })
 @Check('CK_USERS_IDENTIFIER', 'email IS NOT NULL OR mobile IS NOT NULL')
 export class TypeormUserEntity {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn('uuid', { primaryKeyConstraintName: 'PK_USERS_ID' })
   readonly id!: UserId;
 
-  @Column({type: 'varchar', name: 'fist_name', nullable: true})
+  @Column({ type: 'varchar', name: 'fist_name', nullable: true })
   readonly firstName!: string | null;
 
-  @Column({type: 'varchar', name: 'last_name', nullable: true})
+  @Column({ type: 'varchar', name: 'last_name', nullable: true })
   readonly lastName!: string | null;
 
-  @Column({type: 'varchar', name: 'full_name', nullable: true})
+  @Column({ type: 'varchar', name: 'full_name', nullable: true })
   readonly fullName!: string | null;
 
-  @Column({type: 'varchar', name: 'email', nullable: true})
+  @Column({ type: 'varchar', name: 'email', nullable: true, unique: true })
+  @Index('IDX_USERS_EMAIL')
   readonly email!: Email | null;
 
-  @Column({type: 'varchar', name: 'mobile', nullable: true})
+  @Column({ type: 'varchar', name: 'mobile', nullable: true, unique: true })
+  @Index('IDX_USERS_MOBILE')
   readonly mobile!: Mobile | null;
 
-  @Column({type: 'varchar', name: 'avatar', nullable: true})
+  @Column({ type: 'varchar', name: 'avatar', nullable: true })
   readonly avatar!: string | null;
 
-  @Column({type: 'varchar', name: 'password', nullable: true})
+  @Column({ type: 'varchar', name: 'password', nullable: true })
   readonly password!: string | null;
 
-  @Column({type: 'varchar', name: 'username', nullable: true})
+  @Column({ type: 'varchar', name: 'username', nullable: true })
   readonly username!: Username | null;
 
-  @Column({ type: 'boolean', name: 'is_blocked', default: false})
+  @Column({ type: 'boolean', name: 'is_blocked', default: false })
   readonly isBlocked!: boolean;
 
-  @Column({ type: 'boolean', name: 'is_email_verified', default: false})
+  @Column({ type: 'boolean', name: 'is_email_verified', default: false })
   readonly isEmailVerified!: boolean;
 
-  @Column({ type: 'boolean', name: 'is_mobile_verified', default: false})
+  @Column({ type: 'boolean', name: 'is_mobile_verified', default: false })
   readonly isMobileVerified!: boolean;
 
-  @Column({type: 'varchar', name: 'permissions', default: [], array: true})
+  @Column({ type: 'varchar', name: 'permissions', default: [], array: true })
   readonly permissions!: Permission[];
 
-  @CreateDateColumn({name: 'created_at'})
+  @CreateDateColumn({ name: 'created_at' })
   readonly createdAt!: Date;
 
-  @UpdateDateColumn({name: 'updated_at'})
+  @UpdateDateColumn({ name: 'updated_at' })
   readonly updatedAt!: Date;
 
-  @DeleteDateColumn({name: 'deleted_at'})
+  @DeleteDateColumn({ name: 'deleted_at' })
   readonly deletedAt!: Date | null;
 
-  @Column({type: 'timestamptz', name: 'last_logged_in_at', nullable: true})
+  @Column({ type: 'timestamptz', name: 'last_logged_in_at', nullable: true })
   readonly lastLoggedInAt!: Date | null;
 
   static toUserEntity(item: TypeormUserEntity): UserEntity {

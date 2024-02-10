@@ -77,26 +77,26 @@ export class OTPAuthProvider implements AuthProvider {
   }
 
   private async SignupByEmail(email: Email): Promise<UserEntity> {
-    await this.sendEmailVerificationOtp(email);
-
-    return await this.usersService.create({
+    const createdUser = await this.usersService.create({
       email: email,
       isEmailVerified: false,
     });
+    await this.sendEmailVerificationOtp(createdUser, email);
+    return createdUser;
   }
 
   private async SignupByMobile(mobile: Mobile): Promise<UserEntity> {
-    await this.sendMobileVerificationOtp(mobile);
-
-    return await this.usersService.create({
+    const createdUser = await this.usersService.create({
       mobile: mobile,
       isMobileVerified: false,
     });
+    await this.sendMobileVerificationOtp(createdUser, mobile);
+    return createdUser;
   }
 
-  private async sendMobileVerificationOtp(mobile: Mobile) {
+  private async sendMobileVerificationOtp(user: UserEntity, mobile: Mobile) {
     const otpGeneration = OtpGeneration.ofMobile(
-      mobile,
+      user.id,
       mobile,
       OTPType.CODE,
       OTPReason.VERIFY,
@@ -106,8 +106,14 @@ export class OTPAuthProvider implements AuthProvider {
     await this.notificationSender.sendOtp(otpGeneration, otp);
   }
 
-  private async sendEmailVerificationOtp(email: Email) {
-    const otpGeneration = OtpGeneration.ofEmail(email, email, OTPType.CODE, OTPReason.VERIFY, CODE_EXPIRATION_DURATION);
+  private async sendEmailVerificationOtp(user: UserEntity, email: Email) {
+    const otpGeneration = OtpGeneration.ofEmail(
+      user.id,
+      email,
+      OTPType.CODE,
+      OTPReason.VERIFY,
+      CODE_EXPIRATION_DURATION,
+    );
     const otp = await this.otpService.generate(otpGeneration);
     await this.notificationSender.sendOtp(otpGeneration, otp);
   }

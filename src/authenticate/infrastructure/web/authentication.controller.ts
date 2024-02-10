@@ -1,7 +1,7 @@
 import { Body, Post } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { Captcha } from '../../../common/captcha/decorators';
-import { UserController } from '../../../common/guards/decorators';
+import { CommonController } from '../../../common/guards/decorators';
 import { DoneSerializer, Serializer } from '../../../common/serialization';
 import { AuthService, JwtTokenService, PasswordService } from '../../application';
 import { IgnoreAuthorizationGuard } from './decorators';
@@ -23,7 +23,7 @@ import {
 
 @IgnoreAuthorizationGuard()
 @ApiTags('Authentication')
-@UserController(`/auth`)
+@CommonController(`/auth`)
 export class AuthenticationController {
   constructor(
     private readonly passwordService: PasswordService,

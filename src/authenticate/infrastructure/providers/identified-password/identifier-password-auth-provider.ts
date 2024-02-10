@@ -40,7 +40,7 @@ export class IdentifierPasswordAuthProvider implements AuthProvider {
       password: data.password,
     });
 
-    await this.sendEmailVerificationOtp(data.email);
+    await this.sendEmailVerificationOtp(createdUser, data.email);
 
     return createdUser;
   }
@@ -85,8 +85,14 @@ export class IdentifierPasswordAuthProvider implements AuthProvider {
     }
   }
 
-  private async sendEmailVerificationOtp(email: Email) {
-    const otpGeneration = OtpGeneration.ofEmail(email, email, OTPType.CODE, OTPReason.VERIFY, CODE_EXPIRATION_DURATION);
+  private async sendEmailVerificationOtp(user: UserEntity, email: Email) {
+    const otpGeneration = OtpGeneration.ofEmail(
+      user.id,
+      email,
+      OTPType.CODE,
+      OTPReason.VERIFY,
+      CODE_EXPIRATION_DURATION,
+    );
     const otp = await this.otpService.generate(otpGeneration);
     await this.notificationSender.sendOtp(otpGeneration, otp);
   }

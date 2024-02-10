@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ClassConstructor, Type, plainToInstance } from 'class-transformer';
+import { ClassConstructor, Expose, Type, plainToInstance } from 'class-transformer';
 import { snackCaseObject } from './utils';
 
 export class DoneSerializer {
@@ -7,6 +7,7 @@ export class DoneSerializer {
     type: String,
     example: 'OK',
   })
+  @Expose()
   @Type(() => String)
   message!: string;
 }

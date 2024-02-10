@@ -1,12 +1,12 @@
-import { ChannelDispatcherResponse } from "./dispatchers";
+import { NotificationDispatcherResponse } from "./notifications.dispatcher";
 
 export const MAILER_TOKEN = Symbol('Mailer');
 export interface Mailer {
-  sendMail(data: EmailMappedData): Promise<ChannelDispatcherResponse>;
+  sendMail(data: SendEmailData): Promise<NotificationDispatcherResponse>;
   getName(): string;
 }
 
-export interface EmailMappedData {
+export interface SendEmailData {
   to: string;
   template: string;
   title: string | undefined;

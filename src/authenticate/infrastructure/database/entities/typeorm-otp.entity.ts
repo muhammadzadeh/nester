@@ -3,7 +3,7 @@ import { OTPEntity, OTPReason, OTPType } from '../../../domain/entities';
 
 @Entity({ name: 'otp_logs' })
 export class TypeormOTPEntity {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn('uuid', {primaryKeyConstraintName: 'PK_OTP_LOGS_ID'})
   id!: string;
 
   @Column({ type: 'varchar' })

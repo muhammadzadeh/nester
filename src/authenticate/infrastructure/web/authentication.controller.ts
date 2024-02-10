@@ -1,7 +1,7 @@
 import { Body, Post } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { Captcha } from '../../../common/captcha/decorators';
-import { UserController } from '../../../common/guards/decorators';
+import { CommonController } from '../../../common/guards/decorators';
 import { DoneSerializer, Serializer } from '../../../common/serialization';
 import { AuthService, JwtTokenService, PasswordService } from '../../application';
 import { IgnoreAuthorizationGuard } from './decorators';
@@ -20,10 +20,11 @@ import {
   ResetPasswordDto,
   SignupSerializer,
 } from './dtos';
+import { VerifyDto } from './dtos/verify.dto';
 
 @IgnoreAuthorizationGuard()
 @ApiTags('Authentication')
-@UserController(`/auth`)
+@CommonController(`/auth`)
 export class AuthenticationController {
   constructor(
     private readonly passwordService: PasswordService,
@@ -64,6 +65,17 @@ export class AuthenticationController {
   async signupByOtp(@Body() dto: OtpSignupDto): Promise<DoneSerializer> {
     await this.authService.signup(dto.toOtpSignup());
     return Serializer.done();
+  }
+
+  @Post('verify')
+  @Captcha()
+  @ApiOkResponse({
+    status: 200,
+    type: AuthenticationSerializer,
+  })
+  async verify(@Body() dto: VerifyDto): Promise<AuthenticationSerializer> {
+    const token = await this.authService.authenticate(dto.toOtpAuth());
+    return Serializer.serialize(AuthenticationSerializer, token);
   }
 
   @Post('signin/email-password')

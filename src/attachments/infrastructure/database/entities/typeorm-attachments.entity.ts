@@ -1,11 +1,19 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
-import { AttachmentEntity, AttachmentVisibility, MimeType } from '../../../domain/entities/attachments.entity';
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  Index,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { UserId } from '../../../../common/types';
 import { AttachmentId } from '../../../domain/entities/attachment-users.entity';
+import { AttachmentEntity, AttachmentVisibility, MimeType } from '../../../domain/entities/attachments.entity';
 
 @Entity({ name: 'attachments' })
 export class TypeormAttachmentEntity {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn('uuid', { primaryKeyConstraintName: 'PK_ATTACHMENTS_ID' })
   id!: AttachmentId;
 
   @DeleteDateColumn({ name: 'deleted_at' })
@@ -36,6 +44,7 @@ export class TypeormAttachmentEntity {
   size!: number;
 
   @Column({ type: 'varchar', name: 'uploader_id' })
+  @Index('IDX_ATTACHMENTS_UPLOADER_ID')
   uploaderId!: UserId;
 
   static toAttachmentEntity(item: TypeormAttachmentEntity): AttachmentEntity {

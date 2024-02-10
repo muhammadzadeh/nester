@@ -2,9 +2,9 @@ import { HttpService } from '@nestjs/axios';
 import { Injectable, Logger } from '@nestjs/common';
 import * as qs from 'qs';
 import { Configuration } from '../../../../common/config';
-import { ChannelDispatcherResponse } from '../../../application/dispatchers';
-import { EmailMappedData, Mailer } from '../../../application/email-provider.interface';
+import { SendEmailData, Mailer } from '../../../application/email-provider.interface';
 import { NotificationChannelStatus } from '../../../domain/entities/notification.entity';
+import { NotificationDispatcherResponse } from '../../../application/notifications.dispatcher';
 
 @Injectable()
 export class MailgunMailer implements Mailer {
@@ -19,7 +19,7 @@ export class MailgunMailer implements Mailer {
     return 'mailgun';
   }
 
-  async sendMail(data: EmailMappedData): Promise<ChannelDispatcherResponse> {
+  async sendMail(data: SendEmailData): Promise<NotificationDispatcherResponse> {
     const opt = this.configService.mailer!;
 
     const mail_options = {

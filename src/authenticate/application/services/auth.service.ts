@@ -67,12 +67,12 @@ export class AuthService {
   }
 
   async sendOtp(data: SendOtp): Promise<void> {
-    await this.usersService.findOneByIdentifierOrFail(data.identifier);
+    const user = await this.usersService.findOneByIdentifierOrFail(data.identifier);
 
     if (data.isEmail()) {
-      await this.sendEmailVerificationOtp(data.identifier);
+      await this.sendEmailVerificationOtp(user, data.identifier);
     } else {
-      await this.sendMobileVerificationOtp(data.identifier);
+      await this.sendMobileVerificationOtp(user, data.identifier);
     }
   }
 
@@ -88,15 +88,21 @@ export class AuthService {
     });
   }
 
-  private async sendEmailVerificationOtp(email: Email) {
-    const otpGeneration = OtpGeneration.ofEmail(email, email, OTPType.CODE, OTPReason.VERIFY, CODE_EXPIRATION_DURATION);
+  private async sendEmailVerificationOtp(user: UserEntity, email: Email) {
+    const otpGeneration = OtpGeneration.ofEmail(
+      user.id,
+      email,
+      OTPType.CODE,
+      OTPReason.VERIFY,
+      CODE_EXPIRATION_DURATION,
+    );
     const otp = await this.otpService.generate(otpGeneration);
     await this.notificationSender.sendOtp(otpGeneration, otp);
   }
 
-  private async sendMobileVerificationOtp(mobile: Mobile) {
+  private async sendMobileVerificationOtp(user: UserEntity, mobile: Mobile) {
     const otpGeneration = OtpGeneration.ofMobile(
-      mobile,
+      user.id,
       mobile,
       OTPType.CODE,
       OTPReason.VERIFY,

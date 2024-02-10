@@ -1,5 +1,6 @@
 import { randomUUID } from 'crypto';
 import { MulticastMessage } from 'firebase-admin/messaging';
+import { Email, Mobile } from '../../../common/types';
 
 export class NotificationEntity {
   constructor(
@@ -18,6 +19,7 @@ export class NotificationEntity {
     notificationCenterData: NotificationCenterData | null,
     emailData: EmailNotificationPayload | null,
     pushData: PushNotificationPayload | null,
+    smsData: SmsNotificationPayload | null,
     status: NotificationStatus,
     deletedAt: Date | null,
     readAt: Date | null,
@@ -36,6 +38,7 @@ export class NotificationEntity {
     notificationCenterData?: NotificationCenterData | null,
     emailData?: EmailNotificationPayload | null,
     pushData?: PushNotificationPayload | null,
+    smsData?: SmsNotificationPayload | null,
     status?: NotificationStatus,
     deletedAt?: Date | null,
     readAt?: Date | null,
@@ -46,7 +49,7 @@ export class NotificationEntity {
   ) {
     this.userId = userId ?? null;
     this.event = event;
-    this.version = version ?? '3.0';
+    this.version = version ?? '1.0';
     this.groupType = groupType ?? NotificationGroupType.INFORM;
     this.priority = priority ?? NotificationPriority.MEDIUM;
     this.showAsAlert = showAsAlert ?? false;
@@ -54,6 +57,7 @@ export class NotificationEntity {
     this.id = id ?? randomUUID();
     this.emailData = emailData ?? null;
     this.pushData = pushData ?? null;
+    this.smsData = smsData ?? null;
     this.status = status ?? NotificationStatus.NOT_READ;
     this.deletedAt = deletedAt ?? null;
     this.readAt = readAt ?? null;
@@ -76,6 +80,7 @@ export class NotificationEntity {
   notificationCenterData!: NotificationCenterData | null;
   emailData!: EmailNotificationPayload | null;
   pushData!: PushNotificationPayload | null;
+  smsData!: SmsNotificationPayload | null;
   deletedAt!: Date | null;
   readAt!: Date | null;
   readonly createdAt!: Date;
@@ -107,6 +112,10 @@ export class NotificationEntity {
     this.pushData = input;
   }
 
+  setSmsData(input: SmsNotificationPayload): void {
+    this.smsData = input;
+  }
+
   setNotificationCenterData(input: NotificationCenterData): void {
     this.notificationCenterData = input;
     this.showInNotificationCenter = true;
@@ -119,6 +128,10 @@ export class NotificationEntity {
 
   shouldSentByPush(): boolean {
     return !!this.pushData;
+  }
+
+  shouldSentBySMS(): boolean {
+    return !!this.smsData;
   }
 
   private initialVirtualFields() {
@@ -176,7 +189,7 @@ export class NotificationCenterData {
 }
 
 export type EmailNotificationPayload = {
-  to: string;
+  to: Email;
   title: string | undefined;
   template: string;
   body: {
@@ -185,6 +198,11 @@ export type EmailNotificationPayload = {
 };
 
 export type PushNotificationPayload = MulticastMessage;
+
+export type SmsNotificationPayload = {
+  to: Mobile;
+  code: string;
+};
 
 export enum NotificationEvent {
   VERIFY_PHONE_REQUESTED = 'verify_phone_requested',

@@ -19,6 +19,7 @@ import { SwaggerConfig } from './swagger';
 import { ThrottlingConfig } from './throttling';
 import { TokenConfig } from './token';
 import { VaultConfig } from './vault';
+import { SmsSenderConfig } from './sms-sender';
 
 @Injectable()
 export class RootConfig {
@@ -101,6 +102,11 @@ export class RootConfig {
   @ValidateNested()
   @Type(() => MailerConfig)
   readonly mailer!: MailerConfig;
+
+  @IsNotEmpty()
+  @ValidateNested()
+  @Type(() => SmsSenderConfig)
+  readonly smsSender!: SmsSenderConfig;
 
   @IsNotEmpty()
   @ValidateNested()

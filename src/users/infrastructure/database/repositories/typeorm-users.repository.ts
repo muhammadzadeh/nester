@@ -4,7 +4,7 @@ import { Repository, SelectQueryBuilder } from 'typeorm';
 import { Pagination, PaginationOption } from '../../../../common/database';
 import { UserEntity } from '../../../domain/entities/user.entity';
 import { FindUserOptions, UserOrderBy, UsersRepository } from '../../../domain/repositories/users.repository';
-import { TypeormUserEntity } from '../entities/user.entity';
+import { TypeormUserEntity } from '../entities/typeorm-user.entity';
 
 @Injectable()
 export class TypeormUsersRepository implements UsersRepository {

@@ -1,4 +1,12 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  Index,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import {
   AlertStatus,
   EmailNotificationPayload,
@@ -9,11 +17,12 @@ import {
   NotificationPriority,
   NotificationStatus,
   PushNotificationPayload,
+  SmsNotificationPayload,
 } from '../../../domain/entities/notification.entity';
 
 @Entity({ name: 'notifications' })
 export class TypeormNotificationEntity {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn('uuid', { primaryKeyConstraintName: 'PK_NOTIFICATIONS_ID' })
   id!: string;
 
   @Column({ type: 'varchar' })
@@ -23,9 +32,11 @@ export class TypeormNotificationEntity {
   version!: string;
 
   @Column({ type: 'varchar', name: 'user_id', nullable: true })
+  @Index('IDX_NOTIFICATIONS_USER_ID')
   userId!: string | null;
 
   @Column({ type: 'enum', enum: NotificationStatus, default: NotificationStatus.NOT_READ })
+  @Index('IDX_NOTIFICATIONS_STATUS')
   status!: NotificationStatus;
 
   @Column({ type: 'enum', enum: NotificationGroupType, name: 'group_type' })
@@ -48,6 +59,9 @@ export class TypeormNotificationEntity {
 
   @Column({ type: 'jsonb', nullable: true, name: 'push_data' })
   pushData!: PushNotificationPayload | null;
+
+  @Column({ type: 'jsonb', nullable: true, name: 'sms_data' })
+  smsData!: SmsNotificationPayload | null;
 
   @DeleteDateColumn({ name: 'deleted_at' })
   deletedAt!: Date | null;
@@ -72,6 +86,7 @@ export class TypeormNotificationEntity {
       input.notificationCenterData,
       input.emailData,
       input.pushData,
+      input.smsData,
       input.status,
       input.deletedAt,
       input.readAt,

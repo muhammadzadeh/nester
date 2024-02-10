@@ -2,19 +2,20 @@ import { HttpModule, HttpService } from '@nestjs/axios';
 import { Module, Provider } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, Configuration } from '../../common/config';
-import { EmailChannelDispatcher, } from '../application/dispatchers';
 import { MAILER_TOKEN, Mailer } from '../application/email-provider.interface';
 import { NotificationsConsumer } from '../application/notifications.consumer';
 import { NotificationsDispatcher } from '../application/notifications.dispatcher';
 import { NotificationsService } from '../application/notifications.service';
+import { SMS_SENDER_TOKEN, SmsSender } from '../application/sms-provider.interface';
 import { NOTIFICATION_PUSH_TOKEN_REPOSITORY_TOKEN } from '../domain/repositories/notification-push-tokens.repository';
 import { NOTIFICATION_REPOSITORY_TOKEN } from '../domain/repositories/notifications.repository';
 import { TypeormNotificationPushTokenEntity } from './database/entities/typeorm-notification-push-token.entity';
+import { TypeormNotificationEntity } from './database/entities/typeorm-notification.entity';
 import { TypeormNotificationPushTokensRepository } from './database/repositories/typeorm-notification-push-token.repository';
 import { TypeormNotificationsRepository } from './database/repositories/typeorm-notification.repository';
 import { LocalMailer, MailgunMailer, SendgridMailer } from './providers/email';
+import { LocalSmsSender } from './providers/sms/local';
 import { NotificationController } from './web/notification.controller';
-import { TypeormNotificationEntity } from './database/entities/typeorm-notification.entity';
 
 const mailProvider: Provider = {
   provide: MAILER_TOKEN,
@@ -29,6 +30,19 @@ const mailProvider: Provider = {
         return new SendgridMailer(config);
       default:
         return new LocalMailer();
+    }
+  },
+};
+
+const smsProvider: Provider = {
+  provide: SMS_SENDER_TOKEN,
+  inject: [Configuration, HttpService],
+  useFactory: (config: Configuration): SmsSender => {
+    switch (config.smsSender?.provider) {
+      case 'local':
+        return new LocalSmsSender();
+      default:
+        return new LocalSmsSender();
     }
   },
 };
@@ -52,7 +66,7 @@ const notificationPushTokensRepository: Provider = {
   controllers: [NotificationController],
   providers: [
     mailProvider,
-    EmailChannelDispatcher,
+    smsProvider,
     NotificationsConsumer,
     NotificationsDispatcher,
     NotificationsService,

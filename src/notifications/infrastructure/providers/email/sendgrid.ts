@@ -1,9 +1,9 @@
 import { Injectable, Logger } from '@nestjs/common';
 import nodemailer from 'nodemailer';
 import { Configuration } from '../../../../common/config';
-import { ChannelDispatcherResponse } from '../../../application/dispatchers';
-import { EmailMappedData, Mailer } from '../../../application/email-provider.interface';
+import { SendEmailData, Mailer } from '../../../application/email-provider.interface';
 import { NotificationChannelStatus } from '../../../domain/entities/notification.entity';
+import { NotificationDispatcherResponse } from '../../../application/notifications.dispatcher';
 
 @Injectable()
 export class SendgridMailer implements Mailer {
@@ -15,7 +15,7 @@ export class SendgridMailer implements Mailer {
     return 'sendgrid';
   }
 
-  async sendMail(data: EmailMappedData): Promise<ChannelDispatcherResponse> {
+  async sendMail(data: SendEmailData): Promise<NotificationDispatcherResponse> {
     const opt = this.configService.mailer!;
     const transporter = nodemailer.createTransport(opt);
 

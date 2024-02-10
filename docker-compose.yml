@@ -1,0 +1,216 @@
+version: '3.7'
+
+networks:
+  backend:
+  redis:
+  postgres:
+  elastic:
+    driver: bridge
+
+volumes:
+  elastic_data:
+  log_data:
+  postgres_data:
+  pgadmin4_data:
+  minio_storage: {}
+  grafana_storage: {}
+
+services:
+  postgres:
+    container_name: postgres
+    image: postgres:14-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    networks:
+      - postgres
+      - backend
+    platform: linux/amd64
+    ports:
+      - 5432:5432
+    restart: always
+
+  pgadmin:
+    container_name: pgadmin4
+    image: dpage/pgadmin4:7.4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin4_data:/var/lib/pgadmin
+    networks:
+      - postgres
+      - backend
+
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    platform: linux/amd64
+    networks:
+      - redis
+      - backend
+    ports:
+      - 6379:6379
+    restart: always
+
+  redis-commander:
+    container_name: redis-commander
+    image: rediscommander/redis-commander:latest
+    platform: linux/amd64
+    networks:
+      - redis
+    restart: always
+    environment:
+      - REDIS_HOSTS=redis
+    ports:
+      - '8081:8081'
+
+  minio:
+    image: minio/minio
+    container_name: minio
+    platform: linux/amd64
+    restart: always
+    networks:
+      - backend
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_storage:/data
+    environment:
+      MINIO_ROOT_USER: minio
+      MINIO_ROOT_PASSWORD: minio_admin
+    command: server --console-address ":9001" /data
+
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    platform: linux/amd64
+    restart: always
+    networks:
+      - backend
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    restart: unless-stopped
+    volumes:
+     - 'grafana_storage:/var/lib/grafana'
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_SERVER_ROOT_URL=http://my.grafana.server/
+      - GF_INSTALL_PLUGINS=grafana-clock-panel
+    ports:
+      - '3030:3000'
+    networks:
+      - backend
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.12.0
+    container_name: elasticsearch
+    environment:
+    - node.name=app-efk-local-test
+    - cluster.name=app-Test
+    - discovery.type=single-node
+    - node.roles=master,data,ingest,ml,remote_cluster_client
+    - path.logs=/var/log/elasticsearch
+    - xpack.security.enabled=false
+    - xpack.security.enrollment.enabled=false
+    - xpack.security.http.ssl.enabled=false
+    - xpack.security.transport.ssl.enabled=false
+    - xpack.security.transport.ssl.verification_mode=certificate
+    - http.host=0.0.0.0
+    - transport.host=0.0.0.0
+    ulimits:
+      memlock:
+        hard: -1
+        soft: -1
+    volumes:
+      - elastic_data:/usr/share/elasticsearch/data
+      - log_data:/var/log/elasticsearch
+    ports:
+      - 9200:9200
+    networks:
+      - elastic
+      - backend
+    healthcheck:
+      interval: 20s
+      retries: 10
+      test: curl -s http://localhost:9200/_cluster/health | grep -vq '"status":"red"'
+
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.12.0
+    container_name: kibana
+    environment:
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    ports:
+      - 5601:5601
+    networks:
+      - elastic
+      - backend
+    healthcheck:
+      interval: 10s
+      retries: 20
+      test: curl --write-out 'HTTP %{http_code}' --fail --silent --output /dev/null http://localhost:5601/api/status
+
+  
+  apm-server:
+    container_name: elastic-apm
+    image: docker.elastic.co/apm/apm-server:8.12.0
+    environment:
+      - ELASTICSEARCH_SERVICE_URL=http://elasticsearch:9200
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+      kibana:
+        condition: service_healthy
+    cap_add: ["CHOWN", "DAC_OVERRIDE", "SETGID", "SETUID"]
+    cap_drop: ["ALL"]
+    ports:
+      - 8200:8200
+    networks:
+      - elastic
+      - backend
+    command: >
+       apm-server -e
+         -E apm-server.rum.enabled=true
+         -E setup.kibana.host=kibana:5601
+         -E setup.template.settings.index.number_of_replicas=0
+         -E apm-server.kibana.enabled=true
+         -E apm-server.kibana.host=kibana:5601
+         -E output.elasticsearch.hosts=["elasticsearch:9200"]
+    healthcheck:
+      interval: 10s
+      retries: 12
+      test: curl --write-out 'HTTP %{http_code}' --fail --silent --output /dev/null http://localhost:8200/
+
+
+  fluentd:
+    container_name: fluentd
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    build:
+      context: ./config/fluentd
+    hostname: fluentd
+    networks:
+      - elastic
+      - backend
+    volumes:
+      - ./config/fluentd/conf:/fluentd/etc
+    ports:
+      - "24224:24224"
+      - "24224:24224/udp"

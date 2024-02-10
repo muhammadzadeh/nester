@@ -11,6 +11,7 @@ import {
   NotificationPriority,
   NotificationStatus,
   PushNotificationPayload,
+  SmsNotificationPayload,
 } from '../domain/entities/notification.entity';
 import {
   NOTIFICATION_PUSH_TOKEN_REPOSITORY_TOKEN,
@@ -46,6 +47,10 @@ export class NotificationsService {
 
     if (input.pushData) {
       createdNotification.setPushData(input.pushData);
+    }
+
+    if (input.smsData) {
+      createdNotification.setSmsData(input.smsData);
     }
 
     if (input.notificationCenterData) {
@@ -144,6 +149,7 @@ export class CreateNotificationData {
   readonly groupType?: NotificationGroupType;
   readonly emailData?: EmailNotificationPayload;
   readonly pushData?: PushNotificationPayload;
+  readonly smsData?: SmsNotificationPayload;
 }
 
 @Exception({

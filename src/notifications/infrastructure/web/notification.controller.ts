@@ -1,7 +1,7 @@
 import { Body, Get, Post, Query } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { CurrentUser } from '../../../authenticate/infrastructure/web/decorators';
-import { UserController } from '../../../common/guards/decorators';
+import { CommonController } from '../../../common/guards/decorators';
 import { DoneSerializer, Serializer } from '../../../common/serialization';
 import { OrderDir } from '../../../common/types';
 import { NotificationsService } from '../../application/notifications.service';
@@ -12,7 +12,7 @@ import { FindOneNotificationDto } from './find-one-notification.dto';
 import { NotificationUnreadCountSerializer } from './notification-unread-count.serializer';
 import { PaginatedNotificationSerializer } from './paginated-notification.serializer';
 
-@UserController('/notifications')
+@CommonController('/notifications')
 @ApiTags('Notifications')
 export class NotificationController {
   constructor(private readonly notificationsService: NotificationsService) {}

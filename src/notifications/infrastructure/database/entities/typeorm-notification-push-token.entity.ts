@@ -9,7 +9,7 @@ export class TypeormNotificationPushTokenEntity {
   @Column({ type: 'varchar', name: 'user_id' })
   userId!: string;
 
-  @Column({ type: 'varchar', unique: true })
+  @Column({ type: 'varchar'})
   token!: string;
 
   @Column({ type: 'enum', enum: PushProvider, default: PushProvider.FCM })

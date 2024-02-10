@@ -6,6 +6,7 @@ import {
   Entity,
   Index,
   PrimaryGeneratedColumn,
+  Unique,
   UpdateDateColumn,
 } from 'typeorm';
 import { Email, Mobile, UserId, Username } from '../../../../common/types';
@@ -15,6 +16,8 @@ import { Permission, UserEntity } from '../../../domain/entities/user.entity';
   name: 'users',
 })
 @Check('CK_USERS_IDENTIFIER', 'email IS NOT NULL OR mobile IS NOT NULL')
+@Unique('UQ_USERS_EMAIL', ['email'])
+@Unique('UQ_USERS_MOBILE', ['mobile'])
 export class TypeormUserEntity {
   @PrimaryGeneratedColumn('uuid', { primaryKeyConstraintName: 'PK_USERS_ID' })
   readonly id!: UserId;
@@ -28,11 +31,11 @@ export class TypeormUserEntity {
   @Column({ type: 'varchar', name: 'full_name', nullable: true })
   readonly fullName!: string | null;
 
-  @Column({ type: 'varchar', name: 'email', nullable: true, unique: true })
+  @Column({ type: 'varchar', name: 'email', nullable: true })
   @Index('IDX_USERS_EMAIL')
   readonly email!: Email | null;
 
-  @Column({ type: 'varchar', name: 'mobile', nullable: true, unique: true })
+  @Column({ type: 'varchar', name: 'mobile', nullable: true })
   @Index('IDX_USERS_MOBILE')
   readonly mobile!: Mobile | null;
 

@@ -20,6 +20,7 @@ import {
   ResetPasswordDto,
   SignupSerializer,
 } from './dtos';
+import { VerifyDto } from './dtos/verify.dto';
 
 @IgnoreAuthorizationGuard()
 @ApiTags('Authentication')
@@ -64,6 +65,17 @@ export class AuthenticationController {
   async signupByOtp(@Body() dto: OtpSignupDto): Promise<DoneSerializer> {
     await this.authService.signup(dto.toOtpSignup());
     return Serializer.done();
+  }
+
+  @Post('verify')
+  @Captcha()
+  @ApiOkResponse({
+    status: 200,
+    type: AuthenticationSerializer,
+  })
+  async verify(@Body() dto: VerifyDto): Promise<AuthenticationSerializer> {
+    const token = await this.authService.authenticate(dto.toOtpAuth());
+    return Serializer.serialize(AuthenticationSerializer, token);
   }
 
   @Post('signin/email-password')

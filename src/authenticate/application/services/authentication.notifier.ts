@@ -14,6 +14,14 @@ export class AuthenticationNotifier {
   constructor(private readonly config: Configuration) {}
 
   async sendOtp(data: OtpGeneration, otp: string): Promise<void> {
+    if (data.email) {
+      await this.sendToEmail(data, otp);
+    } else if (data.mobile) {
+      await this.sendToMobile(data, otp);
+    }
+  }
+
+  private async sendToEmail(data: OtpGeneration, otp: string): Promise<void> {
     const emailDataStrategy: { [key: string]: Function } = {
       [`${OTPType.TOKEN}_${OTPReason.VERIFY}`]: () => this.getEmailDataForVerify(data, otp),
       [`${OTPType.TOKEN}_${OTPReason.RESET_PASSWORD}`]: () => this.getEmailDataForResetPassword(data, otp),
@@ -27,6 +35,16 @@ export class AuthenticationNotifier {
     sendNotification({
       event: NotificationEvent.OTP_GENERATED,
       emailData: emailData!,
+    });
+  }
+
+  private async sendToMobile(data: OtpGeneration, otp: string): Promise<void> {
+    sendNotification({
+      event: NotificationEvent.OTP_GENERATED,
+      smsData: {
+        code: otp,
+        to: data.mobile!,
+      },
     });
   }
 

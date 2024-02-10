@@ -2,10 +2,10 @@ import { HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { createHash } from 'crypto';
 import { DateTime, Duration } from 'luxon';
 import { Exception } from '../../../common/exception';
+import { Email, Mobile, UserId } from '../../../common/types';
+import { randomString } from '../../../common/utils';
 import { OTPEntity, OTPReason, OTPType } from '../../domain/entities';
 import { OTPRepository, OTP_REPOSITORY_TOKEN } from '../../domain/repositories';
-import { randomString } from '../../../common/utils';
-import { Email, Mobile, UserId } from '../../../common/types';
 
 @Exception({
   errorCode: 'OTP_NOT_FOUND',
@@ -105,7 +105,7 @@ export class OtpService {
       otp: hashedOtp,
     });
     if (!otpRecord) {
-      throw new OtpNotFoundException();
+      throw new OtpNotFoundException(`The OTP not found for given criteria, ${JSON.stringify(verification)}`);
     }
 
     return otpRecord;

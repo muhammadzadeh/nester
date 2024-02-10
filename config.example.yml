@@ -1,0 +1,79 @@
+app:
+  env: local
+  name: app-server-local
+debug: true
+frontEnd:
+  baseUrl: https://app.com
+  dashboard:
+    baseUrl: https://app.com
+http:
+  port: 3000
+globalCache:
+  host: 127.0.0.1
+  port: 6379
+  db: 0
+throttling:
+  limit: 10
+  ttl: 60
+database:
+  url: postgres://postgres:postgres@127.0.0.1:5432/beta
+  schema: public
+google:
+  clientId: replace_me
+  clientSecret: replace_me
+token:
+  jwtSecret: replace_me
+  expiration: PT100H
+storage:
+  type: r2
+  baseUrl: http://localhost:9000
+  maxFileSize: 30_000_000
+  r2:
+    privateBucket: private
+    publicBucket: cdn
+    accessKeyId: replace_me
+    secretAccessKey: replace_me
+    storageEndpoint: replace_me
+    privateBaseUrl: replace_me
+    publicBaseUrl: replace_me
+mailer:
+  provider: mailgun
+  sender: no-reply@app.com
+  host: replace_me
+  auth:
+    user: replace_me
+    pass: replace_me
+swagger:
+  enabled: true
+  apiUrl: http://localhost:3000
+sentry:
+  dsn: replace_me
+  tracesSampleRate: 1.0
+  profilesSampleRate: 1.0
+  enabled: true
+  environment: local
+captcha:
+  enabled: false
+  provider: recaptcha
+  recaptcha:
+    verifyUrl: https://www.google.com/recaptcha/api/siteverify
+    secret: replace_me
+logger:
+  console:
+    enabled: true
+    level: debug
+  fluent:
+    enabled: false
+    host: localhost
+    port: 24224
+    timeout: 3.0
+    requireAckResponse: false 
+rabbit:
+  uri: 'amqp://localhost:5672'
+twilio:
+  accountSId: replace_me
+  apiSecret: replace_me
+  pushCredentialSid: replace me
+  chatServiceId: replace_me
+  apiKey: replace_me
+  authToken: replace_me

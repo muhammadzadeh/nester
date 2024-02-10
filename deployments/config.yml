@@ -1,0 +1,8 @@
+app:
+  env: ENVIRONMENT
+  name: APP_NAME
+  url: APP_URL
+vault:
+  host: VAULT_HOST
+  token: VAULT_TOKEN
+  backend: VAULT_BACKEND

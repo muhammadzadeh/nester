@@ -29,6 +29,10 @@ export class AuthService {
     private readonly otpService: OtpService,
   ) {}
 
+  async getAuthenticateMethods(identifier: Email | Mobile) : Promise<void>{
+    
+  }
+
   async signup(data: Auth): Promise<Token | undefined> {
     const registeredUser: UserEntity = await this.authManager.signup(data);
 

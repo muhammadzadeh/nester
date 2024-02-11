@@ -8,7 +8,7 @@ import { IgnoreAuthorizationGuard } from './decorators';
 import {
   AuthenticationResponse,
   EmailDto,
-  EmailPasswordSignupDto,
+  IdentifierPasswordSignupDto,
   FakeAuthDto,
   GoogleAuthDto,
   GoogleSignupDto,
@@ -19,6 +19,8 @@ import {
   RefreshTokenDto,
   ResetPasswordDto,
   SignupResponse,
+  SigninMethodDto,
+  SigninMethodResponse,
 } from './dtos';
 import { VerifyDto } from './dtos/verify.dto';
 
@@ -32,13 +34,24 @@ export class AuthenticationController {
     private readonly authService: AuthService,
   ) {}
 
+  @Post()
+  @Captcha()
+  @ApiOkResponse({
+    status: 200,
+    type: SigninMethodResponse,
+  })
+  async getAuthenticateMethods(@Body() dto: SigninMethodDto): Promise<SigninMethodResponse> {
+    await this.authService.getAuthenticateMethods(dto);
+    return Serializer.done();
+  }
+
   @Post('signup/identifier-password')
   @Captcha()
   @ApiOkResponse({
     status: 200,
     type: DoneResponse,
   })
-  async signupByIdentifierPassword(@Body() dto: EmailPasswordSignupDto): Promise<DoneResponse> {
+  async signupByIdentifierPassword(@Body() dto: IdentifierPasswordSignupDto): Promise<DoneResponse> {
     await this.authService.signup(dto.toIdentifierPasswordSignup());
     return Serializer.done();
   }

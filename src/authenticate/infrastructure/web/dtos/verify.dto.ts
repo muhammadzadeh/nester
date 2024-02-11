@@ -4,6 +4,7 @@ import { IsNotUUID } from '../../../../common/is-not-uuid.validator';
 import { Email, Mobile } from '../../../../common/types';
 import { OTPReason, OTPType } from '../../../domain/entities';
 import { OtpAuth } from '../../providers/otp';
+import { IsIdentifier } from '../../../../common/is-identifier.validator';
 
 export class VerifyDto {
   @IsNotEmpty()
@@ -17,6 +18,7 @@ export class VerifyDto {
   @IsNotEmpty()
   @IsNotUUID()
   @ToLowerCase()
+  @IsIdentifier()
   identifier!: Email | Mobile;
 
   toOtpAuth(): OtpAuth {

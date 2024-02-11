@@ -5,10 +5,15 @@ import { Email, Mobile } from '../../../../common/types';
 import { GoogleSignup } from '../../providers/google/google-signup';
 import { IdentifierPasswordSignup } from '../../providers/identified-password/identifier-password-signup';
 import { OtpSignup } from '../../providers/otp/otp-signup';
+import { IsNotUUID } from '../../../../common/is-not-uuid.validator';
+import { IsIdentifier } from '../../../../common/is-identifier.validator';
 
 export class OtpSignupDto {
   @IsNotEmpty()
   @IsString()
+  @IsNotUUID()
+  @ToLowerCase()
+  @IsIdentifier()
   identifier!: string;
 
   toOtpSignup(): OtpSignup {
@@ -26,10 +31,12 @@ export class GoogleSignupDto {
   }
 }
 
-export class EmailPasswordSignupDto {
+export class IdentifierPasswordSignupDto {
   @IsNotEmpty()
   @Type(() => String)
+  @IsNotUUID()
   @ToLowerCase()
+  @IsIdentifier()
   identifier!: Email | Mobile;
 
   @IsNotEmpty()

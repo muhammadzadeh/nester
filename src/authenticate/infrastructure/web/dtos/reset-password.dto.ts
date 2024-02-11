@@ -1,7 +1,8 @@
-import { IsEmail, IsEnum, IsNotEmpty, IsString, IsStrongPassword, ValidateIf } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsString, IsStrongPassword, isEmail } from 'class-validator';
+import { ToLowerCase } from '../../../../common/decorators';
+import { IsIdentifier } from '../../../../common/is-identifier.validator';
 import { OtpVerification } from '../../../application';
 import { OTPReason, OTPType } from '../../../domain/entities';
-import { ToLowerCase } from '../../../../common/decorators';
 
 export class ResetPasswordDto {
   @IsNotEmpty()
@@ -12,18 +13,19 @@ export class ResetPasswordDto {
   @IsEnum(OTPType)
   type!: OTPType;
 
-  @ValidateIf((obj) => obj.type === OTPType.CODE)
   @IsNotEmpty()
-  @IsEmail()
   @ToLowerCase()
-  email!: string;
+  @IsIdentifier()
+  identifier!: string;
 
   @IsNotEmpty()
   @IsString()
-  @IsStrongPassword({ minLength: 6, minLowercase: 0, minUppercase: 0, minNumbers: 0, minSymbols: 0 })
+  @IsStrongPassword({ minLength: 6, minLowercase: 0, minUppercase: 2, minNumbers: 2, minSymbols: 0 })
   new_password!: string;
 
   toOTPVerification(): OtpVerification {
-    return new OtpVerification(this.otp, this.type, OTPReason.RESET_PASSWORD, this.email);
+    const email = isEmail(this.identifier) ? this.identifier : undefined;
+    const mobile = !isEmail(this.identifier) ? this.identifier : undefined;
+    return new OtpVerification(this.otp, this.type, OTPReason.RESET_PASSWORD, email, mobile);
   }
 }

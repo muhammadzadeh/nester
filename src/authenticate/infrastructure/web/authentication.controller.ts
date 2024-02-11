@@ -2,7 +2,7 @@ import { Body, Post } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { Captcha } from '../../../common/captcha/decorators';
 import { CommonController } from '../../../common/guards/decorators';
-import { DoneSerializer, Serializer } from '../../../common/serialization';
+import { DoneResponse, Serializer } from '../../../common/serialization';
 import { AuthService, JwtTokenService, PasswordService } from '../../application';
 import { IgnoreAuthorizationGuard } from './decorators';
 import {
@@ -36,9 +36,9 @@ export class AuthenticationController {
   @Captcha()
   @ApiOkResponse({
     status: 200,
-    type: DoneSerializer,
+    type: DoneResponse,
   })
-  async signupByIdentifierPassword(@Body() dto: EmailPasswordSignupDto): Promise<DoneSerializer> {
+  async signupByIdentifierPassword(@Body() dto: EmailPasswordSignupDto): Promise<DoneResponse> {
     await this.authService.signup(dto.toIdentifierPasswordSignup());
     return Serializer.done();
   }
@@ -60,9 +60,9 @@ export class AuthenticationController {
   @Captcha()
   @ApiOkResponse({
     status: 200,
-    type: DoneSerializer,
+    type: DoneResponse,
   })
-  async signupByOtp(@Body() dto: OtpSignupDto): Promise<DoneSerializer> {
+  async signupByOtp(@Body() dto: OtpSignupDto): Promise<DoneResponse> {
     await this.authService.signup(dto.toOtpSignup());
     return Serializer.done();
   }
@@ -126,9 +126,9 @@ export class AuthenticationController {
   @Captcha()
   @ApiOkResponse({
     status: 200,
-    type: DoneSerializer,
+    type: DoneResponse,
   })
-  async generateOtp(@Body() input: OtpGenerationDto): Promise<DoneSerializer> {
+  async generateOtp(@Body() input: OtpGenerationDto): Promise<DoneResponse> {
     await this.authService.sendOtp(input.toSendOtp());
     return Serializer.done();
   }
@@ -137,9 +137,9 @@ export class AuthenticationController {
   @Captcha()
   @ApiOkResponse({
     status: 200,
-    type: DoneSerializer,
+    type: DoneResponse,
   })
-  async sendResetPasswordLink(@Body() { email }: EmailDto): Promise<DoneSerializer> {
+  async sendResetPasswordLink(@Body() { email }: EmailDto): Promise<DoneResponse> {
     await this.passwordService.sendResetPasswordLink(email);
     return Serializer.done();
   }
@@ -148,9 +148,9 @@ export class AuthenticationController {
   @Captcha()
   @ApiOkResponse({
     status: 200,
-    type: DoneSerializer,
+    type: DoneResponse,
   })
-  async resetPassword(@Body() dto: ResetPasswordDto): Promise<DoneSerializer> {
+  async resetPassword(@Body() dto: ResetPasswordDto): Promise<DoneResponse> {
     await this.passwordService.resetPassword(dto.toOTPVerification(), dto.new_password);
     return Serializer.done();
   }

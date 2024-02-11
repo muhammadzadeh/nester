@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose, Type } from 'class-transformer';
-import { NotificationSerializer } from './notification.serializer';
+import { NotificationResponse } from './notification.response';
 
 class PaginationMeta {
   @ApiProperty({
@@ -12,15 +12,15 @@ class PaginationMeta {
   total!: number;
 }
 
-export class PaginatedNotificationSerializer {
+export class NotificationListResponse {
   @ApiProperty({
-    type: NotificationSerializer,
+    type: NotificationResponse,
     isArray: true,
     description: 'The Notifications',
   })
   @Expose()
-  @Type(() => NotificationSerializer)
-  items!: NotificationSerializer[];
+  @Type(() => NotificationResponse)
+  items!: NotificationResponse[];
 
   @ApiProperty({
     type: PaginationMeta,

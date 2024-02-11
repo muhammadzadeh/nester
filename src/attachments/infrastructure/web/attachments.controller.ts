@@ -9,7 +9,7 @@ import { AttachmentNotFoundException } from '../../domain/entities/attachments.e
 import { AttachmentVisibilityDto } from './attachment-visibility.dto';
 import { DownloadAttachmentDto } from './download-attachment.dto';
 import { FilesUploadDto } from './files-upload.dto';
-import { PaginatedAttachmentSerializer } from './paginated-attachment.serializer';
+import { AttachmentListResponse } from './attachment-list.response';
 
 @CommonController('/attachments')
 @ApiTags('Attachments')
@@ -20,17 +20,17 @@ export class AttachmentsController {
   @ApiConsumes('multipart/form-data')
   @ApiOkResponse({
     status: 201,
-    type: PaginatedAttachmentSerializer,
+    type: AttachmentListResponse,
   })
   @ApiBody({ type: FilesUploadDto })
   async upload(
     @Param() visibilityDto: AttachmentVisibilityDto,
     @UploadedFiles() uploadedFiles: UploadedFiles,
     @CurrentUser() user: CurrentUser,
-  ): Promise<PaginatedAttachmentSerializer> {
+  ): Promise<AttachmentListResponse> {
     const attachments = await this.attachmentsService.upload(uploadedFiles, visibilityDto.visibility, user.id);
 
-    return Serializer.serialize(PaginatedAttachmentSerializer, {
+    return Serializer.serialize(AttachmentListResponse, {
       items: attachments,
     });
   }

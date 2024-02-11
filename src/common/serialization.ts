@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { ClassConstructor, Expose, Type, plainToInstance } from 'class-transformer';
 import { snackCaseObject } from './utils';
 
-export class DoneSerializer {
+export class DoneResponse {
   @ApiProperty({
     type: String,
     example: 'OK',
@@ -25,6 +25,6 @@ export class Serializer {
   }
 
   static done() {
-    return Serializer.serialize(DoneSerializer, { message: 'OK' });
+    return Serializer.serialize(DoneResponse, { message: 'OK' });
   }
 }

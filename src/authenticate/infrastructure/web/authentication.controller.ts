@@ -32,14 +32,14 @@ export class AuthenticationController {
     private readonly authService: AuthService,
   ) {}
 
-  @Post('signup/email-password')
+  @Post('signup/identifier-password')
   @Captcha()
   @ApiOkResponse({
     status: 200,
     type: DoneSerializer,
   })
-  async signupByEmailAndPassword(@Body() dto: EmailPasswordSignupDto): Promise<DoneSerializer> {
-    await this.authService.signup(dto.toEmailPasswordSignup());
+  async signupByIdentifierPassword(@Body() dto: EmailPasswordSignupDto): Promise<DoneSerializer> {
+    await this.authService.signup(dto.toIdentifierPasswordSignup());
     return Serializer.done();
   }
 
@@ -78,13 +78,13 @@ export class AuthenticationController {
     return Serializer.serialize(AuthenticationSerializer, token);
   }
 
-  @Post('signin/email-password')
+  @Post('signin/identifier-password')
   @Captcha()
   @ApiOkResponse({
     status: 200,
     type: AuthenticationSerializer,
   })
-  async signinByEmail(@Body() dto: IdentifierPasswordAuthDto): Promise<AuthenticationSerializer> {
+  async signinByIdentifierPassword(@Body() dto: IdentifierPasswordAuthDto): Promise<AuthenticationSerializer> {
     const token = await this.authService.authenticate(dto.toIdentifierPasswordAuth());
     return Serializer.serialize(AuthenticationSerializer, token);
   }

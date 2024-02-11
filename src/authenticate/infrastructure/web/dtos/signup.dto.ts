@@ -1,10 +1,10 @@
 import { Type } from 'class-transformer';
-import { IsEmail, IsNotEmpty, IsString, IsStrongPassword } from 'class-validator';
+import { IsNotEmpty, IsString, IsStrongPassword } from 'class-validator';
 import { ToLowerCase } from '../../../../common/decorators';
-import { Email } from '../../../../common/types';
-import { OtpSignup } from '../../providers/otp/otp-signup';
+import { Email, Mobile } from '../../../../common/types';
 import { GoogleSignup } from '../../providers/google/google-signup';
-import { EmailPasswordSignup } from '../../providers/identified-password/identifier-password-signup';
+import { IdentifierPasswordSignup } from '../../providers/identified-password/identifier-password-signup';
+import { OtpSignup } from '../../providers/otp/otp-signup';
 
 export class OtpSignupDto {
   @IsNotEmpty()
@@ -28,15 +28,14 @@ export class GoogleSignupDto {
 
 export class EmailPasswordSignupDto {
   @IsNotEmpty()
-  @IsEmail()
   @Type(() => String)
   @ToLowerCase()
-  email!: Email;
+  identifier!: Email | Mobile;
 
   @IsNotEmpty()
   @IsString()
   @Type(() => String)
-  @IsStrongPassword({ minLength: 6, minLowercase: 0, minUppercase: 0, minNumbers: 0, minSymbols: 0 })
+  @IsStrongPassword({ minLength: 6, minLowercase: 0, minUppercase: 2, minNumbers: 2, minSymbols: 0 })
   password!: string;
 
   @IsNotEmpty()
@@ -49,7 +48,7 @@ export class EmailPasswordSignupDto {
   @Type(() => String)
   last_name!: string;
 
-  toEmailPasswordSignup(): EmailPasswordSignup {
-    return new EmailPasswordSignup(this.email, this.password, this.first_name, this.last_name);
+  toIdentifierPasswordSignup(): IdentifierPasswordSignup {
+    return new IdentifierPasswordSignup(this.identifier, this.password, this.first_name, this.last_name);
   }
 }

@@ -7,6 +7,7 @@ import { FakeAuth } from '../../providers/fake';
 import { GoogleAuth } from '../../providers/google';
 import { IdentifierPasswordAuth } from '../../providers/identified-password';
 import { OtpAuth } from '../../providers/otp';
+import { IsIdentifier } from '../../../../common/is-identifier.validator';
 
 export class FakeAuthDto {
   @IsNotEmpty()
@@ -23,6 +24,7 @@ export class IdentifierPasswordAuthDto {
   @IsString()
   @IsNotUUID()
   @ToLowerCase()
+  @IsIdentifier()
   identifier!: Email | Mobile;
 
   @IsNotEmpty()
@@ -46,6 +48,7 @@ export class OtpAuthDto {
   @IsNotEmpty()
   @IsNotUUID()
   @ToLowerCase()
+  @IsIdentifier()
   identifier!: Email | Mobile;
 
   @IsOptional()

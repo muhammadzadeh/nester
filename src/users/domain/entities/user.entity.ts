@@ -29,6 +29,7 @@ export class UserEntity {
     updatedAt: Date,
     deletedAt: Date | null,
     lastLoggedInAt: Date | null,
+    passwordUpdatedAt: Date | null,
   );
   constructor(
     firstName: string | null,
@@ -48,6 +49,7 @@ export class UserEntity {
     updatedAt?: Date,
     deletedAt?: Date | null,
     lastLoggedInAt?: Date | null,
+    passwordUpdatedAt?: Date | null,
   ) {
     if (!email && !mobile) {
       throw new MobileOrEmailRequiredException();
@@ -70,6 +72,7 @@ export class UserEntity {
     this.updatedAt = updatedAt ?? new Date();
     this.deletedAt = deletedAt ?? null;
     this.lastLoggedInAt = lastLoggedInAt ?? null;
+    this.passwordUpdatedAt = passwordUpdatedAt ?? null;
   }
 
   readonly id!: UserId;
@@ -89,9 +92,14 @@ export class UserEntity {
   updatedAt!: Date;
   deletedAt!: Date | null;
   lastLoggedInAt!: Date | null;
+  passwordUpdatedAt!: Date | null;
 
   isVerified(): boolean {
     return this.isEmailVerified || this.isMobileVerified;
+  }
+
+  hashPassword(): boolean {
+    return !!this.password;
   }
 
   markMobileAsVerified(): void {
@@ -104,6 +112,7 @@ export class UserEntity {
 
   updatePassword(plainPassword: string): void {
     this.password = Hash.makeSync(plainPassword);
+    this.passwordUpdatedAt = new Date();
   }
 }
 

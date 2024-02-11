@@ -1,10 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose, Type } from 'class-transformer';
 import { AttachmentVisibility } from '../../domain/entities/attachments.entity';
-import { MimeTypeSerializer } from './mime-type.serializer';
+import { MimeTypeResponse } from './mime-type.response';
 import { AttachmentId } from '../../domain/entities/attachment-users.entity';
 
-export class AttachmentSerializer {
+export class AttachmentResponse {
   @ApiProperty({
     type: String,
     description: 'The attachment ID',
@@ -24,14 +24,14 @@ export class AttachmentSerializer {
   title!: string | null;
 
   @ApiProperty({
-    type: MimeTypeSerializer,
+    type: MimeTypeResponse,
     description: 'The attachment mime type',
     example: { ext: 'pdf', mime: 'application/pdf' },
     name: 'mime_type',
   })
   @Expose()
-  @Type(() => MimeTypeSerializer)
-  mimeType!: MimeTypeSerializer | null;
+  @Type(() => MimeTypeResponse)
+  mimeType!: MimeTypeResponse | null;
 
   @ApiProperty({
     type: AttachmentVisibility,

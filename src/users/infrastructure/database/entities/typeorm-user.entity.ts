@@ -72,6 +72,9 @@ export class TypeormUserEntity {
   @Column({ type: 'timestamptz', name: 'last_logged_in_at', nullable: true })
   readonly lastLoggedInAt!: Date | null;
 
+  @Column({ type: 'timestamptz', name: 'password_updated_at', nullable: true })
+  readonly passwordUpdatedAt!: Date | null;
+
   static toUserEntity(item: TypeormUserEntity): UserEntity {
     return new UserEntity(
       item.firstName,
@@ -91,6 +94,7 @@ export class TypeormUserEntity {
       item.updatedAt,
       item.deletedAt,
       item.lastLoggedInAt,
+      item.passwordUpdatedAt,
     );
   }
 }

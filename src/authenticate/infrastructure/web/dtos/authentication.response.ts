@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose, Type } from 'class-transformer';
 
-export class AuthenticationSerializer {
+export class AuthenticationResponse {
   @ApiProperty({
     type: String,
     name: 'access_token',

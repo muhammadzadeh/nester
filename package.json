@@ -9,6 +9,26 @@
     "node": "v20.11.0",
     "npm": "v10.2.4"
   },
+  "jest": {
+    "preset": "ts-jest",
+    "rootDir": "src",
+    "coverageDirectory": "../coverage",
+    "moduleDirectories": [
+      "node_modules",
+      "src"
+    ],
+    "coverageReporters": [
+      "text",
+      "text-summary",
+      "json"
+    ],
+    "testEnvironment": "node",
+    "globalSetup": "./common/test-pre.ts",
+    "verbose": false,
+    "setupFiles": [
+      "./common/test-setup.ts"
+    ]
+  },
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",

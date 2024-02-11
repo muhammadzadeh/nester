@@ -2,23 +2,25 @@ import { Body, Post } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { Captcha } from '../../../common/captcha/decorators';
 import { CommonController } from '../../../common/guards/decorators';
-import { DoneSerializer, Serializer } from '../../../common/serialization';
+import { DoneResponse, Serializer } from '../../../common/serialization';
 import { AuthService, JwtTokenService, PasswordService } from '../../application';
 import { IgnoreAuthorizationGuard } from './decorators';
 import {
-  AuthenticationSerializer,
+  AuthenticationResponse,
   EmailDto,
-  EmailPasswordSignupDto,
   FakeAuthDto,
   GoogleAuthDto,
   GoogleSignupDto,
   IdentifierPasswordAuthDto,
+  IdentifierPasswordSignupDto,
   OtpAuthDto,
   OtpGenerationDto,
   OtpSignupDto,
   RefreshTokenDto,
   ResetPasswordDto,
-  SignupSerializer,
+  SigninMethodDto,
+  SigninMethodResponse,
+  SignupResponse,
 } from './dtos';
 import { VerifyDto } from './dtos/verify.dto';
 
@@ -32,14 +34,14 @@ export class AuthenticationController {
     private readonly authService: AuthService,
   ) {}
 
-  @Post('signup/email-password')
+  @Post('signup/identifier-password')
   @Captcha()
   @ApiOkResponse({
     status: 200,
-    type: DoneSerializer,
+    type: DoneResponse,
   })
-  async signupByEmailAndPassword(@Body() dto: EmailPasswordSignupDto): Promise<DoneSerializer> {
-    await this.authService.signup(dto.toEmailPasswordSignup());
+  async signupByIdentifierPassword(@Body() dto: IdentifierPasswordSignupDto): Promise<DoneResponse> {
+    await this.authService.signup(dto.toIdentifierPasswordSignup());
     return Serializer.done();
   }
 
@@ -47,11 +49,11 @@ export class AuthenticationController {
   @Captcha()
   @ApiOkResponse({
     status: 200,
-    type: SignupSerializer,
+    type: SignupResponse,
   })
-  async signupByGoogle(@Body() dto: GoogleSignupDto): Promise<SignupSerializer> {
+  async signupByGoogle(@Body() dto: GoogleSignupDto): Promise<SignupResponse> {
     const token = await this.authService.signup(dto.toGoogleSignup());
-    return Serializer.serialize(SignupSerializer, {
+    return Serializer.serialize(SignupResponse, {
       token: token,
     });
   }
@@ -60,9 +62,9 @@ export class AuthenticationController {
   @Captcha()
   @ApiOkResponse({
     status: 200,
-    type: DoneSerializer,
+    type: DoneResponse,
   })
-  async signupByOtp(@Body() dto: OtpSignupDto): Promise<DoneSerializer> {
+  async signupByOtp(@Body() dto: OtpSignupDto): Promise<DoneResponse> {
     await this.authService.signup(dto.toOtpSignup());
     return Serializer.done();
   }
@@ -71,64 +73,77 @@ export class AuthenticationController {
   @Captcha()
   @ApiOkResponse({
     status: 200,
-    type: AuthenticationSerializer,
+    type: AuthenticationResponse,
   })
-  async verify(@Body() dto: VerifyDto): Promise<AuthenticationSerializer> {
+  async verify(@Body() dto: VerifyDto): Promise<AuthenticationResponse> {
     const token = await this.authService.authenticate(dto.toOtpAuth());
-    return Serializer.serialize(AuthenticationSerializer, token);
+    return Serializer.serialize(AuthenticationResponse, token);
   }
 
-  @Post('signin/email-password')
+  @Post('signin/methods')
   @Captcha()
   @ApiOkResponse({
     status: 200,
-    type: AuthenticationSerializer,
+    type: SigninMethodResponse,
   })
-  async signinByEmail(@Body() dto: IdentifierPasswordAuthDto): Promise<AuthenticationSerializer> {
+  async getAuthenticateMethods(@Body() dto: SigninMethodDto): Promise<SigninMethodResponse> {
+    const signinMethods = await this.authService.getAuthenticateMethods(dto.identifier);
+    return Serializer.serialize(SigninMethodResponse, {
+      items: signinMethods,
+    });
+  }
+
+  @Post('signin/identifier-password')
+  @Captcha()
+  @ApiOkResponse({
+    status: 200,
+    type: AuthenticationResponse,
+  })
+  async signinByIdentifierPassword(@Body() dto: IdentifierPasswordAuthDto): Promise<AuthenticationResponse> {
     const token = await this.authService.authenticate(dto.toIdentifierPasswordAuth());
-    return Serializer.serialize(AuthenticationSerializer, token);
+    return Serializer.serialize(AuthenticationResponse, token);
   }
 
   @Post('signin/google')
   @Captcha()
   @ApiOkResponse({
     status: 200,
-    type: AuthenticationSerializer,
+    type: AuthenticationResponse,
   })
-  async signinByGoogle(@Body() dto: GoogleAuthDto): Promise<AuthenticationSerializer> {
+  async signinByGoogle(@Body() dto: GoogleAuthDto): Promise<AuthenticationResponse> {
     const token = await this.authService.authenticate(dto.toGoogleAuth());
-    return Serializer.serialize(AuthenticationSerializer, token);
+    return Serializer.serialize(AuthenticationResponse, token);
   }
 
   @Post('signin/otp')
   @Captcha()
   @ApiOkResponse({
     status: 200,
-    type: AuthenticationSerializer,
+    type: AuthenticationResponse,
   })
-  async signinByOtp(@Body() dto: OtpAuthDto): Promise<AuthenticationSerializer> {
+  async signinByOtp(@Body() dto: OtpAuthDto): Promise<AuthenticationResponse> {
     const token = await this.authService.authenticate(dto.toOtpAuth());
-    return Serializer.serialize(AuthenticationSerializer, token);
+    return Serializer.serialize(AuthenticationResponse, token);
   }
 
   @Post('signin/fake')
   @Captcha()
   @ApiOkResponse({
     status: 200,
-    type: AuthenticationSerializer,
+    type: AuthenticationResponse,
   })
-  async signinByFake(@Body() dto: FakeAuthDto): Promise<AuthenticationSerializer> {
+  async signinByFake(@Body() dto: FakeAuthDto): Promise<AuthenticationResponse> {
     const token = await this.authService.authenticate(dto.toFakeAuth());
-    return Serializer.serialize(AuthenticationSerializer, token);
+    return Serializer.serialize(AuthenticationResponse, token);
   }
 
   @Post('otp')
   @Captcha()
   @ApiOkResponse({
     status: 200,
-    type: DoneSerializer,
+    type: DoneResponse,
   })
-  async generateOtp(@Body() input: OtpGenerationDto): Promise<DoneSerializer> {
+  async generateOtp(@Body() input: OtpGenerationDto): Promise<DoneResponse> {
     await this.authService.sendOtp(input.toSendOtp());
     return Serializer.done();
   }
@@ -137,9 +152,9 @@ export class AuthenticationController {
   @Captcha()
   @ApiOkResponse({
     status: 200,
-    type: DoneSerializer,
+    type: DoneResponse,
   })
-  async sendResetPasswordLink(@Body() { email }: EmailDto): Promise<DoneSerializer> {
+  async sendResetPasswordLink(@Body() { email }: EmailDto): Promise<DoneResponse> {
     await this.passwordService.sendResetPasswordLink(email);
     return Serializer.done();
   }
@@ -148,9 +163,9 @@ export class AuthenticationController {
   @Captcha()
   @ApiOkResponse({
     status: 200,
-    type: DoneSerializer,
+    type: DoneResponse,
   })
-  async resetPassword(@Body() dto: ResetPasswordDto): Promise<DoneSerializer> {
+  async resetPassword(@Body() dto: ResetPasswordDto): Promise<DoneResponse> {
     await this.passwordService.resetPassword(dto.toOTPVerification(), dto.new_password);
     return Serializer.done();
   }
@@ -158,10 +173,10 @@ export class AuthenticationController {
   @Post('refresh-token')
   @ApiOkResponse({
     status: 200,
-    type: AuthenticationSerializer,
+    type: AuthenticationResponse,
   })
-  async refreshToken(@Body() input: RefreshTokenDto): Promise<AuthenticationSerializer> {
+  async refreshToken(@Body() input: RefreshTokenDto): Promise<AuthenticationResponse> {
     const token = await this.jwtService.refresh(input.toRefreshTokenData());
-    return Serializer.serialize(AuthenticationSerializer, token);
+    return Serializer.serialize(AuthenticationResponse, token);
   }
 }

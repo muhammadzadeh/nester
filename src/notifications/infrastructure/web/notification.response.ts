@@ -1,9 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose, Type } from 'class-transformer';
 import { randomUUID } from 'crypto';
-import { NotificationCTASerializerForUser } from './notification-cta.serializer';
+import { NotificationCTAResponse } from './notification-cta.response';
 import { NotificationEvent, NotificationGroupType, NotificationPriority, NotificationStatus } from '../../domain/entities/notification.entity';
-export class NotificationSerializer {
+export class NotificationResponse {
   @ApiProperty({
     type: String,
     description: 'The notification id',
@@ -69,13 +69,13 @@ export class NotificationSerializer {
   status!: NotificationStatus;
 
   @ApiProperty({
-    type: NotificationCTASerializerForUser,
+    type: NotificationCTAResponse,
     isArray: true,
     description: 'call to actions',
   })
   @Expose()
-  @Type(() => NotificationCTASerializerForUser)
-  ctas?: NotificationCTASerializerForUser[];
+  @Type(() => NotificationCTAResponse)
+  ctas?: NotificationCTAResponse[];
 
   @ApiProperty({
     type: Date,

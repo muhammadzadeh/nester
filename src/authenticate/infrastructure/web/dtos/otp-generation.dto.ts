@@ -4,6 +4,7 @@ import { IsNotUUID } from '../../../../common/is-not-uuid.validator';
 import { Email, Mobile } from '../../../../common/types';
 import { SendOtp } from '../../../application';
 import { OTPType } from '../../../domain/entities';
+import { IsIdentifier } from '../../../../common/is-identifier.validator';
 
 export class OtpGenerationDto {
   @IsNotEmpty()
@@ -14,6 +15,7 @@ export class OtpGenerationDto {
   @IsString()
   @IsNotUUID()
   @ToLowerCase()
+  @IsIdentifier()
   identifier!: Email | Mobile;
 
   toSendOtp(): SendOtp {

@@ -29,8 +29,16 @@ export class AuthService {
     private readonly otpService: OtpService,
   ) {}
 
-  async getAuthenticateMethods(identifier: Email | Mobile) : Promise<void>{
-    
+  async getAuthenticateMethods(identifier: Email | Mobile): Promise<SigninMethod[]> {
+    const user = await this.findUser(identifier);
+    const signinMethods: SigninMethod[] = [];
+
+    signinMethods.push(SigninMethod.OTP);
+    if (user.hashPassword()) {
+      signinMethods.push(SigninMethod.PASSWORD);
+    }
+
+    return signinMethods;
   }
 
   async signup(data: Auth): Promise<Token | undefined> {
@@ -71,7 +79,7 @@ export class AuthService {
   }
 
   async sendOtp(data: SendOtp): Promise<void> {
-    const user = await this.usersService.findOneByIdentifierOrFail(data.identifier);
+    const user = await this.findUser(data.identifier);
 
     if (data.isEmail()) {
       await this.sendEmailVerificationOtp(user, data.identifier);
@@ -115,6 +123,14 @@ export class AuthService {
     const otp = await this.otpService.generate(otpGeneration);
     await this.notificationSender.sendOtp(otpGeneration, otp);
   }
+
+  private async findUser(identifier: Mobile | Email): Promise<UserEntity> {
+    try {
+      return await this.usersService.findOneByIdentifierOrFail(identifier);
+    } catch (error) {
+      throw new UserNotRegisteredException('User not registered', { cause: error });
+    }
+  }
 }
 
 export class SendOtp {
@@ -139,3 +155,9 @@ export class UserAlreadyRegisteredException extends Error {}
   statusCode: HttpStatus.BAD_REQUEST,
 })
 export class YourAccountIsBlockedException extends Error {}
+
+export enum SigninMethod {
+  PASSWORD = 'password',
+  OTP = 'otp',
+  CALL = 'call',
+}

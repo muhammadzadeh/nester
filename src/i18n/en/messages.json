@@ -16,7 +16,7 @@
     "CAN_NOT_RESET_PASSWORD": "Can not reset password!",
     "ILLEGAL_STATE": "ILLEGAL STATE",
     "USER_NOT_VERIFIED": "User not verified!",
-    "USER_NOT_REGISTERED": "You need to sign up in our website!",
+    "USER_NOT_REGISTERED": "You need to sign-up!",
     "INVALID_CAPTCHA_TOKEN": "Captcha token is invalid!",
     "YOUR_ACCOUNT_IS_NOT_ACTIVE": "Your Account Is Deactivated, before any action Active your account!",
     "STORAGE_IS_UNAVAILABLE": "The Storage Service is unavailable, please try again!",

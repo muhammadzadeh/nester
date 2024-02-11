@@ -8,19 +8,19 @@ import { IgnoreAuthorizationGuard } from './decorators';
 import {
   AuthenticationResponse,
   EmailDto,
-  IdentifierPasswordSignupDto,
   FakeAuthDto,
   GoogleAuthDto,
   GoogleSignupDto,
   IdentifierPasswordAuthDto,
+  IdentifierPasswordSignupDto,
   OtpAuthDto,
   OtpGenerationDto,
   OtpSignupDto,
   RefreshTokenDto,
   ResetPasswordDto,
-  SignupResponse,
   SigninMethodDto,
   SigninMethodResponse,
+  SignupResponse,
 } from './dtos';
 import { VerifyDto } from './dtos/verify.dto';
 
@@ -33,17 +33,6 @@ export class AuthenticationController {
     private readonly jwtService: JwtTokenService,
     private readonly authService: AuthService,
   ) {}
-
-  @Post()
-  @Captcha()
-  @ApiOkResponse({
-    status: 200,
-    type: SigninMethodResponse,
-  })
-  async getAuthenticateMethods(@Body() dto: SigninMethodDto): Promise<SigninMethodResponse> {
-    await this.authService.getAuthenticateMethods(dto);
-    return Serializer.done();
-  }
 
   @Post('signup/identifier-password')
   @Captcha()
@@ -89,6 +78,19 @@ export class AuthenticationController {
   async verify(@Body() dto: VerifyDto): Promise<AuthenticationResponse> {
     const token = await this.authService.authenticate(dto.toOtpAuth());
     return Serializer.serialize(AuthenticationResponse, token);
+  }
+
+  @Post('signin/methods')
+  @Captcha()
+  @ApiOkResponse({
+    status: 200,
+    type: SigninMethodResponse,
+  })
+  async getAuthenticateMethods(@Body() dto: SigninMethodDto): Promise<SigninMethodResponse> {
+    const signinMethods = await this.authService.getAuthenticateMethods(dto.identifier);
+    return Serializer.serialize(SigninMethodResponse, {
+      items: signinMethods,
+    });
   }
 
   @Post('signin/identifier-password')

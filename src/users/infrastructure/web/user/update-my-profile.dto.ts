@@ -16,9 +16,9 @@ export class UpdateMyProfileDto {
 
   toEntity(): Partial<UserEntity> {
     return {
-      firstName: this.first_name,
-      lastName: this.last_name,
-      avatar: this.avatar,
+      firstName: this.first_name ?? null,
+      lastName: this.last_name ?? null,
+      avatar: this.avatar ?? null,
       fullName: `${this.first_name ?? ''} ${this.last_name ?? ''}`,
     };
   }

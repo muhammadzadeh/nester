@@ -5,7 +5,8 @@ import { UsersService } from '../application/users.service';
 import { USERS_REPOSITORY_TOKEN } from '../domain/repositories/users.repository';
 import { TypeormUserEntity } from './database/entities/typeorm-user.entity';
 import { TypeormUsersRepository } from './database/repositories/typeorm-users.repository';
-import { ProfileController } from './web/profile.controller';
+import { ProfileControllerForAdmin } from './web/admin/profile.controller';
+import { ProfileControllerForUser } from './web/user/profile.user.controller';
 
 const usersRepository: Provider = {
   provide: USERS_REPOSITORY_TOKEN,
@@ -14,7 +15,7 @@ const usersRepository: Provider = {
 
 @Module({
   imports: [TypeOrmModule.forFeature([TypeormUserEntity])],
-  controllers: [ProfileController],
+  controllers: [ProfileControllerForUser, ProfileControllerForAdmin],
   providers: [UsersService, usersRepository, UsersConsumer],
   exports: [UsersService],
 })

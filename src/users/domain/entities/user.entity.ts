@@ -116,8 +116,10 @@ export class UserEntity {
   }
 }
 
+
 export enum Permission {
   MANAGE_EVERY_THINGS = '*',
+  MANAGE_USERS = "/users/*"
 }
 
 @Exception({

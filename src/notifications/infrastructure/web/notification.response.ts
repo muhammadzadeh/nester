@@ -1,15 +1,19 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Expose, Type } from 'class-transformer';
+import { Type } from 'class-transformer';
 import { randomUUID } from 'crypto';
+import {
+  NotificationEvent,
+  NotificationGroupType,
+  NotificationPriority,
+  NotificationStatus,
+} from '../../domain/entities/notification.entity';
 import { NotificationCTAResponse } from './notification-cta.response';
-import { NotificationEvent, NotificationGroupType, NotificationPriority, NotificationStatus } from '../../domain/entities/notification.entity';
 export class NotificationResponse {
   @ApiProperty({
     type: String,
     description: 'The notification id',
     example: randomUUID(),
   })
-  @Expose()
   @Type(() => String)
   id!: string;
 
@@ -18,7 +22,6 @@ export class NotificationResponse {
     description: 'The notification title',
     example: 'Verify your email',
   })
-  @Expose()
   @Type(() => String)
   title!: string;
 
@@ -27,7 +30,6 @@ export class NotificationResponse {
     description: 'The notification description',
     example: 'Verify your email',
   })
-  @Expose()
   @Type(() => String)
   description!: string;
 
@@ -36,7 +38,6 @@ export class NotificationResponse {
     enum: NotificationEvent,
     description: 'The notification template code',
   })
-  @Expose()
   @Type(() => String)
   event!: NotificationEvent;
 
@@ -45,7 +46,6 @@ export class NotificationResponse {
     enum: NotificationPriority,
     description: 'notification priority',
   })
-  @Expose()
   @Type(() => String)
   priority!: NotificationPriority;
 
@@ -53,9 +53,8 @@ export class NotificationResponse {
     type: NotificationGroupType,
     enum: NotificationGroupType,
     description: 'notification group type',
-    name: 'group_type'
+    name: 'group_type',
   })
-  @Expose()
   @Type(() => String)
   groupType!: NotificationGroupType;
 
@@ -64,7 +63,6 @@ export class NotificationResponse {
     enum: NotificationStatus,
     description: 'The notification status',
   })
-  @Expose()
   @Type(() => String)
   status!: NotificationStatus;
 
@@ -73,7 +71,6 @@ export class NotificationResponse {
     isArray: true,
     description: 'call to actions',
   })
-  @Expose()
   @Type(() => NotificationCTAResponse)
   ctas?: NotificationCTAResponse[];
 
@@ -81,9 +78,8 @@ export class NotificationResponse {
     type: Date,
     description: 'The creation date',
     example: new Date(),
-    name: 'created_at'
+    name: 'created_at',
   })
-  @Expose()
   @Type(() => Date)
   createdAt!: Date;
 }

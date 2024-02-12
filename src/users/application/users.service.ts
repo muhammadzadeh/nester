@@ -75,6 +75,10 @@ export class UsersService {
     return this.usersRepository.findAll(options, pagination);
   }
 
+  async updateProfile(id: UserId, data: Partial<UserEntity>): Promise<void> {
+    await this.usersRepository.update({ ids: [id] }, data);
+  }
+
   async markUserAsVerified(user: UserEntity): Promise<void> {
     await this.usersRepository.update(
       {

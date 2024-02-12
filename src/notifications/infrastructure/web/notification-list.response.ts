@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Expose, Type } from 'class-transformer';
+import { Type } from 'class-transformer';
 import { NotificationResponse } from './notification.response';
 
 class PaginationMeta {
@@ -7,7 +7,6 @@ class PaginationMeta {
     type: Number,
     description: 'total items',
   })
-  @Expose()
   @Type(() => Number)
   total!: number;
 }
@@ -18,7 +17,6 @@ export class NotificationListResponse {
     isArray: true,
     description: 'The Notifications',
   })
-  @Expose()
   @Type(() => NotificationResponse)
   items!: NotificationResponse[];
 
@@ -26,7 +24,6 @@ export class NotificationListResponse {
     type: PaginationMeta,
     description: 'Stats',
   })
-  @Expose()
   @Type(() => PaginationMeta)
   pagination!: PaginationMeta;
 }

@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Expose, Type } from 'class-transformer';
+import { Type } from 'class-transformer';
+import { AttachmentId } from '../../domain/entities/attachment-users.entity';
 import { AttachmentVisibility } from '../../domain/entities/attachments.entity';
 import { MimeTypeResponse } from './mime-type.response';
-import { AttachmentId } from '../../domain/entities/attachment-users.entity';
 
 export class AttachmentResponse {
   @ApiProperty({
@@ -10,7 +10,6 @@ export class AttachmentResponse {
     description: 'The attachment ID',
     example: 'a1b2c3d4e54as4df4',
   })
-  @Expose()
   @Type(() => String)
   id!: AttachmentId;
 
@@ -19,7 +18,6 @@ export class AttachmentResponse {
     description: 'The attachment title',
     example: 'Passport image',
   })
-  @Expose()
   @Type(() => String)
   title!: string | null;
 
@@ -29,7 +27,6 @@ export class AttachmentResponse {
     example: { ext: 'pdf', mime: 'application/pdf' },
     name: 'mime_type',
   })
-  @Expose()
   @Type(() => MimeTypeResponse)
   mimeType!: MimeTypeResponse | null;
 
@@ -39,7 +36,6 @@ export class AttachmentResponse {
     description: 'The attachment visibility type',
     example: AttachmentVisibility.PRIVATE,
   })
-  @Expose()
   @Type(() => String)
   visibility!: AttachmentVisibility;
 
@@ -49,7 +45,6 @@ export class AttachmentResponse {
     example: new Date(),
     name: 'created_at',
   })
-  @Expose()
   @Type(() => Date)
   createdAt!: Date;
 
@@ -57,7 +52,6 @@ export class AttachmentResponse {
     type: Date,
     description: 'The attachment download link',
   })
-  @Expose()
   @Type(() => String)
   url!: string;
 }

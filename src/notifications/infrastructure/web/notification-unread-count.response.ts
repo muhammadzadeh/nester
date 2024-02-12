@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose, Type } from 'class-transformer';
-export class NotificationUnreadCountResponse{
+export class NotificationUnreadCountResponse {
   @ApiProperty({
     type: Number,
     description: 'unread count',

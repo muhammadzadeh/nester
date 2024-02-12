@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose, Type } from 'class-transformer';
 import { randomUUID } from 'crypto';
-import { NotificationCTAResponse } from './notification-cta.response';
 import { NotificationEvent, NotificationGroupType, NotificationPriority, NotificationStatus } from '../../domain/entities/notification.entity';
+import { NotificationCTAResponse } from './notification-cta.response';
 export class NotificationResponse {
   @ApiProperty({
     type: String,
@@ -34,6 +34,7 @@ export class NotificationResponse {
   @ApiProperty({
     type: NotificationEvent,
     enum: NotificationEvent,
+    enumName: 'NotificationEvent',
     description: 'The notification template code',
   })
   @Expose()
@@ -43,6 +44,7 @@ export class NotificationResponse {
   @ApiProperty({
     type: NotificationPriority,
     enum: NotificationPriority,
+    enumName: 'NotificationPriority',
     description: 'notification priority',
   })
   @Expose()
@@ -52,8 +54,9 @@ export class NotificationResponse {
   @ApiProperty({
     type: NotificationGroupType,
     enum: NotificationGroupType,
+    enumName: 'NotificationGroupType',
     description: 'notification group type',
-    name: 'group_type'
+    name: 'group_type',
   })
   @Expose()
   @Type(() => String)
@@ -62,6 +65,7 @@ export class NotificationResponse {
   @ApiProperty({
     type: NotificationStatus,
     enum: NotificationStatus,
+    enumName: 'NotificationStatus',
     description: 'The notification status',
   })
   @Expose()
@@ -81,7 +85,7 @@ export class NotificationResponse {
     type: Date,
     description: 'The creation date',
     example: new Date(),
-    name: 'created_at'
+    name: 'created_at',
   })
   @Expose()
   @Type(() => Date)

@@ -6,6 +6,7 @@ export class SigninMethodResponse {
   @ApiProperty({
     type: SigninMethod,
     enum: SigninMethod,
+    enumName: 'SigninMethod',
     isArray: true,
   })
   @Expose()

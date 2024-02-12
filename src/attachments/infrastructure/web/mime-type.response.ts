@@ -3,14 +3,14 @@ import { Expose, Type } from 'class-transformer';
 
 export class MimeTypeResponse {
   @ApiProperty({
-    type: 'ext',
+    type: String,
   })
   @Expose()
   @Type(() => String)
   ext!: string;
 
   @ApiProperty({
-    type: 'mime',
+    type: String,
   })
   @Expose()
   @Type(() => String)

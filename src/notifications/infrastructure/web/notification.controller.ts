@@ -10,7 +10,7 @@ import { AddPushTokenDto } from './add-push-token.dto';
 import { FilterNotificationDto } from './filter-notification.dto';
 import { FindOneNotificationDto } from './find-one-notification.dto';
 import { NotificationUnreadCountResponse } from './notification-unread-count.response';
-import { NotificationListResponse } from './paginated-notification.response';
+import { NotificationListResponse } from './notification-list.response';
 
 @CommonController('/notifications')
 @ApiTags('Notifications')

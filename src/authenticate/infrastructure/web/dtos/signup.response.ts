@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
+import { Expose, Type } from 'class-transformer';
 import { AuthenticationResponse } from '.';
 
 export class SignupResponse {
@@ -8,6 +8,7 @@ export class SignupResponse {
     description: 'this object only for signup by google initialized',
     nullable: true,
   })
+  @Expose()
   @Type(() => AuthenticationResponse)
   token!: AuthenticationResponse;
 }

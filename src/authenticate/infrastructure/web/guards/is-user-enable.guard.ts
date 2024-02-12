@@ -23,7 +23,7 @@ export class IsUserEnableGuard implements CanActivate {
       return true;
     }
 
-    if (user.isBlocked != true) {
+    if (user.isBlocked) {
       throw new YourAccountIsBlockedException();
     }
 

@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose, Type } from 'class-transformer';
-export class NotificationCTAResponse{
+export class NotificationCTAResponse {
   @ApiProperty({
     type: String,
     description: 'The cta title',
@@ -23,7 +23,7 @@ export class NotificationCTAResponse{
     type: Boolean,
     description: 'is main cta',
     example: false,
-    name:'is_main'
+    name: 'is_main',
   })
   @Expose()
   @Type(() => Boolean)

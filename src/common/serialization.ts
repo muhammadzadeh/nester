@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { ClassConstructor, Expose, Type, plainToInstance } from 'class-transformer';
 import { snackCaseObject } from './utils';
+import { ResponseGroup } from './types';
 
 export class DoneResponse {
   @ApiProperty({
@@ -13,7 +14,7 @@ export class DoneResponse {
 }
 
 export class Serializer {
-  static serialize<T, K>(output: ClassConstructor<T>, input: K, groups?: string[]): T {
+  static serialize<T, K>(output: ClassConstructor<T>, input: K, groups?: ResponseGroup[]): T {
     return snackCaseObject<T>(
       plainToInstance(output, input, {
         exposeDefaultValues: true,

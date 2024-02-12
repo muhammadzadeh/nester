@@ -7,8 +7,8 @@ export class AttachmentVisibilityDto {
     required: true,
     type: AttachmentVisibility,
     enum: AttachmentVisibility,
+    enumName: 'AttachmentVisibility',
     description: 'the attachment visibility type',
-    example: AttachmentVisibility.PRIVATE,
   })
   @IsNotEmpty()
   @IsEnum(AttachmentVisibility)

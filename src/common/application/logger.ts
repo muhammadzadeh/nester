@@ -35,14 +35,22 @@ export default (app: INestApplication): void => {
     return ignoredRoutes.findIndex((ignoredRoute) => url.includes(ignoredRoute)) > -1;
   }
 
+  function extractResponse(payload: any): any {
+    try {
+      return JSON.parse(payload);
+    } catch (error) {
+      return {payload, message: 'Body is not parsable'};
+    }
+  }
+
   async function logRequest(reply: any): Promise<void> {
     reply.startTime = new Date().getTime();
   }
 
   async function logResponse(req: any, reply: any, payload: any): Promise<void> {
     const level = +reply.raw.statusCode < 300 && +reply.raw.statusCode >= 200 ? 'info' : 'error';
-    const responseBody = JSON.parse(payload);
-    const message  = level === 'info' ? 'OK' : responseBody.message;
+    const responseBody = extractResponse(payload);
+    const message = level === 'info' ? 'OK' : responseBody.message;
     const log = {
       context: 'EdgeLogger',
       message,

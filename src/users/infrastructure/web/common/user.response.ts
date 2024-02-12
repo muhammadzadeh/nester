@@ -170,7 +170,9 @@ export class UserResponse {
   readonly isMobileVerified!: boolean;
 
   @ApiProperty({
-    type: String,
+    type: Permission,
+    enum: Permission,
+    enumName: 'Permission',
     name: 'permissions',
     isArray: true,
   })

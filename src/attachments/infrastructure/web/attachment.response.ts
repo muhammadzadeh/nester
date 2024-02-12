@@ -36,8 +36,8 @@ export class AttachmentResponse {
   @ApiProperty({
     type: AttachmentVisibility,
     enum: AttachmentVisibility,
+    enumName: 'AttachmentVisibility',
     description: 'The attachment visibility type',
-    example: AttachmentVisibility.PRIVATE,
   })
   @Expose()
   @Type(() => String)

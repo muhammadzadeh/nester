@@ -34,6 +34,7 @@ export class NotificationResponse {
   @ApiProperty({
     type: NotificationEvent,
     enum: NotificationEvent,
+    enumName: 'NotificationEvent',
     description: 'The notification template code',
   })
   @Expose()
@@ -43,6 +44,7 @@ export class NotificationResponse {
   @ApiProperty({
     type: NotificationPriority,
     enum: NotificationPriority,
+    enumName: 'NotificationPriority',
     description: 'notification priority',
   })
   @Expose()
@@ -52,6 +54,7 @@ export class NotificationResponse {
   @ApiProperty({
     type: NotificationGroupType,
     enum: NotificationGroupType,
+    enumName: 'NotificationGroupType',
     description: 'notification group type',
     name: 'group_type',
   })
@@ -62,6 +65,7 @@ export class NotificationResponse {
   @ApiProperty({
     type: NotificationStatus,
     enum: NotificationStatus,
+    enumName: 'NotificationStatus',
     description: 'The notification status',
   })
   @Expose()

@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ClassConstructor, Type, plainToInstance } from 'class-transformer';
+import { ClassConstructor, Expose, Type, plainToInstance } from 'class-transformer';
 import { snackCaseObject } from './utils';
 
 export class DoneResponse {
@@ -7,6 +7,7 @@ export class DoneResponse {
     type: String,
     example: 'OK',
   })
+  @Expose()
   @Type(() => String)
   message!: string;
 }
@@ -17,6 +18,7 @@ export class Serializer {
       plainToInstance(output, input, {
         exposeDefaultValues: true,
         exposeUnsetFields: true,
+        strategy: 'excludeAll',
         groups,
       }),
     );

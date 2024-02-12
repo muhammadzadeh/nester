@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
+import { Expose, Type } from 'class-transformer';
 import { AttachmentResponse } from './attachment.response';
 
 export class AttachmentListResponse {
@@ -8,6 +8,7 @@ export class AttachmentListResponse {
     isArray: true,
     description: 'The Attachments',
   })
+  @Expose()
   @Type(() => AttachmentResponse)
   items!: AttachmentResponse[];
 }

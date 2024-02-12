@@ -1,14 +1,14 @@
 import { Get } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { CurrentUser } from '../../../authenticate/infrastructure/web/decorators';
-import { CommonController } from '../../../common/guards/decorators';
+import { UserController } from '../../../common/guards/decorators';
 import { Serializer } from '../../../common/serialization';
 import { UsersService } from '../../application/users.service';
 import { UserResponse } from './user.response';
 
 @ApiTags('Profile')
-@CommonController(`/profile`)
-export class AuthenticationController {
+@UserController(`/profile`)
+export class ProfileController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get()
@@ -16,7 +16,7 @@ export class AuthenticationController {
     status: 200,
     type: UserResponse,
   })
-  async signupByGoogle(@CurrentUser() user: CurrentUser): Promise<UserResponse> {
+  async getMyProfile(@CurrentUser() user: CurrentUser): Promise<UserResponse> {
     const userProfile = await this.usersService.findOneByIdentifierOrFail(user.id);
     return Serializer.serialize(UserResponse, userProfile);
   }

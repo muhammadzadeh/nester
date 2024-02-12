@@ -1,16 +1,18 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
+import { Expose, Type } from 'class-transformer';
 
 export class MimeTypeResponse {
   @ApiProperty({
     type: 'ext',
   })
+  @Expose()
   @Type(() => String)
   ext!: string;
 
   @ApiProperty({
     type: 'mime',
   })
+  @Expose()
   @Type(() => String)
   mime!: string;
 }

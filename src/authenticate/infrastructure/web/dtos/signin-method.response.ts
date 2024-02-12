@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
+import { Expose, Type } from 'class-transformer';
 import { SigninMethod } from '../../../application';
 
 export class SigninMethodResponse {
@@ -8,6 +8,7 @@ export class SigninMethodResponse {
     enum: SigninMethod,
     isArray: true,
   })
+  @Expose()
   @Type(() => String)
   items!: SigninMethod[];
 }

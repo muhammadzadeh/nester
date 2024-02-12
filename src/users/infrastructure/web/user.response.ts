@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose, Type } from 'class-transformer';
-import { Email, Mobile, UserId, Username } from '../../../common/types';
+import { Email, Mobile, ResponseGroup, UserId, Username } from '../../../common/types';
 import { Permission } from '../../domain/entities/user.entity';
 
 export class UserResponse {
@@ -8,7 +8,14 @@ export class UserResponse {
     type: String,
     name: 'id',
   })
-  @Expose({ groups: [] })
+  @Expose({
+    groups: [
+      ResponseGroup.ADMIN,
+      ResponseGroup.ADMIN_LIST,
+      ResponseGroup.RESOURCE_OWNER,
+      ResponseGroup.RESOURCE_OWNER_LIST,
+    ],
+  })
   @Type(() => String)
   readonly id!: UserId;
 
@@ -17,7 +24,14 @@ export class UserResponse {
     name: 'first_name',
     nullable: true,
   })
-  @Expose({ groups: [] })
+  @Expose({
+    groups: [
+      ResponseGroup.ADMIN,
+      ResponseGroup.ADMIN_LIST,
+      ResponseGroup.RESOURCE_OWNER,
+      ResponseGroup.RESOURCE_OWNER_LIST,
+    ],
+  })
   @Type(() => String)
   readonly firstName!: string | null;
 
@@ -26,7 +40,14 @@ export class UserResponse {
     name: 'last_name',
     nullable: true,
   })
-  @Expose({ groups: [] })
+  @Expose({
+    groups: [
+      ResponseGroup.ADMIN,
+      ResponseGroup.ADMIN_LIST,
+      ResponseGroup.RESOURCE_OWNER,
+      ResponseGroup.RESOURCE_OWNER_LIST,
+    ],
+  })
   @Type(() => String)
   readonly lastName!: string | null;
 
@@ -35,7 +56,14 @@ export class UserResponse {
     name: 'full_name',
     nullable: true,
   })
-  @Expose({ groups: [] })
+  @Expose({
+    groups: [
+      ResponseGroup.ADMIN,
+      ResponseGroup.ADMIN_LIST,
+      ResponseGroup.RESOURCE_OWNER,
+      ResponseGroup.RESOURCE_OWNER_LIST,
+    ],
+  })
   @Type(() => String)
   readonly fullName!: string | null;
 
@@ -45,7 +73,14 @@ export class UserResponse {
     nullable: true,
   })
   @Type(() => String)
-  @Expose({ groups: [] })
+  @Expose({
+    groups: [
+      ResponseGroup.ADMIN,
+      ResponseGroup.ADMIN_LIST,
+      ResponseGroup.RESOURCE_OWNER,
+      ResponseGroup.RESOURCE_OWNER_LIST,
+    ],
+  })
   readonly email!: Email | null;
 
   @ApiProperty({
@@ -54,7 +89,14 @@ export class UserResponse {
     nullable: true,
   })
   @Type(() => String)
-  @Expose({ groups: [] })
+  @Expose({
+    groups: [
+      ResponseGroup.ADMIN,
+      ResponseGroup.ADMIN_LIST,
+      ResponseGroup.RESOURCE_OWNER,
+      ResponseGroup.RESOURCE_OWNER_LIST,
+    ],
+  })
   readonly mobile!: Mobile | null;
 
   @ApiProperty({
@@ -62,7 +104,14 @@ export class UserResponse {
     name: 'avatar',
     nullable: true,
   })
-  @Expose({ groups: [] })
+  @Expose({
+    groups: [
+      ResponseGroup.ADMIN,
+      ResponseGroup.ADMIN_LIST,
+      ResponseGroup.RESOURCE_OWNER,
+      ResponseGroup.RESOURCE_OWNER_LIST,
+    ],
+  })
   @Type(() => String)
   readonly avatar!: string | null;
 
@@ -71,7 +120,14 @@ export class UserResponse {
     name: 'username',
     nullable: true,
   })
-  @Expose({ groups: [] })
+  @Expose({
+    groups: [
+      ResponseGroup.ADMIN,
+      ResponseGroup.ADMIN_LIST,
+      ResponseGroup.RESOURCE_OWNER,
+      ResponseGroup.RESOURCE_OWNER_LIST,
+    ],
+  })
   @Type(() => String)
   readonly username!: Username | null;
 
@@ -80,7 +136,7 @@ export class UserResponse {
     name: 'is_blocked',
   })
   @Type(() => Boolean)
-  @Expose({ groups: [] })
+  @Expose({ groups: [ResponseGroup.ADMIN, ResponseGroup.ADMIN_LIST] })
   readonly isBlocked!: boolean;
 
   @ApiProperty({
@@ -88,7 +144,14 @@ export class UserResponse {
     name: 'is_email_verified',
   })
   @Type(() => Boolean)
-  @Expose({ groups: [] })
+  @Expose({
+    groups: [
+      ResponseGroup.ADMIN,
+      ResponseGroup.ADMIN_LIST,
+      ResponseGroup.RESOURCE_OWNER,
+      ResponseGroup.RESOURCE_OWNER_LIST,
+    ],
+  })
   readonly isEmailVerified!: boolean;
 
   @ApiProperty({
@@ -96,7 +159,14 @@ export class UserResponse {
     name: 'is_mobile_verified',
   })
   @Type(() => Boolean)
-  @Expose({ groups: [] })
+  @Expose({
+    groups: [
+      ResponseGroup.ADMIN,
+      ResponseGroup.ADMIN_LIST,
+      ResponseGroup.RESOURCE_OWNER,
+      ResponseGroup.RESOURCE_OWNER_LIST,
+    ],
+  })
   readonly isMobileVerified!: boolean;
 
   @ApiProperty({
@@ -105,7 +175,14 @@ export class UserResponse {
     isArray: true,
   })
   @Type(() => String)
-  @Expose({ groups: [] })
+  @Expose({
+    groups: [
+      ResponseGroup.ADMIN,
+      ResponseGroup.ADMIN_LIST,
+      ResponseGroup.RESOURCE_OWNER,
+      ResponseGroup.RESOURCE_OWNER_LIST,
+    ],
+  })
   readonly permissions!: Permission[];
 
   @ApiProperty({
@@ -113,7 +190,14 @@ export class UserResponse {
     name: 'created_at',
   })
   @Type(() => Date)
-  @Expose({ groups: [] })
+  @Expose({
+    groups: [
+      ResponseGroup.ADMIN,
+      ResponseGroup.ADMIN_LIST,
+      ResponseGroup.RESOURCE_OWNER,
+      ResponseGroup.RESOURCE_OWNER_LIST,
+    ],
+  })
   readonly createdAt!: Date;
 
   @ApiProperty({
@@ -122,7 +206,14 @@ export class UserResponse {
     nullable: true,
   })
   @Type(() => Date)
-  @Expose({ groups: [] })
+  @Expose({
+    groups: [
+      ResponseGroup.ADMIN,
+      ResponseGroup.ADMIN_LIST,
+      ResponseGroup.RESOURCE_OWNER,
+      ResponseGroup.RESOURCE_OWNER_LIST,
+    ],
+  })
   readonly updatedAt!: Date;
 
   @ApiProperty({
@@ -131,7 +222,7 @@ export class UserResponse {
     nullable: true,
   })
   @Type(() => Date)
-  @Expose({ groups: [] })
+  @Expose({ groups: [ResponseGroup.ADMIN, ResponseGroup.ADMIN_LIST] })
   readonly deletedAt!: Date | null;
 
   @ApiProperty({
@@ -140,7 +231,14 @@ export class UserResponse {
     nullable: true,
   })
   @Type(() => Date)
-  @Expose({ groups: [] })
+  @Expose({
+    groups: [
+      ResponseGroup.ADMIN,
+      ResponseGroup.ADMIN_LIST,
+      ResponseGroup.RESOURCE_OWNER,
+      ResponseGroup.RESOURCE_OWNER_LIST,
+    ],
+  })
   readonly lastLoggedInAt!: Date | null;
 
   @ApiProperty({
@@ -149,6 +247,13 @@ export class UserResponse {
     nullable: true,
   })
   @Type(() => Date)
-  @Expose({ groups: [] })
+  @Expose({
+    groups: [
+      ResponseGroup.ADMIN,
+      ResponseGroup.ADMIN_LIST,
+      ResponseGroup.RESOURCE_OWNER,
+      ResponseGroup.RESOURCE_OWNER_LIST,
+    ],
+  })
   readonly passwordUpdatedAt!: Date | null;
 }

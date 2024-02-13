@@ -21,8 +21,8 @@ import { StorageHealthIndicator } from '../common/health/storage-health.indicato
 import { RabbitMQModule } from '../common/rabbit/infrastructure/rabbit-mq.module';
 import { ThrottlerStorageRedisService } from '../common/throttler';
 import { DATABASE_SEEDER_TAG } from '../common/database';
-import { UserModule } from '../users/infrastructure/users.module';
 import { NotificationsModule } from '../notifications/infrastructure/notifications.module';
+import { ProfileModule } from '../users/profiles/infrastructure/profiles.module';
 
 @Module({
   imports: [
@@ -76,7 +76,7 @@ import { NotificationsModule } from '../notifications/infrastructure/notificatio
     AuthenticationModule,
     CaptchaModule,
     AuthModule,
-    UserModule,
+    ProfileModule,
     NotificationsModule,
   ],
   controllers: [HealthController],

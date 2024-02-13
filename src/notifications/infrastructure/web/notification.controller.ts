@@ -61,7 +61,7 @@ export class NotificationController {
   ): Promise<NotificationListResponse> {
     const result = await this.notificationsService.findAll({
       page: filtersDto.page,
-      pageSize: filtersDto.pageSize,
+      pageSize: filtersDto.page_size,
       orderBy: NotificationOrderBy.CREATED_AT,
       orderDir: OrderDir.DESC,
       userIds: [user.id],

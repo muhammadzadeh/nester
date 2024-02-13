@@ -1,11 +1,13 @@
-import { HttpStatus, Inject, Injectable } from '@nestjs/common';
+import { HttpStatus, Inject, Injectable, Logger } from '@nestjs/common';
 import { isEmail } from 'class-validator';
 import { Duration } from 'luxon';
 import { Exception } from '../../../common/exception';
 import { publish } from '../../../common/rabbit/application/rabbit-mq.service';
 import { Email, Mobile } from '../../../common/types';
-import { UsersService } from '../../../users/application/users.service';
-import { UserEntity } from '../../../users/domain/entities/user.entity';
+import { UsersService } from '../../../users/profiles/application/users.service';
+import { UserEntity } from '../../../users/profiles/domain/entities/user.entity';
+import { RolesService } from '../../../users/roles/application/roles.service';
+import { Permission } from '../../../users/roles/domain/entities/role.entity';
 import { AUTHENTICATION_EXCHANGE_NAME } from '../../domain/constants';
 import { OTPReason, OTPType } from '../../domain/entities';
 import { AuthenticationEvents, UserLoggedInEvent, UserVerifiedEvent } from '../../domain/events';
@@ -21,10 +23,13 @@ export const CODE_EXPIRATION_DURATION = Duration.fromObject({ minutes: 2 });
 
 @Injectable()
 export class AuthService {
+  private logger = new Logger(AuthService.name);
+
   constructor(
     @Inject(PROVIDER_MANAGER) private readonly authManager: ProviderManager,
     private readonly notificationSender: AuthenticationNotifier,
     private readonly tokenService: JwtTokenService,
+    private readonly rolesService: RolesService,
     private readonly usersService: UsersService,
     private readonly otpService: OtpService,
   ) {}
@@ -89,6 +94,7 @@ export class AuthService {
   }
 
   private async generateToken(user: UserEntity): Promise<Token> {
+    const permissions = await this.findUserPermissions(user);
     return await this.tokenService.generate({
       accessType: user.isVerified() ? AccessType.VERIFIED_USER : AccessType.UNVERIFIED_USER,
       email: user.email,
@@ -97,7 +103,23 @@ export class AuthService {
       isMobileVerified: user.isMobileVerified,
       userId: user.id,
       isBlocked: user.isBlocked,
+      permissions,
     });
+  }
+
+  private async findUserPermissions(user: UserEntity): Promise<Permission[]> {
+    const permissions: Permission[] = [];
+    if (!user.hasRole()) {
+      return permissions;
+    }
+
+    try {
+      const role = await this.rolesService.findOneById(user.roleId!);
+      permissions.push(...role.permissions);
+    } catch (error) {
+      this.logger.error(error);
+    }
+    return permissions;
   }
 
   private async sendEmailVerificationOtp(user: UserEntity, email: Email) {

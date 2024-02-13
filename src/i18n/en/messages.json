@@ -28,5 +28,6 @@
     "PUBLIC_ATTACHMENT_ALLOWED": "Only public attachments allowed for this section",
     "PRIVATE_ATTACHMENT_ALLOWED": "Only private attachments allowed for this section",
     "INVALID_FORMAT": "Unsupported file format!",
-    "NOTIFICATION_NOT_FOUND": "Notification Not Found!"
+    "NOTIFICATION_NOT_FOUND": "Notification Not Found!",
+    "ROLE_NOT_FOUND": "Role Not found"
 }

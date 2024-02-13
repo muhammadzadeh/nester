@@ -3,10 +3,10 @@ import { Pagination, PaginationOption } from '../../../common/database';
 import { Exception } from '../../../common/exception';
 import { Permission, RoleEntity } from '../domain/entities/role.entity';
 import {
-    FindRoleOptions,
-    ROLES_REPOSITORY_TOKEN,
-    RoleOrderBy,
-    RolesRepository,
+  FindRoleOptions,
+  ROLES_REPOSITORY_TOKEN,
+  RoleOrderBy,
+  RolesRepository,
 } from '../domain/repositories/roles.repository';
 
 @Injectable()

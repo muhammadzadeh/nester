@@ -118,6 +118,10 @@ export class UserEntity {
     this.password = Hash.makeSync(plainPassword);
     this.passwordUpdatedAt = new Date();
   }
+
+  updateRole(roleId: string): void {
+    this.roleId = roleId;
+  }
 }
 
 @Exception({

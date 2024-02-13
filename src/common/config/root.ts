@@ -20,6 +20,7 @@ import { ThrottlingConfig } from './throttling';
 import { TokenConfig } from './token';
 import { VaultConfig } from './vault';
 import { SmsSenderConfig } from './sms-sender';
+import { DefaultUserConfig } from './default-user';
 
 @Injectable()
 export class RootConfig {
@@ -137,4 +138,9 @@ export class RootConfig {
   @ValidateNested()
   @Type(() => RabbitConfig)
   readonly rabbit!: RabbitConfig;
+
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => DefaultUserConfig)
+  readonly defaultUser?: DefaultUserConfig;
 }

@@ -59,7 +59,7 @@ export class TypeormRolesRepository implements RolesRepository {
   private buildSelectQuery(options: Partial<FindRoleOptions>, alias?: string): SelectQueryBuilder<TypeormRoleEntity> {
     const queryBuilder = this.repository.createQueryBuilder(alias);
     if (options.permissions) {
-      queryBuilder.andWhere(`${alias ? alias + '.' : ''}permission @> ARRAY[:...permissions]`, {
+      queryBuilder.andWhere(`${alias ? alias + '.' : ''}permissions @> ARRAY[:...permissions]::character varying[]`, {
         permissions: options.permissions,
       });
     }

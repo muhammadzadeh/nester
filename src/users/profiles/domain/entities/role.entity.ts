@@ -9,7 +9,7 @@ export class RoleEntity {
     createdAt: Date,
     updatedAt: Date,
     deletedAt: Date | null,
-    isSystem: boolean
+    isSystemRole: boolean
   );
   constructor(
     title: string,
@@ -18,7 +18,7 @@ export class RoleEntity {
     createdAt?: Date,
     updatedAt?: Date,
     deletedAt?: Date | null,
-    isSystem?: boolean
+    isSystemRole?: boolean
   ) {
     this.id = id ?? randomUUID();
     this.title = title;
@@ -26,7 +26,7 @@ export class RoleEntity {
     this.createdAt = createdAt ?? new Date();
     this.updatedAt = updatedAt ?? new Date();
     this.deletedAt = deletedAt ?? null;
-    this.isSystemRole = isSystem ?? false;
+    this.isSystemRole = isSystemRole ?? false;
   }
 
   readonly id!: string;

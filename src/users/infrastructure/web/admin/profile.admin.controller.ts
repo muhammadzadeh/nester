@@ -5,13 +5,12 @@ import { AdminController } from '../../../../common/guards/decorators';
 import { DoneResponse, Serializer } from '../../../../common/serialization';
 import { ResponseGroup } from '../../../../common/types';
 import { UsersService } from '../../../application/users.service';
-import { Permission } from '../../../domain/entities/user.entity';
 import { GetUserDto } from '../common/get-user.dto';
 import { UserResponse } from '../common/user.response';
 import { UpdateUserPermissionDto } from './update-user-permission.dto';
+import { Permission } from '../../../domain/entities/role.entity';
 
 @ApiTags('Users')
-@RequiredPermissions(Permission.MANAGE_USERS)
 @AdminController(`/users`)
 export class ProfileControllerForAdmin {
   constructor(private readonly usersService: UsersService) {}
@@ -21,6 +20,7 @@ export class ProfileControllerForAdmin {
     status: 200,
     type: UserResponse,
   })
+  @RequiredPermissions(Permission.READ_USERS)
   async getUserById(@Param() params: GetUserDto): Promise<UserResponse> {
     const userProfile = await this.usersService.findOneByIdentifierOrFail(params.id);
     return Serializer.serialize(UserResponse, userProfile, [ResponseGroup.ADMIN]);
@@ -31,6 +31,7 @@ export class ProfileControllerForAdmin {
     status: 200,
     type: DoneResponse,
   })
+  @RequiredPermissions(Permission.WRITE_USERS)
   async updateMyProfile(@Param() params: GetUserDto, @Body() data: UpdateUserPermissionDto): Promise<DoneResponse> {
     await this.usersService.updateProfile(params.id, data.toEntity());
     return Serializer.done();

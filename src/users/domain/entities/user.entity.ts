@@ -3,6 +3,7 @@ import { randomUUID } from 'crypto';
 import { Exception } from '../../../common/exception';
 import { Hash } from '../../../common/hash';
 import { Email, Mobile, UserId, Username } from '../../../common/types';
+import { Permission } from './role.entity';
 export class UserEntity {
   constructor(
     firstName: string | null,
@@ -114,12 +115,6 @@ export class UserEntity {
     this.password = Hash.makeSync(plainPassword);
     this.passwordUpdatedAt = new Date();
   }
-}
-
-
-export enum Permission {
-  MANAGE_EVERY_THINGS = '*',
-  MANAGE_USERS = "/users/*"
 }
 
 @Exception({

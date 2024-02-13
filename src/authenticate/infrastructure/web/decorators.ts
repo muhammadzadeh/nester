@@ -1,6 +1,6 @@
 import { applyDecorators, createParamDecorator, ExecutionContext, SetMetadata } from '@nestjs/common';
 import { Email, Mobile, UserId } from '../../../common/types';
-import { Permission } from '../../../users/domain/entities/user.entity';
+import { Permission } from '../../../users/domain/entities/role.entity';
 
 export enum AuthenticationMetaKey {
   IGNORE_AUTHORIZATION_GUARD = 'ignore_authorization_guard',

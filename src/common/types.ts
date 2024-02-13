@@ -9,7 +9,7 @@ export enum OrderDir {
 }
 
 export enum ResponseGroup {
-  EVERY_ONE = 'every_oen',
+  EVERY_ONE = 'every_one',
   ADMIN = 'admin',
   ADMIN_LIST = 'admin_list',
   RESOURCE_OWNER = 'resource_owner',

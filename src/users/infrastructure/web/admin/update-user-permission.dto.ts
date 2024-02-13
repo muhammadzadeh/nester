@@ -1,5 +1,6 @@
 import { IsArray, IsEnum, IsOptional } from 'class-validator';
-import { Permission, UserEntity } from '../../../domain/entities/user.entity';
+import { UserEntity } from '../../../domain/entities/user.entity';
+import { Permission } from '../../../domain/entities/role.entity';
 
 export class UpdateUserPermissionDto {
   @IsOptional()

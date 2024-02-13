@@ -11,7 +11,7 @@ import {
 } from 'typeorm';
 import { Email, Mobile, UserId, Username } from '../../../../../common/types';
 import { UserEntity } from '../../../domain/entities/user.entity';
-import { Permission } from '../../../domain/entities/role.entity';
+import { Permission } from '../../../../roles/domain/entities/role.entity';
 
 @Entity({
   name: 'users',

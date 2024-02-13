@@ -3,7 +3,7 @@ import { randomUUID } from 'crypto';
 import { Exception } from '../../../../common/exception';
 import { Hash } from '../../../../common/hash';
 import { Email, Mobile, UserId, Username } from '../../../../common/types';
-import { Permission } from './role.entity';
+import { Permission } from '../../../roles/domain/entities/role.entity';
 export class UserEntity {
   constructor(
     firstName: string | null,

@@ -8,7 +8,7 @@ import { UsersService } from '../../../application/users.service';
 import { GetUserDto } from '../common/get-user.dto';
 import { UserResponse } from '../common/user.response';
 import { UpdateUserPermissionDto } from './update-user-permission.dto';
-import { Permission } from '../../../domain/entities/role.entity';
+import { Permission } from '../../../../roles/domain/entities/role.entity';
 
 @ApiTags('Users')
 @AdminController(`/users`)

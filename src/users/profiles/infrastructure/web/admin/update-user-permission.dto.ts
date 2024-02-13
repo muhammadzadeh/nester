@@ -1,16 +1,14 @@
-import { IsArray, IsEnum, IsOptional } from 'class-validator';
+import { IsOptional, IsUUID } from 'class-validator';
 import { UserEntity } from '../../../domain/entities/user.entity';
-import { Permission } from '../../../domain/entities/role.entity';
 
-export class UpdateUserPermissionDto {
+export class UpdateUserRoleDto {
   @IsOptional()
-  @IsArray()
-  @IsEnum(Permission, { each: true })
-  permissions!: Permission[];
+  @IsUUID('all')
+  role_id?: string;
 
-  toEntity(): Partial<UserEntity> {
+  toEntity(): Partial<UserEntity>{
     return {
-      permissions: this.permissions ?? [],
-    };
+      roleId: this.role_id,
+    }
   }
 }

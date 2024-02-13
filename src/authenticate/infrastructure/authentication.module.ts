@@ -2,8 +2,9 @@ import { Module, Provider } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CacheServiceModule } from '../../common/cache/cache.module';
 import { Configuration } from '../../common/config';
-import { UsersService } from '../../users/application/users.service';
-import { UserModule } from '../../users/infrastructure/users.module';
+import { UsersService } from '../../users/profiles/application/users.service';
+import { ProfileModule } from '../../users/profiles/infrastructure/profiles.module';
+import { RolesModule } from '../../users/roles/infrastructure/roles.module';
 import { PasswordService } from '../application';
 import { AuthProviderManager, AuthService, AuthenticationNotifier, JwtTokenService, OtpService } from '../application/';
 import { AuthProvider } from '../application/providers/auth-provider.interface';
@@ -48,7 +49,7 @@ const otpRepository: Provider = {
 };
 
 @Module({
-  imports: [TypeOrmModule.forFeature([TypeormOTPEntity]), CacheServiceModule, UserModule],
+  imports: [TypeOrmModule.forFeature([TypeormOTPEntity]), CacheServiceModule, ProfileModule, RolesModule],
   controllers: [AuthenticationController],
   providers: [
     authProviderManager,

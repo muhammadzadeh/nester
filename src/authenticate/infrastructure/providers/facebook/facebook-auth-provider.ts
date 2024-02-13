@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { UserEntity } from '../../../../users/domain/entities/user.entity';
 import { Auth, AuthProvider } from '../../../application/providers/auth-provider.interface';
 import { AuthUser } from '../../../application/providers/auth-user';
 import { FacebookAuth } from './facebook-auth';
 import { FacebookSignup } from './facebook-signup';
+import { UserEntity } from '../../../../users/profiles/domain/entities/user.entity';
 
 @Injectable()
 export class FacebookAuthProvider implements AuthProvider {

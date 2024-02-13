@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { Email } from '../../../common/types';
-import { UsersService } from '../../../users/application/users.service';
 import { OTPReason, OTPType } from '../../domain/entities';
 import { AuthenticationNotifier } from './authentication.notifier';
 import { OtpGeneration, OtpService, OtpVerification } from './otp.service';
+import { UsersService } from '../../../users/profiles/application/users.service';
 
 @Injectable()
 export class PasswordService {

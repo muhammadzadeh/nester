@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { Hash } from '../../../../common/hash';
 import { Email, Mobile, UserId, Username } from '../../../../common/types';
-import { UsersService } from '../../../../users/application/users.service';
-import { UserEntity } from '../../../../users/domain/entities/user.entity';
+import { UsersService } from '../../../../users/profiles/application/users.service';
+import { UserEntity } from '../../../../users/profiles/domain/entities/user.entity';
 import {
   AuthenticationNotifier,
   CODE_EXPIRATION_DURATION,
@@ -31,7 +31,6 @@ export class IdentifierPasswordAuthProvider implements AuthProvider {
     if (registeredUser) {
       throw new UserAlreadyRegisteredException();
     }
-
 
     let createdUser: UserEntity | undefined = undefined;
     if (data.isEmail()) {

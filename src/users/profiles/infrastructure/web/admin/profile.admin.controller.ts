@@ -7,7 +7,7 @@ import { ResponseGroup } from '../../../../../common/types';
 import { UsersService } from '../../../application/users.service';
 import { GetUserDto } from '../common/get-user.dto';
 import { UserResponse } from '../common/user.response';
-import { UpdateUserPermissionDto } from './update-user-permission.dto';
+import { UpdateUserRoleDto } from './update-user-permission.dto';
 import { Permission } from '../../../../roles/domain/entities/role.entity';
 
 @ApiTags('Users')
@@ -26,13 +26,13 @@ export class ProfileControllerForAdmin {
     return Serializer.serialize(UserResponse, userProfile, [ResponseGroup.ADMIN]);
   }
 
-  @Patch(':id/permissions')
+  @Patch(':id/role')
   @ApiOkResponse({
     status: 200,
     type: DoneResponse,
   })
   @RequiredPermissions(Permission.WRITE_USERS)
-  async updateMyProfile(@Param() params: GetUserDto, @Body() data: UpdateUserPermissionDto): Promise<DoneResponse> {
+  async updateMyProfile(@Param() params: GetUserDto, @Body() data: UpdateUserRoleDto): Promise<DoneResponse> {
     await this.usersService.updateProfile(params.id, data.toEntity());
     return Serializer.done();
   }

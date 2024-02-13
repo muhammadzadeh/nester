@@ -19,4 +19,4 @@ const usersRepository: Provider = {
   providers: [UsersService, usersRepository, UsersConsumer],
   exports: [UsersService],
 })
-export class UserModule {}
+export class ProfileModule {}

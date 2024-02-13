@@ -3,7 +3,6 @@ import { randomUUID } from 'crypto';
 import { Exception } from '../../../../common/exception';
 import { Hash } from '../../../../common/hash';
 import { Email, Mobile, UserId, Username } from '../../../../common/types';
-import { Permission } from '../../../roles/domain/entities/role.entity';
 export class UserEntity {
   constructor(
     firstName: string | null,
@@ -25,7 +24,7 @@ export class UserEntity {
     isBlocked: boolean,
     isEmailVerified: boolean,
     isMobileVerified: boolean,
-    permissions: Permission[],
+    roleId: string | null,
     createdAt: Date,
     updatedAt: Date,
     deletedAt: Date | null,
@@ -45,7 +44,7 @@ export class UserEntity {
     isBlocked?: boolean,
     isEmailVerified?: boolean,
     isMobileVerified?: boolean,
-    permissions?: Permission[],
+    roleId?: string | null,
     createdAt?: Date,
     updatedAt?: Date,
     deletedAt?: Date | null,
@@ -68,7 +67,7 @@ export class UserEntity {
     this.isBlocked = isBlocked ?? false;
     this.isEmailVerified = isEmailVerified ?? false;
     this.isMobileVerified = isMobileVerified ?? false;
-    this.permissions = permissions ?? [];
+    this.roleId = roleId ?? null;
     this.createdAt = createdAt ?? new Date();
     this.updatedAt = updatedAt ?? new Date();
     this.deletedAt = deletedAt ?? null;
@@ -88,7 +87,7 @@ export class UserEntity {
   isBlocked!: boolean;
   isEmailVerified!: boolean;
   isMobileVerified!: boolean;
-  permissions!: Permission[];
+  roleId!: string | null;
   createdAt!: Date;
   updatedAt!: Date;
   deletedAt!: Date | null;
@@ -101,6 +100,10 @@ export class UserEntity {
 
   hashPassword(): boolean {
     return !!this.password;
+  }
+
+  hasRole(): boolean {
+    return !!this.roleId;
   }
 
   markMobileAsVerified(): void {

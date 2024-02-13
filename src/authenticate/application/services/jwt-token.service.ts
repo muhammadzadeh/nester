@@ -8,7 +8,7 @@ import { TokenConfig } from '../../../common/config/token';
 import { Exception } from '../../../common/exception';
 import { randomString } from '../../../common/utils';
 import { Email, Mobile, UserId } from '../../../common/types';
-import { Permission } from '../../../users/domain/entities/role.entity';
+import { Permission } from '../../../users/roles/domain/entities/role.entity';
 
 @Injectable()
 export class JwtTokenService {

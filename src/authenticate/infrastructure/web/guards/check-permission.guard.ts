@@ -1,7 +1,7 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { AuthenticationMetaKey, CURRENT_USER_KEY, CurrentUser } from '../decorators';
-import { Permission } from '../../../../users/domain/entities/role.entity';
+import { Permission } from '../../../../users/roles/domain/entities/role.entity';
 
 @Injectable()
 export class CheckPermissionGuard implements CanActivate {

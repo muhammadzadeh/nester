@@ -1,4 +1,4 @@
-import { UserEntity } from '../../../users/domain/entities/user.entity';
+import { UserEntity } from '../../../users/profiles/domain/entities/user.entity';
 import { Auth } from './auth-provider.interface';
 import { AuthUser } from './auth-user';
 

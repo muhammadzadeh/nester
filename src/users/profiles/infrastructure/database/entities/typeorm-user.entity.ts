@@ -11,7 +11,6 @@ import {
 } from 'typeorm';
 import { Email, Mobile, UserId, Username } from '../../../../../common/types';
 import { UserEntity } from '../../../domain/entities/user.entity';
-import { Permission } from '../../../../roles/domain/entities/role.entity';
 
 @Entity({
   name: 'users',
@@ -58,8 +57,8 @@ export class TypeormUserEntity {
   @Column({ type: 'boolean', name: 'is_mobile_verified', default: false })
   readonly isMobileVerified!: boolean;
 
-  @Column({ type: 'varchar', name: 'permissions', default: [], array: true })
-  readonly permissions!: Permission[];
+  @Column({ type: 'varchar', name: 'role_id', nullable: true })
+  readonly roleId!: string | null;
 
   @CreateDateColumn({ name: 'created_at' })
   readonly createdAt!: Date;
@@ -90,7 +89,7 @@ export class TypeormUserEntity {
       item.isBlocked,
       item.isEmailVerified,
       item.isMobileVerified,
-      item.permissions,
+      item.roleId,
       item.createdAt,
       item.updatedAt,
       item.deletedAt,

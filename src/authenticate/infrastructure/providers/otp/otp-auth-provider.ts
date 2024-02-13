@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Email, Mobile } from '../../../../common/types';
-import { UsersService } from '../../../../users/application/users.service';
-import { UserEntity } from '../../../../users/domain/entities/user.entity';
+import { UsersService } from '../../../../users/profiles/application/users.service';
+import { UserEntity } from '../../../../users/profiles/domain/entities/user.entity';
 import { AuthProviderType } from '../../../application/providers/auth-provider.enum';
 import { Auth, AuthProvider } from '../../../application/providers/auth-provider.interface';
 import { AuthUser } from '../../../application/providers/auth-user';

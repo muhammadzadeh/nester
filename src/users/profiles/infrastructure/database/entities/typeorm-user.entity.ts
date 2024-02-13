@@ -9,7 +9,7 @@ import {
   Unique,
   UpdateDateColumn,
 } from 'typeorm';
-import { Email, Mobile, UserId, Username } from '../../../../common/types';
+import { Email, Mobile, UserId, Username } from '../../../../../common/types';
 import { UserEntity } from '../../../domain/entities/user.entity';
 import { Permission } from '../../../domain/entities/role.entity';
 

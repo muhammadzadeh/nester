@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { isEmail, isPhoneNumber, isUUID } from 'class-validator';
-import { Pagination, PaginationOption } from '../../common/database';
-import { Email, Mobile, UserId, Username } from '../../common/types';
+import { Pagination, PaginationOption } from '../../../common/database';
+import { Email, Mobile, UserId, Username } from '../../../common/types';
 import { UserEntity, UserNotFoundException } from '../domain/entities/user.entity';
 import {
   FindUserOptions,

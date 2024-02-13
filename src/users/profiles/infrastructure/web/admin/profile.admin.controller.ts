@@ -1,9 +1,9 @@
 import { Body, Get, Param, Patch } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
-import { RequiredPermissions } from '../../../../authenticate/infrastructure/web/decorators';
-import { AdminController } from '../../../../common/guards/decorators';
-import { DoneResponse, Serializer } from '../../../../common/serialization';
-import { ResponseGroup } from '../../../../common/types';
+import { RequiredPermissions } from '../../../../../authenticate/infrastructure/web/decorators';
+import { AdminController } from '../../../../../common/guards/decorators';
+import { DoneResponse, Serializer } from '../../../../../common/serialization';
+import { ResponseGroup } from '../../../../../common/types';
 import { UsersService } from '../../../application/users.service';
 import { GetUserDto } from '../common/get-user.dto';
 import { UserResponse } from '../common/user.response';

@@ -1,5 +1,5 @@
-import { Pagination, PaginationOption } from '../../../common/database';
-import { UserId } from '../../../common/types';
+import { Pagination, PaginationOption } from '../../../../common/database';
+import { UserId } from '../../../../common/types';
 import { Permission, RoleEntity } from '../entities/role.entity';
 
 export const ROLES_REPOSITORY_TOKEN = Symbol('RolesRepository');

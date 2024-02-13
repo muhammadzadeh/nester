@@ -1,9 +1,9 @@
 import { Body, Get, Put } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
-import { CurrentUser } from '../../../../authenticate/infrastructure/web/decorators';
-import { UserController } from '../../../../common/guards/decorators';
-import { DoneResponse, Serializer } from '../../../../common/serialization';
-import { ResponseGroup } from '../../../../common/types';
+import { CurrentUser } from '../../../../../authenticate/infrastructure/web/decorators';
+import { UserController } from '../../../../../common/guards/decorators';
+import { DoneResponse, Serializer } from '../../../../../common/serialization';
+import { ResponseGroup } from '../../../../../common/types';
 import { UsersService } from '../../../application/users.service';
 import { UserResponse } from '../common/user.response';
 import { UpdateMyProfileDto } from './update-my-profile.dto';

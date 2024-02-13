@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { AUTHENTICATION_EXCHANGE_NAME } from '../../authenticate/domain/constants';
-import { AuthenticationEvents, UserLoggedInEvent, UserVerifiedEvent } from '../../authenticate/domain/events';
-import { OnRabbitEvent } from '../../common/rabbit/application/decorators';
+import { AUTHENTICATION_EXCHANGE_NAME } from '../../../authenticate/domain/constants';
+import { AuthenticationEvents, UserLoggedInEvent, UserVerifiedEvent } from '../../../authenticate/domain/events';
+import { OnRabbitEvent } from '../../../common/rabbit/application/decorators';
 import { UsersService } from './users.service';
 
 @Injectable()

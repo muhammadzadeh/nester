@@ -1,8 +1,8 @@
 import { HttpStatus } from '@nestjs/common';
 import { randomUUID } from 'crypto';
-import { Exception } from '../../../common/exception';
-import { Hash } from '../../../common/hash';
-import { Email, Mobile, UserId, Username } from '../../../common/types';
+import { Exception } from '../../../../common/exception';
+import { Hash } from '../../../../common/hash';
+import { Email, Mobile, UserId, Username } from '../../../../common/types';
 import { Permission } from './role.entity';
 export class UserEntity {
   constructor(

@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose, Type } from 'class-transformer';
-import { Email, Mobile, ResponseGroup, UserId, Username } from '../../../../common/types';
+import { Email, Mobile, ResponseGroup, UserId, Username } from '../../../../../common/types';
 import { Permission } from '../../../domain/entities/role.entity';
 
 export class UserResponse {

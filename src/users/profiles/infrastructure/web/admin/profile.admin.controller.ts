@@ -7,7 +7,7 @@ import { ResponseGroup } from '../../../../../common/types';
 import { UsersService } from '../../../application/users.service';
 import { GetUserDto } from '../common/get-user.dto';
 import { UserResponse } from '../common/user.response';
-import { UpdateUserRoleDto } from './update-user-permission.dto';
+import { UpdateUserRoleDto } from './update-user-role.dto';
 import { Permission } from '../../../../roles/domain/entities/role.entity';
 
 @ApiTags('Users')

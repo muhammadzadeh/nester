@@ -1,41 +1,31 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { isEmail, isPhoneNumber, isUUID } from 'class-validator';
+import { Injectable } from '@nestjs/common';
 import { Pagination, PaginationOption } from '../../../common/database';
 import { Email, Mobile, UserId, Username } from '../../../common/types';
 import { UserEntity, UserNotFoundException } from '../domain/entities/user.entity';
-import {
-  FindUserOptions,
-  USERS_REPOSITORY_TOKEN,
-  UserOrderBy,
-  UsersRepository,
-} from '../domain/repositories/users.repository';
+import { FindUserOptions, UserOrderBy } from '../domain/repositories/users.repository';
+import { CreateUserCommand } from './usecases/create-user/create-user.command';
+import { CreateUserUsecase } from './usecases/create-user/create-user.usecase';
+import { FindAllProfileQuery } from './usecases/find-all-profile/find-all-profile.query';
+import { FindAllProfileUsecase } from './usecases/find-all-profile/find-all-profile.usecase';
+import { FindOneProfileQuery } from './usecases/find-one-profile/find-one-profile.query';
+import { FindOneProfileUsecase } from './usecases/find-one-profile/find-one-profile.usecase';
+import { UpdatePasswordCommand } from './usecases/update-password/update-password.command';
+import { UpdatePasswordUsecase } from './usecases/update-password/update-password.usecase';
+import { UpdateProfileCommand } from './usecases/update-profile/update-profile.command';
+import { UpdateProfileUsecase } from './usecases/update-profile/update-profile.use-case';
 
 @Injectable()
 export class UsersService {
-  constructor(@Inject(USERS_REPOSITORY_TOKEN) private readonly usersRepository: UsersRepository) {}
+  constructor(
+    private readonly findAllProfileUsecase: FindAllProfileUsecase,
+    private readonly updatePasswordUsecase: UpdatePasswordUsecase,
+    private readonly findOneProfileUsecase: FindOneProfileUsecase,
+    private readonly updateProfileUsecase: UpdateProfileUsecase,
+    private readonly createUserUsecase: CreateUserUsecase,
+  ) {}
 
   async create(data: CreateUserData): Promise<UserEntity> {
-    const createdUser = new UserEntity(
-      data.firstName ?? null,
-      data.lastName ?? null,
-      data.email ?? null,
-      data.mobile ?? null,
-      data.avatar ?? null,
-    );
-
-    if (data.isEmailVerified) {
-      createdUser.markEmailAsVerified();
-    }
-
-    if (data.isMobileVerified) {
-      createdUser.markMobileAsVerified();
-    }
-
-    if (data.password) {
-      createdUser.updatePassword(data.password);
-    }
-
-    return this.usersRepository.save(createdUser);
+    return this.createUserUsecase.execute(CreateUserCommand.create(data));
   }
 
   async findOneByIdentifierOrFail(id: Email | Username | Mobile | UserId): Promise<UserEntity> {
@@ -48,58 +38,47 @@ export class UsersService {
   }
 
   async findOneByIdentifier(id: Email | Username | Mobile | UserId): Promise<UserEntity | null> {
-    const options: Partial<FindUserOptions> = {};
-    if (isEmail(id)) {
-      options.emails = [id];
-    } else if (isUUID(id)) {
-      options.ids = [id];
-    } else if (isPhoneNumber(id)) {
-      options.mobiles = [id];
-    } else {
-      options.usernames = [id];
-    }
-
-    return this.usersRepository.findOne(options);
+    return this.findOneProfileUsecase.execute(FindOneProfileQuery.create({ identifier: id }));
   }
 
   async updatePassword(userId: UserId, password: string): Promise<void> {
-    const user = await this.findOneByIdentifierOrFail(userId);
-    user.updatePassword(password);
-    await this.usersRepository.save(user);
+    await this.updatePasswordUsecase.execute(UpdatePasswordCommand.create({ userId, password }));
   }
 
   async findAll(
-    options: Partial<FindUserOptions>,
+    conditions: Partial<FindUserOptions>,
     pagination?: PaginationOption<UserOrderBy>,
   ): Promise<Pagination<UserEntity>> {
-    return this.usersRepository.findAll(options, pagination);
+    return this.findAllProfileUsecase.execute(
+      FindAllProfileQuery.create({
+        conditions,
+        pagination,
+      }),
+    );
   }
 
   async updateProfile(id: UserId, data: Partial<UserEntity>): Promise<void> {
-    await this.usersRepository.update({ ids: [id] }, data);
+    await this.updateProfileUsecase.execute(
+      UpdateProfileCommand.create({
+        conditions: {
+          ids: [id],
+        },
+        data,
+      }),
+    );
   }
 
   async markUserAsVerified(user: UserEntity): Promise<void> {
-    await this.usersRepository.update(
-      {
-        ids: [user.id],
-      },
-      {
-        isEmailVerified: user.isEmailVerified,
-        isMobileVerified: user.isMobileVerified,
-      },
-    );
+    await this.updateProfile(user.id, {
+      isEmailVerified: user.isEmailVerified,
+      isMobileVerified: user.isMobileVerified,
+    });
   }
 
   async updateLoggedInTime(user: UserEntity): Promise<void> {
-    await this.usersRepository.update(
-      {
-        ids: [user.id],
-      },
-      {
-        lastLoggedInAt: new Date(),
-      },
-    );
+    await this.updateProfile(user.id, {
+      lastLoggedInAt: new Date(),
+    });
   }
 }
 

@@ -4,16 +4,28 @@ import { RequiredPermissions } from '../../../../../authenticate/infrastructure/
 import { AdminController } from '../../../../../common/guards/decorators';
 import { DoneResponse, Serializer } from '../../../../../common/serialization';
 import { ResponseGroup } from '../../../../../common/types';
+import { Permission } from '../../../../roles/domain/entities/role.entity';
 import { UsersService } from '../../../application/users.service';
 import { GetUserDto } from '../common/get-user.dto';
+import { UserListResponse } from '../common/user-list.response';
 import { UserResponse } from '../common/user.response';
 import { UpdateUserRoleDto } from './update-user-role.dto';
-import { Permission } from '../../../../roles/domain/entities/role.entity';
 
 @ApiTags('Users')
 @AdminController(`/users`)
 export class ProfileControllerForAdmin {
   constructor(private readonly usersService: UsersService) {}
+
+  @Get()
+  @ApiOkResponse({
+    status: 200,
+    type: UserListResponse,
+  })
+  @RequiredPermissions(Permission.READ_USERS)
+  async getAllUsers(): Promise<UserListResponse> {
+    const result = await this.usersService.findAll({});
+    return Serializer.serialize(UserListResponse, result, [ResponseGroup.ADMIN_LIST]);
+  }
 
   @Get(':id')
   @ApiOkResponse({

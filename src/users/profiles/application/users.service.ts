@@ -9,33 +9,21 @@ import {
   UserOrderBy,
   UsersRepository,
 } from '../domain/repositories/users.repository';
+import { CreateUserCommand } from './usecases/create-user/create-user.command';
+import { CreateUserUsecase } from './usecases/create-user/create-user.usecase';
+import { UpdatePasswordCommand } from './usecases/update-password/update-password.command';
+import { UpdatePasswordUsecase } from './usecases/update-password/update-password.usecase';
 
 @Injectable()
 export class UsersService {
-  constructor(@Inject(USERS_REPOSITORY_TOKEN) private readonly usersRepository: UsersRepository) {}
+  constructor(
+    @Inject(USERS_REPOSITORY_TOKEN) private readonly usersRepository: UsersRepository,
+    private readonly createUserUsecase: CreateUserUsecase,
+    private readonly updatePasswordUsecase: UpdatePasswordUsecase,
+  ) {}
 
   async create(data: CreateUserData): Promise<UserEntity> {
-    const createdUser = new UserEntity(
-      data.firstName ?? null,
-      data.lastName ?? null,
-      data.email ?? null,
-      data.mobile ?? null,
-      data.avatar ?? null,
-    );
-
-    if (data.isEmailVerified) {
-      createdUser.markEmailAsVerified();
-    }
-
-    if (data.isMobileVerified) {
-      createdUser.markMobileAsVerified();
-    }
-
-    if (data.password) {
-      createdUser.updatePassword(data.password);
-    }
-
-    return this.usersRepository.save(createdUser);
+    return this.createUserUsecase.execute(CreateUserCommand.create(data));
   }
 
   async findOneByIdentifierOrFail(id: Email | Username | Mobile | UserId): Promise<UserEntity> {
@@ -63,9 +51,7 @@ export class UsersService {
   }
 
   async updatePassword(userId: UserId, password: string): Promise<void> {
-    const user = await this.findOneByIdentifierOrFail(userId);
-    user.updatePassword(password);
-    await this.usersRepository.save(user);
+    await this.updatePasswordUsecase.execute(UpdatePasswordCommand.create({ userId, password }));
   }
 
   async findAll(

@@ -3,13 +3,12 @@ import { ApiBody, ApiConsumes, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { UploadedFiles } from 'common/decorators';
 import { CommonController } from 'common/guards/decorators';
 import { CurrentUser } from '../../../authenticate/infrastructure/web/decorators';
-import { Serializer } from '../../../common/serialization';
 import { AttachmentsService } from '../../application/attachments.service';
 import { AttachmentNotFoundException } from '../../domain/entities/attachments.entity';
+import { AttachmentListResponse } from './attachment-list.response';
 import { AttachmentVisibilityDto } from './attachment-visibility.dto';
 import { DownloadAttachmentDto } from './download-attachment.dto';
 import { FilesUploadDto } from './files-upload.dto';
-import { AttachmentListResponse } from './attachment-list.response';
 
 @CommonController('/attachments')
 @ApiTags('Attachments')
@@ -30,9 +29,7 @@ export class AttachmentsController {
   ): Promise<AttachmentListResponse> {
     const attachments = await this.attachmentsService.upload(uploadedFiles, visibilityDto.visibility, user.id);
 
-    return Serializer.serialize(AttachmentListResponse, {
-      items: attachments,
-    });
+    return AttachmentListResponse.from(attachments);
   }
 
   @Get(':id')

@@ -1,15 +1,12 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Pagination, PaginationOption } from '../../../common/database';
 import { Email, Mobile, UserId, Username } from '../../../common/types';
 import { UserEntity, UserNotFoundException } from '../domain/entities/user.entity';
-import {
-  FindUserOptions,
-  USERS_REPOSITORY_TOKEN,
-  UserOrderBy,
-  UsersRepository,
-} from '../domain/repositories/users.repository';
+import { FindUserOptions, UserOrderBy } from '../domain/repositories/users.repository';
 import { CreateUserCommand } from './usecases/create-user/create-user.command';
 import { CreateUserUsecase } from './usecases/create-user/create-user.usecase';
+import { FindAllProfileQuery } from './usecases/find-all-profile/find-all-profile.query';
+import { FindAllProfileUsecase } from './usecases/find-all-profile/find-all-profile.usecase';
 import { FindOneProfileQuery } from './usecases/find-one-profile/find-one-profile.query';
 import { FindOneProfileUsecase } from './usecases/find-one-profile/find-one-profile.usecase';
 import { UpdatePasswordCommand } from './usecases/update-password/update-password.command';
@@ -20,7 +17,7 @@ import { UpdateProfileUsecase } from './usecases/update-profile/update-profile.u
 @Injectable()
 export class UsersService {
   constructor(
-    @Inject(USERS_REPOSITORY_TOKEN) private readonly usersRepository: UsersRepository,
+    private readonly findAllProfileUsecase: FindAllProfileUsecase,
     private readonly updatePasswordUsecase: UpdatePasswordUsecase,
     private readonly findOneProfileUsecase: FindOneProfileUsecase,
     private readonly updateProfileUsecase: UpdateProfileUsecase,
@@ -49,10 +46,15 @@ export class UsersService {
   }
 
   async findAll(
-    options: Partial<FindUserOptions>,
+    conditions: Partial<FindUserOptions>,
     pagination?: PaginationOption<UserOrderBy>,
   ): Promise<Pagination<UserEntity>> {
-    return this.usersRepository.findAll(options, pagination);
+    return this.findAllProfileUsecase.execute(
+      FindAllProfileQuery.create({
+        conditions,
+        pagination,
+      }),
+    );
   }
 
   async updateProfile(id: UserId, data: Partial<UserEntity>): Promise<void> {

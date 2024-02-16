@@ -1,18 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose, Type } from 'class-transformer';
+import { ListResponse } from '../../../../common/serialization';
 import { RoleResponse } from './role.response';
 
-class PaginationMeta {
-  @ApiProperty({
-    type: Number,
-    description: 'total items',
-  })
-  @Expose()
-  @Type(() => Number)
-  total!: number;
-}
-
-export class RoleListResponse {
+export class RoleListResponse extends ListResponse<RoleResponse> {
   @ApiProperty({
     type: RoleResponse,
     isArray: true,
@@ -20,13 +11,5 @@ export class RoleListResponse {
   })
   @Expose()
   @Type(() => RoleResponse)
-  items!: RoleResponse[];
-
-  @ApiProperty({
-    type: PaginationMeta,
-    description: 'Stats',
-  })
-  @Expose()
-  @Type(() => PaginationMeta)
-  pagination!: PaginationMeta;
+  declare items: RoleResponse[];
 }

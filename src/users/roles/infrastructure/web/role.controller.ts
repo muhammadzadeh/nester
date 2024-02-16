@@ -49,9 +49,9 @@ export class RoleController {
       {},
       {
         page: filters.page,
-        pageSize: filters.page_size,
+        pageSize: filters.pageSize,
         orderBy: filters.order_by,
-        orderDir: filters.order_dir,
+        orderDir: filters.orderDir,
       },
     );
     return Serializer.serialize(RoleListResponse, result, [ResponseGroup.ADMIN_LIST]);

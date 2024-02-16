@@ -19,10 +19,10 @@ export class PaginationDto {
   @IsNotEmpty()
   @ApiPropertyOptional({ default: MIN_PAGE_SIZE, name: 'page_size' })
   @Type(() => Number)
-  page_size!: number;
+  pageSize!: number;
 
   @IsEnum(OrderDir)
   @IsNotEmpty()
   @ApiPropertyOptional({ enum: OrderDir, default: OrderDir.ASC, name: 'order_dir' })
-  order_dir!: OrderDir;
+  orderDir!: OrderDir;
 }

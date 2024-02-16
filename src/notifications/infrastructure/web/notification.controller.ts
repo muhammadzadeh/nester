@@ -47,7 +47,7 @@ export class NotificationController {
   })
   async findNotificationUnreadCount(@CurrentUser() user: CurrentUser): Promise<NotificationUnreadCountResponse> {
     const count = await this.notificationsService.getNotificationUnreadCount(user.id);
-    return Serializer.serialize(NotificationUnreadCountResponse, { count });
+    return NotificationUnreadCountResponse.from(count);
   }
 
   @Get()
@@ -61,14 +61,14 @@ export class NotificationController {
   ): Promise<NotificationListResponse> {
     const result = await this.notificationsService.findAll({
       page: filtersDto.page,
-      pageSize: filtersDto.page_size,
+      pageSize: filtersDto.pageSize,
       orderBy: NotificationOrderBy.CREATED_AT,
       orderDir: OrderDir.DESC,
       userIds: [user.id],
       showInNotificationCenter: true,
     });
 
-    return Serializer.serialize(NotificationListResponse, result);
+    return NotificationListResponse.from(result, filtersDto);
   }
 
   @Post('tokens')

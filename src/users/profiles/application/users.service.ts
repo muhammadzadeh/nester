@@ -1,5 +1,4 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { isEmail, isPhoneNumber, isUUID } from 'class-validator';
 import { Pagination, PaginationOption } from '../../../common/database';
 import { Email, Mobile, UserId, Username } from '../../../common/types';
 import { UserEntity, UserNotFoundException } from '../domain/entities/user.entity';
@@ -11,6 +10,8 @@ import {
 } from '../domain/repositories/users.repository';
 import { CreateUserCommand } from './usecases/create-user/create-user.command';
 import { CreateUserUsecase } from './usecases/create-user/create-user.usecase';
+import { FindOneProfileQuery } from './usecases/find-one-profile/find-one-profile.query';
+import { FindOneProfileUsecase } from './usecases/find-one-profile/find-one-profile.usecase';
 import { UpdatePasswordCommand } from './usecases/update-password/update-password.command';
 import { UpdatePasswordUsecase } from './usecases/update-password/update-password.usecase';
 import { UpdateProfileCommand } from './usecases/update-profile/update-profile.command';
@@ -21,6 +22,7 @@ export class UsersService {
   constructor(
     @Inject(USERS_REPOSITORY_TOKEN) private readonly usersRepository: UsersRepository,
     private readonly updatePasswordUsecase: UpdatePasswordUsecase,
+    private readonly findOneProfileUsecase: FindOneProfileUsecase,
     private readonly updateProfileUsecase: UpdateProfileUsecase,
     private readonly createUserUsecase: CreateUserUsecase,
   ) {}
@@ -39,18 +41,7 @@ export class UsersService {
   }
 
   async findOneByIdentifier(id: Email | Username | Mobile | UserId): Promise<UserEntity | null> {
-    const options: Partial<FindUserOptions> = {};
-    if (isEmail(id)) {
-      options.emails = [id];
-    } else if (isUUID(id)) {
-      options.ids = [id];
-    } else if (isPhoneNumber(id)) {
-      options.mobiles = [id];
-    } else {
-      options.usernames = [id];
-    }
-
-    return this.usersRepository.findOne(options);
+    return this.findOneProfileUsecase.execute(FindOneProfileQuery.create({ identifier: id }));
   }
 
   async updatePassword(userId: UserId, password: string): Promise<void> {

@@ -12,6 +12,7 @@ import { TypeormUsersRepository } from './database/repositories/typeorm-users.re
 import { ProfileControllerForAdmin } from './web/admin/profile.admin.controller';
 import { ProfileControllerForUser } from './web/user/profile.user.controller';
 import { UpdateProfileUsecase } from '../application/usecases/update-profile/update-profile.use-case';
+import { FindOneProfileUsecase } from '../application/usecases/find-one-profile/find-one-profile.usecase';
 
 const usersRepository: Provider = {
   provide: USERS_REPOSITORY_TOKEN,
@@ -29,6 +30,7 @@ const usersRepository: Provider = {
     CreateUserUsecase,
     UpdatePasswordUsecase,
     UpdateProfileUsecase,
+    FindOneProfileUsecase,
   ],
   exports: [UsersService],
 })

@@ -11,6 +11,7 @@ import { TypeormUserEntity } from './database/entities/typeorm-user.entity';
 import { TypeormUsersRepository } from './database/repositories/typeorm-users.repository';
 import { ProfileControllerForAdmin } from './web/admin/profile.admin.controller';
 import { ProfileControllerForUser } from './web/user/profile.user.controller';
+import { UpdateProfileUsecase } from '../application/usecases/update-profile/update-profile.use-case';
 
 const usersRepository: Provider = {
   provide: USERS_REPOSITORY_TOKEN,
@@ -27,6 +28,7 @@ const usersRepository: Provider = {
     DefaultUserSeeder,
     CreateUserUsecase,
     UpdatePasswordUsecase,
+    UpdateProfileUsecase,
   ],
   exports: [UsersService],
 })

@@ -13,13 +13,16 @@ import { CreateUserCommand } from './usecases/create-user/create-user.command';
 import { CreateUserUsecase } from './usecases/create-user/create-user.usecase';
 import { UpdatePasswordCommand } from './usecases/update-password/update-password.command';
 import { UpdatePasswordUsecase } from './usecases/update-password/update-password.usecase';
+import { UpdateProfileCommand } from './usecases/update-profile/update-profile.command';
+import { UpdateProfileUsecase } from './usecases/update-profile/update-profile.use-case';
 
 @Injectable()
 export class UsersService {
   constructor(
     @Inject(USERS_REPOSITORY_TOKEN) private readonly usersRepository: UsersRepository,
-    private readonly createUserUsecase: CreateUserUsecase,
     private readonly updatePasswordUsecase: UpdatePasswordUsecase,
+    private readonly updateProfileUsecase: UpdateProfileUsecase,
+    private readonly createUserUsecase: CreateUserUsecase,
   ) {}
 
   async create(data: CreateUserData): Promise<UserEntity> {
@@ -62,30 +65,27 @@ export class UsersService {
   }
 
   async updateProfile(id: UserId, data: Partial<UserEntity>): Promise<void> {
-    await this.usersRepository.update({ ids: [id] }, data);
+    await this.updateProfileUsecase.execute(
+      UpdateProfileCommand.create({
+        conditions: {
+          ids: [id],
+        },
+        data,
+      }),
+    );
   }
 
   async markUserAsVerified(user: UserEntity): Promise<void> {
-    await this.usersRepository.update(
-      {
-        ids: [user.id],
-      },
-      {
-        isEmailVerified: user.isEmailVerified,
-        isMobileVerified: user.isMobileVerified,
-      },
-    );
+    await this.updateProfile(user.id, {
+      isEmailVerified: user.isEmailVerified,
+      isMobileVerified: user.isMobileVerified,
+    });
   }
 
   async updateLoggedInTime(user: UserEntity): Promise<void> {
-    await this.usersRepository.update(
-      {
-        ids: [user.id],
-      },
-      {
-        lastLoggedInAt: new Date(),
-      },
-    );
+    await this.updateProfile(user.id, {
+      lastLoggedInAt: new Date(),
+    });
   }
 }
 

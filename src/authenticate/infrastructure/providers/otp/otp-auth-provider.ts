@@ -48,16 +48,17 @@ export class OTPAuthProvider implements AuthProvider {
       throw new InvalidOtpException(`User with ${userId} not found`);
     }
 
-    return {
-      provider: AuthProviderType.OTP,
-      providerId: userId,
-      email: user.email!,
-      mobile: user.mobile!,
-      picture: user.avatar,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      isVerified: true,
-    };
+    return new AuthUser(
+      userId,
+      AuthProviderType.OTP,
+      user.email!,
+      user.mobile!,
+      user.firstName,
+      user.lastName,
+      user.avatar,
+      auth.email ? user.isEmailVerified : undefined,
+      auth.mobile ? user.isMobileVerified : undefined,
+    );
   }
 
   isSupport(auth: Auth): boolean {

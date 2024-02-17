@@ -9,7 +9,12 @@ export class AuthUser {
     readonly mobile: Mobile | null,
     readonly firstName: string | null,
     readonly lastName: string | null,
-    readonly picture: string | null,
-    readonly isVerified: boolean,
+    readonly avatar: string | null,
+    readonly isEmailVerified?: boolean,
+    readonly isMobileVerified?: boolean,
   ) {}
+
+  isVerified(): boolean {
+    return !!this.isEmailVerified || !!this.isMobileVerified;
+  }
 }

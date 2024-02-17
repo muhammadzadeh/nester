@@ -60,8 +60,16 @@ export class AuthService {
     const authUser: AuthUser = await this.authManager.authenticate(auth);
     const user = await this.usersService.findOneByIdentifierOrFail(authUser.email ?? authUser.mobile!);
 
-    if (!user.isVerified() && authUser.isVerified) {
-      //FIXME update mobile or emial verified flag
+    if (!user.isVerified() && authUser.isVerified()) {
+      //CHECK why is verified is not working
+      if (authUser.isEmailVerified) {
+        user.isEmailVerified = authUser.isEmailVerified;
+      }
+
+      if (authUser.isMobileVerified) {
+        user.isMobileVerified = authUser.isMobileVerified;
+      }
+
       publish(AUTHENTICATION_EXCHANGE_NAME, AuthenticationEvents.USER_VERIFIED, new UserVerifiedEvent(user), {
         persistent: true,
         deliveryMode: 2,

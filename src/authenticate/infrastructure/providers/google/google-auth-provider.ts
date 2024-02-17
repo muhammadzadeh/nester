@@ -35,7 +35,7 @@ export class GoogleAuthProvider implements AuthProvider {
       lastName: authUser.lastName,
       email: authUser.email!.toLowerCase(),
       isEmailVerified: true,
-      avatar: authUser.picture,
+      avatar: authUser.avatar,
     });
 
     publish(AUTHENTICATION_EXCHANGE_NAME, AuthenticationEvents.USER_VERIFIED, new UserVerifiedEvent(createdUser), {
@@ -54,16 +54,16 @@ export class GoogleAuthProvider implements AuthProvider {
       throw new InvalidCredentialException('Illegal state, given payload is null');
     }
 
-    return {
-      provider: AuthProviderType.GOOGLE,
-      providerId: payload.sub,
-      email: payload.email!,
-      mobile: null,
-      picture: payload.picture ?? null,
-      firstName: payload.given_name ?? null,
-      lastName: payload.family_name ?? null,
-      isVerified: true,
-    };
+    return new AuthUser(
+      payload.sub,
+      AuthProviderType.GOOGLE,
+      payload.email!,
+      null,
+      payload.given_name ?? null,
+      payload.family_name ?? null,
+      payload.picture ?? null,
+      true,
+    );
   }
 
   isSupport(auth: Auth): boolean {

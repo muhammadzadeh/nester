@@ -69,16 +69,17 @@ export class IdentifierPasswordAuthProvider implements AuthProvider {
 
     await this.isPasswordMatchInBCRYPT(auth, user.password);
 
-    return {
-      provider: AuthProviderType.IDENTIFIER,
-      providerId: user.id,
-      email: user.email!,
-      mobile: user.mobile!,
-      picture: user.avatar,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      isVerified: user.isVerified(),
-    };
+    return new AuthUser(
+      user.id,
+      AuthProviderType.IDENTIFIER,
+      user.email!,
+      user.mobile!,
+      user.firstName,
+      user.lastName,
+      user.avatar,
+      user.isEmailVerified,
+      user.isMobileVerified,
+    );
   }
 
   isSupport(auth: Auth): boolean {

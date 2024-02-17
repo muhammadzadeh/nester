@@ -1,21 +1,25 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose, Type } from 'class-transformer';
 import { ResponseGroup } from '../../../../common/types';
-import { Permission } from '../../domain/entities/role.entity';
+import { Permission, RoleEntity } from '../../domain/entities/role.entity';
 
 export class RoleResponse {
+  static from(data: RoleEntity): RoleResponse {
+    return {
+      id: data.id,
+      title: data.title,
+      permissions: data.permissions,
+      createdAt: data.createdAt,
+      updatedAt: data.updatedAt,
+      deletedAt: data.deletedAt,
+      isSystemRole: data.isSystemRole,
+    };
+  }
   @ApiProperty({
     type: String,
     name: 'id',
   })
-  @Expose({
-    groups: [
-      ResponseGroup.ADMIN,
-      ResponseGroup.ADMIN_LIST,
-      ResponseGroup.RESOURCE_OWNER,
-      ResponseGroup.RESOURCE_OWNER_LIST,
-    ],
-  })
+  @Expose()
   @Type(() => String)
   readonly id!: string;
 
@@ -23,14 +27,7 @@ export class RoleResponse {
     type: String,
     name: 'title',
   })
-  @Expose({
-    groups: [
-      ResponseGroup.ADMIN,
-      ResponseGroup.ADMIN_LIST,
-      ResponseGroup.RESOURCE_OWNER,
-      ResponseGroup.RESOURCE_OWNER_LIST,
-    ],
-  })
+  @Expose()
   @Type(() => String)
   readonly title!: string;
 
@@ -42,14 +39,7 @@ export class RoleResponse {
     isArray: true,
   })
   @Type(() => String)
-  @Expose({
-    groups: [
-      ResponseGroup.ADMIN,
-      ResponseGroup.ADMIN_LIST,
-      ResponseGroup.RESOURCE_OWNER,
-      ResponseGroup.RESOURCE_OWNER_LIST,
-    ],
-  })
+  @Expose()
   readonly permissions!: Permission[];
 
   @ApiProperty({
@@ -57,14 +47,7 @@ export class RoleResponse {
     name: 'created_at',
   })
   @Type(() => Date)
-  @Expose({
-    groups: [
-      ResponseGroup.ADMIN,
-      ResponseGroup.ADMIN_LIST,
-      ResponseGroup.RESOURCE_OWNER,
-      ResponseGroup.RESOURCE_OWNER_LIST,
-    ],
-  })
+  @Expose()
   readonly createdAt!: Date;
 
   @ApiProperty({
@@ -89,7 +72,7 @@ export class RoleResponse {
     nullable: true,
   })
   @Type(() => Date)
-  @Expose({ groups: [ResponseGroup.ADMIN, ResponseGroup.ADMIN_LIST] })
+  @Expose()
   readonly deletedAt!: Date | null;
 
   @ApiProperty({
@@ -97,8 +80,6 @@ export class RoleResponse {
     name: 'is_system_role',
   })
   @Type(() => Boolean)
-  @Expose({
-    groups: [ResponseGroup.ADMIN, ResponseGroup.ADMIN_LIST],
-  })
+  @Expose()
   readonly isSystemRole!: boolean;
 }

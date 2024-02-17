@@ -3,7 +3,6 @@ import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { RequiredPermissions } from '../../../../authenticate/infrastructure/web/decorators';
 import { AdminController } from '../../../../common/guards/decorators';
 import { DoneResponse, Serializer } from '../../../../common/serialization';
-import { ResponseGroup } from '../../../../common/types';
 import { RolesService } from '../../application/roles.service';
 import { Permission } from '../../domain/entities/role.entity';
 import { CreateRoleDto } from './create-role.dto';
@@ -54,6 +53,6 @@ export class RoleController {
         orderDir: filters.orderDir,
       },
     );
-    return Serializer.serialize(RoleListResponse, result, [ResponseGroup.ADMIN_LIST]);
+    return RoleListResponse.from(result, filters);
   }
 }

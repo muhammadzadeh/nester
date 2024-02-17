@@ -1,6 +1,7 @@
-import { IsEnum, IsNotEmpty, IsString, IsStrongPassword, isEmail } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsString, isEmail } from 'class-validator';
 import { ToLowerCase } from '../../../../common/decorators';
 import { IsIdentifier } from '../../../../common/is-identifier.validator';
+import { IsStrongPassword } from '../../../../common/is-strong-password.validator';
 import { OtpVerification } from '../../../application';
 import { OTPReason, OTPType } from '../../../domain/entities';
 
@@ -20,7 +21,7 @@ export class ResetPasswordDto {
 
   @IsNotEmpty()
   @IsString()
-  @IsStrongPassword({ minLength: 6, minLowercase: 0, minUppercase: 2, minNumbers: 2, minSymbols: 0 })
+  @IsStrongPassword()
   newPassword!: string;
 
   toOTPVerification(): OtpVerification {

@@ -10,7 +10,7 @@ import {
 
 import { Injectable } from '@nestjs/common';
 
-@ValidatorConstraint({ async: true })
+@ValidatorConstraint({ async: false })
 @Injectable()
 export class IsIdentifierConstraint implements ValidatorConstraintInterface {
   validate(value: any) {

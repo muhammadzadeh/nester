@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { INestApplicationContext } from '@nestjs/common';
 import { Transform } from 'class-transformer';
-import { log } from 'node:console';
 
 import { existsSync } from 'node:fs';
 import { join } from 'path';
@@ -56,7 +55,6 @@ export function mergeObjects(oldData: any, newData: any): any {
 }
 
 export function camelCaseObject<T>(obj: any): T {
-  log(typeof obj);
   if (typeof obj !== 'object' || obj === undefined || obj === null) {
     return obj;
   }

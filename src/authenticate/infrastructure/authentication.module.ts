@@ -2,6 +2,7 @@ import { Module, Provider } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CacheServiceModule } from '../../common/cache/cache.module';
 import { Configuration } from '../../common/config';
+import { IsStrongPasswordConstraint } from '../../common/is-strong-password.validator';
 import { UsersService } from '../../users/profiles/application/users.service';
 import { ProfileModule } from '../../users/profiles/infrastructure/profiles.module';
 import { RolesModule } from '../../users/roles/infrastructure/roles.module';
@@ -68,6 +69,11 @@ const otpRepository: Provider = {
     AuthorizationGuard,
     CheckPermissionGuard,
     IsUserEnableGuard,
+    {
+      provide: IsStrongPasswordConstraint,
+      inject: [Configuration],
+      useFactory: (config: Configuration) => new IsStrongPasswordConstraint(config),
+    },
   ],
   exports: [OtpService, AuthService, JwtTokenService],
 })

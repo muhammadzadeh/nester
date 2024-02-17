@@ -1,12 +1,13 @@
 import { Type } from 'class-transformer';
-import { IsNotEmpty, IsString, IsStrongPassword } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 import { ToLowerCase } from '../../../../common/decorators';
+import { IsIdentifier } from '../../../../common/is-identifier.validator';
+import { IsNotUUID } from '../../../../common/is-not-uuid.validator';
+import { IsStrongPassword } from '../../../../common/is-strong-password.validator';
 import { Email, Mobile } from '../../../../common/types';
 import { GoogleSignup } from '../../providers/google/google-signup';
 import { IdentifierPasswordSignup } from '../../providers/identified-password/identifier-password-signup';
 import { OtpSignup } from '../../providers/otp/otp-signup';
-import { IsNotUUID } from '../../../../common/is-not-uuid.validator';
-import { IsIdentifier } from '../../../../common/is-identifier.validator';
 
 export class OtpSignupDto {
   @IsNotEmpty()
@@ -42,7 +43,7 @@ export class IdentifierPasswordSignupDto {
   @IsNotEmpty()
   @IsString()
   @Type(() => String)
-  @IsStrongPassword({ minLength: 6, minLowercase: 0, minUppercase: 2, minNumbers: 2, minSymbols: 0 })
+  @IsStrongPassword()
   password!: string;
 
   @IsNotEmpty()

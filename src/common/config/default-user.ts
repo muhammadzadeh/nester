@@ -1,5 +1,6 @@
 import { Type } from 'class-transformer';
-import { IsEmail, IsNotEmpty, IsOptional, IsPhoneNumber, IsString, IsStrongPassword } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsOptional, IsPhoneNumber, IsString } from 'class-validator';
+import { IsStrongPassword } from '../is-strong-password.validator';
 
 export class DefaultUserConfig {
   @IsNotEmpty()
@@ -14,10 +15,7 @@ export class DefaultUserConfig {
 
   @IsOptional()
   @IsString()
-  @IsStrongPassword(
-    { minLength: 10, minLowercase: 1, minUppercase: 1, minNumbers: 1, minSymbols: 1 },
-    { message: 'minLength: 10, minLowercase: 1, minUppercase: 1, minNumbers: 1, minSymbols: 1' },
-  )
+  @IsStrongPassword()
   @Type(() => String)
   readonly password!: string;
 }

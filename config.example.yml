@@ -19,11 +19,11 @@ database:
   url: postgres://postgres:postgres@127.0.0.1:5432/beta
   schema: public
 authentication:
-  passwordRegEx: '^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$'
+  passwordRegEx: ^(?=.*[a-zA-Z])(?=.*[0-9]).{6,}$
   allowUnverifiedSignin: true
   token:
     jwtSecret: replace_me
-    accessTokenExpiration: PT100H
+    accessTokenExpiration: PT1H
     refreshTokenExpiration: P100D
   providers: 
     google:

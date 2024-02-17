@@ -3,7 +3,6 @@ import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { CurrentUser } from '../../../../../authenticate/infrastructure/web/decorators';
 import { UserController } from '../../../../../common/guards/decorators';
 import { DoneResponse, Serializer } from '../../../../../common/serialization';
-import { ResponseGroup } from '../../../../../common/types';
 import { UsersService } from '../../../application/users.service';
 import { UserResponse } from '../common/user.response';
 import { UpdateMyProfileDto } from './update-my-profile.dto';
@@ -20,7 +19,7 @@ export class ProfileControllerForUser {
   })
   async getMyProfile(@CurrentUser() user: CurrentUser): Promise<UserResponse> {
     const userProfile = await this.usersService.findOneByIdentifierOrFail(user.id);
-    return Serializer.serialize(UserResponse, userProfile, [ResponseGroup.RESOURCE_OWNER]);
+    return UserResponse.from(userProfile);
   }
 
   @Put()

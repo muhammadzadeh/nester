@@ -4,11 +4,11 @@ import { UserEntity } from '../../../domain/entities/user.entity';
 export class UpdateUserRoleDto {
   @IsOptional()
   @IsUUID('all')
-  role_id?: string;
+  roleId?: string;
 
   toEntity(): Partial<UserEntity>{
     return {
-      roleId: this.role_id,
+      roleId: this.roleId,
     }
   }
 }

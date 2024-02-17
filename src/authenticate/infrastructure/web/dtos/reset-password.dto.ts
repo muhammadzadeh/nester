@@ -21,7 +21,7 @@ export class ResetPasswordDto {
   @IsNotEmpty()
   @IsString()
   @IsStrongPassword({ minLength: 6, minLowercase: 0, minUppercase: 2, minNumbers: 2, minSymbols: 0 })
-  new_password!: string;
+  newPassword!: string;
 
   toOTPVerification(): OtpVerification {
     const email = isEmail(this.identifier) ? this.identifier : undefined;

@@ -4,11 +4,11 @@ import { UserEntity } from '../../../domain/entities/user.entity';
 export class UpdateMyProfileDto {
   @IsOptional()
   @IsString()
-  first_name!: string | null;
+  firstName!: string | null;
 
   @IsOptional()
   @IsString()
-  last_name!: string | null;
+  lastName!: string | null;
 
   @IsOptional()
   @IsUUID('all')
@@ -16,10 +16,10 @@ export class UpdateMyProfileDto {
 
   toEntity(): Partial<UserEntity> {
     return {
-      firstName: this.first_name ?? null,
-      lastName: this.last_name ?? null,
+      firstName: this.firstName ?? null,
+      lastName: this.lastName ?? null,
       avatar: this.avatar ?? null,
-      fullName: `${this.first_name ?? ''} ${this.last_name ?? ''}`,
+      fullName: `${this.firstName ?? ''} ${this.lastName ?? ''}`,
     };
   }
 }

@@ -161,7 +161,7 @@ export class AuthenticationController {
     type: DoneResponse,
   })
   async resetPassword(@Body() dto: ResetPasswordDto): Promise<DoneResponse> {
-    await this.passwordService.resetPassword(dto.toOTPVerification(), dto.new_password);
+    await this.passwordService.resetPassword(dto.toOTPVerification(), dto.newPassword);
     return Serializer.done();
   }
 

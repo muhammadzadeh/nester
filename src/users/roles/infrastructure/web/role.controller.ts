@@ -49,7 +49,7 @@ export class RoleController {
       {
         page: filters.page,
         pageSize: filters.pageSize,
-        orderBy: filters.order_by,
+        orderBy: filters.orderBy,
         orderDir: filters.orderDir,
       },
     );

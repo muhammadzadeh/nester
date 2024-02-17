@@ -3,14 +3,12 @@ import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { CurrentUser } from '../../../authenticate/infrastructure/web/decorators';
 import { CommonController } from '../../../common/guards/decorators';
 import { DoneResponse, Serializer } from '../../../common/serialization';
-import { OrderDir } from '../../../common/types';
 import { NotificationsService } from '../../application/notifications.service';
-import { NotificationOrderBy } from '../../domain/repositories/notifications.repository';
 import { AddPushTokenDto } from './add-push-token.dto';
 import { FilterNotificationDto } from './filter-notification.dto';
 import { FindOneNotificationDto } from './find-one-notification.dto';
-import { NotificationUnreadCountResponse } from './notification-unread-count.response';
 import { NotificationListResponse } from './notification-list.response';
+import { NotificationUnreadCountResponse } from './notification-unread-count.response';
 
 @CommonController('/notifications')
 @ApiTags('Notifications')
@@ -62,8 +60,8 @@ export class NotificationController {
     const result = await this.notificationsService.findAll({
       page: filtersDto.page,
       pageSize: filtersDto.pageSize,
-      orderBy: NotificationOrderBy.CREATED_AT,
-      orderDir: OrderDir.DESC,
+      orderBy: filtersDto.orderBy,
+      orderDir: filtersDto.orderDir,
       userIds: [user.id],
       showInNotificationCenter: true,
     });

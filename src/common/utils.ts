@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { INestApplicationContext } from '@nestjs/common';
 import { Transform } from 'class-transformer';
+import { log } from 'node:console';
 
 import { existsSync } from 'node:fs';
 import { join } from 'path';
@@ -55,6 +56,7 @@ export function mergeObjects(oldData: any, newData: any): any {
 }
 
 export function camelCaseObject<T>(obj: any): T {
+  log(typeof obj);
   if (typeof obj !== 'object' || obj === undefined || obj === null) {
     return obj;
   }
@@ -70,7 +72,7 @@ export function camelCaseObject<T>(obj: any): T {
   const camelCased: any = {};
 
   for (const key in obj) {
-    if (obj.hasOwnProperty(key)) {
+    if (obj[key] || obj.hasOwnProperty(key)) {
       const camelCasedKey = key.replace(/_([a-z])/g, (g) => g[1].toUpperCase());
       camelCased[camelCasedKey] = camelCaseObject(obj[key]);
     }
@@ -95,7 +97,7 @@ export function snackCaseObject<T>(obj: any): T {
   const snackCased: any = {};
 
   for (const key in obj) {
-    if (obj.hasOwnProperty(key)) {
+    if (obj[key] || obj.hasOwnProperty(key)) {
       const snackCasedKey = key.replace(/([A-Z])/g, (g) => '_' + g.toLowerCase());
       snackCased[snackCasedKey] = snackCaseObject(obj[key]);
     }

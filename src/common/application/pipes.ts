@@ -1,6 +1,7 @@
 import { ArgumentMetadata, INestApplication, Injectable, PipeTransform, ValidationPipe } from '@nestjs/common';
 import { ValidationException } from '../exception';
 import { camelCaseObject } from '../utils';
+import { log } from 'console';
 
 @Injectable()
 class CamelCasePipe implements PipeTransform<any> {
@@ -8,7 +9,7 @@ class CamelCasePipe implements PipeTransform<any> {
     if (!value) {
       return value;
     }
-
+    log(value)
     return camelCaseObject(value);
   }
 }

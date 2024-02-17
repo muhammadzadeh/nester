@@ -1,18 +1,23 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose, Type } from 'class-transformer';
+import { Pagination } from '../../../../common/database';
+import { ListResponse } from '../../../../common/serialization';
+import { RoleEntity } from '../../domain/entities/role.entity';
+import { FilterRoleDto } from './filter-role.dto';
 import { RoleResponse } from './role.response';
 
-class PaginationMeta {
-  @ApiProperty({
-    type: Number,
-    description: 'total items',
-  })
-  @Expose()
-  @Type(() => Number)
-  total!: number;
-}
+export class RoleListResponse extends ListResponse<RoleResponse> {
+  static from(data: Pagination<RoleEntity>, filters: FilterRoleDto): RoleListResponse {
+    return new RoleListResponse(
+      data.items.map((item) => RoleResponse.from(item)),
+      {
+        total: data.total,
+        page: filters.page,
+        pageSize: filters.pageSize,
+      },
+    );
+  }
 
-export class RoleListResponse {
   @ApiProperty({
     type: RoleResponse,
     isArray: true,
@@ -20,13 +25,5 @@ export class RoleListResponse {
   })
   @Expose()
   @Type(() => RoleResponse)
-  items!: RoleResponse[];
-
-  @ApiProperty({
-    type: PaginationMeta,
-    description: 'Stats',
-  })
-  @Expose()
-  @Type(() => PaginationMeta)
-  pagination!: PaginationMeta;
+  declare items: RoleResponse[];
 }

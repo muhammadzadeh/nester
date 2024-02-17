@@ -1,9 +1,28 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose, Type } from 'class-transformer';
 import { randomUUID } from 'crypto';
-import { NotificationEvent, NotificationGroupType, NotificationPriority, NotificationStatus } from '../../domain/entities/notification.entity';
+import {
+  NotificationEntity,
+  NotificationEvent,
+  NotificationGroupType,
+  NotificationPriority,
+  NotificationStatus,
+} from '../../domain/entities/notification.entity';
 import { NotificationCTAResponse } from './notification-cta.response';
 export class NotificationResponse {
+  static from(data: NotificationEntity): NotificationResponse {
+    return {
+      id: data.id,
+      title: data.notificationCenterData?.title!,
+      description: data.notificationCenterData?.description!,
+      ctas: data.notificationCenterData?.ctas!,
+      event: data.event,
+      groupType: data.groupType,
+      priority: data.priority,
+      status: data.status,
+      createdAt: data.createdAt,
+    };
+  }
   @ApiProperty({
     type: String,
     description: 'The notification id',
@@ -11,7 +30,7 @@ export class NotificationResponse {
   })
   @Expose()
   @Type(() => String)
-  id!: string;
+  readonly id!: string;
 
   @ApiProperty({
     type: String,
@@ -20,7 +39,7 @@ export class NotificationResponse {
   })
   @Expose()
   @Type(() => String)
-  title!: string;
+  readonly title!: string;
 
   @ApiProperty({
     type: String,
@@ -29,7 +48,7 @@ export class NotificationResponse {
   })
   @Expose()
   @Type(() => String)
-  description!: string;
+  readonly description!: string;
 
   @ApiProperty({
     type: NotificationEvent,
@@ -39,7 +58,7 @@ export class NotificationResponse {
   })
   @Expose()
   @Type(() => String)
-  event!: NotificationEvent;
+  readonly event!: NotificationEvent;
 
   @ApiProperty({
     type: NotificationPriority,
@@ -49,7 +68,7 @@ export class NotificationResponse {
   })
   @Expose()
   @Type(() => String)
-  priority!: NotificationPriority;
+  readonly priority!: NotificationPriority;
 
   @ApiProperty({
     type: NotificationGroupType,
@@ -60,7 +79,7 @@ export class NotificationResponse {
   })
   @Expose()
   @Type(() => String)
-  groupType!: NotificationGroupType;
+  readonly groupType!: NotificationGroupType;
 
   @ApiProperty({
     type: NotificationStatus,
@@ -70,7 +89,7 @@ export class NotificationResponse {
   })
   @Expose()
   @Type(() => String)
-  status!: NotificationStatus;
+  readonly status!: NotificationStatus;
 
   @ApiProperty({
     type: NotificationCTAResponse,
@@ -79,7 +98,7 @@ export class NotificationResponse {
   })
   @Expose()
   @Type(() => NotificationCTAResponse)
-  ctas?: NotificationCTAResponse[];
+  readonly ctas?: NotificationCTAResponse[];
 
   @ApiProperty({
     type: Date,
@@ -89,5 +108,5 @@ export class NotificationResponse {
   })
   @Expose()
   @Type(() => Date)
-  createdAt!: Date;
+  readonly createdAt!: Date;
 }

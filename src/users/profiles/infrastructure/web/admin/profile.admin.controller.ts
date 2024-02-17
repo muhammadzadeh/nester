@@ -1,11 +1,11 @@
-import { Body, Get, Param, Patch } from '@nestjs/common';
+import { Body, Get, Param, Patch, Query } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { RequiredPermissions } from '../../../../../authenticate/infrastructure/web/decorators';
 import { AdminController } from '../../../../../common/guards/decorators';
 import { DoneResponse, Serializer } from '../../../../../common/serialization';
-import { ResponseGroup } from '../../../../../common/types';
 import { Permission } from '../../../../roles/domain/entities/role.entity';
 import { UsersService } from '../../../application/users.service';
+import { FilterUserDto } from '../common/filter-user.dto';
 import { GetUserDto } from '../common/get-user.dto';
 import { UserListResponse } from '../common/user-list.response';
 import { UserResponse } from '../common/user.response';
@@ -22,9 +22,9 @@ export class ProfileControllerForAdmin {
     type: UserListResponse,
   })
   @RequiredPermissions(Permission.READ_USERS)
-  async getAllUsers(): Promise<UserListResponse> {
-    const result = await this.usersService.findAll({});
-    return Serializer.serialize(UserListResponse, result, [ResponseGroup.ADMIN_LIST]);
+  async getAllUsers(@Query() filters: FilterUserDto): Promise<UserListResponse> {
+    const result = await this.usersService.findAll({}, filters);
+    return UserListResponse.from(result, filters);
   }
 
   @Get(':id')
@@ -35,7 +35,7 @@ export class ProfileControllerForAdmin {
   @RequiredPermissions(Permission.READ_USERS)
   async getUserById(@Param() params: GetUserDto): Promise<UserResponse> {
     const userProfile = await this.usersService.findOneByIdentifierOrFail(params.id);
-    return Serializer.serialize(UserResponse, userProfile, [ResponseGroup.ADMIN]);
+    return UserResponse.from(userProfile);
   }
 
   @Patch(':id/role')

@@ -20,7 +20,6 @@ import {
   ResetPasswordDto,
   SigninMethodDto,
   SigninMethodResponse,
-  SignupResponse,
 } from './dtos';
 import { VerifyDto } from './dtos/verify.dto';
 
@@ -49,13 +48,11 @@ export class AuthenticationController {
   @Captcha()
   @ApiOkResponse({
     status: 200,
-    type: SignupResponse,
+    type: AuthenticationResponse,
   })
-  async signupByGoogle(@Body() dto: GoogleSignupDto): Promise<SignupResponse> {
+  async signupByGoogle(@Body() dto: GoogleSignupDto): Promise<AuthenticationResponse> {
     const token = await this.authService.signup(dto.toGoogleSignup());
-    return Serializer.serialize(SignupResponse, {
-      token: token,
-    });
+    return AuthenticationResponse.from(token!);
   }
 
   @Post('signup/otp')
@@ -77,7 +74,7 @@ export class AuthenticationController {
   })
   async verify(@Body() dto: VerifyDto): Promise<AuthenticationResponse> {
     const token = await this.authService.authenticate(dto.toOtpAuth());
-    return Serializer.serialize(AuthenticationResponse, token);
+    return AuthenticationResponse.from(token);
   }
 
   @Post('signin/methods')
@@ -88,9 +85,7 @@ export class AuthenticationController {
   })
   async getAuthenticateMethods(@Body() dto: SigninMethodDto): Promise<SigninMethodResponse> {
     const signinMethods = await this.authService.getAuthenticateMethods(dto.identifier);
-    return Serializer.serialize(SigninMethodResponse, {
-      items: signinMethods,
-    });
+    return SigninMethodResponse.from(signinMethods);
   }
 
   @Post('signin/identifier-password')
@@ -101,7 +96,7 @@ export class AuthenticationController {
   })
   async signinByIdentifierPassword(@Body() dto: IdentifierPasswordAuthDto): Promise<AuthenticationResponse> {
     const token = await this.authService.authenticate(dto.toIdentifierPasswordAuth());
-    return Serializer.serialize(AuthenticationResponse, token);
+    return AuthenticationResponse.from(token);
   }
 
   @Post('signin/google')
@@ -112,7 +107,7 @@ export class AuthenticationController {
   })
   async signinByGoogle(@Body() dto: GoogleAuthDto): Promise<AuthenticationResponse> {
     const token = await this.authService.authenticate(dto.toGoogleAuth());
-    return Serializer.serialize(AuthenticationResponse, token);
+    return AuthenticationResponse.from(token);
   }
 
   @Post('signin/otp')
@@ -123,7 +118,7 @@ export class AuthenticationController {
   })
   async signinByOtp(@Body() dto: OtpAuthDto): Promise<AuthenticationResponse> {
     const token = await this.authService.authenticate(dto.toOtpAuth());
-    return Serializer.serialize(AuthenticationResponse, token);
+    return AuthenticationResponse.from(token);
   }
 
   @Post('signin/fake')
@@ -134,7 +129,7 @@ export class AuthenticationController {
   })
   async signinByFake(@Body() dto: FakeAuthDto): Promise<AuthenticationResponse> {
     const token = await this.authService.authenticate(dto.toFakeAuth());
-    return Serializer.serialize(AuthenticationResponse, token);
+    return AuthenticationResponse.from(token);
   }
 
   @Post('otp')
@@ -166,7 +161,7 @@ export class AuthenticationController {
     type: DoneResponse,
   })
   async resetPassword(@Body() dto: ResetPasswordDto): Promise<DoneResponse> {
-    await this.passwordService.resetPassword(dto.toOTPVerification(), dto.new_password);
+    await this.passwordService.resetPassword(dto.toOTPVerification(), dto.newPassword);
     return Serializer.done();
   }
 
@@ -177,6 +172,6 @@ export class AuthenticationController {
   })
   async refreshToken(@Body() input: RefreshTokenDto): Promise<AuthenticationResponse> {
     const token = await this.jwtService.refresh(input.toRefreshTokenData());
-    return Serializer.serialize(AuthenticationResponse, token);
+    return AuthenticationResponse.from(token);
   }
 }

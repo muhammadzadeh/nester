@@ -7,4 +7,3 @@ export * from './signin-method.dto';
 export * from './signin-method.response';
 export * from './signin.dto';
 export * from './signup.dto';
-export * from './signup.response';

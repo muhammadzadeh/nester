@@ -5,5 +5,5 @@ import { PaginationDto } from '../../../../common/dto/pagination.dto';
 export class FilterRoleDto extends PaginationDto {
   @IsNotEmpty()
   @IsEnum(RoleOrderBy)
-  order_by!: RoleOrderBy;
+  orderBy!: RoleOrderBy;
 }

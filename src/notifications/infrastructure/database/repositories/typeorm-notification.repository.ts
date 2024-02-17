@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { SelectQueryBuilder } from 'typeorm/browser';
-import { MIN_PAGE_SIZE, DEFAULT_PAGE_NO } from '../../../../common/constants';
+import { MIN_PAGE_SIZE, MIN_PAGE_NUMBER } from '../../../../common/constants';
 import { NotificationEntity } from '../../../domain/entities/notification.entity';
 import {
   FindNotificationData,
@@ -71,7 +71,7 @@ export class TypeormNotificationsRepository implements NotificationsRepository {
     const {
       orderBy = NotificationOrderBy.UPDATED_AT,
       orderDir = OrderDir.DESC,
-      page = DEFAULT_PAGE_NO,
+      page = MIN_PAGE_NUMBER,
       pageSize = MIN_PAGE_SIZE,
     } = options;
 

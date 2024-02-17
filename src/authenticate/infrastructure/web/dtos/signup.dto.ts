@@ -48,14 +48,14 @@ export class IdentifierPasswordSignupDto {
   @IsNotEmpty()
   @IsString()
   @Type(() => String)
-  first_name!: string;
+  firstName!: string;
 
   @IsNotEmpty()
   @IsString()
   @Type(() => String)
-  last_name!: string;
+  lastName!: string;
 
   toIdentifierPasswordSignup(): IdentifierPasswordSignup {
-    return new IdentifierPasswordSignup(this.identifier, this.password, this.first_name, this.last_name);
+    return new IdentifierPasswordSignup(this.identifier, this.password, this.firstName, this.lastName);
   }
 }

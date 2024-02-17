@@ -1,37 +1,29 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose, Type } from 'class-transformer';
-import { ResponseGroup } from '../../../../../common/types';
+import { ListResponse } from '../../../../../common/serialization';
 import { UserResponse } from './user.response';
+import { Pagination } from '../../../../../common/database';
+import { UserEntity } from '../../../domain/entities/user.entity';
+import { FilterUserDto } from './filter-user.dto';
 
-class PaginationMeta {
-  @ApiProperty({
-    type: Number,
-    description: 'total items',
-  })
-  @Expose()
-  @Type(() => Number)
-  total!: number;
-}
+export class UserListResponse extends ListResponse<UserResponse> {
+  static from(data: Pagination<UserEntity>, filters: FilterUserDto): UserListResponse{
+    return new UserListResponse(
+      data.items.map((item) => UserResponse.from(item)),
+      {
+        total: data.total,
+        page: filters.page,
+        pageSize: filters.pageSize,
+      },
+    );
+  }
 
-export class UserListResponse {
   @ApiProperty({
     type: UserResponse,
     isArray: true,
     description: 'The Users',
   })
-  @Expose({
-    groups: [ResponseGroup.ADMIN_LIST],
-  })
+  @Expose()
   @Type(() => UserResponse)
-  items!: UserResponse[];
-
-  @ApiProperty({
-    type: PaginationMeta,
-    description: 'Stats',
-  })
-  @Expose({
-    groups: [ResponseGroup.ADMIN_LIST],
-  })
-  @Type(() => PaginationMeta)
-  pagination!: PaginationMeta;
+  declare items: UserResponse[];
 }

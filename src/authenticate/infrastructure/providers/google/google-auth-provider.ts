@@ -76,7 +76,10 @@ export class GoogleAuthProvider implements AuthProvider {
 
   private async verifyToken(token: string): Promise<LoginTicket> {
     try {
-      const googleConfig = this.configuration.google;
+      const googleConfig = this.configuration.authentication.providers.google;
+      if (!googleConfig) {
+        throw new InvalidCredentialException(`Google provider is not enabled!`);
+      }
 
       const client = new OAuth2Client(googleConfig.clientId, googleConfig.clientSecret);
 

@@ -4,9 +4,10 @@ import { IsBoolean, IsNotEmpty, IsOptional, ValidateNested, validateSync } from 
 import { ValidationException } from 'common/exception';
 import { ToBoolean } from '../decorators';
 import { AppConfigs } from './app';
+import { AuthenticationConfig } from './authentication.config';
 import { CaptchaConfig } from './captcha';
+import { DefaultUserConfig } from './default-user';
 import { FrontEndConfig } from './frontend';
-import { GoogleConfig } from './google';
 import { HttpConfig } from './http';
 import { LoggerConfig } from './logger';
 import { MailerConfig } from './mailer';
@@ -14,13 +15,11 @@ import { PostgresConfig } from './postgres';
 import { RabbitConfig } from './rabbit';
 import { RedisConfig } from './redis-cache';
 import { SentryConfig } from './sentry';
+import { SmsSenderConfig } from './sms-sender';
 import { StorageConfig } from './storage';
 import { SwaggerConfig } from './swagger';
 import { ThrottlingConfig } from './throttling';
-import { TokenConfig } from './token';
 import { VaultConfig } from './vault';
-import { SmsSenderConfig } from './sms-sender';
-import { DefaultUserConfig } from './default-user';
 
 @Injectable()
 export class RootConfig {
@@ -91,8 +90,8 @@ export class RootConfig {
 
   @IsNotEmpty()
   @ValidateNested()
-  @Type(() => TokenConfig)
-  readonly token!: TokenConfig;
+  @Type(() => AuthenticationConfig)
+  readonly authentication!: AuthenticationConfig;
 
   @IsNotEmpty()
   @ValidateNested()
@@ -128,11 +127,6 @@ export class RootConfig {
   @ValidateNested()
   @Type(() => LoggerConfig)
   readonly logger!: LoggerConfig;
-
-  @IsNotEmpty()
-  @ValidateNested()
-  @Type(() => GoogleConfig)
-  readonly google!: GoogleConfig;
 
   @IsNotEmpty()
   @ValidateNested()

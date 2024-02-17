@@ -32,7 +32,7 @@ const authProviderManager: Provider = {
     otpService: OtpService,
   ) => {
     const authProviders: AuthProvider[] = [
-      new IdentifierPasswordAuthProvider(notificationSender, usersService, otpService),
+      new IdentifierPasswordAuthProvider(notificationSender, configuration, usersService, otpService),
       new FacebookAuthProvider(),
       new LinkedinAuthProvider(),
       new GoogleAuthProvider(configuration, usersService),

@@ -61,6 +61,7 @@ export class AuthService {
     const user = await this.usersService.findOneByIdentifierOrFail(authUser.email ?? authUser.mobile!);
 
     if (!user.isVerified() && authUser.isVerified) {
+      //FIXME update mobile or emial verified flag
       publish(AUTHENTICATION_EXCHANGE_NAME, AuthenticationEvents.USER_VERIFIED, new UserVerifiedEvent(user), {
         persistent: true,
         deliveryMode: 2,

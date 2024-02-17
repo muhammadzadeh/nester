@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { Configuration } from '../../../../common/config';
 import { Hash } from '../../../../common/hash';
 import { Email, Mobile, UserId, Username } from '../../../../common/types';
 import { UsersService } from '../../../../users/profiles/application/users.service';
@@ -14,6 +15,7 @@ import { AuthProviderType } from '../../../application/providers/auth-provider.e
 import { Auth, AuthProvider } from '../../../application/providers/auth-provider.interface';
 import { AuthUser } from '../../../application/providers/auth-user';
 import { InvalidCredentialException } from '../../../application/providers/invalid-credentials.exception';
+import { UserNotVerifiedException } from '../../../application/providers/user-not-verified.exception';
 import { OTPReason, OTPType } from '../../../domain/entities';
 import { IdentifierPasswordAuth } from './identifier-password-auth';
 import { IdentifierPasswordSignup } from './identifier-password-signup';
@@ -22,6 +24,7 @@ import { IdentifierPasswordSignup } from './identifier-password-signup';
 export class IdentifierPasswordAuthProvider implements AuthProvider {
   constructor(
     private readonly notificationSender: AuthenticationNotifier,
+    private readonly configuration: Configuration,
     private readonly usersService: UsersService,
     private readonly otpService: OtpService,
   ) {}
@@ -34,9 +37,9 @@ export class IdentifierPasswordAuthProvider implements AuthProvider {
 
     let createdUser: UserEntity | undefined = undefined;
     if (data.isEmail()) {
-      createdUser = await this.SignupByEmail(data.identifier);
+      createdUser = await this.SignupByEmail(data);
     } else {
-      createdUser = await this.SignupByMobile(data.identifier);
+      createdUser = await this.SignupByMobile(data);
     }
 
     return createdUser!;
@@ -50,6 +53,18 @@ export class IdentifierPasswordAuthProvider implements AuthProvider {
 
     if (!user.password) {
       throw new InvalidCredentialException(`User with ${auth.identifier} has no password`);
+    }
+
+    if (!this.configuration.authentication.allowUnverifiedSignin && !user.isVerified()) {
+      throw new UserNotVerifiedException(`Unverified user ${auth.identifier} trying sign!`);
+    }
+
+    if (!this.configuration.authentication.allowUnverifiedSignin && auth.isEmail() && !user.isEmailVerified) {
+      throw new UserNotVerifiedException(`Unverified user ${auth.identifier} trying sign!`);
+    }
+
+    if (!this.configuration.authentication.allowUnverifiedSignin && !auth.isEmail() && !user.isMobileVerified) {
+      throw new UserNotVerifiedException(`Unverified user ${auth.identifier} trying sign!`);
     }
 
     await this.isPasswordMatchInBCRYPT(auth, user.password);
@@ -82,21 +97,27 @@ export class IdentifierPasswordAuthProvider implements AuthProvider {
     }
   }
 
-  private async SignupByEmail(email: Email): Promise<UserEntity> {
+  private async SignupByEmail(auth: IdentifierPasswordSignup): Promise<UserEntity> {
     const createdUser = await this.usersService.create({
-      email: email,
+      email: auth.identifier,
+      password: auth.password,
       isEmailVerified: false,
+      firstName: auth.firstName,
+      lastName: auth.lastName,
     });
-    await this.sendEmailVerificationOtp(createdUser, email);
+    await this.sendEmailVerificationOtp(createdUser, auth.identifier);
     return createdUser;
   }
 
-  private async SignupByMobile(mobile: Mobile): Promise<UserEntity> {
+  private async SignupByMobile(auth: IdentifierPasswordSignup): Promise<UserEntity> {
     const createdUser = await this.usersService.create({
-      mobile: mobile,
+      mobile: auth.identifier,
+      password: auth.password,
       isMobileVerified: false,
+      firstName: auth.firstName,
+      lastName: auth.lastName,
     });
-    await this.sendMobileVerificationOtp(createdUser, mobile);
+    await this.sendMobileVerificationOtp(createdUser, auth.identifier);
     return createdUser;
   }
 

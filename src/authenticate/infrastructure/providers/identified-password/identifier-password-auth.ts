@@ -1,6 +1,14 @@
-import { Email, Mobile, UserId, Username } from "../../../../common/types";
-import { Auth } from "../../../application/providers/auth-provider.interface";
+import { isEmail } from 'class-validator';
+import { Email, Mobile, UserId, Username } from '../../../../common/types';
+import { Auth } from '../../../application/providers/auth-provider.interface';
 
 export class IdentifierPasswordAuth implements Auth {
-  constructor(readonly identifier: Email | Mobile | Username | UserId, readonly password: string) {}
+  constructor(
+    readonly identifier: Email | Mobile | Username | UserId,
+    readonly password: string,
+  ) {}
+
+  isEmail(): boolean {
+    return isEmail(this.identifier);
+  }
 }

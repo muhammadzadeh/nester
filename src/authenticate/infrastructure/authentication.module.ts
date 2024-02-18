@@ -11,6 +11,8 @@ import { AuthService, AuthenticationNotifier, JwtTokenService, OtpService } from
 import { AuthProvider } from '../application/services/auth-provider';
 import { RequestResetPasswordUsecase } from '../application/usecases/request-reset-password/request-reset-password.usecase';
 import { ResetPasswordUsecase } from '../application/usecases/reset-password/reset-password.usecase';
+import { SendOtpUsecase } from '../application/usecases/send-otp/send-otp.usecase';
+import { VerifyUsecase } from '../application/usecases/verify/verify.usecase';
 import { OTP_REPOSITORY_TOKEN } from '../domain/repositories';
 import { TypeormOTPEntity } from './database/entities';
 import { TypeOrmOTPRepository } from './database/repositories';
@@ -20,7 +22,6 @@ import { IdentifierPasswordAuthProvider } from './providers/identified-password'
 import { OTPAuthProvider } from './providers/otp';
 import { AuthenticationController } from './web';
 import { AuthorizationGuard, CheckPermissionGuard, IsUserEnableGuard } from './web/guards';
-import { SendOtpUsecase } from '../application/usecases/send-otp/send-otp.usecase';
 
 const authProviderManager: Provider = {
   provide: AuthProviderManager,
@@ -63,6 +64,7 @@ const otpRepository: Provider = {
     RequestResetPasswordUsecase,
     ResetPasswordUsecase,
     SendOtpUsecase,
+    VerifyUsecase,
     {
       provide: IsStrongPasswordConstraint,
       inject: [Configuration],

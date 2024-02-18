@@ -72,7 +72,7 @@ export class AuthenticationController {
     type: AuthenticationResponse,
   })
   async verify(@Body() dto: VerifyDto): Promise<AuthenticationResponse> {
-    const token = await this.authService.authenticate(dto.toOtpAuth());
+    const token = await this.authService.verify(dto.toVerifyData());
     return AuthenticationResponse.from(token);
   }
 

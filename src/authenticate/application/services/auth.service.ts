@@ -17,6 +17,8 @@ import { ResetPasswordCommand } from '../usecases/reset-password/reset-password.
 import { ResetPasswordUsecase } from '../usecases/reset-password/reset-password.usecase';
 import { SendOtpCommand } from '../usecases/send-otp/send-otp.command';
 import { SendOtpUsecase } from '../usecases/send-otp/send-otp.usecase';
+import { VerifyCommand } from '../usecases/verify/verify.command';
+import { VerifyUsecase } from '../usecases/verify/verify.usecase';
 import { Auth, AuthUser } from './auth-provider';
 import { AuthProviderManager } from './auth-provider-manager';
 import { AccessType, JwtTokenService, RevokeTokenOption, Token } from './jwt-token.service';
@@ -35,6 +37,7 @@ export class AuthService {
     private readonly authManager: AuthProviderManager,
     private readonly sendOtpUsecase: SendOtpUsecase,
     private readonly tokenService: JwtTokenService,
+    private readonly verifyUsecase: VerifyUsecase,
     private readonly rolesService: RolesService,
     private readonly usersService: UsersService,
   ) {}
@@ -118,6 +121,10 @@ export class AuthService {
     );
   }
 
+  async verify(data: VerifyData): Promise<Token> {
+    return await this.verifyUsecase.execute(VerifyCommand.create(data));
+  }
+
   private async generateToken(user: UserEntity): Promise<Token> {
     const permissions = await this.findUserPermissions(user);
     return await this.tokenService.generate({
@@ -165,6 +172,12 @@ export class SendOtp {
   isEmail(): boolean {
     return isEmail(this.identifier);
   }
+}
+
+export class VerifyData {
+  otp!: string;
+  type!: OTPType;
+  identifier!: Email | Mobile;
 }
 
 @Exception({ statusCode: HttpStatus.BAD_REQUEST, errorCode: 'USER_NOT_REGISTERED' })

@@ -9,17 +9,18 @@ import { UserEntity } from '../../../users/profiles/domain/entities/user.entity'
 import { RolesService } from '../../../users/roles/application/roles.service';
 import { Permission } from '../../../users/roles/domain/entities/role.entity';
 import { AUTHENTICATION_EXCHANGE_NAME } from '../../domain/constants';
-import { OTPReason, OTPType } from '../../domain/entities';
+import { OTPType } from '../../domain/entities';
 import { AuthenticationEvents, UserLoggedInEvent, UserVerifiedEvent } from '../../domain/events';
 import { RequestResetPasswordCommand } from '../usecases/request-reset-password/request-reset-password.command';
 import { RequestResetPasswordUsecase } from '../usecases/request-reset-password/request-reset-password.usecase';
 import { ResetPasswordCommand } from '../usecases/reset-password/reset-password.command';
 import { ResetPasswordUsecase } from '../usecases/reset-password/reset-password.usecase';
+import { SendOtpCommand } from '../usecases/send-otp/send-otp.command';
+import { SendOtpUsecase } from '../usecases/send-otp/send-otp.usecase';
 import { Auth, AuthUser } from './auth-provider';
 import { AuthProviderManager } from './auth-provider-manager';
-import { AuthenticationNotifier } from './authentication.notifier';
 import { AccessType, JwtTokenService, RevokeTokenOption, Token } from './jwt-token.service';
-import { OtpGeneration, OtpService, OtpVerification } from './otp.service';
+import { OtpVerification } from './otp.service';
 
 export const TOKEN_EXPIRATION_DURATION = Duration.fromObject({ days: 1 });
 export const CODE_EXPIRATION_DURATION = Duration.fromObject({ minutes: 2 });
@@ -31,12 +32,11 @@ export class AuthService {
   constructor(
     private readonly requestResetPasswordUsecase: RequestResetPasswordUsecase,
     private readonly resetPasswordUsecase: ResetPasswordUsecase,
-    private readonly notificationSender: AuthenticationNotifier,
     private readonly authManager: AuthProviderManager,
+    private readonly sendOtpUsecase: SendOtpUsecase,
     private readonly tokenService: JwtTokenService,
     private readonly rolesService: RolesService,
     private readonly usersService: UsersService,
-    private readonly otpService: OtpService,
   ) {}
 
   async getAuthenticateMethods(identifier: Email | Mobile): Promise<SigninMethod[]> {
@@ -98,13 +98,7 @@ export class AuthService {
   }
 
   async sendOtp(data: SendOtp): Promise<void> {
-    const user = await this.findUser(data.identifier);
-
-    if (data.isEmail()) {
-      await this.sendEmailVerificationOtp(user, data.identifier);
-    } else {
-      await this.sendMobileVerificationOtp(user, data.identifier);
-    }
+    await this.sendOtpUsecase.execute(SendOtpCommand.create(data));
   }
 
   async requestResetPassword(identifier: Email | Mobile): Promise<void> {
@@ -151,30 +145,6 @@ export class AuthService {
       this.logger.error(error);
     }
     return permissions;
-  }
-
-  private async sendEmailVerificationOtp(user: UserEntity, email: Email) {
-    const otpGeneration = OtpGeneration.ofEmail(
-      user.id,
-      email,
-      OTPType.CODE,
-      OTPReason.VERIFY,
-      CODE_EXPIRATION_DURATION,
-    );
-    const otp = await this.otpService.generate(otpGeneration);
-    await this.notificationSender.sendOtp(otpGeneration, otp);
-  }
-
-  private async sendMobileVerificationOtp(user: UserEntity, mobile: Mobile) {
-    const otpGeneration = OtpGeneration.ofMobile(
-      user.id,
-      mobile,
-      OTPType.CODE,
-      OTPReason.VERIFY,
-      CODE_EXPIRATION_DURATION,
-    );
-    const otp = await this.otpService.generate(otpGeneration);
-    await this.notificationSender.sendOtp(otpGeneration, otp);
   }
 
   private async findUser(identifier: Mobile | Email): Promise<UserEntity> {

@@ -20,6 +20,7 @@ import { IdentifierPasswordAuthProvider } from './providers/identified-password'
 import { OTPAuthProvider } from './providers/otp';
 import { AuthenticationController } from './web';
 import { AuthorizationGuard, CheckPermissionGuard, IsUserEnableGuard } from './web/guards';
+import { SendOtpUsecase } from '../application/usecases/send-otp/send-otp.usecase';
 
 const authProviderManager: Provider = {
   provide: AuthProviderManager,
@@ -61,6 +62,7 @@ const otpRepository: Provider = {
     IsUserEnableGuard,
     RequestResetPasswordUsecase,
     ResetPasswordUsecase,
+    SendOtpUsecase,
     {
       provide: IsStrongPasswordConstraint,
       inject: [Configuration],

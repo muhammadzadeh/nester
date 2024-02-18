@@ -12,11 +12,9 @@ import { AuthProvider } from '../application/services/auth-provider';
 import { OTP_REPOSITORY_TOKEN } from '../domain/repositories';
 import { TypeormOTPEntity } from './database/entities';
 import { TypeOrmOTPRepository } from './database/repositories';
-import { FacebookAuthProvider } from './providers/facebook';
 import { FakeAuthProvider } from './providers/fake';
 import { GoogleAuthProvider } from './providers/google';
 import { IdentifierPasswordAuthProvider } from './providers/identified-password';
-import { LinkedinAuthProvider } from './providers/linkedin';
 import { OTPAuthProvider } from './providers/otp';
 import { AuthenticationController } from './web';
 import { AuthorizationGuard, CheckPermissionGuard, IsUserEnableGuard } from './web/guards';
@@ -32,8 +30,6 @@ const authProviderManager: Provider = {
   ) => {
     const authProviders: AuthProvider[] = [
       new IdentifierPasswordAuthProvider(notificationSender, configuration, usersService, otpService),
-      new FacebookAuthProvider(),
-      new LinkedinAuthProvider(),
       new GoogleAuthProvider(configuration, usersService),
       new FakeAuthProvider(configuration, usersService),
       new OTPAuthProvider(notificationSender, usersService, otpService),
@@ -56,15 +52,9 @@ const otpRepository: Provider = {
     otpRepository,
     AuthService,
     OtpService,
-    IdentifierPasswordAuthProvider,
-    FacebookAuthProvider,
-    LinkedinAuthProvider,
-    GoogleAuthProvider,
-    OTPAuthProvider,
     AuthenticationNotifier,
     JwtTokenService,
     PasswordService,
-    FakeAuthProvider,
     AuthorizationGuard,
     CheckPermissionGuard,
     IsUserEnableGuard,

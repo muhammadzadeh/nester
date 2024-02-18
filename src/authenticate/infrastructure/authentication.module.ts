@@ -9,7 +9,6 @@ import { RolesModule } from '../../users/roles/infrastructure/roles.module';
 import { PasswordService } from '../application';
 import { AuthProviderManager, AuthService, AuthenticationNotifier, JwtTokenService, OtpService } from '../application/';
 import { AuthProvider } from '../application/providers/auth-provider.interface';
-import { PROVIDER_MANAGER } from '../application/providers/provider-manager.interface';
 import { OTP_REPOSITORY_TOKEN } from '../domain/repositories';
 import { TypeormOTPEntity } from './database/entities';
 import { TypeOrmOTPRepository } from './database/repositories';
@@ -23,7 +22,7 @@ import { AuthenticationController } from './web';
 import { AuthorizationGuard, CheckPermissionGuard, IsUserEnableGuard } from './web/guards';
 
 const authProviderManager: Provider = {
-  provide: PROVIDER_MANAGER,
+  provide: AuthProviderManager,
   inject: [AuthenticationNotifier, Configuration, UsersService, OtpService],
   useFactory: (
     notificationSender: AuthenticationNotifier,

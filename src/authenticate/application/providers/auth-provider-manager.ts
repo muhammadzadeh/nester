@@ -1,12 +1,11 @@
 import { Injectable } from '@nestjs/common';
+import { UserEntity } from '../../../users/profiles/domain/entities/user.entity';
 import { Auth, AuthProvider } from './auth-provider.interface';
 import { AuthUser } from './auth-user';
 import { InvalidAuthenticationMethodException } from './invalid-authentication-method.exception';
-import { ProviderManager } from './provider-manager.interface';
-import { UserEntity } from '../../../users/profiles/domain/entities/user.entity';
 
 @Injectable()
-export class AuthProviderManager implements ProviderManager {
+export class AuthProviderManager {
   constructor(private readonly authProviders: AuthProvider[]) {}
 
   async signup(auth: Auth): Promise<UserEntity> {

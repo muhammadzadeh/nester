@@ -1,6 +1,7 @@
-import { HttpStatus, Inject, Injectable, Logger } from '@nestjs/common';
+import { HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { isEmail } from 'class-validator';
 import { Duration } from 'luxon';
+import { AuthProviderManager } from '..';
 import { Exception } from '../../../common/exception';
 import { publish } from '../../../common/rabbit/application/rabbit-mq.service';
 import { Email, Mobile } from '../../../common/types';
@@ -13,7 +14,6 @@ import { OTPReason, OTPType } from '../../domain/entities';
 import { AuthenticationEvents, UserLoggedInEvent, UserVerifiedEvent } from '../../domain/events';
 import { Auth } from '../providers/auth-provider.interface';
 import { AuthUser } from '../providers/auth-user';
-import { PROVIDER_MANAGER, ProviderManager } from '../providers/provider-manager.interface';
 import { AuthenticationNotifier } from './authentication.notifier';
 import { AccessType, JwtTokenService, RevokeTokenOption, Token } from './jwt-token.service';
 import { OtpGeneration, OtpService } from './otp.service';
@@ -26,8 +26,8 @@ export class AuthService {
   private logger = new Logger(AuthService.name);
 
   constructor(
-    @Inject(PROVIDER_MANAGER) private readonly authManager: ProviderManager,
     private readonly notificationSender: AuthenticationNotifier,
+    private readonly authManager: AuthProviderManager,
     private readonly tokenService: JwtTokenService,
     private readonly rolesService: RolesService,
     private readonly usersService: UsersService,

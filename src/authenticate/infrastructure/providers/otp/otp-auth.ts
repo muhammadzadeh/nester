@@ -1,5 +1,5 @@
 import { OTPReason, OTPType } from '../../../domain/entities';
-import { Auth } from '../../../application/providers/auth-provider.interface';
+import { Auth } from '../../../application/services/auth-provider';
 
 export class OtpAuth implements Auth {
   constructor(

@@ -11,11 +11,14 @@ import {
   OtpService,
   UserAlreadyRegisteredException,
 } from '../../../application';
-import { AuthProviderType } from '../../../application/providers/auth-provider.enum';
-import { Auth, AuthProvider } from '../../../application/providers/auth-provider.interface';
-import { AuthUser } from '../../../application/providers/auth-user';
-import { InvalidCredentialException } from '../../../application/providers/invalid-credentials.exception';
-import { UserNotVerifiedException } from '../../../application/providers/user-not-verified.exception';
+import {
+  Auth,
+  AuthProvider,
+  AuthProviderType,
+  AuthUser,
+  InvalidCredentialException,
+  UserNotVerifiedException,
+} from '../../../application/services/auth-provider';
 import { OTPReason, OTPType } from '../../../domain/entities';
 import { IdentifierPasswordAuth } from './identifier-password-auth';
 import { IdentifierPasswordSignup } from './identifier-password-signup';

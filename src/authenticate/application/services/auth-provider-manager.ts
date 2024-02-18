@@ -1,8 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
+import { Exception } from '../../../common/exception';
 import { UserEntity } from '../../../users/profiles/domain/entities/user.entity';
-import { Auth, AuthProvider } from './auth-provider.interface';
-import { AuthUser } from './auth-user';
-import { InvalidAuthenticationMethodException } from './invalid-authentication-method.exception';
+import { Auth, AuthProvider, AuthUser } from './auth-provider';
 
 @Injectable()
 export class AuthProviderManager {
@@ -28,3 +27,6 @@ export class AuthProviderManager {
     return authProvider;
   }
 }
+
+@Exception({ statusCode: HttpStatus.BAD_REQUEST, errorCode: 'INVALID_AUTHENTICATION_METHOD' })
+export class InvalidAuthenticationMethodException extends Error {}

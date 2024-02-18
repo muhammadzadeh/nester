@@ -6,9 +6,9 @@ import { IsStrongPasswordConstraint } from '../../common/is-strong-password.vali
 import { UsersService } from '../../users/profiles/application/users.service';
 import { ProfileModule } from '../../users/profiles/infrastructure/profiles.module';
 import { RolesModule } from '../../users/roles/infrastructure/roles.module';
-import { PasswordService } from '../application';
-import { AuthProviderManager, AuthService, AuthenticationNotifier, JwtTokenService, OtpService } from '../application/';
-import { AuthProvider } from '../application/providers/auth-provider.interface';
+import { AuthProviderManager, PasswordService } from '../application';
+import { AuthService, AuthenticationNotifier, JwtTokenService, OtpService } from '../application/';
+import { AuthProvider } from '../application/services/auth-provider';
 import { OTP_REPOSITORY_TOKEN } from '../domain/repositories';
 import { TypeormOTPEntity } from './database/entities';
 import { TypeOrmOTPRepository } from './database/repositories';

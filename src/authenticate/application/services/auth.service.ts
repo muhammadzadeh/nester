@@ -1,7 +1,6 @@
 import { HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { isEmail } from 'class-validator';
 import { Duration } from 'luxon';
-import { AuthProviderManager } from '..';
 import { Exception } from '../../../common/exception';
 import { publish } from '../../../common/rabbit/application/rabbit-mq.service';
 import { Email, Mobile } from '../../../common/types';
@@ -12,8 +11,8 @@ import { Permission } from '../../../users/roles/domain/entities/role.entity';
 import { AUTHENTICATION_EXCHANGE_NAME } from '../../domain/constants';
 import { OTPReason, OTPType } from '../../domain/entities';
 import { AuthenticationEvents, UserLoggedInEvent, UserVerifiedEvent } from '../../domain/events';
-import { Auth } from '../providers/auth-provider.interface';
-import { AuthUser } from '../providers/auth-user';
+import { Auth, AuthUser } from './auth-provider';
+import { AuthProviderManager } from './auth-provider-manager';
 import { AuthenticationNotifier } from './authentication.notifier';
 import { AccessType, JwtTokenService, RevokeTokenOption, Token } from './jwt-token.service';
 import { OtpGeneration, OtpService } from './otp.service';

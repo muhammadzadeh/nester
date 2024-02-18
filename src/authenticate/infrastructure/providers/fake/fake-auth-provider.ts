@@ -2,10 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { Configuration } from '../../../../common/config';
 import { UsersService } from '../../../../users/profiles/application/users.service';
 import { UserEntity } from '../../../../users/profiles/domain/entities/user.entity';
-import { AuthProviderType } from '../../../application/providers/auth-provider.enum';
-import { Auth, AuthProvider } from '../../../application/providers/auth-provider.interface';
-import { AuthUser } from '../../../application/providers/auth-user';
-import { InvalidCredentialException } from '../../../application/providers/invalid-credentials.exception';
+import {
+  Auth,
+  AuthProvider,
+  AuthProviderType,
+  AuthUser,
+  InvalidCredentialException,
+} from '../../../application/services/auth-provider';
 import { FakeAuth } from './fake-auth';
 import { FakeSignup } from './fake-signup';
 

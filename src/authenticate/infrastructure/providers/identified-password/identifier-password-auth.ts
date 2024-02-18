@@ -1,6 +1,6 @@
 import { isEmail } from 'class-validator';
 import { Email, Mobile, UserId, Username } from '../../../../common/types';
-import { Auth } from '../../../application/providers/auth-provider.interface';
+import { Auth } from '../../../application/services/auth-provider';
 
 export class IdentifierPasswordAuth implements Auth {
   constructor(

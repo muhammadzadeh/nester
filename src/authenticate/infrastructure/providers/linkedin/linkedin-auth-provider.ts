@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { UserEntity } from '../../../../users/profiles/domain/entities/user.entity';
-import { Auth, AuthProvider } from '../../../application/providers/auth-provider.interface';
-import { AuthUser } from '../../../application/providers/auth-user';
+import { Auth, AuthProvider, AuthUser } from '../../../application/services/auth-provider';
 import { LinkedinAuth } from './linkedin-auth';
 import { LinkedinSignup } from './linkedin-signup';
 

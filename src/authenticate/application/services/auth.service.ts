@@ -17,6 +17,8 @@ import { ResetPasswordCommand } from '../usecases/reset-password/reset-password.
 import { ResetPasswordUsecase } from '../usecases/reset-password/reset-password.usecase';
 import { SendOtpCommand } from '../usecases/send-otp/send-otp.command';
 import { SendOtpUsecase } from '../usecases/send-otp/send-otp.usecase';
+import { SigninByOtpCommand } from '../usecases/signin-by-otp/signin-by-otp';
+import { SigninByOtpUsecase } from '../usecases/signin-by-otp/signin-by-otp.usecase';
 import { VerifyCommand } from '../usecases/verify/verify.command';
 import { VerifyUsecase } from '../usecases/verify/verify.usecase';
 import { Auth, AuthUser } from './auth-provider';
@@ -34,6 +36,7 @@ export class AuthService {
   constructor(
     private readonly requestResetPasswordUsecase: RequestResetPasswordUsecase,
     private readonly resetPasswordUsecase: ResetPasswordUsecase,
+    private readonly signinByOtpUsecase: SigninByOtpUsecase,
     private readonly authManager: AuthProviderManager,
     private readonly sendOtpUsecase: SendOtpUsecase,
     private readonly tokenService: JwtTokenService,
@@ -98,6 +101,10 @@ export class AuthService {
 
   async revokeToken(options: RevokeTokenOption): Promise<void> {
     await this.tokenService.revokeToken(options);
+  }
+
+  async signinByOtp(data: SigninByOtpData): Promise<Token> {
+    return await this.signinByOtpUsecase.execute(SigninByOtpCommand.create(data));
   }
 
   async sendOtp(data: SendOtp): Promise<void> {
@@ -175,6 +182,12 @@ export class SendOtp {
 }
 
 export class VerifyData {
+  otp!: string;
+  type!: OTPType;
+  identifier!: Email | Mobile;
+}
+
+export class SigninByOtpData {
   otp!: string;
   type!: OTPType;
   identifier!: Email | Mobile;

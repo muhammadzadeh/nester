@@ -1,13 +1,13 @@
-import { IsEnum, IsNotEmpty, IsOptional, IsString, isEmail } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsString } from 'class-validator';
 import { ToLowerCase } from '../../../../common/decorators';
+import { IsIdentifier } from '../../../../common/is-identifier.validator';
 import { IsNotUUID } from '../../../../common/is-not-uuid.validator';
 import { Email, Mobile } from '../../../../common/types';
-import { OTPReason, OTPType } from '../../../domain/entities';
+import { SigninByOtpData } from '../../../application';
+import { OTPType } from '../../../domain/entities';
 import { FakeAuth } from '../../providers/fake';
 import { GoogleAuth } from '../../providers/google';
 import { IdentifierPasswordAuth } from '../../providers/identified-password';
-import { OtpAuth } from '../../providers/otp';
-import { IsIdentifier } from '../../../../common/is-identifier.validator';
 
 export class FakeAuthDto {
   @IsNotEmpty()
@@ -36,7 +36,7 @@ export class IdentifierPasswordAuthDto {
   }
 }
 
-export class OtpAuthDto {
+export class SigninByOtpDto {
   @IsNotEmpty()
   @IsString()
   otp!: string;
@@ -51,14 +51,12 @@ export class OtpAuthDto {
   @IsIdentifier()
   identifier!: Email | Mobile;
 
-  @IsOptional()
-  @IsEnum(OTPReason)
-  reason?: OTPReason;
-
-  toOtpAuth(): OtpAuth {
-    const email = isEmail(this.identifier) ? this.identifier : undefined;
-    const mobile = !isEmail(this.identifier) ? this.identifier : undefined;
-    return new OtpAuth(this.otp, this.type, this.reason ?? OTPReason.VERIFY, email, mobile);
+  toSigninByOtpData(): SigninByOtpData {
+    return {
+      identifier: this.identifier,
+      otp: this.otp,
+      type: this.type,
+    };
   }
 }
 

@@ -13,7 +13,7 @@ import {
   IdentifierDto,
   IdentifierPasswordAuthDto,
   IdentifierPasswordSignupDto,
-  OtpAuthDto,
+  SigninByOtpDto,
   OtpGenerationDto,
   OtpSignupDto,
   RefreshTokenDto,
@@ -115,8 +115,8 @@ export class AuthenticationController {
     status: 200,
     type: AuthenticationResponse,
   })
-  async signinByOtp(@Body() dto: OtpAuthDto): Promise<AuthenticationResponse> {
-    const token = await this.authService.authenticate(dto.toOtpAuth());
+  async signinByOtp(@Body() dto: SigninByOtpDto): Promise<AuthenticationResponse> {
+    const token = await this.authService.signinByOtp(dto.toSigninByOtpData());
     return AuthenticationResponse.from(token);
   }
 

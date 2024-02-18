@@ -7,10 +7,10 @@ import { AuthService, JwtTokenService, PasswordService } from '../../application
 import { IgnoreAuthorizationGuard } from './decorators';
 import {
   AuthenticationResponse,
-  EmailDto,
   FakeAuthDto,
   GoogleAuthDto,
   GoogleSignupDto,
+  IdentifierDto,
   IdentifierPasswordAuthDto,
   IdentifierPasswordSignupDto,
   OtpAuthDto,
@@ -149,8 +149,8 @@ export class AuthenticationController {
     status: 200,
     type: DoneResponse,
   })
-  async sendResetPasswordLink(@Body() { email }: EmailDto): Promise<DoneResponse> {
-    await this.passwordService.sendResetPasswordLink(email);
+  async sendResetPasswordLink(@Body() input: IdentifierDto): Promise<DoneResponse> {
+    await this.authService.requestResetPassword(input.identifier);
     return Serializer.done();
   }
 

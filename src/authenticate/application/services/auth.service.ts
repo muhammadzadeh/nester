@@ -11,6 +11,8 @@ import { Permission } from '../../../users/roles/domain/entities/role.entity';
 import { AUTHENTICATION_EXCHANGE_NAME } from '../../domain/constants';
 import { OTPReason, OTPType } from '../../domain/entities';
 import { AuthenticationEvents, UserLoggedInEvent, UserVerifiedEvent } from '../../domain/events';
+import { RequestResetPasswordCommand } from '../usecases/request-reset-password/request-reset-password.command';
+import { RequestResetPasswordUsecase } from '../usecases/request-reset-password/request-reset-password.usecase';
 import { Auth, AuthUser } from './auth-provider';
 import { AuthProviderManager } from './auth-provider-manager';
 import { AuthenticationNotifier } from './authentication.notifier';
@@ -25,6 +27,7 @@ export class AuthService {
   private logger = new Logger(AuthService.name);
 
   constructor(
+    private readonly requestResetPasswordUsecase: RequestResetPasswordUsecase,
     private readonly notificationSender: AuthenticationNotifier,
     private readonly authManager: AuthProviderManager,
     private readonly tokenService: JwtTokenService,
@@ -99,6 +102,14 @@ export class AuthService {
     } else {
       await this.sendMobileVerificationOtp(user, data.identifier);
     }
+  }
+
+  async requestResetPassword(identifier: Email | Mobile): Promise<void> {
+    await this.requestResetPasswordUsecase.execute(
+      RequestResetPasswordCommand.create({
+        identifier,
+      }),
+    );
   }
 
   private async generateToken(user: UserEntity): Promise<Token> {

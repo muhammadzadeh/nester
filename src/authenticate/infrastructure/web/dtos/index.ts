@@ -1,5 +1,5 @@
 export * from './authentication.response';
-export * from './email.dto';
+export * from './identifier.dto';
 export * from './otp-generation.dto';
 export * from './refresh-token.dto';
 export * from './reset-password.dto';

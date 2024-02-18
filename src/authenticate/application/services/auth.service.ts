@@ -13,11 +13,13 @@ import { OTPReason, OTPType } from '../../domain/entities';
 import { AuthenticationEvents, UserLoggedInEvent, UserVerifiedEvent } from '../../domain/events';
 import { RequestResetPasswordCommand } from '../usecases/request-reset-password/request-reset-password.command';
 import { RequestResetPasswordUsecase } from '../usecases/request-reset-password/request-reset-password.usecase';
+import { ResetPasswordCommand } from '../usecases/reset-password/reset-password.command';
+import { ResetPasswordUsecase } from '../usecases/reset-password/reset-password.usecase';
 import { Auth, AuthUser } from './auth-provider';
 import { AuthProviderManager } from './auth-provider-manager';
 import { AuthenticationNotifier } from './authentication.notifier';
 import { AccessType, JwtTokenService, RevokeTokenOption, Token } from './jwt-token.service';
-import { OtpGeneration, OtpService } from './otp.service';
+import { OtpGeneration, OtpService, OtpVerification } from './otp.service';
 
 export const TOKEN_EXPIRATION_DURATION = Duration.fromObject({ days: 1 });
 export const CODE_EXPIRATION_DURATION = Duration.fromObject({ minutes: 2 });
@@ -28,6 +30,7 @@ export class AuthService {
 
   constructor(
     private readonly requestResetPasswordUsecase: RequestResetPasswordUsecase,
+    private readonly resetPasswordUsecase: ResetPasswordUsecase,
     private readonly notificationSender: AuthenticationNotifier,
     private readonly authManager: AuthProviderManager,
     private readonly tokenService: JwtTokenService,
@@ -108,6 +111,15 @@ export class AuthService {
     await this.requestResetPasswordUsecase.execute(
       RequestResetPasswordCommand.create({
         identifier,
+      }),
+    );
+  }
+
+  async resetPassword(otpVerification: OtpVerification, password: string): Promise<void> {
+    await this.resetPasswordUsecase.execute(
+      ResetPasswordCommand.create({
+        otpData: otpVerification,
+        password,
       }),
     );
   }

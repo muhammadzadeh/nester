@@ -6,9 +6,11 @@ import { IsStrongPasswordConstraint } from '../../common/is-strong-password.vali
 import { UsersService } from '../../users/profiles/application/users.service';
 import { ProfileModule } from '../../users/profiles/infrastructure/profiles.module';
 import { RolesModule } from '../../users/roles/infrastructure/roles.module';
-import { AuthProviderManager, PasswordService } from '../application';
+import { AuthProviderManager } from '../application';
 import { AuthService, AuthenticationNotifier, JwtTokenService, OtpService } from '../application/';
 import { AuthProvider } from '../application/services/auth-provider';
+import { RequestResetPasswordUsecase } from '../application/usecases/request-reset-password/request-reset-password.usecase';
+import { ResetPasswordUsecase } from '../application/usecases/reset-password/reset-password.usecase';
 import { OTP_REPOSITORY_TOKEN } from '../domain/repositories';
 import { TypeormOTPEntity } from './database/entities';
 import { TypeOrmOTPRepository } from './database/repositories';
@@ -54,10 +56,11 @@ const otpRepository: Provider = {
     OtpService,
     AuthenticationNotifier,
     JwtTokenService,
-    PasswordService,
     AuthorizationGuard,
     CheckPermissionGuard,
     IsUserEnableGuard,
+    RequestResetPasswordUsecase,
+    ResetPasswordUsecase,
     {
       provide: IsStrongPasswordConstraint,
       inject: [Configuration],

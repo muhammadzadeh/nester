@@ -3,7 +3,7 @@ import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { Captcha } from '../../../common/captcha/decorators';
 import { CommonController } from '../../../common/guards/decorators';
 import { DoneResponse, Serializer } from '../../../common/serialization';
-import { AuthService, JwtTokenService, PasswordService } from '../../application';
+import { AuthService, JwtTokenService } from '../../application';
 import { IgnoreAuthorizationGuard } from './decorators';
 import {
   AuthenticationResponse,
@@ -28,7 +28,6 @@ import { VerifyDto } from './dtos/verify.dto';
 @CommonController(`/auth`)
 export class AuthenticationController {
   constructor(
-    private readonly passwordService: PasswordService,
     private readonly jwtService: JwtTokenService,
     private readonly authService: AuthService,
   ) {}
@@ -161,7 +160,7 @@ export class AuthenticationController {
     type: DoneResponse,
   })
   async resetPassword(@Body() dto: ResetPasswordDto): Promise<DoneResponse> {
-    await this.passwordService.resetPassword(dto.toOTPVerification(), dto.newPassword);
+    await this.authService.resetPassword(dto.toOTPVerification(), dto.newPassword);
     return Serializer.done();
   }
 

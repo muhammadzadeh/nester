@@ -10,6 +10,7 @@ import { Permission } from '../../../users/roles/domain/entities/role.entity';
 import { AUTHENTICATION_EXCHANGE_NAME } from '../../domain/constants';
 import { OTPType } from '../../domain/entities';
 import { AuthenticationEvents, UserLoggedInEvent, UserVerifiedEvent } from '../../domain/events';
+import { UserNotRegisteredException, YourAccountIsBlockedException } from '../exceptions';
 import { RequestResetPasswordCommand } from '../usecases/request-reset-password/request-reset-password.command';
 import { RequestResetPasswordUsecase } from '../usecases/request-reset-password/request-reset-password.usecase';
 import { ResetPasswordCommand } from '../usecases/reset-password/reset-password.command';
@@ -18,13 +19,14 @@ import { SendOtpCommand } from '../usecases/send-otp/send-otp.command';
 import { SendOtpUsecase } from '../usecases/send-otp/send-otp.usecase';
 import { SigninByOtpCommand } from '../usecases/signin-by-otp/signin-by-otp';
 import { SigninByOtpUsecase } from '../usecases/signin-by-otp/signin-by-otp.usecase';
+import { SignupByOtpCommand } from '../usecases/signup-by-otp/signup-by-otp.command';
+import { SignupByOtpUsecase } from '../usecases/signup-by-otp/signup-by-otp.usecase';
 import { VerifyCommand } from '../usecases/verify/verify.command';
 import { VerifyUsecase } from '../usecases/verify/verify.usecase';
 import { Auth, AuthUser } from './auth-provider';
 import { AuthProviderManager } from './auth-provider-manager';
 import { AccessType, JwtTokenService, RevokeTokenOption, Token } from './jwt-token.service';
 import { OtpVerification } from './otp.service';
-import { UserNotRegisteredException, YourAccountIsBlockedException } from '../../domain/exceptions';
 
 export const TOKEN_EXPIRATION_DURATION = Duration.fromObject({ days: 1 });
 export const CODE_EXPIRATION_DURATION = Duration.fromObject({ minutes: 2 });
@@ -37,6 +39,7 @@ export class AuthService {
     private readonly requestResetPasswordUsecase: RequestResetPasswordUsecase,
     private readonly resetPasswordUsecase: ResetPasswordUsecase,
     private readonly signinByOtpUsecase: SigninByOtpUsecase,
+    private readonly signupByOtpUsecase: SignupByOtpUsecase,
     private readonly authManager: AuthProviderManager,
     private readonly sendOtpUsecase: SendOtpUsecase,
     private readonly tokenService: JwtTokenService,
@@ -107,8 +110,8 @@ export class AuthService {
     return await this.signinByOtpUsecase.execute(SigninByOtpCommand.create(data));
   }
 
-  async signupByOtp(data: SignupByOtpData): Promise<Token> {
-    return await this.signinByOtpUsecase.execute(SigninByOtpCommand.create(data));
+  async signupByOtp(data: SignupByOtpData): Promise<void> {
+    await this.signupByOtpUsecase.execute(SignupByOtpCommand.create(data));
   }
 
   async sendOtp(data: SendOtp): Promise<void> {

@@ -21,3 +21,6 @@ export class InvalidOtpException extends Error {}
 
 @Exception({ statusCode: HttpStatus.BAD_REQUEST, errorCode: 'USER_NOT_VERIFIED' })
 export class UserNotVerifiedException extends Error {}
+
+@Exception({ statusCode: HttpStatus.BAD_REQUEST, errorCode: 'INVALID_IDENTIFIER' })
+export class InvalidIdentifierException extends Error {}

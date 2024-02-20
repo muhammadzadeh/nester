@@ -6,12 +6,13 @@ import { IsStrongPasswordConstraint } from '../../common/is-strong-password.vali
 import { UsersService } from '../../users/profiles/application/users.service';
 import { ProfileModule } from '../../users/profiles/infrastructure/profiles.module';
 import { RolesModule } from '../../users/roles/infrastructure/roles.module';
-import { AuthProviderManager } from '../application';
-import { AuthService, AuthenticationNotifier, JwtTokenService, OtpService } from '../application/';
+import { AuthProviderManager, AuthService, AuthenticationNotifier, JwtTokenService, OtpService } from '../application/services';
 import { AuthProvider } from '../application/services/auth-provider';
 import { RequestResetPasswordUsecase } from '../application/usecases/request-reset-password/request-reset-password.usecase';
 import { ResetPasswordUsecase } from '../application/usecases/reset-password/reset-password.usecase';
 import { SendOtpUsecase } from '../application/usecases/send-otp/send-otp.usecase';
+import { SigninByOtpUsecase } from '../application/usecases/signin-by-otp/signin-by-otp.usecase';
+import { SignupByOtpUsecase } from '../application/usecases/signup-by-otp/signup-by-otp.usecase';
 import { VerifyUsecase } from '../application/usecases/verify/verify.usecase';
 import { OTP_REPOSITORY_TOKEN } from '../domain/repositories';
 import { TypeormOTPEntity } from './database/entities';
@@ -22,7 +23,6 @@ import { IdentifierPasswordAuthProvider } from './providers/identified-password'
 import { OTPAuthProvider } from './providers/otp';
 import { AuthenticationController } from './web';
 import { AuthorizationGuard, CheckPermissionGuard, IsUserEnableGuard } from './web/guards';
-import { SigninByOtpUsecase } from '../application/usecases/signin-by-otp/signin-by-otp.usecase';
 
 const authProviderManager: Provider = {
   provide: AuthProviderManager,
@@ -67,6 +67,7 @@ const otpRepository: Provider = {
     SendOtpUsecase,
     VerifyUsecase,
     SigninByOtpUsecase,
+    SignupByOtpUsecase,
     {
       provide: IsStrongPasswordConstraint,
       inject: [Configuration],

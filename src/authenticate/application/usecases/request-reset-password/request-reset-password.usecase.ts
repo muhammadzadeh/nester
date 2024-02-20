@@ -30,12 +30,12 @@ export class RequestResetPasswordUsecase {
 
     const email = isEmail(command.identifier) ? command.identifier : undefined;
     const mobile = isPhoneNumber(command.identifier) ? command.identifier : undefined;
-    if (!mobile || !email) {
+    if (!mobile && !email) {
       this.logger.log(`to send reset password code, we need email or mobile ${command.identifier}`);
       return;
     }
 
-    const otpGeneration = new OtpGeneration(user.id, email, mobile, OTPType.CODE, OTPReason.RESET_PASSWORD);
+    const otpGeneration = new OtpGeneration(user.id, mobile, email, OTPType.CODE, OTPReason.RESET_PASSWORD);
     const otp = await this.otpService.generate(otpGeneration);
     await this.notificationSender.sendOtp(otpGeneration, otp);
   }

@@ -25,7 +25,7 @@ export class SignupByOtpUsecase {
 
     const email = isEmail(command.identifier) ? command.identifier : undefined;
     const mobile = isPhoneNumber(command.identifier) ? command.identifier : undefined;
-    if (!mobile || !email) {
+    if (!mobile && !email) {
       this.logger.log(`Email or mobile is  missing for identifier ${command.identifier}`);
       throw new InvalidIdentifierException(`Invalid identifier, Email or Phone number must be provided`);
     }
@@ -37,7 +37,7 @@ export class SignupByOtpUsecase {
       isMobileVerified: false,
     });
 
-    const otpGeneration = new OtpGeneration(createdUser.id, email, mobile, OTPType.CODE, OTPReason.VERIFY);
+    const otpGeneration = new OtpGeneration(createdUser.id, mobile, email, OTPType.CODE, OTPReason.VERIFY);
     const otp = await this.otpService.generate(otpGeneration);
     await this.notificationSender.sendOtp(otpGeneration, otp);
   }

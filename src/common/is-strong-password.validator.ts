@@ -19,7 +19,7 @@ export class IsStrongPasswordConstraint implements ValidatorConstraintInterface 
   }
 
   defaultMessage(): string {
-    return `Password must be strong! regex pattern!`;
+    return `Password must be strong!`;
   }
 }
 

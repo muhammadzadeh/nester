@@ -17,9 +17,9 @@ const DEFAULT_TOKEN_OTP_DURATION = Duration.fromISO('PT15M');
 const DEFAULT_CODE_OTP_DURATION = Duration.fromISO('PT2M');
 export class OtpGeneration {
   constructor(
-    readonly userId: string,
-    readonly mobile: string | undefined,
-    readonly email: string | undefined,
+    readonly userId: UserId,
+    readonly mobile: Mobile | undefined,
+    readonly email: Email | undefined,
     readonly type: OTPType,
     readonly reason: OTPReason,
     readonly ttl: Duration = type === OTPType.CODE ? DEFAULT_CODE_OTP_DURATION : DEFAULT_TOKEN_OTP_DURATION,
@@ -28,14 +28,6 @@ export class OtpGeneration {
   }
 
   readonly expireAt: Date;
-
-  static ofMobile(userId: UserId, mobile: Mobile, type: OTPType, reason: OTPReason, ttl: Duration) {
-    return new OtpGeneration(userId, mobile, undefined, type, reason, ttl);
-  }
-
-  static ofEmail(userId: UserId, email: Email, type: OTPType, reason: OTPReason, ttl?: Duration) {
-    return new OtpGeneration(userId, undefined, email, type, reason, ttl);
-  }
 }
 
 export class OtpVerification {

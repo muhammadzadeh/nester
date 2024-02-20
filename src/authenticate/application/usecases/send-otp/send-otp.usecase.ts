@@ -30,12 +30,12 @@ export class SendOtpUsecase {
 
     const email = isEmail(command.identifier) ? command.identifier : undefined;
     const mobile = isPhoneNumber(command.identifier) ? command.identifier : undefined;
-    if (!mobile || !email) {
+    if (!mobile && !email) {
       this.logger.log(`to send OTP, we need email or mobile ${command.identifier}`);
       return;
     }
 
-    const otpGeneration = new OtpGeneration(user.id, email, mobile, OTPType.CODE, OTPReason.VERIFY);
+    const otpGeneration = new OtpGeneration(user.id, mobile, email, OTPType.CODE, OTPReason.VERIFY);
     const otp = await this.otpService.generate(otpGeneration);
     await this.notificationSender.sendOtp(otpGeneration, otp);
   }

@@ -27,7 +27,7 @@ export class SigninByOtpUsecase {
   async execute(command: SigninByOtpCommand): Promise<Token> {
     const email = isEmail(command.identifier) ? command.identifier : undefined;
     const mobile = isPhoneNumber(command.identifier) ? command.identifier : undefined;
-    if (!mobile || !email) {
+    if (!mobile && !email) {
       this.logger.log(`to signin by OTP, we need email or mobile ${command.identifier}`);
       throw new InvalidCredentialException(`to signin by OTP, we need email or mobile ${command.identifier}`);
     }

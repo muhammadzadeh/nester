@@ -27,7 +27,7 @@ export class VerifyUsecase {
   async execute(command: VerifyCommand): Promise<Token> {
     const email = isEmail(command.identifier) ? command.identifier : undefined;
     const mobile = isPhoneNumber(command.identifier) ? command.identifier : undefined;
-    if (!mobile || !email) {
+    if (!mobile && !email) {
       this.logger.log(`to verify user, we need email or mobile ${command.identifier}`);
       throw new CannotVerifyException(`to verify user, we need email or mobile ${command.identifier}`);
     }

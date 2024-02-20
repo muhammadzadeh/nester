@@ -86,6 +86,9 @@ export class LoggerConfig {
       '/favicon.ico',
       '/docs',
       '/health',
+      '/common/auth/signin',
+      '/common/auth/signup',
+      '/common/auth/refresh-token',
     ];
   }
 }

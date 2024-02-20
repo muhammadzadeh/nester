@@ -5,9 +5,9 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { TerminusModule } from '@nestjs/terminus';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { Queue } from 'bull';
 import { AuthModule } from 'common/guards';
 import typeormOptions from 'common/typeorm';
-import { Queue } from 'bull';
 import { WinstonModule } from 'nest-winston';
 import { AcceptLanguageResolver, HeaderResolver, I18nModule, QueryResolver } from 'nestjs-i18n';
 import { join } from 'node:path';
@@ -16,11 +16,11 @@ import { AuthenticationModule } from '../authenticate/infrastructure/authenticat
 import { CacheServiceModule } from '../common/cache/cache.module';
 import { CaptchaModule } from '../common/captcha/captcha.module';
 import { ConfigModule, Configuration } from '../common/config';
+import { DATABASE_SEEDER_TAG } from '../common/database';
 import { HealthController } from '../common/health/health.controller';
 import { StorageHealthIndicator } from '../common/health/storage-health.indicator';
 import { RabbitMQModule } from '../common/rabbit/infrastructure/rabbit-mq.module';
 import { ThrottlerStorageRedisService } from '../common/throttler';
-import { DATABASE_SEEDER_TAG } from '../common/database';
 import { NotificationsModule } from '../notifications/infrastructure/notifications.module';
 import { ProfileModule } from '../users/profiles/infrastructure/profiles.module';
 

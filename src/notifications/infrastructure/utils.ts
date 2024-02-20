@@ -3,10 +3,7 @@ import { NotificationCreatedEvent, NotificationEvents } from '../domain/events';
 import { NOTIFICATION_EXCHANGE_NAME } from './constants';
 
 export function sendNotification(input: NotificationCreatedEvent): void {
-  publish(NOTIFICATION_EXCHANGE_NAME, NotificationEvents.NOTIFICATION_CREATED, input, {
-    persistent: true,
-    deliveryMode: 2,
-  }).catch((error: any) => {
+  publish(NOTIFICATION_EXCHANGE_NAME, NotificationEvents.NOTIFICATION_CREATED, input).catch((error: any) => {
     console.error(error);
   });
 }

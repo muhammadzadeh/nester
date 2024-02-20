@@ -89,7 +89,7 @@ export class RabbitMqService {
     const queue = await this.createQueue(consumerOption.queue, channel);
     await this.bindQueue(consumerOption, channel, queue);
     const { consumerTag } = await this.consumeMessage(channel, queue);
-    
+
     this.consumerHandlers[consumerTag] = handler;
   }
 
@@ -154,7 +154,10 @@ export async function publish(
   exchange: string,
   routingKey: string,
   payload: any,
-  options?: Options.Publish,
+  options: Options.Publish = {
+    persistent: true,
+    deliveryMode: 2,
+  },
 ): Promise<void> {
   await RabbitInstanceHolder.getRabbitMqService()?.publish(exchange, routingKey, payload, options);
 }

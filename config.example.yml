@@ -18,12 +18,18 @@ throttling:
 database:
   url: postgres://postgres:postgres@127.0.0.1:5432/beta
   schema: public
-google:
-  clientId: replace_me
-  clientSecret: replace_me
-token:
-  jwtSecret: replace_me
-  expiration: PT100H
+authentication:
+  passwordRegEx: ^(?=.*[a-zA-Z])(?=.*[0-9]).{6,}$
+  allowUnverifiedSignin: true
+  allowImpersonation: false
+  token:
+    jwtSecret: replace_me
+    accessTokenExpiration: PT1H
+    refreshTokenExpiration: P100D
+  providers: 
+    google:
+      clientId: replace_me
+      clientSecret: replace_me
 storage:
   type: r2
   baseUrl: http://localhost:9000

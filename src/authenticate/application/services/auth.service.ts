@@ -1,157 +1,114 @@
-import { HttpStatus, Inject, Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { isEmail } from 'class-validator';
-import { Duration } from 'luxon';
-import { Exception } from '../../../common/exception';
-import { publish } from '../../../common/rabbit/application/rabbit-mq.service';
-import { Email, Mobile } from '../../../common/types';
-import { UsersService } from '../../../users/profiles/application/users.service';
-import { UserEntity } from '../../../users/profiles/domain/entities/user.entity';
-import { RolesService } from '../../../users/roles/application/roles.service';
-import { Permission } from '../../../users/roles/domain/entities/role.entity';
-import { AUTHENTICATION_EXCHANGE_NAME } from '../../domain/constants';
-import { OTPReason, OTPType } from '../../domain/entities';
-import { AuthenticationEvents, UserLoggedInEvent, UserVerifiedEvent } from '../../domain/events';
-import { Auth } from '../providers/auth-provider.interface';
-import { AuthUser } from '../providers/auth-user';
-import { PROVIDER_MANAGER, ProviderManager } from '../providers/provider-manager.interface';
-import { AuthenticationNotifier } from './authentication.notifier';
-import { AccessType, JwtTokenService, RevokeTokenOption, Token } from './jwt-token.service';
-import { OtpGeneration, OtpService } from './otp.service';
-
-export const TOKEN_EXPIRATION_DURATION = Duration.fromObject({ days: 1 });
-export const CODE_EXPIRATION_DURATION = Duration.fromObject({ minutes: 2 });
+import { Email, Mobile, UserId, Username } from '../../../common/types';
+import { OTPType } from '../../domain/entities';
+import { ImpersonationCommand } from '../usecases/impersonation/impersonation.command';
+import { ImpersonationUsecase } from '../usecases/impersonation/impersonation.usecase';
+import { RefreshTokenCommand } from '../usecases/refresh-token/refresh-token.command';
+import { RefreshTokenUsecase } from '../usecases/refresh-token/refresh-token.usecase';
+import { RequestResetPasswordCommand } from '../usecases/request-reset-password/request-reset-password.command';
+import { RequestResetPasswordUsecase } from '../usecases/request-reset-password/request-reset-password.usecase';
+import { ResetPasswordCommand } from '../usecases/reset-password/reset-password.command';
+import { ResetPasswordUsecase } from '../usecases/reset-password/reset-password.usecase';
+import { RevokeTokenCommand } from '../usecases/revoke-token/revoke-token.command';
+import { RevokeTokenUsecase } from '../usecases/revoke-token/revoke-token.usecase';
+import { SendOtpCommand } from '../usecases/send-otp/send-otp.command';
+import { SendOtpUsecase } from '../usecases/send-otp/send-otp.usecase';
+import { SigninByOtpCommand } from '../usecases/signin-by-otp/signin-by-otp';
+import { SigninByOtpUsecase } from '../usecases/signin-by-otp/signin-by-otp.usecase';
+import { SigninByPasswordCommand } from '../usecases/signin-by-password/signin-by-password';
+import { SigninByPasswordUsecase } from '../usecases/signin-by-password/signin-by-password.usecase';
+import { SignupByOtpCommand } from '../usecases/signup-by-otp/signup-by-otp.command';
+import { SignupByOtpUsecase } from '../usecases/signup-by-otp/signup-by-otp.usecase';
+import { SignupByPasswordCommand } from '../usecases/signup-by-password/signup-by-password.command';
+import { SignupByPasswordUsecase } from '../usecases/signup-by-password/signup-by-password.usecase';
+import { Auth, AuthProviderType } from '../usecases/third-parties/auth-provider';
+import { SigninByThirdPartyCommand } from '../usecases/third-parties/signin-by-third-party/signin-by-third-party.command';
+import { SigninByThirdPartyUsecase } from '../usecases/third-parties/signin-by-third-party/signin-by-third-party.usecase';
+import { SignupByThirdPartyCommand } from '../usecases/third-parties/signup-by-third-party/signup-by-third-party.command';
+import { SignupByThirdPartyUsecase } from '../usecases/third-parties/signup-by-third-party/signup-by-third-party.usecase';
+import { VerifyCommand } from '../usecases/verify/verify.command';
+import { VerifyUsecase } from '../usecases/verify/verify.usecase';
+import { RefreshTokenData, RevokeTokenOption, Token } from './jwt-token.service';
+import { OtpVerification } from './otp.service';
 
 @Injectable()
 export class AuthService {
-  private logger = new Logger(AuthService.name);
-
   constructor(
-    @Inject(PROVIDER_MANAGER) private readonly authManager: ProviderManager,
-    private readonly notificationSender: AuthenticationNotifier,
-    private readonly tokenService: JwtTokenService,
-    private readonly rolesService: RolesService,
-    private readonly usersService: UsersService,
-    private readonly otpService: OtpService,
+    private readonly requestResetPasswordUsecase: RequestResetPasswordUsecase,
+    private readonly signupByThirdPartyUsecase: SignupByThirdPartyUsecase,
+    private readonly signinByThirdPartyUsecase: SigninByThirdPartyUsecase,
+    private readonly signinByPasswordUsecase: SigninByPasswordUsecase,
+    private readonly signupByPasswordUsecase: SignupByPasswordUsecase,
+    private readonly impersonationUsecase: ImpersonationUsecase,
+    private readonly resetPasswordUsecase: ResetPasswordUsecase,
+    private readonly refreshTokenUsecase: RefreshTokenUsecase,
+    private readonly signinByOtpUsecase: SigninByOtpUsecase,
+    private readonly revokeTokenUsecase: RevokeTokenUsecase,
+    private readonly signupByOtpUsecase: SignupByOtpUsecase,
+    private readonly sendOtpUsecase: SendOtpUsecase,
+    private readonly verifyUsecase: VerifyUsecase,
   ) {}
 
-  async getAuthenticateMethods(identifier: Email | Mobile): Promise<SigninMethod[]> {
-    const user = await this.findUser(identifier);
-    const signinMethods: SigninMethod[] = [];
-
-    signinMethods.push(SigninMethod.OTP);
-    if (user.hashPassword()) {
-      signinMethods.push(SigninMethod.PASSWORD);
-    }
-
-    return signinMethods;
+  async signupByThirdParty(data: AuthenticateByThirdPartyData): Promise<Token> {
+    return await this.signupByThirdPartyUsecase.execute(SignupByThirdPartyCommand.create(data));
   }
 
-  async signup(data: Auth): Promise<Token | undefined> {
-    const registeredUser: UserEntity = await this.authManager.signup(data);
-
-    if (registeredUser.isVerified()) {
-      return await this.generateToken(registeredUser);
-    }
-
-    return undefined;
-  }
-
-  async authenticate(auth: Auth): Promise<Token> {
-    const authUser: AuthUser = await this.authManager.authenticate(auth);
-    const user = await this.usersService.findOneByIdentifierOrFail(authUser.email ?? authUser.mobile!);
-
-    if (!user.isVerified() && authUser.isVerified) {
-      publish(AUTHENTICATION_EXCHANGE_NAME, AuthenticationEvents.USER_VERIFIED, new UserVerifiedEvent(user), {
-        persistent: true,
-        deliveryMode: 2,
-      });
-    }
-
-    if (user.isBlocked) {
-      throw new YourAccountIsBlockedException();
-    }
-
-    publish(AUTHENTICATION_EXCHANGE_NAME, AuthenticationEvents.USER_LOGGED_IN, new UserLoggedInEvent(user), {
-      persistent: true,
-      deliveryMode: 2,
-    });
-
-    return this.generateToken(user);
+  async signinByThirdParty(data: AuthenticateByThirdPartyData): Promise<Token> {
+    return await this.signinByThirdPartyUsecase.execute(SigninByThirdPartyCommand.create(data));
   }
 
   async revokeToken(options: RevokeTokenOption): Promise<void> {
-    await this.tokenService.revokeToken(options);
+    await this.revokeTokenUsecase.execute(RevokeTokenCommand.create(options));
+  }
+
+  async signinByPassword(data: SigninByPasswordData): Promise<Token> {
+    return await this.signinByPasswordUsecase.execute(SigninByPasswordCommand.create(data));
+  }
+
+  async signinByOtp(data: SigninByOtpData): Promise<Token> {
+    return await this.signinByOtpUsecase.execute(SigninByOtpCommand.create(data));
+  }
+
+  async impersonation(data: ImpersonationData): Promise<Token> {
+    return await this.impersonationUsecase.execute(ImpersonationCommand.create(data));
+  }
+
+  async signupByOtp(data: SignupByOtpData): Promise<void> {
+    await this.signupByOtpUsecase.execute(SignupByOtpCommand.create(data));
+  }
+
+  async signupByPassword(data: SignupByPasswordData): Promise<void> {
+    await this.signupByPasswordUsecase.execute(SignupByPasswordCommand.create(data));
   }
 
   async sendOtp(data: SendOtp): Promise<void> {
-    const user = await this.findUser(data.identifier);
-
-    if (data.isEmail()) {
-      await this.sendEmailVerificationOtp(user, data.identifier);
-    } else {
-      await this.sendMobileVerificationOtp(user, data.identifier);
-    }
+    await this.sendOtpUsecase.execute(SendOtpCommand.create(data));
   }
 
-  private async generateToken(user: UserEntity): Promise<Token> {
-    const permissions = await this.findUserPermissions(user);
-    return await this.tokenService.generate({
-      accessType: user.isVerified() ? AccessType.VERIFIED_USER : AccessType.UNVERIFIED_USER,
-      email: user.email,
-      mobile: user.mobile,
-      isEmailVerified: user.isEmailVerified,
-      isMobileVerified: user.isMobileVerified,
-      userId: user.id,
-      isBlocked: user.isBlocked,
-      permissions,
-    });
-  }
-
-  private async findUserPermissions(user: UserEntity): Promise<Permission[]> {
-    const permissions: Permission[] = [];
-    if (!user.hasRole()) {
-      return permissions;
-    }
-
-    try {
-      const role = await this.rolesService.findOneById(user.roleId!);
-      permissions.push(...role.permissions);
-    } catch (error) {
-      this.logger.error(error);
-    }
-    return permissions;
-  }
-
-  private async sendEmailVerificationOtp(user: UserEntity, email: Email) {
-    const otpGeneration = OtpGeneration.ofEmail(
-      user.id,
-      email,
-      OTPType.CODE,
-      OTPReason.VERIFY,
-      CODE_EXPIRATION_DURATION,
+  async requestResetPassword(identifier: Email | Mobile): Promise<void> {
+    await this.requestResetPasswordUsecase.execute(
+      RequestResetPasswordCommand.create({
+        identifier,
+      }),
     );
-    const otp = await this.otpService.generate(otpGeneration);
-    await this.notificationSender.sendOtp(otpGeneration, otp);
   }
 
-  private async sendMobileVerificationOtp(user: UserEntity, mobile: Mobile) {
-    const otpGeneration = OtpGeneration.ofMobile(
-      user.id,
-      mobile,
-      OTPType.CODE,
-      OTPReason.VERIFY,
-      CODE_EXPIRATION_DURATION,
+  async resetPassword(otpVerification: OtpVerification, password: string): Promise<void> {
+    await this.resetPasswordUsecase.execute(
+      ResetPasswordCommand.create({
+        otpData: otpVerification,
+        password,
+      }),
     );
-    const otp = await this.otpService.generate(otpGeneration);
-    await this.notificationSender.sendOtp(otpGeneration, otp);
   }
 
-  private async findUser(identifier: Mobile | Email): Promise<UserEntity> {
-    try {
-      return await this.usersService.findOneByIdentifierOrFail(identifier);
-    } catch (error) {
-      throw new UserNotRegisteredException('User not registered', { cause: error });
-    }
+  async verify(data: VerifyData): Promise<Token> {
+    return await this.verifyUsecase.execute(VerifyCommand.create(data));
+  }
+
+  async refreshToken(data: RefreshTokenData): Promise<Token> {
+    return await this.refreshTokenUsecase.execute(RefreshTokenCommand.create(data));
   }
 }
 
@@ -166,17 +123,40 @@ export class SendOtp {
   }
 }
 
-@Exception({ statusCode: HttpStatus.BAD_REQUEST, errorCode: 'USER_NOT_REGISTERED' })
-export class UserNotRegisteredException extends Error {}
+export class VerifyData {
+  readonly otp!: string;
+  readonly type!: OTPType;
+  readonly identifier!: Email | Mobile;
+}
 
-@Exception({ statusCode: HttpStatus.BAD_REQUEST, errorCode: 'USER_ALREADY_REGISTERED' })
-export class UserAlreadyRegisteredException extends Error {}
+export class SigninByOtpData {
+  readonly otp!: string;
+  readonly type!: OTPType;
+  readonly identifier!: Email | Mobile;
+}
 
-@Exception({
-  errorCode: 'ACCOUNT_IS_BLOCKED',
-  statusCode: HttpStatus.BAD_REQUEST,
-})
-export class YourAccountIsBlockedException extends Error {}
+export class ImpersonationData {
+  readonly identifier!: Email | Mobile | UserId | Username;
+}
+
+export class SigninByPasswordData {
+  readonly password!: string;
+  readonly identifier!: Email | Mobile;
+}
+
+export class SignupByPasswordData {
+  readonly password!: string;
+  readonly identifier!: Email | Mobile;
+}
+
+export class SignupByOtpData {
+  readonly identifier!: Email | Mobile;
+}
+
+export class AuthenticateByThirdPartyData {
+  readonly provider!: AuthProviderType;
+  readonly data!: Auth;
+}
 
 export enum SigninMethod {
   PASSWORD = 'password',

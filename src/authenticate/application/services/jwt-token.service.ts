@@ -4,10 +4,10 @@ import { JwtPayload, decode, sign, verify } from 'jsonwebtoken';
 import { DateTime, Duration } from 'luxon';
 import { CacheService } from '../../../common/cache/services';
 import { Configuration } from '../../../common/config';
-import { TokenConfig } from '../../../common/config/token';
+import { TokenConfig } from '../../../common/config/authentication.config';
 import { Exception } from '../../../common/exception';
-import { randomString } from '../../../common/utils';
 import { Email, Mobile, UserId } from '../../../common/types';
+import { randomString } from '../../../common/utils';
 import { Permission } from '../../../users/roles/domain/entities/role.entity';
 
 @Injectable()
@@ -15,16 +15,16 @@ export class JwtTokenService {
   private readonly tokenConfig: TokenConfig;
   constructor(
     private readonly cacheService: CacheService,
-    { token }: Configuration,
+    readonly config: Configuration,
   ) {
-    this.tokenConfig = token;
+    this.tokenConfig = config.authentication.token;
   }
 
   async generate(payload: TokenPayload): Promise<Token>;
   async generate(payload: TokenPayload, options: TokenOption): Promise<Token>;
   async generate(payload: TokenPayload, options?: TokenOption): Promise<Token> {
     const id = randomUUID();
-    const accessTokenExpiration = options?.ttl?.as('second') ?? this.tokenConfig.expiration.as('second');
+    const accessTokenExpiration = options?.ttl?.as('second') ?? this.tokenConfig.accessTokenExpiration.as('second');
     const accessToken = sign({ ...payload }, this.tokenConfig.jwtSecret, {
       expiresIn: accessTokenExpiration,
       jwtid: id,
@@ -41,7 +41,7 @@ export class JwtTokenService {
       .getRedisClient()
       .setex(this.generateRedisAccessKey(payload.userId, id), accessTokenExpiration, id);
 
-    const expireAt = DateTime.local().plus(this.tokenConfig.expiration).toJSDate();
+    const expireAt = DateTime.local().plus(this.tokenConfig.accessTokenExpiration).toJSDate();
     return {
       accessToken,
       refreshToken,

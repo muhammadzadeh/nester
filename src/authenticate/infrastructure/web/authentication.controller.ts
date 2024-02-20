@@ -3,35 +3,28 @@ import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { Captcha } from '../../../common/captcha/decorators';
 import { CommonController } from '../../../common/guards/decorators';
 import { DoneResponse, Serializer } from '../../../common/serialization';
-import { AuthService, JwtTokenService, PasswordService } from '../../application';
+import { AuthService } from '../../application/services/auth.service';
 import { IgnoreAuthorizationGuard } from './decorators';
 import {
+  AuthenticateByThirdPartyDto,
   AuthenticationResponse,
-  EmailDto,
-  FakeAuthDto,
-  GoogleAuthDto,
-  GoogleSignupDto,
+  IdentifierDto,
   IdentifierPasswordAuthDto,
   IdentifierPasswordSignupDto,
-  OtpAuthDto,
+  ImpersonationDto,
   OtpGenerationDto,
-  OtpSignupDto,
   RefreshTokenDto,
   ResetPasswordDto,
-  SigninMethodDto,
-  SigninMethodResponse,
+  SigninByOtpDto,
+  SignupByOtpDto,
+  VerifyDto,
 } from './dtos';
-import { VerifyDto } from './dtos/verify.dto';
 
 @IgnoreAuthorizationGuard()
 @ApiTags('Authentication')
 @CommonController(`/auth`)
 export class AuthenticationController {
-  constructor(
-    private readonly passwordService: PasswordService,
-    private readonly jwtService: JwtTokenService,
-    private readonly authService: AuthService,
-  ) {}
+  constructor(private readonly authService: AuthService) {}
 
   @Post('signup/identifier-password')
   @Captcha()
@@ -40,7 +33,7 @@ export class AuthenticationController {
     type: DoneResponse,
   })
   async signupByIdentifierPassword(@Body() dto: IdentifierPasswordSignupDto): Promise<DoneResponse> {
-    await this.authService.signup(dto.toIdentifierPasswordSignup());
+    await this.authService.signupByPassword(dto.toSignupByPasswordData());
     return Serializer.done();
   }
 
@@ -50,8 +43,8 @@ export class AuthenticationController {
     status: 200,
     type: AuthenticationResponse,
   })
-  async signupByGoogle(@Body() dto: GoogleSignupDto): Promise<AuthenticationResponse> {
-    const token = await this.authService.signup(dto.toGoogleSignup());
+  async signupByGoogle(@Body() dto: AuthenticateByThirdPartyDto): Promise<AuthenticationResponse> {
+    const token = await this.authService.signupByThirdParty(dto.toAuthenticateByThirdPartyData());
     return AuthenticationResponse.from(token!);
   }
 
@@ -61,8 +54,8 @@ export class AuthenticationController {
     status: 200,
     type: DoneResponse,
   })
-  async signupByOtp(@Body() dto: OtpSignupDto): Promise<DoneResponse> {
-    await this.authService.signup(dto.toOtpSignup());
+  async signupByOtp(@Body() dto: SignupByOtpDto): Promise<DoneResponse> {
+    await this.authService.signupByOtp(dto.toSignupByOtpData());
     return Serializer.done();
   }
 
@@ -73,19 +66,8 @@ export class AuthenticationController {
     type: AuthenticationResponse,
   })
   async verify(@Body() dto: VerifyDto): Promise<AuthenticationResponse> {
-    const token = await this.authService.authenticate(dto.toOtpAuth());
+    const token = await this.authService.verify(dto.toVerifyData());
     return AuthenticationResponse.from(token);
-  }
-
-  @Post('signin/methods')
-  @Captcha()
-  @ApiOkResponse({
-    status: 200,
-    type: SigninMethodResponse,
-  })
-  async getAuthenticateMethods(@Body() dto: SigninMethodDto): Promise<SigninMethodResponse> {
-    const signinMethods = await this.authService.getAuthenticateMethods(dto.identifier);
-    return SigninMethodResponse.from(signinMethods);
   }
 
   @Post('signin/identifier-password')
@@ -95,7 +77,7 @@ export class AuthenticationController {
     type: AuthenticationResponse,
   })
   async signinByIdentifierPassword(@Body() dto: IdentifierPasswordAuthDto): Promise<AuthenticationResponse> {
-    const token = await this.authService.authenticate(dto.toIdentifierPasswordAuth());
+    const token = await this.authService.signinByPassword(dto.toSigninByPasswordData());
     return AuthenticationResponse.from(token);
   }
 
@@ -105,8 +87,8 @@ export class AuthenticationController {
     status: 200,
     type: AuthenticationResponse,
   })
-  async signinByGoogle(@Body() dto: GoogleAuthDto): Promise<AuthenticationResponse> {
-    const token = await this.authService.authenticate(dto.toGoogleAuth());
+  async signinByGoogle(@Body() dto: AuthenticateByThirdPartyDto): Promise<AuthenticationResponse> {
+    const token = await this.authService.signinByThirdParty(dto.toAuthenticateByThirdPartyData());
     return AuthenticationResponse.from(token);
   }
 
@@ -116,8 +98,8 @@ export class AuthenticationController {
     status: 200,
     type: AuthenticationResponse,
   })
-  async signinByOtp(@Body() dto: OtpAuthDto): Promise<AuthenticationResponse> {
-    const token = await this.authService.authenticate(dto.toOtpAuth());
+  async signinByOtp(@Body() dto: SigninByOtpDto): Promise<AuthenticationResponse> {
+    const token = await this.authService.signinByOtp(dto.toSigninByOtpData());
     return AuthenticationResponse.from(token);
   }
 
@@ -127,8 +109,8 @@ export class AuthenticationController {
     status: 200,
     type: AuthenticationResponse,
   })
-  async signinByFake(@Body() dto: FakeAuthDto): Promise<AuthenticationResponse> {
-    const token = await this.authService.authenticate(dto.toFakeAuth());
+  async signinByFake(@Body() dto: ImpersonationDto): Promise<AuthenticationResponse> {
+    const token = await this.authService.impersonation(dto.toImpersonationData());
     return AuthenticationResponse.from(token);
   }
 
@@ -149,8 +131,8 @@ export class AuthenticationController {
     status: 200,
     type: DoneResponse,
   })
-  async sendResetPasswordLink(@Body() { email }: EmailDto): Promise<DoneResponse> {
-    await this.passwordService.sendResetPasswordLink(email);
+  async sendResetPasswordLink(@Body() input: IdentifierDto): Promise<DoneResponse> {
+    await this.authService.requestResetPassword(input.identifier);
     return Serializer.done();
   }
 
@@ -161,7 +143,7 @@ export class AuthenticationController {
     type: DoneResponse,
   })
   async resetPassword(@Body() dto: ResetPasswordDto): Promise<DoneResponse> {
-    await this.passwordService.resetPassword(dto.toOTPVerification(), dto.newPassword);
+    await this.authService.resetPassword(dto.toOTPVerification(), dto.newPassword);
     return Serializer.done();
   }
 
@@ -171,7 +153,7 @@ export class AuthenticationController {
     type: AuthenticationResponse,
   })
   async refreshToken(@Body() input: RefreshTokenDto): Promise<AuthenticationResponse> {
-    const token = await this.jwtService.refresh(input.toRefreshTokenData());
+    const token = await this.authService.refreshToken(input.toRefreshTokenData());
     return AuthenticationResponse.from(token);
   }
 }

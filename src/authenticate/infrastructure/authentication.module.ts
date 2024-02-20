@@ -2,42 +2,40 @@ import { Module, Provider } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CacheServiceModule } from '../../common/cache/cache.module';
 import { Configuration } from '../../common/config';
-import { UsersService } from '../../users/profiles/application/users.service';
+import { IsStrongPasswordConstraint } from '../../common/is-strong-password.validator';
 import { ProfileModule } from '../../users/profiles/infrastructure/profiles.module';
 import { RolesModule } from '../../users/roles/infrastructure/roles.module';
-import { PasswordService } from '../application';
-import { AuthProviderManager, AuthService, AuthenticationNotifier, JwtTokenService, OtpService } from '../application/';
-import { AuthProvider } from '../application/providers/auth-provider.interface';
-import { PROVIDER_MANAGER } from '../application/providers/provider-manager.interface';
+import { AuthService } from '../application/services/auth.service';
+import { AuthenticationNotifier } from '../application/services/authentication.notifier';
+import { JwtTokenService } from '../application/services/jwt-token.service';
+import { OtpService } from '../application/services/otp.service';
+import { ImpersonationUsecase } from '../application/usecases/impersonation/impersonation.usecase';
+import { RefreshTokenUsecase } from '../application/usecases/refresh-token/refresh-token.usecase';
+import { RequestResetPasswordUsecase } from '../application/usecases/request-reset-password/request-reset-password.usecase';
+import { ResetPasswordUsecase } from '../application/usecases/reset-password/reset-password.usecase';
+import { RevokeTokenUsecase } from '../application/usecases/revoke-token/revoke-token.usecase';
+import { SendOtpUsecase } from '../application/usecases/send-otp/send-otp.usecase';
+import { SigninByOtpUsecase } from '../application/usecases/signin-by-otp/signin-by-otp.usecase';
+import { SigninByPasswordUsecase } from '../application/usecases/signin-by-password/signin-by-password.usecase';
+import { SignupByOtpUsecase } from '../application/usecases/signup-by-otp/signup-by-otp.usecase';
+import { SignupByPasswordUsecase } from '../application/usecases/signup-by-password/signup-by-password.usecase';
+import { AuthProvider } from '../application/usecases/third-parties/auth-provider';
+import { AuthProviderManager } from '../application/usecases/third-parties/auth-provider-manager';
+import { SigninByThirdPartyUsecase } from '../application/usecases/third-parties/signin-by-third-party/signin-by-third-party.usecase';
+import { SignupByThirdPartyUsecase } from '../application/usecases/third-parties/signup-by-third-party/signup-by-third-party.usecase';
+import { VerifyUsecase } from '../application/usecases/verify/verify.usecase';
 import { OTP_REPOSITORY_TOKEN } from '../domain/repositories';
 import { TypeormOTPEntity } from './database/entities';
 import { TypeOrmOTPRepository } from './database/repositories';
-import { FacebookAuthProvider } from './providers/facebook';
-import { FakeAuthProvider } from './providers/fake';
 import { GoogleAuthProvider } from './providers/google';
-import { IdentifierPasswordAuthProvider } from './providers/identified-password';
-import { LinkedinAuthProvider } from './providers/linkedin';
-import { OTPAuthProvider } from './providers/otp';
 import { AuthenticationController } from './web';
 import { AuthorizationGuard, CheckPermissionGuard, IsUserEnableGuard } from './web/guards';
 
 const authProviderManager: Provider = {
-  provide: PROVIDER_MANAGER,
-  inject: [AuthenticationNotifier, Configuration, UsersService, OtpService],
-  useFactory: (
-    notificationSender: AuthenticationNotifier,
-    configuration: Configuration,
-    usersService: UsersService,
-    otpService: OtpService,
-  ) => {
-    const authProviders: AuthProvider[] = [
-      new IdentifierPasswordAuthProvider(notificationSender, usersService, otpService),
-      new FacebookAuthProvider(),
-      new LinkedinAuthProvider(),
-      new GoogleAuthProvider(configuration, usersService),
-      new FakeAuthProvider(configuration, usersService),
-      new OTPAuthProvider(notificationSender, usersService, otpService),
-    ];
+  provide: AuthProviderManager,
+  inject: [Configuration],
+  useFactory: (configuration: Configuration) => {
+    const authProviders: AuthProvider[] = [new GoogleAuthProvider(configuration)];
 
     return new AuthProviderManager(authProviders);
   },
@@ -56,18 +54,29 @@ const otpRepository: Provider = {
     otpRepository,
     AuthService,
     OtpService,
-    IdentifierPasswordAuthProvider,
-    FacebookAuthProvider,
-    LinkedinAuthProvider,
-    GoogleAuthProvider,
-    OTPAuthProvider,
     AuthenticationNotifier,
     JwtTokenService,
-    PasswordService,
-    FakeAuthProvider,
     AuthorizationGuard,
     CheckPermissionGuard,
     IsUserEnableGuard,
+    RequestResetPasswordUsecase,
+    ResetPasswordUsecase,
+    SendOtpUsecase,
+    VerifyUsecase,
+    SigninByOtpUsecase,
+    SignupByOtpUsecase,
+    SigninByPasswordUsecase,
+    SignupByPasswordUsecase,
+    ImpersonationUsecase,
+    SignupByThirdPartyUsecase,
+    SigninByThirdPartyUsecase,
+    RefreshTokenUsecase,
+    RevokeTokenUsecase,
+    {
+      provide: IsStrongPasswordConstraint,
+      inject: [Configuration],
+      useFactory: (config: Configuration) => new IsStrongPasswordConstraint(config),
+    },
   ],
   exports: [OtpService, AuthService, JwtTokenService],
 })

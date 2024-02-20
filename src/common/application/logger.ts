@@ -39,7 +39,7 @@ export default (app: INestApplication): void => {
     try {
       return JSON.parse(payload);
     } catch (error) {
-      return {payload, message: 'Body is not parsable'};
+      return { payload, message: 'Body is not parsable' };
     }
   }
 
@@ -66,19 +66,19 @@ export default (app: INestApplication): void => {
         email: reply?.request?.user?.email,
         type: reply?.request?.user?.type,
       },
-      http: shouldIgnoreRoute(req)
-        ? undefined
-        : {
-            request: {
+      http: {
+        request: shouldIgnoreRoute(req)
+          ? undefined
+          : {
               query: req.query,
               param: req.param,
               headers: req.headers,
               body: req.body,
             },
-            response: {
-              body: responseBody,
-            },
-          },
+        response: {
+          body: level === 'error' ? responseBody : shouldIgnoreRoute(req) ? undefined : responseBody,
+        },
+      },
     };
 
     logger.log(log);

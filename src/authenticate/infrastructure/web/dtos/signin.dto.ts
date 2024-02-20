@@ -1,21 +1,20 @@
-import { IsEnum, IsNotEmpty, IsOptional, IsString, isEmail } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsString } from 'class-validator';
 import { ToLowerCase } from '../../../../common/decorators';
-import { IsNotUUID } from '../../../../common/is-not-uuid.validator';
-import { Email, Mobile } from '../../../../common/types';
-import { OTPReason, OTPType } from '../../../domain/entities';
-import { FakeAuth } from '../../providers/fake';
-import { GoogleAuth } from '../../providers/google';
-import { IdentifierPasswordAuth } from '../../providers/identified-password';
-import { OtpAuth } from '../../providers/otp';
 import { IsIdentifier } from '../../../../common/is-identifier.validator';
+import { IsNotUUID } from '../../../../common/is-not-uuid.validator';
+import { Email, Mobile, UserId, Username } from '../../../../common/types';
+import { ImpersonationData, SigninByOtpData, SigninByPasswordData } from '../../../application/services/auth.service';
+import { OTPType } from '../../../domain/entities';
 
-export class FakeAuthDto {
+export class ImpersonationDto {
   @IsNotEmpty()
   @IsString()
-  identifier!: Email | Mobile;
+  identifier!: Email | Mobile | UserId | Username;
 
-  toFakeAuth() {
-    return new FakeAuth(this.identifier);
+  toImpersonationData(): ImpersonationData {
+    return {
+      identifier: this.identifier,
+    };
   }
 }
 
@@ -31,12 +30,15 @@ export class IdentifierPasswordAuthDto {
   @IsString()
   password!: string;
 
-  toIdentifierPasswordAuth() {
-    return new IdentifierPasswordAuth(this.identifier, this.password);
+  toSigninByPasswordData(): SigninByPasswordData {
+    return {
+      identifier: this.identifier,
+      password: this.password,
+    };
   }
 }
 
-export class OtpAuthDto {
+export class SigninByOtpDto {
   @IsNotEmpty()
   @IsString()
   otp!: string;
@@ -51,23 +53,11 @@ export class OtpAuthDto {
   @IsIdentifier()
   identifier!: Email | Mobile;
 
-  @IsOptional()
-  @IsEnum(OTPReason)
-  reason?: OTPReason;
-
-  toOtpAuth(): OtpAuth {
-    const email = isEmail(this.identifier) ? this.identifier : undefined;
-    const mobile = !isEmail(this.identifier) ? this.identifier : undefined;
-    return new OtpAuth(this.otp, this.type, this.reason ?? OTPReason.VERIFY, email, mobile);
-  }
-}
-
-export class GoogleAuthDto {
-  @IsNotEmpty()
-  @IsString()
-  token!: string;
-
-  toGoogleAuth(): GoogleAuth {
-    return new GoogleAuth(this.token);
+  toSigninByOtpData(): SigninByOtpData {
+    return {
+      identifier: this.identifier,
+      otp: this.otp,
+      type: this.type,
+    };
   }
 }

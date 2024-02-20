@@ -1,10 +1,10 @@
-import { IsEnum, IsNotEmpty, IsString, isEmail } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsString } from 'class-validator';
 import { ToLowerCase } from '../../../../common/decorators';
+import { IsIdentifier } from '../../../../common/is-identifier.validator';
 import { IsNotUUID } from '../../../../common/is-not-uuid.validator';
 import { Email, Mobile } from '../../../../common/types';
-import { OTPReason, OTPType } from '../../../domain/entities';
-import { OtpAuth } from '../../providers/otp';
-import { IsIdentifier } from '../../../../common/is-identifier.validator';
+import { VerifyData } from '../../../application/services/auth.service';
+import { OTPType } from '../../../domain/entities';
 
 export class VerifyDto {
   @IsNotEmpty()
@@ -21,9 +21,11 @@ export class VerifyDto {
   @IsIdentifier()
   identifier!: Email | Mobile;
 
-  toOtpAuth(): OtpAuth {
-    const email = isEmail(this.identifier) ? this.identifier : undefined;
-    const mobile = !isEmail(this.identifier) ? this.identifier : undefined;
-    return new OtpAuth(this.otp, this.type, OTPReason.VERIFY, email, mobile);
+  toVerifyData(): VerifyData {
+    return {
+      identifier: this.identifier,
+      otp: this.otp,
+      type: this.type,
+    };
   }
 }

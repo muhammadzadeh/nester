@@ -1,14 +1,18 @@
 import { Type } from 'class-transformer';
-import { IsNotEmpty, IsString, IsStrongPassword } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 import { ToLowerCase } from '../../../../common/decorators';
-import { Email, Mobile } from '../../../../common/types';
-import { GoogleSignup } from '../../providers/google/google-signup';
-import { IdentifierPasswordSignup } from '../../providers/identified-password/identifier-password-signup';
-import { OtpSignup } from '../../providers/otp/otp-signup';
-import { IsNotUUID } from '../../../../common/is-not-uuid.validator';
 import { IsIdentifier } from '../../../../common/is-identifier.validator';
+import { IsNotUUID } from '../../../../common/is-not-uuid.validator';
+import { IsStrongPassword } from '../../../../common/is-strong-password.validator';
+import { Email, Mobile } from '../../../../common/types';
+import {
+  SignupByOtpData,
+  SignupByPasswordData,
+  AuthenticateByThirdPartyData,
+} from '../../../application/services/auth.service';
+import { AuthProviderType } from '../../../application/usecases/third-parties/auth-provider';
 
-export class OtpSignupDto {
+export class SignupByOtpDto {
   @IsNotEmpty()
   @IsString()
   @IsNotUUID()
@@ -16,18 +20,21 @@ export class OtpSignupDto {
   @IsIdentifier()
   identifier!: string;
 
-  toOtpSignup(): OtpSignup {
-    return new OtpSignup(this.identifier);
+  toSignupByOtpData(): SignupByOtpData {
+    return { identifier: this.identifier };
   }
 }
 
-export class GoogleSignupDto {
+export class AuthenticateByThirdPartyDto {
   @IsNotEmpty()
   @IsString()
   token!: string;
 
-  toGoogleSignup(): GoogleSignup {
-    return new GoogleSignup(this.token);
+  toAuthenticateByThirdPartyData(): AuthenticateByThirdPartyData {
+    return {
+      data: { token: this.token },
+      provider: AuthProviderType.GOOGLE,
+    };
   }
 }
 
@@ -42,20 +49,13 @@ export class IdentifierPasswordSignupDto {
   @IsNotEmpty()
   @IsString()
   @Type(() => String)
-  @IsStrongPassword({ minLength: 6, minLowercase: 0, minUppercase: 2, minNumbers: 2, minSymbols: 0 })
+  @IsStrongPassword()
   password!: string;
 
-  @IsNotEmpty()
-  @IsString()
-  @Type(() => String)
-  firstName!: string;
-
-  @IsNotEmpty()
-  @IsString()
-  @Type(() => String)
-  lastName!: string;
-
-  toIdentifierPasswordSignup(): IdentifierPasswordSignup {
-    return new IdentifierPasswordSignup(this.identifier, this.password, this.firstName, this.lastName);
+  toSignupByPasswordData(): SignupByPasswordData {
+    return {
+      identifier: this.identifier,
+      password: this.password,
+    };
   }
 }

@@ -7,9 +7,8 @@ import { AuthService } from '../../application/services/auth.service';
 import { JwtTokenService } from '../../application/services/jwt-token.service';
 import { IgnoreAuthorizationGuard } from './decorators';
 import {
+  AuthenticateByThirdPartyDto,
   AuthenticationResponse,
-  GoogleAuthDto,
-  GoogleSignupDto,
   IdentifierDto,
   IdentifierPasswordAuthDto,
   IdentifierPasswordSignupDto,
@@ -50,8 +49,8 @@ export class AuthenticationController {
     status: 200,
     type: AuthenticationResponse,
   })
-  async signupByGoogle(@Body() dto: GoogleSignupDto): Promise<AuthenticationResponse> {
-    const token = await this.authService.signup(dto.toGoogleSignup());
+  async signupByGoogle(@Body() dto: AuthenticateByThirdPartyDto): Promise<AuthenticationResponse> {
+    const token = await this.authService.signupByThirdParty(dto.toAuthenticateByThirdPartyData());
     return AuthenticationResponse.from(token!);
   }
 
@@ -105,8 +104,8 @@ export class AuthenticationController {
     status: 200,
     type: AuthenticationResponse,
   })
-  async signinByGoogle(@Body() dto: GoogleAuthDto): Promise<AuthenticationResponse> {
-    const token = await this.authService.authenticate(dto.toGoogleAuth());
+  async signinByGoogle(@Body() dto: AuthenticateByThirdPartyDto): Promise<AuthenticationResponse> {
+    const token = await this.authService.signinByThirdParty(dto.toAuthenticateByThirdPartyData());
     return AuthenticationResponse.from(token);
   }
 

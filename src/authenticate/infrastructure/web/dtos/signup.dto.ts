@@ -5,8 +5,12 @@ import { IsIdentifier } from '../../../../common/is-identifier.validator';
 import { IsNotUUID } from '../../../../common/is-not-uuid.validator';
 import { IsStrongPassword } from '../../../../common/is-strong-password.validator';
 import { Email, Mobile } from '../../../../common/types';
-import { SignupByOtpData, SignupByPasswordData } from '../../../application/services/auth.service';
-import { GoogleSignup } from '../../providers/google/google-signup';
+import {
+  SignupByOtpData,
+  SignupByPasswordData,
+  AuthenticateByThirdPartyData,
+} from '../../../application/services/auth.service';
+import { AuthProviderType } from '../../../application/usecases/signup-by-third-party/auth-provider';
 
 export class SignupByOtpDto {
   @IsNotEmpty()
@@ -21,13 +25,16 @@ export class SignupByOtpDto {
   }
 }
 
-export class GoogleSignupDto {
+export class AuthenticateByThirdPartyDto {
   @IsNotEmpty()
   @IsString()
   token!: string;
 
-  toGoogleSignup(): GoogleSignup {
-    return new GoogleSignup(this.token);
+  toAuthenticateByThirdPartyData(): AuthenticateByThirdPartyData {
+    return {
+      data: { token: this.token },
+      provider: AuthProviderType.GOOGLE,
+    };
   }
 }
 

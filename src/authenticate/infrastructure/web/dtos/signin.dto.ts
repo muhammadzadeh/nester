@@ -5,7 +5,6 @@ import { IsNotUUID } from '../../../../common/is-not-uuid.validator';
 import { Email, Mobile, UserId, Username } from '../../../../common/types';
 import { ImpersonationData, SigninByOtpData, SigninByPasswordData } from '../../../application/services/auth.service';
 import { OTPType } from '../../../domain/entities';
-import { GoogleAuth } from '../../providers/google';
 
 export class ImpersonationDto {
   @IsNotEmpty()
@@ -60,15 +59,5 @@ export class SigninByOtpDto {
       otp: this.otp,
       type: this.type,
     };
-  }
-}
-
-export class GoogleAuthDto {
-  @IsNotEmpty()
-  @IsString()
-  token!: string;
-
-  toGoogleAuth(): GoogleAuth {
-    return new GoogleAuth(this.token);
   }
 }

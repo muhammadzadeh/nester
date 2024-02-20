@@ -1,49 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { LoginTicket, OAuth2Client } from 'google-auth-library';
 import { Configuration } from '../../../../common/config';
-import { publish } from '../../../../common/rabbit/application/rabbit-mq.service';
-import { Email } from '../../../../common/types';
-import { UsersService } from '../../../../users/profiles/application/users.service';
-import { UserEntity } from '../../../../users/profiles/domain/entities/user.entity';
-import { Auth, AuthProvider, AuthProviderType, AuthUser } from '../../../application/services/auth-provider';
-import { AUTHENTICATION_EXCHANGE_NAME } from '../../../domain/constants';
-import { AuthenticationEvents, UserVerifiedEvent } from '../../../domain/events';
-import { GoogleAuth } from './google-auth';
-import { GoogleSignup } from './google-signup';
-import { InvalidCredentialException, UserAlreadyRegisteredException } from '../../../application/exceptions';
+import { InvalidCredentialException } from '../../../application/exceptions';
+import {
+  Auth,
+  AuthProvider,
+  AuthProviderType,
+  AuthUser,
+} from '../../../application/usecases/signup-by-third-party/auth-provider';
 
 @Injectable()
 export class GoogleAuthProvider implements AuthProvider {
-  constructor(
-    private readonly configuration: Configuration,
-    private readonly usersService: UsersService,
-  ) {}
+  constructor(private readonly configuration: Configuration) {}
 
-  async signup(data: GoogleSignup): Promise<UserEntity> {
-    const authUser = await this.authenticate(data);
-
-    const registeredUser = await this.findUser(authUser.email!);
-    if (registeredUser) {
-      throw new UserAlreadyRegisteredException();
-    }
-
-    const createdUser = await this.usersService.create({
-      firstName: authUser.firstName,
-      lastName: authUser.lastName,
-      email: authUser.email!.toLowerCase(),
-      isEmailVerified: true,
-      avatar: authUser.avatar,
-    });
-
-    publish(AUTHENTICATION_EXCHANGE_NAME, AuthenticationEvents.USER_VERIFIED, new UserVerifiedEvent(createdUser), {
-      persistent: true,
-      deliveryMode: 2,
-    });
-
-    return createdUser;
-  }
-
-  async authenticate({ token }: GoogleAuth): Promise<AuthUser> {
+  async authenticate({ token }: Auth): Promise<AuthUser> {
     const ticket = await this.verifyToken(token);
     const payload = ticket.getPayload();
 
@@ -55,20 +25,18 @@ export class GoogleAuthProvider implements AuthProvider {
       payload.sub,
       AuthProviderType.GOOGLE,
       payload.email!,
-      null,
       payload.given_name ?? null,
       payload.family_name ?? null,
       payload.picture ?? null,
-      true,
     );
   }
 
-  isSupport(auth: Auth): boolean {
-    return auth instanceof GoogleSignup || auth instanceof GoogleAuth;
+  isSupport(type: AuthProviderType): boolean {
+    return type == this.getName();
   }
 
-  private async findUser(identifier: Email): Promise<UserEntity | null> {
-    return await this.usersService.findOneByIdentifier(identifier);
+  getName(): AuthProviderType {
+    return AuthProviderType.GOOGLE;
   }
 
   private async verifyToken(token: string): Promise<LoginTicket> {

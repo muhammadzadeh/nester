@@ -3,11 +3,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { CacheServiceModule } from '../../common/cache/cache.module';
 import { Configuration } from '../../common/config';
 import { IsStrongPasswordConstraint } from '../../common/is-strong-password.validator';
-import { UsersService } from '../../users/profiles/application/users.service';
 import { ProfileModule } from '../../users/profiles/infrastructure/profiles.module';
 import { RolesModule } from '../../users/roles/infrastructure/roles.module';
-import { AuthProvider } from '../application/services/auth-provider';
-import { AuthProviderManager } from '../application/services/auth-provider-manager';
 import { AuthService } from '../application/services/auth.service';
 import { AuthenticationNotifier } from '../application/services/authentication.notifier';
 import { JwtTokenService } from '../application/services/jwt-token.service';
@@ -20,6 +17,8 @@ import { SigninByOtpUsecase } from '../application/usecases/signin-by-otp/signin
 import { SigninByPasswordUsecase } from '../application/usecases/signin-by-password/signin-by-password.usecase';
 import { SignupByOtpUsecase } from '../application/usecases/signup-by-otp/signup-by-otp.usecase';
 import { SignupByPasswordUsecase } from '../application/usecases/signup-by-password/signup-by-password.usecase';
+import { AuthProvider } from '../application/usecases/signup-by-third-party/auth-provider';
+import { AuthProviderManager } from '../application/usecases/signup-by-third-party/auth-provider-manager';
 import { VerifyUsecase } from '../application/usecases/verify/verify.usecase';
 import { OTP_REPOSITORY_TOKEN } from '../domain/repositories';
 import { TypeormOTPEntity } from './database/entities';
@@ -30,9 +29,9 @@ import { AuthorizationGuard, CheckPermissionGuard, IsUserEnableGuard } from './w
 
 const authProviderManager: Provider = {
   provide: AuthProviderManager,
-  inject: [AuthenticationNotifier, Configuration, UsersService, OtpService],
-  useFactory: (configuration: Configuration, usersService: UsersService) => {
-    const authProviders: AuthProvider[] = [new GoogleAuthProvider(configuration, usersService)];
+  inject: [Configuration],
+  useFactory: (configuration: Configuration) => {
+    const authProviders: AuthProvider[] = [new GoogleAuthProvider(configuration)];
 
     return new AuthProviderManager(authProviders);
   },

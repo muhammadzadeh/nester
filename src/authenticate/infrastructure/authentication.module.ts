@@ -17,8 +17,8 @@ import { SigninByOtpUsecase } from '../application/usecases/signin-by-otp/signin
 import { SigninByPasswordUsecase } from '../application/usecases/signin-by-password/signin-by-password.usecase';
 import { SignupByOtpUsecase } from '../application/usecases/signup-by-otp/signup-by-otp.usecase';
 import { SignupByPasswordUsecase } from '../application/usecases/signup-by-password/signup-by-password.usecase';
-import { AuthProvider } from '../application/usecases/signup-by-third-party/auth-provider';
-import { AuthProviderManager } from '../application/usecases/signup-by-third-party/auth-provider-manager';
+import { AuthProvider } from '../application/usecases/third-parties/auth-provider';
+import { AuthProviderManager } from '../application/usecases/third-parties/auth-provider-manager';
 import { VerifyUsecase } from '../application/usecases/verify/verify.usecase';
 import { OTP_REPOSITORY_TOKEN } from '../domain/repositories';
 import { TypeormOTPEntity } from './database/entities';

@@ -19,9 +19,9 @@ import { SignupByOtpCommand } from '../usecases/signup-by-otp/signup-by-otp.comm
 import { SignupByOtpUsecase } from '../usecases/signup-by-otp/signup-by-otp.usecase';
 import { SignupByPasswordCommand } from '../usecases/signup-by-password/signup-by-password.command';
 import { SignupByPasswordUsecase } from '../usecases/signup-by-password/signup-by-password.usecase';
-import { Auth, AuthProviderType } from '../usecases/signup-by-third-party/auth-provider';
-import { SignupByThirdPartyCommand } from '../usecases/signup-by-third-party/signup-by-third-party.command';
-import { SignupByThirdPartyUsecase } from '../usecases/signup-by-third-party/signup-by-third-party.usecase';
+import { Auth, AuthProviderType } from '../usecases/third-parties/auth-provider';
+import { SignupByThirdPartyCommand } from '../usecases/third-parties/signup-by-third-party/signup-by-third-party.command';
+import { SignupByThirdPartyUsecase } from '../usecases/third-parties/signup-by-third-party/signup-by-third-party.usecase';
 import { VerifyCommand } from '../usecases/verify/verify.command';
 import { VerifyUsecase } from '../usecases/verify/verify.usecase';
 import { JwtTokenService, RevokeTokenOption, Token } from './jwt-token.service';

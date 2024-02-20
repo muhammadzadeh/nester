@@ -10,7 +10,7 @@ import {
   SignupByPasswordData,
   AuthenticateByThirdPartyData,
 } from '../../../application/services/auth.service';
-import { AuthProviderType } from '../../../application/usecases/signup-by-third-party/auth-provider';
+import { AuthProviderType } from '../../../application/usecases/third-parties/auth-provider';
 
 export class SignupByOtpDto {
   @IsNotEmpty()

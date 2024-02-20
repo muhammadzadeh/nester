@@ -7,7 +7,7 @@ import {
   AuthProvider,
   AuthProviderType,
   AuthUser,
-} from '../../../application/usecases/signup-by-third-party/auth-provider';
+} from '../../../application/usecases/third-parties/auth-provider';
 
 @Injectable()
 export class GoogleAuthProvider implements AuthProvider {

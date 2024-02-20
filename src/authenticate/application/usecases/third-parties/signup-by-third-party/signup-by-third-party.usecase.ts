@@ -1,15 +1,15 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { IllegalStateException } from '../../../../common/exception';
-import { publish } from '../../../../common/rabbit/application/rabbit-mq.service';
-import { UsersService } from '../../../../users/profiles/application/users.service';
-import { UserEntity } from '../../../../users/profiles/domain/entities/user.entity';
-import { RolesService } from '../../../../users/roles/application/roles.service';
-import { Permission } from '../../../../users/roles/domain/entities/role.entity';
-import { AUTHENTICATION_EXCHANGE_NAME } from '../../../domain/constants';
-import { AuthenticationEvents, UserLoggedInEvent, UserVerifiedEvent } from '../../../domain/events';
-import { UserAlreadyRegisteredException } from '../../exceptions';
-import { AccessType, JwtTokenService, Token } from '../../services/jwt-token.service';
-import { AuthProviderManager } from './auth-provider-manager';
+import { IllegalStateException } from '../../../../../common/exception';
+import { publish } from '../../../../../common/rabbit/application/rabbit-mq.service';
+import { UsersService } from '../../../../../users/profiles/application/users.service';
+import { UserEntity } from '../../../../../users/profiles/domain/entities/user.entity';
+import { RolesService } from '../../../../../users/roles/application/roles.service';
+import { Permission } from '../../../../../users/roles/domain/entities/role.entity';
+import { AUTHENTICATION_EXCHANGE_NAME } from '../../../../domain/constants';
+import { AuthenticationEvents, UserLoggedInEvent, UserVerifiedEvent } from '../../../../domain/events';
+import { UserAlreadyRegisteredException } from '../../../exceptions';
+import { AccessType, JwtTokenService, Token } from '../../../services/jwt-token.service';
+import { AuthProviderManager } from '../auth-provider-manager';
 import { SignupByThirdPartyCommand } from './signup-by-third-party.command';
 
 @Injectable()

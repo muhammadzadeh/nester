@@ -25,6 +25,7 @@ import { AuthenticationController } from './web';
 import { AuthorizationGuard, CheckPermissionGuard, IsUserEnableGuard } from './web/guards';
 import { SigninByPasswordUsecase } from '../application/usecases/signin-by-password/signin-by-password.usecase';
 import { SignupByPasswordUsecase } from '../application/usecases/signup-by-password/signup-by-password.usecase';
+import { ImpersonationUsecase } from '../application/usecases/impersonation/impersonation.usercase';
 
 const authProviderManager: Provider = {
   provide: AuthProviderManager,
@@ -72,6 +73,7 @@ const otpRepository: Provider = {
     SignupByOtpUsecase,
     SigninByPasswordUsecase,
     SignupByPasswordUsecase,
+    ImpersonationUsecase,
     {
       provide: IsStrongPasswordConstraint,
       inject: [Configuration],

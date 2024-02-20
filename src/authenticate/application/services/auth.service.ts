@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { isEmail } from 'class-validator';
 import { Duration } from 'luxon';
 import { publish } from '../../../common/rabbit/application/rabbit-mq.service';
-import { Email, Mobile } from '../../../common/types';
+import { Email, Mobile, UserId, Username } from '../../../common/types';
 import { UsersService } from '../../../users/profiles/application/users.service';
 import { UserEntity } from '../../../users/profiles/domain/entities/user.entity';
 import { RolesService } from '../../../users/roles/application/roles.service';
@@ -31,6 +31,8 @@ import { SigninByPasswordUsecase } from '../usecases/signin-by-password/signin-b
 import { SigninByPasswordCommand } from '../usecases/signin-by-password/signin-by-password';
 import { SignupByPasswordCommand } from '../usecases/signup-by-password/signup-by-password.command';
 import { SignupByPasswordUsecase } from '../usecases/signup-by-password/signup-by-password.usecase';
+import { ImpersonationUsecase } from '../usecases/impersonation/impersonation.usercase';
+import { ImpersonationCommand } from '../usecases/impersonation/impersonation.command';
 
 export const TOKEN_EXPIRATION_DURATION = Duration.fromObject({ days: 1 });
 export const CODE_EXPIRATION_DURATION = Duration.fromObject({ minutes: 2 });
@@ -43,6 +45,7 @@ export class AuthService {
     private readonly requestResetPasswordUsecase: RequestResetPasswordUsecase,
     private readonly signinByPasswordUsecase: SigninByPasswordUsecase,
     private readonly signupByPasswordUsecase: SignupByPasswordUsecase,
+    private readonly impersonationUsecase: ImpersonationUsecase,
     private readonly resetPasswordUsecase: ResetPasswordUsecase,
     private readonly signinByOtpUsecase: SigninByOtpUsecase,
     private readonly signupByOtpUsecase: SignupByOtpUsecase,
@@ -118,6 +121,10 @@ export class AuthService {
 
   async signinByOtp(data: SigninByOtpData): Promise<Token> {
     return await this.signinByOtpUsecase.execute(SigninByOtpCommand.create(data));
+  }
+
+  async impersonation(data: ImpersonationData): Promise<Token> {
+    return await this.impersonationUsecase.execute(ImpersonationCommand.create(data));
   }
 
   async signupByOtp(data: SignupByOtpData): Promise<void> {
@@ -212,6 +219,10 @@ export class SigninByOtpData {
   readonly otp!: string;
   readonly type!: OTPType;
   readonly identifier!: Email | Mobile;
+}
+
+export class ImpersonationData {
+  readonly identifier!: Email | Mobile | UserId | Username;
 }
 
 export class SigninByPasswordData {

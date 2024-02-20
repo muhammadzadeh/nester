@@ -7,7 +7,7 @@ import { AuthService, JwtTokenService } from '../../application/services';
 import { IgnoreAuthorizationGuard } from './decorators';
 import {
   AuthenticationResponse,
-  FakeAuthDto,
+  ImpersonationDto,
   GoogleAuthDto,
   GoogleSignupDto,
   IdentifierDto,
@@ -126,8 +126,8 @@ export class AuthenticationController {
     status: 200,
     type: AuthenticationResponse,
   })
-  async signinByFake(@Body() dto: FakeAuthDto): Promise<AuthenticationResponse> {
-    const token = await this.authService.authenticate(dto.toFakeAuth());
+  async signinByFake(@Body() dto: ImpersonationDto): Promise<AuthenticationResponse> {
+    const token = await this.authService.impersonation(dto.toImpersonationData());
     return AuthenticationResponse.from(token);
   }
 

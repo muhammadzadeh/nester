@@ -50,6 +50,11 @@ export class AuthenticationConfig {
   readonly allowUnverifiedSignin!: boolean;
 
   @IsNotEmpty()
+  @IsBoolean()
+  @Type(() => Boolean)
+  readonly allowImpersonation!: boolean;
+
+  @IsNotEmpty()
   @ValidateNested()
   @Type(() => TokenConfig)
   readonly token!: TokenConfig;

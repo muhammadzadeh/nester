@@ -2,19 +2,20 @@ import { IsEnum, IsNotEmpty, IsString } from 'class-validator';
 import { ToLowerCase } from '../../../../common/decorators';
 import { IsIdentifier } from '../../../../common/is-identifier.validator';
 import { IsNotUUID } from '../../../../common/is-not-uuid.validator';
-import { Email, Mobile } from '../../../../common/types';
-import { SigninByOtpData, SigninByPasswordData } from '../../../application/services';
+import { Email, Mobile, UserId, Username } from '../../../../common/types';
+import { ImpersonationData, SigninByOtpData, SigninByPasswordData } from '../../../application/services';
 import { OTPType } from '../../../domain/entities';
-import { FakeAuth } from '../../providers/fake';
 import { GoogleAuth } from '../../providers/google';
 
-export class FakeAuthDto {
+export class ImpersonationDto {
   @IsNotEmpty()
   @IsString()
-  identifier!: Email | Mobile;
+  identifier!: Email | Mobile | UserId | Username;
 
-  toFakeAuth() {
-    return new FakeAuth(this.identifier);
+  toImpersonationData(): ImpersonationData {
+    return {
+      identifier: this.identifier,
+    };
   }
 }
 

@@ -2,11 +2,14 @@ import { Injectable, Logger } from '@nestjs/common';
 import { isEmail, isPhoneNumber } from 'class-validator';
 import { Configuration } from '../../../../common/config';
 import { Hash } from '../../../../common/hash';
+import { publish } from '../../../../common/rabbit/application/rabbit-mq.service';
 import { UsersService } from '../../../../users/profiles/application/users.service';
 import { UserEntity } from '../../../../users/profiles/domain/entities/user.entity';
 import { RolesService } from '../../../../users/roles/application/roles.service';
 import { Permission } from '../../../../users/roles/domain/entities/role.entity';
-import { InvalidCredentialException, UserNotVerifiedException } from '../../exceptions';
+import { AUTHENTICATION_EXCHANGE_NAME } from '../../../domain/constants';
+import { AuthenticationEvents, UserLoggedInEvent } from '../../../domain/events';
+import { InvalidCredentialException, UserNotVerifiedException, YourAccountIsBlockedException } from '../../exceptions';
 import { AccessType, JwtTokenService, Token } from '../../services/jwt-token.service';
 import { SigninByPasswordCommand } from './signin-by-password';
 
@@ -25,6 +28,10 @@ export class SigninByPasswordUsecase {
     const user = await this.usersService.findOneByIdentifier(command.identifier);
     if (!user) {
       throw new InvalidCredentialException(`User with ${command.identifier} not found`);
+    }
+
+    if (user.isBlocked) {
+      throw new YourAccountIsBlockedException();
     }
 
     if (!user.password) {
@@ -56,6 +63,11 @@ export class SigninByPasswordUsecase {
     if (!isPasswordsMatch) {
       throw new InvalidCredentialException(`Passwords mismatch for ${command.identifier}`);
     }
+
+    publish(AUTHENTICATION_EXCHANGE_NAME, AuthenticationEvents.USER_LOGGED_IN, new UserLoggedInEvent(user), {
+      persistent: true,
+      deliveryMode: 2,
+    });
 
     return await this.generateToken(user);
   }

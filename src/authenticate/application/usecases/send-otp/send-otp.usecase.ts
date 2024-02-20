@@ -2,6 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { isEmail, isPhoneNumber } from 'class-validator';
 import { UsersService } from '../../../../users/profiles/application/users.service';
 import { OTPReason, OTPType } from '../../../domain/entities';
+import { YourAccountIsBlockedException } from '../../exceptions';
 import { AuthenticationNotifier } from '../../services/authentication.notifier';
 import { OtpGeneration, OtpService } from '../../services/otp.service';
 import { SendOtpCommand } from './send-otp.command';
@@ -21,6 +22,10 @@ export class SendOtpUsecase {
     if (!user) {
       this.logger.log(`trying send OTP for not existing account ${command.identifier}`);
       return;
+    }
+
+    if (user.isBlocked) {
+      throw new YourAccountIsBlockedException();
     }
 
     const email = isEmail(command.identifier) ? command.identifier : undefined;

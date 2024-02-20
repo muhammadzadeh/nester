@@ -9,7 +9,8 @@ import { AUTHENTICATION_EXCHANGE_NAME } from '../../../domain/constants';
 import { OTPReason } from '../../../domain/entities';
 import { AuthenticationEvents, UserVerifiedEvent } from '../../../domain/events';
 import { InvalidCredentialException } from '../../exceptions';
-import { AccessType, JwtTokenService, OtpService, OtpVerification, Token } from '../../services';
+import { AccessType, JwtTokenService, Token } from '../../services/jwt-token.service';
+import { OtpService, OtpVerification } from '../../services/otp.service';
 import { SigninByOtpCommand } from './signin-by-otp';
 
 @Injectable()

@@ -1,7 +1,7 @@
 import { CanActivate, ExecutionContext, Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { ExtractJwt } from 'passport-jwt';
-import { JwtTokenService } from '../../../application/services';
+import { JwtTokenService } from '../../../application/services/jwt-token.service';
 import { AuthenticationMetaKey, CURRENT_USER_KEY, CurrentUser } from '../decorators';
 
 @Injectable()
@@ -10,7 +10,10 @@ export class AuthorizationGuard implements CanActivate {
 
   private readonly ignoredControllers = new Set(['HealthController']);
 
-  constructor(private readonly jwtTokenService: JwtTokenService, private readonly reflector: Reflector) {}
+  constructor(
+    private readonly jwtTokenService: JwtTokenService,
+    private readonly reflector: Reflector,
+  ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const controller = context.getClass();

@@ -5,8 +5,7 @@ import { IsIdentifier } from '../../../../common/is-identifier.validator';
 import { IsNotUUID } from '../../../../common/is-not-uuid.validator';
 import { IsStrongPassword } from '../../../../common/is-strong-password.validator';
 import { Email, Mobile } from '../../../../common/types';
-import { SignupByOtpData } from '../../../application/services';
-import { SignupByPasswordData } from '../../../application/services';
+import { SignupByOtpData, SignupByPasswordData } from '../../../application/services/auth.service';
 import { GoogleSignup } from '../../providers/google/google-signup';
 
 export class SignupByOtpDto {

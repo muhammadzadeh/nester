@@ -2,7 +2,7 @@ import { IsEnum, IsNotEmpty, IsString, isEmail } from 'class-validator';
 import { ToLowerCase } from '../../../../common/decorators';
 import { IsIdentifier } from '../../../../common/is-identifier.validator';
 import { IsStrongPassword } from '../../../../common/is-strong-password.validator';
-import { OtpVerification } from '../../../application/services';
+import { OtpVerification } from '../../../application/services/otp.service';
 import { OTPReason, OTPType } from '../../../domain/entities';
 
 export class ResetPasswordDto {

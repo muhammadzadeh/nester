@@ -1,6 +1,5 @@
 import { HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { isEmail, isPhoneNumber } from 'class-validator';
-import { AccessType, JwtTokenService, OtpService, Token } from '../../services';
 import { Exception } from '../../../../common/exception';
 import { publish } from '../../../../common/rabbit/application/rabbit-mq.service';
 import { UsersService } from '../../../../users/profiles/application/users.service';
@@ -10,6 +9,8 @@ import { Permission } from '../../../../users/roles/domain/entities/role.entity'
 import { AUTHENTICATION_EXCHANGE_NAME } from '../../../domain/constants';
 import { OTPReason } from '../../../domain/entities';
 import { AuthenticationEvents, UserVerifiedEvent } from '../../../domain/events';
+import { AccessType, JwtTokenService, Token } from '../../services/jwt-token.service';
+import { OtpService } from '../../services/otp.service';
 import { VerifyCommand } from './verify.command';
 
 @Injectable()

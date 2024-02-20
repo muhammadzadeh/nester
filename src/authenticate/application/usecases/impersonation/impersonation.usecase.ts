@@ -5,7 +5,7 @@ import { UserEntity } from '../../../../users/profiles/domain/entities/user.enti
 import { RolesService } from '../../../../users/roles/application/roles.service';
 import { Permission } from '../../../../users/roles/domain/entities/role.entity';
 import { InvalidCredentialException } from '../../exceptions';
-import { AccessType, JwtTokenService, Token } from '../../services';
+import { AccessType, JwtTokenService, Token } from '../../services/jwt-token.service';
 import { ImpersonationCommand } from './impersonation.command';
 
 @Injectable()

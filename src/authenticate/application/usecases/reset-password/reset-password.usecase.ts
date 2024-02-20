@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { OtpService } from '../../services';
 import { UsersService } from '../../../../users/profiles/application/users.service';
+import { OtpService } from '../../services/otp.service';
 import { ResetPasswordCommand } from './reset-password.command';
 
 @Injectable()

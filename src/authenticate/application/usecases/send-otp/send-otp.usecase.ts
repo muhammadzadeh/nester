@@ -1,8 +1,9 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { isEmail, isPhoneNumber } from 'class-validator';
-import { AuthenticationNotifier, OtpGeneration, OtpService } from '../../services';
 import { UsersService } from '../../../../users/profiles/application/users.service';
 import { OTPReason, OTPType } from '../../../domain/entities';
+import { AuthenticationNotifier } from '../../services/authentication.notifier';
+import { OtpGeneration, OtpService } from '../../services/otp.service';
 import { SendOtpCommand } from './send-otp.command';
 
 @Injectable()

@@ -3,7 +3,8 @@ import { isEmail, isPhoneNumber } from 'class-validator';
 import { UsersService } from '../../../../users/profiles/application/users.service';
 import { OTPReason, OTPType } from '../../../domain/entities';
 import { InvalidIdentifierException, UserAlreadyRegisteredException } from '../../exceptions';
-import { AuthenticationNotifier, OtpGeneration, OtpService } from '../../services';
+import { AuthenticationNotifier } from '../../services/authentication.notifier';
+import { OtpGeneration, OtpService } from '../../services/otp.service';
 import { SignupByPasswordCommand } from './signup-by-password.command';
 
 @Injectable()

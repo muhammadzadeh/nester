@@ -3,23 +3,24 @@ import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { Captcha } from '../../../common/captcha/decorators';
 import { CommonController } from '../../../common/guards/decorators';
 import { DoneResponse, Serializer } from '../../../common/serialization';
-import { AuthService, JwtTokenService } from '../../application/services';
+import { AuthService } from '../../application/services/auth.service';
+import { JwtTokenService } from '../../application/services/jwt-token.service';
 import { IgnoreAuthorizationGuard } from './decorators';
 import {
   AuthenticationResponse,
-  ImpersonationDto,
   GoogleAuthDto,
   GoogleSignupDto,
   IdentifierDto,
   IdentifierPasswordAuthDto,
   IdentifierPasswordSignupDto,
-  SigninByOtpDto,
+  ImpersonationDto,
   OtpGenerationDto,
-  SignupByOtpDto,
   RefreshTokenDto,
   ResetPasswordDto,
+  SigninByOtpDto,
   SigninMethodDto,
   SigninMethodResponse,
+  SignupByOtpDto,
 } from './dtos';
 import { VerifyDto } from './dtos/verify.dto';
 

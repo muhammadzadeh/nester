@@ -26,8 +26,10 @@ import { SignupByThirdPartyCommand } from '../usecases/third-parties/signup-by-t
 import { SignupByThirdPartyUsecase } from '../usecases/third-parties/signup-by-third-party/signup-by-third-party.usecase';
 import { VerifyCommand } from '../usecases/verify/verify.command';
 import { VerifyUsecase } from '../usecases/verify/verify.usecase';
-import { JwtTokenService, RevokeTokenOption, Token } from './jwt-token.service';
+import { JwtTokenService, RefreshTokenData, RevokeTokenOption, Token } from './jwt-token.service';
 import { OtpVerification } from './otp.service';
+import { RefreshTokenUsecase } from '../usecases/refresh-token/refresh-token.usecase';
+import { RefreshTokenCommand } from '../usecases/refresh-token/refresh-token.command';
 
 export const TOKEN_EXPIRATION_DURATION = Duration.fromObject({ days: 1 });
 export const CODE_EXPIRATION_DURATION = Duration.fromObject({ minutes: 2 });
@@ -42,6 +44,7 @@ export class AuthService {
     private readonly signupByPasswordUsecase: SignupByPasswordUsecase,
     private readonly impersonationUsecase: ImpersonationUsecase,
     private readonly resetPasswordUsecase: ResetPasswordUsecase,
+    private readonly refreshTokenUsecase: RefreshTokenUsecase,
     private readonly signinByOtpUsecase: SigninByOtpUsecase,
     private readonly signupByOtpUsecase: SignupByOtpUsecase,
     private readonly sendOtpUsecase: SendOtpUsecase,
@@ -104,6 +107,10 @@ export class AuthService {
 
   async verify(data: VerifyData): Promise<Token> {
     return await this.verifyUsecase.execute(VerifyCommand.create(data));
+  }
+
+  async refreshToken(data: RefreshTokenData): Promise<Token>{
+    return await this.refreshTokenUsecase.execute(RefreshTokenCommand.create(data))
   }
 }
 

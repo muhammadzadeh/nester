@@ -4,7 +4,6 @@ import { Captcha } from '../../../common/captcha/decorators';
 import { CommonController } from '../../../common/guards/decorators';
 import { DoneResponse, Serializer } from '../../../common/serialization';
 import { AuthService } from '../../application/services/auth.service';
-import { JwtTokenService } from '../../application/services/jwt-token.service';
 import { IgnoreAuthorizationGuard } from './decorators';
 import {
   AuthenticateByThirdPartyDto,
@@ -25,10 +24,7 @@ import {
 @ApiTags('Authentication')
 @CommonController(`/auth`)
 export class AuthenticationController {
-  constructor(
-    private readonly jwtService: JwtTokenService,
-    private readonly authService: AuthService,
-  ) {}
+  constructor(private readonly authService: AuthService) {}
 
   @Post('signup/identifier-password')
   @Captcha()
@@ -157,7 +153,7 @@ export class AuthenticationController {
     type: AuthenticationResponse,
   })
   async refreshToken(@Body() input: RefreshTokenDto): Promise<AuthenticationResponse> {
-    const token = await this.jwtService.refresh(input.toRefreshTokenData());
+    const token = await this.authService.refreshToken(input.toRefreshTokenData());
     return AuthenticationResponse.from(token);
   }
 }

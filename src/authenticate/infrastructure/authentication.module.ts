@@ -28,6 +28,7 @@ import { TypeOrmOTPRepository } from './database/repositories';
 import { GoogleAuthProvider } from './providers/google';
 import { AuthenticationController } from './web';
 import { AuthorizationGuard, CheckPermissionGuard, IsUserEnableGuard } from './web/guards';
+import { RefreshTokenUsecase } from '../application/usecases/refresh-token/refresh-token.usecase';
 
 const authProviderManager: Provider = {
   provide: AuthProviderManager,
@@ -68,6 +69,7 @@ const otpRepository: Provider = {
     ImpersonationUsecase,
     SignupByThirdPartyUsecase,
     SigninByThirdPartyUsecase,
+    RefreshTokenUsecase,
     {
       provide: IsStrongPasswordConstraint,
       inject: [Configuration],

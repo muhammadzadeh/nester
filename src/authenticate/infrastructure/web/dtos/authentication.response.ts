@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose, Type } from 'class-transformer';
-import { Token } from '../../../application';
+import { Token } from '../../../application/services';
 
 export class AuthenticationResponse {
   static from(data: Token): AuthenticationResponse {

@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose, Type } from 'class-transformer';
-import { SigninMethod } from '../../../application';
+import { SigninMethod } from '../../../application/services';
 
 export class SigninMethodResponse {
   static from(data: SigninMethod[]): SigninMethodResponse {

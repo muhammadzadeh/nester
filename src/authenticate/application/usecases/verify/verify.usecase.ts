@@ -1,6 +1,6 @@
 import { HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { isEmail, isPhoneNumber } from 'class-validator';
-import { AccessType, JwtTokenService, OtpService, Token } from '../..';
+import { AccessType, JwtTokenService, OtpService, Token } from '../../services';
 import { Exception } from '../../../../common/exception';
 import { publish } from '../../../../common/rabbit/application/rabbit-mq.service';
 import { UsersService } from '../../../../users/profiles/application/users.service';

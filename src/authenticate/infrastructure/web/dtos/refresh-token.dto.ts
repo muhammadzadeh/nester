@@ -1,5 +1,5 @@
 import { IsNotEmpty, IsString } from 'class-validator';
-import { RefreshTokenData } from '../../../application';
+import { RefreshTokenData } from '../../../application/services';
 
 export class RefreshTokenDto {
   @IsNotEmpty()

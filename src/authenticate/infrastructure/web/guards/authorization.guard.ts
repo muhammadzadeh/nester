@@ -1,7 +1,7 @@
 import { CanActivate, ExecutionContext, Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { ExtractJwt } from 'passport-jwt';
-import { JwtTokenService } from '../../../application';
+import { JwtTokenService } from '../../../application/services';
 import { AuthenticationMetaKey, CURRENT_USER_KEY, CurrentUser } from '../decorators';
 
 @Injectable()

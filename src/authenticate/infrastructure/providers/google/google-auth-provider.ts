@@ -5,18 +5,12 @@ import { publish } from '../../../../common/rabbit/application/rabbit-mq.service
 import { Email } from '../../../../common/types';
 import { UsersService } from '../../../../users/profiles/application/users.service';
 import { UserEntity } from '../../../../users/profiles/domain/entities/user.entity';
-import { UserAlreadyRegisteredException } from '../../../application';
-import {
-  Auth,
-  AuthProvider,
-  AuthProviderType,
-  AuthUser,
-  InvalidCredentialException,
-} from '../../../application/services/auth-provider';
+import { Auth, AuthProvider, AuthProviderType, AuthUser } from '../../../application/services/auth-provider';
 import { AUTHENTICATION_EXCHANGE_NAME } from '../../../domain/constants';
 import { AuthenticationEvents, UserVerifiedEvent } from '../../../domain/events';
 import { GoogleAuth } from './google-auth';
 import { GoogleSignup } from './google-signup';
+import { InvalidCredentialException, UserAlreadyRegisteredException } from '../../../application/exceptions';
 
 @Injectable()
 export class GoogleAuthProvider implements AuthProvider {

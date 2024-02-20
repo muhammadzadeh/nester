@@ -3,7 +3,7 @@ import { ToLowerCase } from '../../../../common/decorators';
 import { IsIdentifier } from '../../../../common/is-identifier.validator';
 import { IsNotUUID } from '../../../../common/is-not-uuid.validator';
 import { Email, Mobile } from '../../../../common/types';
-import { VerifyData } from '../../../application';
+import { VerifyData } from '../../../application/services';
 import { OTPType } from '../../../domain/entities';
 
 export class VerifyDto {

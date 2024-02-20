@@ -1,5 +1,3 @@
-import { HttpStatus } from '@nestjs/common';
-import { Exception } from '../../../common/exception';
 import { Email, Mobile } from '../../../common/types';
 import { UserEntity } from '../../../users/profiles/domain/entities/user.entity';
 export interface AuthProvider {
@@ -36,12 +34,3 @@ export class AuthUser {
     return !!this.isEmailVerified || !!this.isMobileVerified;
   }
 }
-
-@Exception({ statusCode: HttpStatus.BAD_REQUEST, errorCode: 'INVALID_CREDENTIALS' })
-export class InvalidCredentialException extends Error {}
-
-@Exception({ statusCode: HttpStatus.BAD_REQUEST, errorCode: 'INVALID_OTP' })
-export class InvalidOtpException extends Error {}
-
-@Exception({ statusCode: HttpStatus.BAD_REQUEST, errorCode: 'USER_NOT_VERIFIED' })
-export class UserNotVerifiedException extends Error {}

@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { isEmail, isPhoneNumber } from 'class-validator';
-import { AuthenticationNotifier, OtpGeneration, OtpService } from '../..';
+import { AuthenticationNotifier, OtpGeneration, OtpService } from '../../services';
 import { UsersService } from '../../../../users/profiles/application/users.service';
 import { OTPReason, OTPType } from '../../../domain/entities';
 import { RequestResetPasswordCommand } from './request-reset-password.command';

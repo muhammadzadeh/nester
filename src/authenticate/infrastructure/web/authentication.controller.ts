@@ -15,7 +15,7 @@ import {
   IdentifierPasswordSignupDto,
   SigninByOtpDto,
   OtpGenerationDto,
-  OtpSignupDto,
+  SignupByOtpDto,
   RefreshTokenDto,
   ResetPasswordDto,
   SigninMethodDto,
@@ -60,8 +60,8 @@ export class AuthenticationController {
     status: 200,
     type: DoneResponse,
   })
-  async signupByOtp(@Body() dto: OtpSignupDto): Promise<DoneResponse> {
-    await this.authService.signup(dto.toOtpSignup());
+  async signupByOtp(@Body() dto: SignupByOtpDto): Promise<DoneResponse> {
+    await this.authService.signupByOtp(dto.toSignupByOtpData());
     return Serializer.done();
   }
 

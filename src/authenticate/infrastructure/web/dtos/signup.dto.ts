@@ -5,11 +5,11 @@ import { IsIdentifier } from '../../../../common/is-identifier.validator';
 import { IsNotUUID } from '../../../../common/is-not-uuid.validator';
 import { IsStrongPassword } from '../../../../common/is-strong-password.validator';
 import { Email, Mobile } from '../../../../common/types';
+import { SignupByOtpData } from '../../../application';
 import { GoogleSignup } from '../../providers/google/google-signup';
 import { IdentifierPasswordSignup } from '../../providers/identified-password/identifier-password-signup';
-import { OtpSignup } from '../../providers/otp/otp-signup';
 
-export class OtpSignupDto {
+export class SignupByOtpDto {
   @IsNotEmpty()
   @IsString()
   @IsNotUUID()
@@ -17,8 +17,8 @@ export class OtpSignupDto {
   @IsIdentifier()
   identifier!: string;
 
-  toOtpSignup(): OtpSignup {
-    return new OtpSignup(this.identifier);
+  toSignupByOtpData(): SignupByOtpData {
+    return { identifier: this.identifier };
   }
 }
 

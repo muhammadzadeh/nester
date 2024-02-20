@@ -1,7 +1,6 @@
-import { HttpStatus, Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { isEmail } from 'class-validator';
 import { Duration } from 'luxon';
-import { Exception } from '../../../common/exception';
 import { publish } from '../../../common/rabbit/application/rabbit-mq.service';
 import { Email, Mobile } from '../../../common/types';
 import { UsersService } from '../../../users/profiles/application/users.service';
@@ -25,6 +24,7 @@ import { Auth, AuthUser } from './auth-provider';
 import { AuthProviderManager } from './auth-provider-manager';
 import { AccessType, JwtTokenService, RevokeTokenOption, Token } from './jwt-token.service';
 import { OtpVerification } from './otp.service';
+import { UserNotRegisteredException, YourAccountIsBlockedException } from '../../domain/exceptions';
 
 export const TOKEN_EXPIRATION_DURATION = Duration.fromObject({ days: 1 });
 export const CODE_EXPIRATION_DURATION = Duration.fromObject({ minutes: 2 });
@@ -107,6 +107,10 @@ export class AuthService {
     return await this.signinByOtpUsecase.execute(SigninByOtpCommand.create(data));
   }
 
+  async signupByOtp(data: SignupByOtpData): Promise<Token> {
+    return await this.signinByOtpUsecase.execute(SigninByOtpCommand.create(data));
+  }
+
   async sendOtp(data: SendOtp): Promise<void> {
     await this.sendOtpUsecase.execute(SendOtpCommand.create(data));
   }
@@ -182,28 +186,20 @@ export class SendOtp {
 }
 
 export class VerifyData {
-  otp!: string;
-  type!: OTPType;
-  identifier!: Email | Mobile;
+  readonly otp!: string;
+  readonly type!: OTPType;
+  readonly identifier!: Email | Mobile;
 }
 
 export class SigninByOtpData {
-  otp!: string;
-  type!: OTPType;
-  identifier!: Email | Mobile;
+  readonly otp!: string;
+  readonly type!: OTPType;
+  readonly identifier!: Email | Mobile;
 }
 
-@Exception({ statusCode: HttpStatus.BAD_REQUEST, errorCode: 'USER_NOT_REGISTERED' })
-export class UserNotRegisteredException extends Error {}
-
-@Exception({ statusCode: HttpStatus.BAD_REQUEST, errorCode: 'USER_ALREADY_REGISTERED' })
-export class UserAlreadyRegisteredException extends Error {}
-
-@Exception({
-  errorCode: 'ACCOUNT_IS_BLOCKED',
-  statusCode: HttpStatus.BAD_REQUEST,
-})
-export class YourAccountIsBlockedException extends Error {}
+export class SignupByOtpData {
+  readonly identifier!: Email | Mobile;
+}
 
 export enum SigninMethod {
   PASSWORD = 'password',

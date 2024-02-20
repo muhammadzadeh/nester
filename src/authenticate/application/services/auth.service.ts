@@ -31,7 +31,7 @@ import { SigninByPasswordUsecase } from '../usecases/signin-by-password/signin-b
 import { SigninByPasswordCommand } from '../usecases/signin-by-password/signin-by-password';
 import { SignupByPasswordCommand } from '../usecases/signup-by-password/signup-by-password.command';
 import { SignupByPasswordUsecase } from '../usecases/signup-by-password/signup-by-password.usecase';
-import { ImpersonationUsecase } from '../usecases/impersonation/impersonation.usercase';
+import { ImpersonationUsecase } from '../usecases/impersonation/impersonation.usecase';
 import { ImpersonationCommand } from '../usecases/impersonation/impersonation.command';
 
 export const TOKEN_EXPIRATION_DURATION = Duration.fromObject({ days: 1 });

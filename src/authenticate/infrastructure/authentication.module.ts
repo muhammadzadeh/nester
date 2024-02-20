@@ -17,30 +17,22 @@ import { VerifyUsecase } from '../application/usecases/verify/verify.usecase';
 import { OTP_REPOSITORY_TOKEN } from '../domain/repositories';
 import { TypeormOTPEntity } from './database/entities';
 import { TypeOrmOTPRepository } from './database/repositories';
-import { FakeAuthProvider } from './providers/fake';
 import { GoogleAuthProvider } from './providers/google';
-import { IdentifierPasswordAuthProvider } from './providers/identified-password';
-import { OTPAuthProvider } from './providers/otp';
 import { AuthenticationController } from './web';
 import { AuthorizationGuard, CheckPermissionGuard, IsUserEnableGuard } from './web/guards';
 import { SigninByPasswordUsecase } from '../application/usecases/signin-by-password/signin-by-password.usecase';
 import { SignupByPasswordUsecase } from '../application/usecases/signup-by-password/signup-by-password.usecase';
-import { ImpersonationUsecase } from '../application/usecases/impersonation/impersonation.usercase';
+import { ImpersonationUsecase } from '../application/usecases/impersonation/impersonation.usecase';
 
 const authProviderManager: Provider = {
   provide: AuthProviderManager,
   inject: [AuthenticationNotifier, Configuration, UsersService, OtpService],
   useFactory: (
-    notificationSender: AuthenticationNotifier,
     configuration: Configuration,
     usersService: UsersService,
-    otpService: OtpService,
   ) => {
     const authProviders: AuthProvider[] = [
-      new IdentifierPasswordAuthProvider(notificationSender, configuration, usersService, otpService),
       new GoogleAuthProvider(configuration, usersService),
-      new FakeAuthProvider(configuration, usersService),
-      new OTPAuthProvider(notificationSender, usersService, otpService),
     ];
 
     return new AuthProviderManager(authProviders);

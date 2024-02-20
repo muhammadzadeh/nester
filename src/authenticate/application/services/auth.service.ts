@@ -29,6 +29,8 @@ import { AccessType, JwtTokenService, RevokeTokenOption, Token } from './jwt-tok
 import { OtpVerification } from './otp.service';
 import { SigninByPasswordUsecase } from '../usecases/signin-by-password/signin-by-password.usecase';
 import { SigninByPasswordCommand } from '../usecases/signin-by-password/signin-by-password';
+import { SignupByPasswordCommand } from '../usecases/signup-by-password/signup-by-password.command';
+import { SignupByPasswordUsecase } from '../usecases/signup-by-password/signup-by-password.usecase';
 
 export const TOKEN_EXPIRATION_DURATION = Duration.fromObject({ days: 1 });
 export const CODE_EXPIRATION_DURATION = Duration.fromObject({ minutes: 2 });
@@ -40,6 +42,7 @@ export class AuthService {
   constructor(
     private readonly requestResetPasswordUsecase: RequestResetPasswordUsecase,
     private readonly signinByPasswordUsecase: SigninByPasswordUsecase,
+    private readonly signupByPasswordUsecase: SignupByPasswordUsecase,
     private readonly resetPasswordUsecase: ResetPasswordUsecase,
     private readonly signinByOtpUsecase: SigninByOtpUsecase,
     private readonly signupByOtpUsecase: SignupByOtpUsecase,
@@ -119,6 +122,10 @@ export class AuthService {
 
   async signupByOtp(data: SignupByOtpData): Promise<void> {
     await this.signupByOtpUsecase.execute(SignupByOtpCommand.create(data));
+  }
+
+  async signupByPassword(data: SignupByPasswordData): Promise<void> {
+    await this.signupByPasswordUsecase.execute(SignupByPasswordCommand.create(data));
   }
 
   async sendOtp(data: SendOtp): Promise<void> {
@@ -208,6 +215,11 @@ export class SigninByOtpData {
 }
 
 export class SigninByPasswordData {
+  readonly password!: string;
+  readonly identifier!: Email | Mobile;
+}
+
+export class SignupByPasswordData {
   readonly password!: string;
   readonly identifier!: Email | Mobile;
 }

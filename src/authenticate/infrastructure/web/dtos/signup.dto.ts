@@ -5,9 +5,9 @@ import { IsIdentifier } from '../../../../common/is-identifier.validator';
 import { IsNotUUID } from '../../../../common/is-not-uuid.validator';
 import { IsStrongPassword } from '../../../../common/is-strong-password.validator';
 import { Email, Mobile } from '../../../../common/types';
-import { SignupByOtpData } from '../../../application';
+import { SignupByOtpData } from '../../../application/services';
+import { SignupByPasswordData } from '../../../application/services';
 import { GoogleSignup } from '../../providers/google/google-signup';
-import { IdentifierPasswordSignup } from '../../providers/identified-password/identifier-password-signup';
 
 export class SignupByOtpDto {
   @IsNotEmpty()
@@ -46,17 +46,10 @@ export class IdentifierPasswordSignupDto {
   @IsStrongPassword()
   password!: string;
 
-  @IsNotEmpty()
-  @IsString()
-  @Type(() => String)
-  firstName!: string;
-
-  @IsNotEmpty()
-  @IsString()
-  @Type(() => String)
-  lastName!: string;
-
-  toIdentifierPasswordSignup(): IdentifierPasswordSignup {
-    return new IdentifierPasswordSignup(this.identifier, this.password, this.firstName, this.lastName);
+  toSignupByPasswordData(): SignupByPasswordData {
+    return {
+      identifier: this.identifier,
+      password: this.password,
+    };
   }
 }

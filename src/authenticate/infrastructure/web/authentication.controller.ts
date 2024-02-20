@@ -39,7 +39,7 @@ export class AuthenticationController {
     type: DoneResponse,
   })
   async signupByIdentifierPassword(@Body() dto: IdentifierPasswordSignupDto): Promise<DoneResponse> {
-    await this.authService.signup(dto.toIdentifierPasswordSignup());
+    await this.authService.signupByPassword(dto.toSignupByPasswordData());
     return Serializer.done();
   }
 

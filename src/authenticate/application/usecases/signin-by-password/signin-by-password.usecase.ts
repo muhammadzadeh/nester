@@ -64,10 +64,7 @@ export class SigninByPasswordUsecase {
       throw new InvalidCredentialException(`Passwords mismatch for ${command.identifier}`);
     }
 
-    publish(AUTHENTICATION_EXCHANGE_NAME, AuthenticationEvents.USER_LOGGED_IN, new UserLoggedInEvent(user), {
-      persistent: true,
-      deliveryMode: 2,
-    });
+    publish(AUTHENTICATION_EXCHANGE_NAME, AuthenticationEvents.USER_LOGGED_IN, new UserLoggedInEvent(user));
 
     return await this.generateToken(user);
   }

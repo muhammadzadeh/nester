@@ -58,10 +58,7 @@ export class SigninByOtpUsecase {
       publish(AUTHENTICATION_EXCHANGE_NAME, AuthenticationEvents.USER_VERIFIED, new UserVerifiedEvent(user));
     }
 
-    publish(AUTHENTICATION_EXCHANGE_NAME, AuthenticationEvents.USER_LOGGED_IN, new UserLoggedInEvent(user), {
-      persistent: true,
-      deliveryMode: 2,
-    });
+    publish(AUTHENTICATION_EXCHANGE_NAME, AuthenticationEvents.USER_LOGGED_IN, new UserLoggedInEvent(user));
 
     return await this.generateToken(user);
   }

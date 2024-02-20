@@ -21,6 +21,7 @@ database:
 authentication:
   passwordRegEx: ^(?=.*[a-zA-Z])(?=.*[0-9]).{6,}$
   allowUnverifiedSignin: true
+  allowImpersonation: false
   token:
     jwtSecret: replace_me
     accessTokenExpiration: PT1H

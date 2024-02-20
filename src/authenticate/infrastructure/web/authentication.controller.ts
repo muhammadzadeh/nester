@@ -17,11 +17,9 @@ import {
   RefreshTokenDto,
   ResetPasswordDto,
   SigninByOtpDto,
-  SigninMethodDto,
-  SigninMethodResponse,
   SignupByOtpDto,
+  VerifyDto,
 } from './dtos';
-import { VerifyDto } from './dtos/verify.dto';
 
 @IgnoreAuthorizationGuard()
 @ApiTags('Authentication')
@@ -74,17 +72,6 @@ export class AuthenticationController {
   async verify(@Body() dto: VerifyDto): Promise<AuthenticationResponse> {
     const token = await this.authService.verify(dto.toVerifyData());
     return AuthenticationResponse.from(token);
-  }
-
-  @Post('signin/methods')
-  @Captcha()
-  @ApiOkResponse({
-    status: 200,
-    type: SigninMethodResponse,
-  })
-  async getAuthenticateMethods(@Body() dto: SigninMethodDto): Promise<SigninMethodResponse> {
-    const signinMethods = await this.authService.getAuthenticateMethods(dto.identifier);
-    return SigninMethodResponse.from(signinMethods);
   }
 
   @Post('signin/identifier-password')

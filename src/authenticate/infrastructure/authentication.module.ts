@@ -19,6 +19,8 @@ import { SignupByOtpUsecase } from '../application/usecases/signup-by-otp/signup
 import { SignupByPasswordUsecase } from '../application/usecases/signup-by-password/signup-by-password.usecase';
 import { AuthProvider } from '../application/usecases/third-parties/auth-provider';
 import { AuthProviderManager } from '../application/usecases/third-parties/auth-provider-manager';
+import { SigninByThirdPartyUsecase } from '../application/usecases/third-parties/signin-by-third-party/signin-by-third-party.usecase';
+import { SignupByThirdPartyUsecase } from '../application/usecases/third-parties/signup-by-third-party/signup-by-third-party.usecase';
 import { VerifyUsecase } from '../application/usecases/verify/verify.usecase';
 import { OTP_REPOSITORY_TOKEN } from '../domain/repositories';
 import { TypeormOTPEntity } from './database/entities';
@@ -64,6 +66,8 @@ const otpRepository: Provider = {
     SigninByPasswordUsecase,
     SignupByPasswordUsecase,
     ImpersonationUsecase,
+    SignupByThirdPartyUsecase,
+    SigninByThirdPartyUsecase,
     {
       provide: IsStrongPasswordConstraint,
       inject: [Configuration],

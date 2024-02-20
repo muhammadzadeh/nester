@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { isEmail } from 'class-validator';
 import { Duration } from 'luxon';
 import { Email, Mobile, UserId, Username } from '../../../common/types';
@@ -20,6 +20,8 @@ import { SignupByOtpUsecase } from '../usecases/signup-by-otp/signup-by-otp.usec
 import { SignupByPasswordCommand } from '../usecases/signup-by-password/signup-by-password.command';
 import { SignupByPasswordUsecase } from '../usecases/signup-by-password/signup-by-password.usecase';
 import { Auth, AuthProviderType } from '../usecases/third-parties/auth-provider';
+import { SigninByThirdPartyCommand } from '../usecases/third-parties/signin-by-third-party/signin-by-third-party.command';
+import { SigninByThirdPartyUsecase } from '../usecases/third-parties/signin-by-third-party/signin-by-third-party.usecase';
 import { SignupByThirdPartyCommand } from '../usecases/third-parties/signup-by-third-party/signup-by-third-party.command';
 import { SignupByThirdPartyUsecase } from '../usecases/third-parties/signup-by-third-party/signup-by-third-party.usecase';
 import { VerifyCommand } from '../usecases/verify/verify.command';
@@ -35,6 +37,7 @@ export class AuthService {
   constructor(
     private readonly requestResetPasswordUsecase: RequestResetPasswordUsecase,
     private readonly signupByThirdPartyUsecase: SignupByThirdPartyUsecase,
+    private readonly signinByThirdPartyUsecase: SigninByThirdPartyUsecase,
     private readonly signinByPasswordUsecase: SigninByPasswordUsecase,
     private readonly signupByPasswordUsecase: SignupByPasswordUsecase,
     private readonly impersonationUsecase: ImpersonationUsecase,
@@ -46,23 +49,13 @@ export class AuthService {
     private readonly verifyUsecase: VerifyUsecase,
   ) {}
 
-  async getAuthenticateMethods(identifier: Email | Mobile): Promise<SigninMethod[]> {
-    const user = await this.findUser(identifier);
-    const signinMethods: SigninMethod[] = [];
-
-    signinMethods.push(SigninMethod.OTP);
-    if (user.hashPassword()) {
-      signinMethods.push(SigninMethod.PASSWORD);
-    }
-
-    return signinMethods;
-  }
-
   async signupByThirdParty(data: AuthenticateByThirdPartyData): Promise<Token> {
     return await this.signupByThirdPartyUsecase.execute(SignupByThirdPartyCommand.create(data));
   }
 
-  async signinByThirdParty(auth: AuthenticateByThirdPartyData): Promise<Token> {}
+  async signinByThirdParty(data: AuthenticateByThirdPartyData): Promise<Token> {
+    return await this.signinByThirdPartyUsecase.execute(SigninByThirdPartyCommand.create(data));
+  }
 
   async revokeToken(options: RevokeTokenOption): Promise<void> {
     await this.tokenService.revokeToken(options);
@@ -159,7 +152,6 @@ export class AuthenticateByThirdPartyData {
   readonly provider!: AuthProviderType;
   readonly data!: Auth;
 }
-
 
 export enum SigninMethod {
   PASSWORD = 'password',

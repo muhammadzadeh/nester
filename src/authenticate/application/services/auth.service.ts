@@ -27,6 +27,8 @@ import { Auth, AuthUser } from './auth-provider';
 import { AuthProviderManager } from './auth-provider-manager';
 import { AccessType, JwtTokenService, RevokeTokenOption, Token } from './jwt-token.service';
 import { OtpVerification } from './otp.service';
+import { SigninByPasswordUsecase } from '../usecases/signin-by-password/signin-by-password.usecase';
+import { SigninByPasswordCommand } from '../usecases/signin-by-password/signin-by-password';
 
 export const TOKEN_EXPIRATION_DURATION = Duration.fromObject({ days: 1 });
 export const CODE_EXPIRATION_DURATION = Duration.fromObject({ minutes: 2 });
@@ -37,6 +39,7 @@ export class AuthService {
 
   constructor(
     private readonly requestResetPasswordUsecase: RequestResetPasswordUsecase,
+    private readonly signinByPasswordUsecase: SigninByPasswordUsecase,
     private readonly resetPasswordUsecase: ResetPasswordUsecase,
     private readonly signinByOtpUsecase: SigninByOtpUsecase,
     private readonly signupByOtpUsecase: SignupByOtpUsecase,
@@ -104,6 +107,10 @@ export class AuthService {
 
   async revokeToken(options: RevokeTokenOption): Promise<void> {
     await this.tokenService.revokeToken(options);
+  }
+
+  async signinByPassword(data: SigninByPasswordData): Promise<Token> {
+    return await this.signinByPasswordUsecase.execute(SigninByPasswordCommand.create(data));
   }
 
   async signinByOtp(data: SigninByOtpData): Promise<Token> {
@@ -197,6 +204,11 @@ export class VerifyData {
 export class SigninByOtpData {
   readonly otp!: string;
   readonly type!: OTPType;
+  readonly identifier!: Email | Mobile;
+}
+
+export class SigninByPasswordData {
+  readonly password!: string;
   readonly identifier!: Email | Mobile;
 }
 

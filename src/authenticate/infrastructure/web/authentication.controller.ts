@@ -3,7 +3,7 @@ import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { Captcha } from '../../../common/captcha/decorators';
 import { CommonController } from '../../../common/guards/decorators';
 import { DoneResponse, Serializer } from '../../../common/serialization';
-import { AuthService, JwtTokenService } from '../../application';
+import { AuthService, JwtTokenService } from '../../application/services';
 import { IgnoreAuthorizationGuard } from './decorators';
 import {
   AuthenticationResponse,
@@ -94,7 +94,7 @@ export class AuthenticationController {
     type: AuthenticationResponse,
   })
   async signinByIdentifierPassword(@Body() dto: IdentifierPasswordAuthDto): Promise<AuthenticationResponse> {
-    const token = await this.authService.authenticate(dto.toIdentifierPasswordAuth());
+    const token = await this.authService.signinByPassword(dto.toSigninByPasswordData());
     return AuthenticationResponse.from(token);
   }
 

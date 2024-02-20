@@ -3,11 +3,10 @@ import { ToLowerCase } from '../../../../common/decorators';
 import { IsIdentifier } from '../../../../common/is-identifier.validator';
 import { IsNotUUID } from '../../../../common/is-not-uuid.validator';
 import { Email, Mobile } from '../../../../common/types';
-import { SigninByOtpData } from '../../../application';
+import { SigninByOtpData, SigninByPasswordData } from '../../../application/services';
 import { OTPType } from '../../../domain/entities';
 import { FakeAuth } from '../../providers/fake';
 import { GoogleAuth } from '../../providers/google';
-import { IdentifierPasswordAuth } from '../../providers/identified-password';
 
 export class FakeAuthDto {
   @IsNotEmpty()
@@ -31,8 +30,11 @@ export class IdentifierPasswordAuthDto {
   @IsString()
   password!: string;
 
-  toIdentifierPasswordAuth() {
-    return new IdentifierPasswordAuth(this.identifier, this.password);
+  toSigninByPasswordData(): SigninByPasswordData {
+    return {
+      identifier: this.identifier,
+      password: this.password,
+    };
   }
 }
 

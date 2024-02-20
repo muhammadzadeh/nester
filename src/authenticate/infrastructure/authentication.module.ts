@@ -10,8 +10,10 @@ import { AuthenticationNotifier } from '../application/services/authentication.n
 import { JwtTokenService } from '../application/services/jwt-token.service';
 import { OtpService } from '../application/services/otp.service';
 import { ImpersonationUsecase } from '../application/usecases/impersonation/impersonation.usecase';
+import { RefreshTokenUsecase } from '../application/usecases/refresh-token/refresh-token.usecase';
 import { RequestResetPasswordUsecase } from '../application/usecases/request-reset-password/request-reset-password.usecase';
 import { ResetPasswordUsecase } from '../application/usecases/reset-password/reset-password.usecase';
+import { RevokeTokenUsecase } from '../application/usecases/revoke-token/revoke-token.usecase';
 import { SendOtpUsecase } from '../application/usecases/send-otp/send-otp.usecase';
 import { SigninByOtpUsecase } from '../application/usecases/signin-by-otp/signin-by-otp.usecase';
 import { SigninByPasswordUsecase } from '../application/usecases/signin-by-password/signin-by-password.usecase';
@@ -28,7 +30,6 @@ import { TypeOrmOTPRepository } from './database/repositories';
 import { GoogleAuthProvider } from './providers/google';
 import { AuthenticationController } from './web';
 import { AuthorizationGuard, CheckPermissionGuard, IsUserEnableGuard } from './web/guards';
-import { RefreshTokenUsecase } from '../application/usecases/refresh-token/refresh-token.usecase';
 
 const authProviderManager: Provider = {
   provide: AuthProviderManager,
@@ -70,6 +71,7 @@ const otpRepository: Provider = {
     SignupByThirdPartyUsecase,
     SigninByThirdPartyUsecase,
     RefreshTokenUsecase,
+    RevokeTokenUsecase,
     {
       provide: IsStrongPasswordConstraint,
       inject: [Configuration],

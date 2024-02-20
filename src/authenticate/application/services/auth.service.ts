@@ -1,14 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { isEmail } from 'class-validator';
-import { Duration } from 'luxon';
 import { Email, Mobile, UserId, Username } from '../../../common/types';
 import { OTPType } from '../../domain/entities';
 import { ImpersonationCommand } from '../usecases/impersonation/impersonation.command';
 import { ImpersonationUsecase } from '../usecases/impersonation/impersonation.usecase';
+import { RefreshTokenCommand } from '../usecases/refresh-token/refresh-token.command';
+import { RefreshTokenUsecase } from '../usecases/refresh-token/refresh-token.usecase';
 import { RequestResetPasswordCommand } from '../usecases/request-reset-password/request-reset-password.command';
 import { RequestResetPasswordUsecase } from '../usecases/request-reset-password/request-reset-password.usecase';
 import { ResetPasswordCommand } from '../usecases/reset-password/reset-password.command';
 import { ResetPasswordUsecase } from '../usecases/reset-password/reset-password.usecase';
+import { RevokeTokenCommand } from '../usecases/revoke-token/revoke-token.command';
+import { RevokeTokenUsecase } from '../usecases/revoke-token/revoke-token.usecase';
 import { SendOtpCommand } from '../usecases/send-otp/send-otp.command';
 import { SendOtpUsecase } from '../usecases/send-otp/send-otp.usecase';
 import { SigninByOtpCommand } from '../usecases/signin-by-otp/signin-by-otp';
@@ -26,13 +29,8 @@ import { SignupByThirdPartyCommand } from '../usecases/third-parties/signup-by-t
 import { SignupByThirdPartyUsecase } from '../usecases/third-parties/signup-by-third-party/signup-by-third-party.usecase';
 import { VerifyCommand } from '../usecases/verify/verify.command';
 import { VerifyUsecase } from '../usecases/verify/verify.usecase';
-import { JwtTokenService, RefreshTokenData, RevokeTokenOption, Token } from './jwt-token.service';
+import { RefreshTokenData, RevokeTokenOption, Token } from './jwt-token.service';
 import { OtpVerification } from './otp.service';
-import { RefreshTokenUsecase } from '../usecases/refresh-token/refresh-token.usecase';
-import { RefreshTokenCommand } from '../usecases/refresh-token/refresh-token.command';
-
-export const TOKEN_EXPIRATION_DURATION = Duration.fromObject({ days: 1 });
-export const CODE_EXPIRATION_DURATION = Duration.fromObject({ minutes: 2 });
 
 @Injectable()
 export class AuthService {
@@ -46,9 +44,9 @@ export class AuthService {
     private readonly resetPasswordUsecase: ResetPasswordUsecase,
     private readonly refreshTokenUsecase: RefreshTokenUsecase,
     private readonly signinByOtpUsecase: SigninByOtpUsecase,
+    private readonly revokeTokenUsecase: RevokeTokenUsecase,
     private readonly signupByOtpUsecase: SignupByOtpUsecase,
     private readonly sendOtpUsecase: SendOtpUsecase,
-    private readonly tokenService: JwtTokenService,
     private readonly verifyUsecase: VerifyUsecase,
   ) {}
 
@@ -61,7 +59,7 @@ export class AuthService {
   }
 
   async revokeToken(options: RevokeTokenOption): Promise<void> {
-    await this.tokenService.revokeToken(options);
+    await this.revokeTokenUsecase.execute(RevokeTokenCommand.create(options));
   }
 
   async signinByPassword(data: SigninByPasswordData): Promise<Token> {
@@ -109,8 +107,8 @@ export class AuthService {
     return await this.verifyUsecase.execute(VerifyCommand.create(data));
   }
 
-  async refreshToken(data: RefreshTokenData): Promise<Token>{
-    return await this.refreshTokenUsecase.execute(RefreshTokenCommand.create(data))
+  async refreshToken(data: RefreshTokenData): Promise<Token> {
+    return await this.refreshTokenUsecase.execute(RefreshTokenCommand.create(data));
   }
 }
 

@@ -31,10 +31,10 @@ authentication:
       clientId: replace_me
       clientSecret: replace_me
 storage:
-  type: r2
+  type: minio
   baseUrl: http://localhost:9000
   maxFileSize: 30_000_000
-  r2:
+  minio:
     privateBucket: private
     publicBucket: cdn
     accessKeyId: replace_me

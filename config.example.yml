@@ -53,10 +53,10 @@ swagger:
   enabled: true
   apiUrl: http://localhost:3000
 sentry:
+  enabled: true
   dsn: replace_me
   tracesSampleRate: 1.0
   profilesSampleRate: 1.0
-  enabled: true
   environment: local
 captcha:
   enabled: false

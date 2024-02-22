@@ -43,7 +43,6 @@ Now you can open `config.yml` and fill in your own settings.
 
    `make run`
 
-
 4. Your app should run on port 3000(default until change it in config.yml), and documentation is available in below addresses:
    - Common API [http://localhost:3000/common/docs](http://localhost:3000/common/docs)
    - Admin API [http://localhost:3000/admin/docs](http://localhost:3000/admin/docs)
@@ -55,7 +54,8 @@ Once you've got your environment set up, you can dive into the details of each p
 
 - **[Architecture](doc/architecture.md)**: Learn about the overall structure of the application.
 - **[Configuration](doc/configuration.md)**: Find out how to customize your application's settings.
-- **Attachments**: Understand how to handle file uploads and downloads.
-- **Authentication**: Secure your application with user logins and access controls.
-- **Notification**: Set up a system to send users notifications.
-- **User Management**: Manage users, including registration, profile updates, and more.
+- **[Attachments](doc/attachments.md)**: Understand how to handle file uploads and downloads.
+- **[Authentication](doc/authentication.md)**: Secure your application with user logins and access controls.
+- **[Notification](doc/notification.md)**: Set up a system to send users notifications.
+- **[User Management](doc/user-management.md)**: Manage users, including registration, profile updates, and more.
+- **[Production Deployment](doc/production-deployment.md)**: See how to deploy your app for production use.

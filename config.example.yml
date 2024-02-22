@@ -57,7 +57,6 @@ sentry:
   dsn: replace_me
   tracesSampleRate: 1.0
   profilesSampleRate: 1.0
-  environment: local
 captcha:
   enabled: false
   provider: recaptcha

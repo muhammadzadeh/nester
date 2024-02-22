@@ -33,6 +33,10 @@ Now you can open `config.yml` and fill in your own settings.
 
 3. **Start Project**: Run the following command from the project root directory:
 
+   `npm i`
+
+   Then
+
    `npm run start:dev`
 
    OR
@@ -50,7 +54,7 @@ Now you can open `config.yml` and fill in your own settings.
 Once you've got your environment set up, you can dive into the details of each part of the Nester project:
 
 - **[Architecture](doc/architecture.md)**: Learn about the overall structure of the application.
-- **Configuration**: Find out how to customize your application's settings.
+- **[Configuration](doc/configuration.md)**: Find out how to customize your application's settings.
 - **Attachments**: Understand how to handle file uploads and downloads.
 - **Authentication**: Secure your application with user logins and access controls.
 - **Notification**: Set up a system to send users notifications.

@@ -9,7 +9,6 @@ export class UserEntity {
     lastName: string | null,
     email: Email | null,
     mobile: Mobile | null,
-    avatar: string | null,
   );
   constructor(
     firstName: string | null,
@@ -36,7 +35,7 @@ export class UserEntity {
     lastName: string | null,
     email: Email | null,
     mobile: Mobile | null,
-    avatar: string | null,
+    avatar?: string | null,
     password?: string | null,
     username?: Username | null,
     id?: UserId,
@@ -59,7 +58,7 @@ export class UserEntity {
     this.lastName = lastName;
     this.email = email;
     this.mobile = mobile;
-    this.avatar = avatar;
+    this.avatar = avatar ?? null;
     this.password = password ?? null;
     this.username = username ?? null;
     this.id = id ?? randomUUID();
@@ -121,6 +120,10 @@ export class UserEntity {
 
   updateRole(roleId: string): void {
     this.roleId = roleId;
+  }
+
+  updateAvatar(avatar: string): void {
+    this.avatar = avatar;
   }
 }
 

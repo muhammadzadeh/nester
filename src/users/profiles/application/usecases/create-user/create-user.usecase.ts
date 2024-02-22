@@ -13,7 +13,6 @@ export class CreateUserUsecase {
       command.lastName ?? null,
       command.email ?? null,
       command.mobile ?? null,
-      command.avatar ?? null,
     );
 
     if (command.isEmailVerified) {
@@ -26,6 +25,11 @@ export class CreateUserUsecase {
 
     if (command.password) {
       createdUser.updatePassword(command.password);
+    }
+
+    if (command.avatar) {
+      //FIXME check if avatar uuid or url
+      createdUser.updateAvatar(command.avatar);
     }
 
     return this.usersRepository.save(createdUser);

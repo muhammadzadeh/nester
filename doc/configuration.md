@@ -60,6 +60,8 @@ Database connection configurations, supporting both URL and parameter-based conn
   - `ssl`: SSL configuration for the database connection.
   - `schema`: The database schema, default is `public`.
 
+<a id="authentication"></a>
+
 ## Authentication
 
 Configuration settings related to user authentication.

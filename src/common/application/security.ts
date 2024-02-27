@@ -4,7 +4,7 @@ import {
   AuthorizationGuard,
   CheckPermissionGuard,
   IsUserEnableGuard,
-} from '../../authenticate/infrastructure/web/guards';
+} from '../../authentication/infrastructure/web/guards';
 import { CaptchaGuard } from '../captcha/guards';
 import { Configuration } from '../config';
 import { ThrottlerBehindProxyGuard } from '../guards/throttler-behind-proxy.guard';

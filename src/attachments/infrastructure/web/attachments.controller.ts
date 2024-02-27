@@ -2,7 +2,7 @@ import { Get, Param, Post, StreamableFile } from '@nestjs/common';
 import { ApiBody, ApiConsumes, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { UploadedFiles } from 'common/decorators';
 import { CommonController } from 'common/guards/decorators';
-import { CurrentUser } from '../../../authenticate/infrastructure/web/decorators';
+import { CurrentUser } from '../../../authentication/infrastructure/web/decorators';
 import { AttachmentsService } from '../../application/attachments.service';
 import { AttachmentNotFoundException } from '../../domain/entities/attachments.entity';
 import { AttachmentListResponse } from './attachment-list.response';

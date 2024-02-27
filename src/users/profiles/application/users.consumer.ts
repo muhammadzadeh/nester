@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { AUTHENTICATION_EXCHANGE_NAME } from '../../../authenticate/domain/constants';
-import { AuthenticationEvents, UserLoggedInEvent, UserVerifiedEvent } from '../../../authenticate/domain/events';
+import { AUTHENTICATION_EXCHANGE_NAME } from '../../../authentication/domain/constants';
+import { AuthenticationEvents, UserLoggedInEvent, UserVerifiedEvent } from '../../../authentication/domain/events';
 import { OnRabbitEvent } from '../../../common/rabbit/application/decorators';
 import { UsersService } from './users.service';
 

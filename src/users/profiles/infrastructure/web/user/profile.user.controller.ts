@@ -1,6 +1,6 @@
 import { Body, Get, Put } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
-import { CurrentUser } from '../../../../../authenticate/infrastructure/web/decorators';
+import { CurrentUser } from '../../../../../authentication/infrastructure/web/decorators';
 import { UserController } from '../../../../../common/guards/decorators';
 import { DoneResponse, Serializer } from '../../../../../common/serialization';
 import { UsersService } from '../../../application/users.service';

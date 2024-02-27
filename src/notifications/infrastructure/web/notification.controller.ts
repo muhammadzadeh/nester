@@ -1,6 +1,6 @@
 import { Body, Get, Post, Query } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
-import { CurrentUser } from '../../../authenticate/infrastructure/web/decorators';
+import { CurrentUser } from '../../../authentication/infrastructure/web/decorators';
 import { CommonController } from '../../../common/guards/decorators';
 import { DoneResponse, Serializer } from '../../../common/serialization';
 import { NotificationsService } from '../../application/notifications.service';

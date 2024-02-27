@@ -119,6 +119,8 @@ This section outlines the configurations for the storage options available in th
   - `privateBaseUrl`: The base URL for accessing files in the private directory.
   - `publicBaseUrl`: The base URL for accessing files in the public directory.
 
+<a id="notification"></a>
+
 ## Mailer
 
 Mailer service configurations for sending emails.

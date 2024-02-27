@@ -60,6 +60,8 @@ Database connection configurations, supporting both URL and parameter-based conn
   - `ssl`: SSL configuration for the database connection.
   - `schema`: The database schema, default is `public`.
 
+<a id="authentication"></a>
+
 ## Authentication
 
 Configuration settings related to user authentication.
@@ -116,6 +118,8 @@ This section outlines the configurations for the storage options available in th
   - `uploadDir`: The directory path for temporary storage of uploaded files before they are moved to their final location.
   - `privateBaseUrl`: The base URL for accessing files in the private directory.
   - `publicBaseUrl`: The base URL for accessing files in the public directory.
+
+<a id="notification"></a>
 
 ## Mailer
 

@@ -1,5 +1,6 @@
 import { Module, Provider } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { Configuration } from '../../common/config';
 import { AttachmentsService } from '../application/attachments.service';
 import {
   LocalUploader,
@@ -14,7 +15,6 @@ import { ATTACHMENTS_REPOSITORY_TOKEN } from '../domain/repositories/attachments
 import { TypeormAttachmentEntity, TypeormAttachmentUserEntity } from './database/entities';
 import { TypeormAttachmentUsersRepository, TypeormAttachmentsRepository } from './database/repositories';
 import { AttachmentsController } from './web';
-import { Configuration } from '../../common/config';
 
 const uploaderProvider: Provider = {
   provide: UPLOADER_TOKEN,

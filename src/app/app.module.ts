@@ -12,7 +12,7 @@ import { WinstonModule } from 'nest-winston';
 import { AcceptLanguageResolver, HeaderResolver, I18nModule, QueryResolver } from 'nestjs-i18n';
 import { join } from 'node:path';
 import { AttachmentsModule } from '../attachments/infrastructure/attachments.module';
-import { AuthenticationModule } from '../authenticate/infrastructure/authentication.module';
+import { AuthenticationModule } from '../authentication/infrastructure/authentication.module';
 import { CacheServiceModule } from '../common/cache/cache.module';
 import { CaptchaModule } from '../common/captcha/captcha.module';
 import { ConfigModule, Configuration } from '../common/config';

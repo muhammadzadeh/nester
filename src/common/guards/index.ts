@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';
-import { AuthenticationModule } from '../../authenticate/infrastructure/authentication.module';
+import { AuthenticationModule } from '../../authentication/infrastructure/authentication.module';
 import { ThrottlerBehindProxyGuard } from './throttler-behind-proxy.guard';
 
 @Module({

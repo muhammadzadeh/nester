@@ -8,9 +8,9 @@ on:
   push:
     branches:
       - main
-      - development
-      - 'release-*'
-      - 'hotfix**'
+    #  - development
+    #  - 'release-*'
+    #  - 'hotfix**'
     tags:
       - 'dev-*'
 

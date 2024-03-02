@@ -47,6 +47,11 @@ export class AuthenticationConfig {
   @IsNotEmpty()
   @IsBoolean()
   @Type(() => Boolean)
+  readonly registerUserOnSendOtp!: boolean;
+
+  @IsNotEmpty()
+  @IsBoolean()
+  @Type(() => Boolean)
   readonly allowUnverifiedSignin!: boolean;
 
   @IsNotEmpty()

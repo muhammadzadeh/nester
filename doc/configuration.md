@@ -69,6 +69,7 @@ Configuration settings related to user authentication.
 - `authentication`: Authentication settings.
   - `passwordRegEx`: Regular expression for validating passwords.
   - `allowUnverifiedSignin`: Allows users to sign in without verifying their identity.
+  - `registerUserOnSendOtp`: Allows register users on send OTP.
   - `allowImpersonation`: Allows users to impersonate other users(Only for development purpose).
   - `token`: Token-specific settings.
     - `jwtSecret`: Secret key for JWT.

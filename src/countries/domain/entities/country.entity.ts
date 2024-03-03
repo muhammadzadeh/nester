@@ -1,4 +1,4 @@
-class Timezone {
+export class Timezone {
   zoneName!: string;
   gmtOffset!: number;
   gmtOffsetName!: string;
@@ -6,7 +6,7 @@ class Timezone {
   tzName!: string;
 }
 
-class Translations {
+export class Translations {
   [key: string]: string;
 }
 

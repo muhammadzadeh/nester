@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Expose, Type } from 'class-transformer';
+import { Type } from 'class-transformer';
 import { Email, Mobile, UserId, Username } from '../../../../../common/types';
 import { UserEntity } from '../../../domain/entities/user.entity';
 
@@ -12,6 +12,7 @@ export class UserResponse {
       fullName: data.fullName,
       email: data.email,
       mobile: data.mobile,
+      avatarId: data.avatarId,
       avatar: data.avatar,
       username: data.username,
       isBlocked: data.isBlocked,
@@ -30,7 +31,6 @@ export class UserResponse {
     type: String,
     name: 'id',
   })
-  @Expose()
   @Type(() => String)
   readonly id!: UserId;
 
@@ -39,7 +39,6 @@ export class UserResponse {
     name: 'first_name',
     nullable: true,
   })
-  @Expose()
   @Type(() => String)
   readonly firstName!: string | null;
 
@@ -48,7 +47,6 @@ export class UserResponse {
     name: 'last_name',
     nullable: true,
   })
-  @Expose()
   @Type(() => String)
   readonly lastName!: string | null;
 
@@ -57,7 +55,6 @@ export class UserResponse {
     name: 'full_name',
     nullable: true,
   })
-  @Expose()
   @Type(() => String)
   readonly fullName!: string | null;
 
@@ -67,7 +64,6 @@ export class UserResponse {
     nullable: true,
   })
   @Type(() => String)
-  @Expose()
   readonly email!: Email | null;
 
   @ApiProperty({
@@ -76,15 +72,21 @@ export class UserResponse {
     nullable: true,
   })
   @Type(() => String)
-  @Expose()
   readonly mobile!: Mobile | null;
+
+  @ApiProperty({
+    type: String,
+    name: 'avatar_id',
+    nullable: true,
+  })
+  @Type(() => String)
+  readonly avatarId!: string | null;
 
   @ApiProperty({
     type: String,
     name: 'avatar',
     nullable: true,
   })
-  @Expose()
   @Type(() => String)
   readonly avatar!: string | null;
 
@@ -93,7 +95,6 @@ export class UserResponse {
     name: 'username',
     nullable: true,
   })
-  @Expose()
   @Type(() => String)
   readonly username!: Username | null;
 
@@ -102,7 +103,6 @@ export class UserResponse {
     name: 'is_blocked',
   })
   @Type(() => Boolean)
-  @Expose()
   readonly isBlocked!: boolean;
 
   @ApiProperty({
@@ -110,7 +110,6 @@ export class UserResponse {
     name: 'is_email_verified',
   })
   @Type(() => Boolean)
-  @Expose()
   readonly isEmailVerified!: boolean;
 
   @ApiProperty({
@@ -118,7 +117,6 @@ export class UserResponse {
     name: 'is_mobile_verified',
   })
   @Type(() => Boolean)
-  @Expose()
   readonly isMobileVerified!: boolean;
 
   @ApiProperty({
@@ -127,7 +125,6 @@ export class UserResponse {
     nullable: true,
   })
   @Type(() => String)
-  @Expose()
   readonly roleId!: string | null;
 
   @ApiProperty({
@@ -135,7 +132,6 @@ export class UserResponse {
     name: 'created_at',
   })
   @Type(() => Date)
-  @Expose()
   readonly createdAt!: Date;
 
   @ApiProperty({
@@ -144,7 +140,6 @@ export class UserResponse {
     nullable: true,
   })
   @Type(() => Date)
-  @Expose()
   readonly updatedAt!: Date;
 
   @ApiProperty({
@@ -153,7 +148,6 @@ export class UserResponse {
     nullable: true,
   })
   @Type(() => Date)
-  @Expose()
   readonly deletedAt!: Date | null;
 
   @ApiProperty({
@@ -162,7 +156,6 @@ export class UserResponse {
     nullable: true,
   })
   @Type(() => Date)
-  @Expose()
   readonly lastLoggedInAt!: Date | null;
 
   @ApiProperty({
@@ -171,6 +164,5 @@ export class UserResponse {
     nullable: true,
   })
   @Type(() => Date)
-  @Expose()
   readonly passwordUpdatedAt!: Date | null;
 }

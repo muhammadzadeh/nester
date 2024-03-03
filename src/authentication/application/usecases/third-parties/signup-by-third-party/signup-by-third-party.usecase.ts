@@ -36,7 +36,7 @@ export class SignupByThirdPartyUsecase {
 
     const createdUser = await this.usersService.create({
       email: thirdPartyResult.email,
-      isEmailVerified: false,
+      isEmailVerified: true,
       firstName: thirdPartyResult.firstName,
       lastName: thirdPartyResult.lastName,
       avatar: thirdPartyResult.avatar,

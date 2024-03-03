@@ -12,7 +12,7 @@ import { Injectable } from '@nestjs/common';
 @Injectable()
 export class IsNotUUIDConstraint implements ValidatorConstraintInterface {
   validate(value: any) {
-    return !isUUID(value, 'all');
+    return !isUUID(value, '4');
   }
 
   defaultMessage(): string {

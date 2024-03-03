@@ -4,18 +4,14 @@ import { Exception } from '../../../../common/exception';
 import { Hash } from '../../../../common/hash';
 import { Email, Mobile, UserId, Username } from '../../../../common/types';
 export class UserEntity {
-  constructor(
-    firstName: string | null,
-    lastName: string | null,
-    email: Email | null,
-    mobile: Mobile | null,
-  );
+  constructor(firstName: string | null, lastName: string | null, email: Email | null, mobile: Mobile | null);
   constructor(
     firstName: string | null,
     lastName: string | null,
     email: Email | null,
     mobile: Mobile | null,
     avatar: string | null,
+    avatarId: string | null,
     password: string | null,
     username: Username | null,
     id: UserId,
@@ -36,6 +32,7 @@ export class UserEntity {
     email: Email | null,
     mobile: Mobile | null,
     avatar?: string | null,
+    avatarId?: string | null,
     password?: string | null,
     username?: Username | null,
     id?: UserId,
@@ -59,6 +56,7 @@ export class UserEntity {
     this.email = email;
     this.mobile = mobile;
     this.avatar = avatar ?? null;
+    this.avatarId = avatarId ?? null;
     this.password = password ?? null;
     this.username = username ?? null;
     this.id = id ?? randomUUID();
@@ -81,6 +79,7 @@ export class UserEntity {
   email!: Email | null;
   mobile!: Mobile | null;
   avatar!: string | null;
+  avatarId!: string | null;
   password!: string | null;
   username!: Username | null;
   isBlocked!: boolean;
@@ -122,8 +121,19 @@ export class UserEntity {
     this.roleId = roleId;
   }
 
-  updateAvatar(avatar: string): void {
+  updateName(firstName: string | null, lastName: string | null): void {
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.fullName = `${this.firstName ?? ''} ${this.lastName ?? ''}`;
+  }
+
+  updateAvatar(avatar: string | null, avatarId: string | null): void {
     this.avatar = avatar;
+    this.avatarId = avatarId ?? null;
+  }
+
+  removeAvatar(): void {
+    this.updateAvatar(null, null);
   }
 }
 
@@ -138,3 +148,9 @@ export class UserNotFoundException extends Error {}
   statusCode: HttpStatus.BAD_REQUEST,
 })
 export class MobileOrEmailRequiredException extends Error {}
+
+@Exception({
+  errorCode: 'Invalid_AVATAR',
+  statusCode: HttpStatus.BAD_REQUEST,
+})
+export class InvalidAvatarException extends Error {}

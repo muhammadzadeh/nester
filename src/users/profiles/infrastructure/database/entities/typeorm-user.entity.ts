@@ -42,6 +42,9 @@ export class TypeormUserEntity {
   @Column({ type: 'varchar', name: 'avatar', nullable: true })
   readonly avatar!: string | null;
 
+  @Column({ type: 'varchar', name: 'avatar_id', nullable: true })
+  readonly avatarId!: string | null;
+
   @Column({ type: 'varchar', name: 'password', nullable: true })
   readonly password!: string | null;
 
@@ -82,6 +85,7 @@ export class TypeormUserEntity {
       item.email,
       item.mobile,
       item.avatar,
+      item.avatarId,
       item.password,
       item.username,
       item.id,

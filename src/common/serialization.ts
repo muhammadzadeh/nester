@@ -1,9 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ClassConstructor, Expose, Type, plainToInstance } from 'class-transformer';
-import { snackCaseObject } from './utils';
-import { ResponseGroup } from './types';
+import { ClassConstructor, Type, plainToInstance } from 'class-transformer';
 import { MIN_PAGE_NUMBER, MIN_PAGE_SIZE } from './constants';
-
+import { ResponseGroup } from './types';
+import { snackCaseObject } from './utils';
 
 export interface PagedResponseMeta {
   readonly total: number;
@@ -16,7 +15,6 @@ export class PaginationMetaResponse {
     type: Number,
     description: 'Total items',
   })
-  @Expose()
   @Type(() => Number)
   total: number;
 
@@ -26,7 +24,6 @@ export class PaginationMetaResponse {
     example: 20,
     name: 'page_size',
   })
-  @Expose()
   @Type(() => Number)
   pageSize: number;
 
@@ -36,7 +33,6 @@ export class PaginationMetaResponse {
     example: 1,
     name: 'current_page',
   })
-  @Expose()
   @Type(() => Number)
   currentPage: number;
 
@@ -46,7 +42,6 @@ export class PaginationMetaResponse {
     example: 100,
     name: 'last_page',
   })
-  @Expose()
   @Type(() => Number)
   lastPage: number;
 
@@ -55,7 +50,6 @@ export class PaginationMetaResponse {
     description: 'returned items from index',
     example: 10,
   })
-  @Expose()
   @Type(() => Number)
   from: number;
 
@@ -64,7 +58,6 @@ export class PaginationMetaResponse {
     description: 'returned items to index',
     example: 20,
   })
-  @Expose()
   @Type(() => Number)
   to: number;
 
@@ -83,7 +76,6 @@ export class ListMetaResponse {
     type: PaginationMetaResponse,
     description: 'pagination meta',
   })
-  @Expose()
   @Type(() => PaginationMetaResponse)
   pagination!: PaginationMetaResponse;
 }
@@ -95,7 +87,6 @@ export class ListResponse<T> {
     type: ListMetaResponse,
     description: 'pagination meta',
   })
-  @Expose()
   @Type(() => ListMetaResponse)
   readonly meta!: ListMetaResponse;
 
@@ -118,7 +109,6 @@ export class DoneResponse {
     type: String,
     example: 'OK',
   })
-  @Expose()
   @Type(() => String)
   message!: string;
 }

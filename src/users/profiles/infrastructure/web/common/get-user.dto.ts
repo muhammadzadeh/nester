@@ -3,6 +3,6 @@ import { UserId } from '../../../../../common/types';
 
 export class GetUserDto {
   @IsNotEmpty()
-  @IsUUID('all')
+  @IsUUID('4')
   id!: UserId;
 }

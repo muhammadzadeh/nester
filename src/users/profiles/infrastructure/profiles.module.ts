@@ -1,5 +1,7 @@
+import { HttpModule } from '@nestjs/axios';
 import { Module, Provider } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AttachmentsModule } from '../../../attachments/infrastructure/attachments.module';
 import { RolesModule } from '../../roles/infrastructure/roles.module';
 import { DefaultUserSeeder } from '../application/default-user.seeder';
 import { CreateUserUsecase } from '../application/usecases/create-user/create-user.usecase';
@@ -21,7 +23,7 @@ const usersRepository: Provider = {
 };
 
 @Module({
-  imports: [TypeOrmModule.forFeature([TypeormUserEntity]), RolesModule],
+  imports: [TypeOrmModule.forFeature([TypeormUserEntity]), RolesModule, AttachmentsModule, HttpModule],
   controllers: [ProfileControllerForUser, ProfileControllerForAdmin],
   providers: [
     UsersService,

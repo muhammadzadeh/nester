@@ -2,7 +2,6 @@ import { Inject, Injectable } from '@nestjs/common';
 import { isUUID } from 'class-validator';
 import { isNumber } from 'lodash';
 import { Configuration } from '../../common/config';
-import { UploadedFiles } from '../../common/decorators';
 import { UserId } from '../../common/types';
 import { randomString } from '../../common/utils';
 import { AttachmentId, AttachmentUserEntity } from '../domain/entities/attachment-users.entity';
@@ -48,27 +47,23 @@ export class AttachmentsService implements AttachmentAccessInterface {
     );
   }
 
-  async upload(
-    uploadedFiles: UploadedFiles,
-    visibility: AttachmentVisibility,
-    uploaderId: UserId,
-  ): Promise<AttachmentEntity[]> {
+  async upload(items: UploadAttachmentData[]): Promise<AttachmentEntity[]> {
     const files: AttachmentEntity[] = [];
 
-    for await (const file of uploadedFiles) {
+    for await (const file of items) {
       const originalName = file.filename;
-      const fileBuffer = await file.toBuffer();
+      const fileBuffer = file.data;
       const { fileSize, mimeType } = await this.extractFileInfo(fileBuffer);
       const randomName = await this.generateRandomName();
-      const filePath = visibility === AttachmentVisibility.PRIVATE ? `${uploaderId}` : 'attachments';
+      const filePath = file.visibility === AttachmentVisibility.PRIVATE ? `${file.uploaderId}` : 'attachments';
 
       const attachmentRecord = await this.create({
         originalName,
         randomName,
         fileSize,
-        visibility,
+        visibility: file.visibility,
         mimeType,
-        uploaderId,
+        uploaderId: file.uploaderId,
       });
 
       await this.uploader.upload({
@@ -76,7 +71,7 @@ export class AttachmentsService implements AttachmentAccessInterface {
         name: randomName,
         mimeType: mimeType,
         data: fileBuffer,
-        visibility: visibility,
+        visibility: file.visibility,
       });
 
       files.push(attachmentRecord);
@@ -224,5 +219,12 @@ export class CreateAttachmentData {
   readonly fileSize!: number;
   readonly visibility!: AttachmentVisibility;
   readonly mimeType!: MimeType;
+  readonly uploaderId!: UserId;
+}
+
+export class UploadAttachmentData {
+  readonly filename!: string;
+  readonly data!: Buffer;
+  readonly visibility!: AttachmentVisibility;
   readonly uploaderId!: UserId;
 }

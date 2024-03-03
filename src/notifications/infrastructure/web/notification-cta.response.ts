@@ -1,12 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Expose, Type } from 'class-transformer';
+import { Type } from 'class-transformer';
 export class NotificationCTAResponse {
   @ApiProperty({
     type: String,
     description: 'The cta title',
     example: 'Verify your email',
   })
-  @Expose()
   @Type(() => String)
   title!: string;
 
@@ -15,7 +14,6 @@ export class NotificationCTAResponse {
     description: 'the cta url',
     example: 'https://example.com',
   })
-  @Expose()
   @Type(() => String)
   url!: string;
 
@@ -25,7 +23,6 @@ export class NotificationCTAResponse {
     example: false,
     name: 'is_main',
   })
-  @Expose()
   @Type(() => Boolean)
   isMain!: boolean;
 }

@@ -3,7 +3,7 @@ import { ApiBody, ApiConsumes, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { UploadedFiles } from 'common/decorators';
 import { CommonController } from 'common/guards/decorators';
 import { CurrentUser } from '../../../authentication/infrastructure/web/decorators';
-import { AttachmentsService } from '../../application/attachments.service';
+import { AttachmentsService, UploadAttachmentData } from '../../application/attachments.service';
 import { AttachmentNotFoundException } from '../../domain/entities/attachments.entity';
 import { AttachmentListResponse } from './attachment-list.response';
 import { AttachmentVisibilityDto } from './attachment-visibility.dto';
@@ -27,7 +27,16 @@ export class AttachmentsController {
     @UploadedFiles() uploadedFiles: UploadedFiles,
     @CurrentUser() user: CurrentUser,
   ): Promise<AttachmentListResponse> {
-    const attachments = await this.attachmentsService.upload(uploadedFiles, visibilityDto.visibility, user.id);
+    const items: UploadAttachmentData[] = [];
+    for await (const file of uploadedFiles) {
+      items.push({
+        data: await file.toBuffer(),
+        filename: file.filename,
+        uploaderId: user.id,
+        visibility: visibilityDto.visibility,
+      });
+    }
+    const attachments = await this.attachmentsService.upload(items);
 
     return AttachmentListResponse.from(attachments);
   }

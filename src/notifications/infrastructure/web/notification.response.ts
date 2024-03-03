@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Expose, Type } from 'class-transformer';
+import { Type } from 'class-transformer';
 import { randomUUID } from 'crypto';
 import {
   NotificationEntity,
@@ -28,7 +28,6 @@ export class NotificationResponse {
     description: 'The notification id',
     example: randomUUID(),
   })
-  @Expose()
   @Type(() => String)
   readonly id!: string;
 
@@ -37,7 +36,6 @@ export class NotificationResponse {
     description: 'The notification title',
     example: 'Verify your email',
   })
-  @Expose()
   @Type(() => String)
   readonly title!: string;
 
@@ -46,7 +44,6 @@ export class NotificationResponse {
     description: 'The notification description',
     example: 'Verify your email',
   })
-  @Expose()
   @Type(() => String)
   readonly description!: string;
 
@@ -56,7 +53,6 @@ export class NotificationResponse {
     enumName: 'NotificationEvent',
     description: 'The notification template code',
   })
-  @Expose()
   @Type(() => String)
   readonly event!: NotificationEvent;
 
@@ -66,7 +62,6 @@ export class NotificationResponse {
     enumName: 'NotificationPriority',
     description: 'notification priority',
   })
-  @Expose()
   @Type(() => String)
   readonly priority!: NotificationPriority;
 
@@ -77,7 +72,6 @@ export class NotificationResponse {
     description: 'notification group type',
     name: 'group_type',
   })
-  @Expose()
   @Type(() => String)
   readonly groupType!: NotificationGroupType;
 
@@ -87,7 +81,6 @@ export class NotificationResponse {
     enumName: 'NotificationStatus',
     description: 'The notification status',
   })
-  @Expose()
   @Type(() => String)
   readonly status!: NotificationStatus;
 
@@ -96,7 +89,6 @@ export class NotificationResponse {
     isArray: true,
     description: 'call to actions',
   })
-  @Expose()
   @Type(() => NotificationCTAResponse)
   readonly ctas?: NotificationCTAResponse[];
 
@@ -106,7 +98,6 @@ export class NotificationResponse {
     example: new Date(),
     name: 'created_at',
   })
-  @Expose()
   @Type(() => Date)
   readonly createdAt!: Date;
 }

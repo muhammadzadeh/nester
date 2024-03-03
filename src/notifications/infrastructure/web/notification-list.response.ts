@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Expose, Type } from 'class-transformer';
+import { Type } from 'class-transformer';
 import { Pagination } from '../../../common/database';
 import { ListResponse } from '../../../common/serialization';
 import { NotificationEntity } from '../../domain/entities/notification.entity';
@@ -23,7 +23,6 @@ export class NotificationListResponse extends ListResponse<NotificationResponse>
     isArray: true,
     description: 'The Notifications',
   })
-  @Expose()
   @Type(() => NotificationResponse)
   declare readonly items: NotificationResponse[];
 }

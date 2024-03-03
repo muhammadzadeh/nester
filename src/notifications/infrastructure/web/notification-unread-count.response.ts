@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Expose, Type } from 'class-transformer';
+import { Type } from 'class-transformer';
 export class NotificationUnreadCountResponse {
   static from(count: number): NotificationUnreadCountResponse {
     return { count };
@@ -10,7 +10,6 @@ export class NotificationUnreadCountResponse {
     description: 'unread count',
     example: 10,
   })
-  @Expose()
   @Type(() => Number)
   count!: number;
 }

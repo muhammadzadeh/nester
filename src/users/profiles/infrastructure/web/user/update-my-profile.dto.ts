@@ -11,7 +11,7 @@ export class UpdateMyProfileDto {
   lastName!: string | null;
 
   @IsOptional()
-  @IsUUID('all')
+  @IsUUID('4')
   avatar!: string | null;
 
   toEntity(): Partial<UserEntity> {

@@ -3,7 +3,7 @@ import { UserEntity } from '../../../domain/entities/user.entity';
 
 export class UpdateUserRoleDto {
   @IsOptional()
-  @IsUUID('all')
+  @IsUUID('4')
   roleId?: string;
 
   toEntity(): Partial<UserEntity>{

@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Expose, Type } from 'class-transformer';
+import { Type } from 'class-transformer';
 import { Pagination } from '../../../../common/database';
 import { ListResponse } from '../../../../common/serialization';
 import { RoleEntity } from '../../domain/entities/role.entity';
@@ -23,7 +23,6 @@ export class RoleListResponse extends ListResponse<RoleResponse> {
     isArray: true,
     description: 'The Notifications',
   })
-  @Expose()
   @Type(() => RoleResponse)
   declare items: RoleResponse[];
 }

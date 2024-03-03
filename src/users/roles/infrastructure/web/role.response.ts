@@ -1,6 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Expose, Type } from 'class-transformer';
-import { ResponseGroup } from '../../../../common/types';
+import { Type } from 'class-transformer';
 import { Permission, RoleEntity } from '../../domain/entities/role.entity';
 
 export class RoleResponse {
@@ -19,7 +18,6 @@ export class RoleResponse {
     type: String,
     name: 'id',
   })
-  @Expose()
   @Type(() => String)
   readonly id!: string;
 
@@ -27,7 +25,6 @@ export class RoleResponse {
     type: String,
     name: 'title',
   })
-  @Expose()
   @Type(() => String)
   readonly title!: string;
 
@@ -39,7 +36,6 @@ export class RoleResponse {
     isArray: true,
   })
   @Type(() => String)
-  @Expose()
   readonly permissions!: Permission[];
 
   @ApiProperty({
@@ -47,7 +43,6 @@ export class RoleResponse {
     name: 'created_at',
   })
   @Type(() => Date)
-  @Expose()
   readonly createdAt!: Date;
 
   @ApiProperty({
@@ -56,14 +51,6 @@ export class RoleResponse {
     nullable: true,
   })
   @Type(() => Date)
-  @Expose({
-    groups: [
-      ResponseGroup.ADMIN,
-      ResponseGroup.ADMIN_LIST,
-      ResponseGroup.RESOURCE_OWNER,
-      ResponseGroup.RESOURCE_OWNER_LIST,
-    ],
-  })
   readonly updatedAt!: Date;
 
   @ApiProperty({
@@ -72,7 +59,6 @@ export class RoleResponse {
     nullable: true,
   })
   @Type(() => Date)
-  @Expose()
   readonly deletedAt!: Date | null;
 
   @ApiProperty({
@@ -80,6 +66,5 @@ export class RoleResponse {
     name: 'is_system_role',
   })
   @Type(() => Boolean)
-  @Expose()
   readonly isSystemRole!: boolean;
 }

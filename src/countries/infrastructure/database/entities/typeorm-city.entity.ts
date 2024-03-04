@@ -1,23 +1,33 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+import { TypeormStateEntity } from './typeorm-state.entity';
 
 @Entity({
   name: 'cities',
 })
 export class TypeormCityEntity {
-  @PrimaryGeneratedColumn('increment', { type: 'int', primaryKeyConstraintName: 'PK_CITIES' })
-  id!: number;
+  @PrimaryGeneratedColumn('uuid', { primaryKeyConstraintName: 'PK_CITIES' })
+  readonly id!: string;
 
-  @Column({ type: 'int', name: 'state_id' })
-  stateId!: number;
+  @Column({ type: 'uuid', name: 'state_id' })
+  readonly stateId!: string;
 
   @Column({ type: 'varchar' })
-  name!: string;
+  readonly name!: string;
 
-  @Column({ type: 'decimal', precision: 10, scale: 8 })
-  latitude!: number;
+  @Column({ type: 'decimal', precision: 14, scale: 10, nullable: true })
+  readonly latitude!: number | null;
 
-  @Column({ type: 'decimal', precision: 10, scale: 8 })
-  longitude!: number;
+  @Column({ type: 'decimal', precision: 14, scale: 10, nullable: true })
+  readonly longitude!: number | null;
 
   @CreateDateColumn({ name: 'created_at' })
   readonly createdAt!: Date;
@@ -27,4 +37,11 @@ export class TypeormCityEntity {
 
   @DeleteDateColumn({ name: 'deleted_at' })
   readonly deletedAt!: Date | null;
+
+  @ManyToOne(() => TypeormStateEntity, (state) => state.cities, { onDelete: 'CASCADE' })
+  @JoinColumn({
+    foreignKeyConstraintName: 'FK_CITIES_STATES_ID',
+    name: 'state_id',
+  })
+  readonly state!: TypeormStateEntity | null;
 }

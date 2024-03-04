@@ -1,7 +1,7 @@
 export class CityEntity{
-    id!: number;
-    stateId!: number;
+    id!: string;
+    stateId!: string;
     name!: string;
-    latitude!: string;
-    longitude!: string;
+    latitude!: number | null;
+    longitude!: number | null;
 }

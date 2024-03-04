@@ -1,9 +1,9 @@
 export class StateEntity{
-    id!: number;
-    countryId!: number;
+    id!: string;
+    countryId!: string;
     name!: string;
     stateCode!: string;
-    latitude!: string;
-    longitude!: string;
+    latitude!: number | null;
+    longitude!: number | null;
     type!: null | string;
 }

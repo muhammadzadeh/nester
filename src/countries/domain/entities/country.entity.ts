@@ -11,7 +11,7 @@ export class Translations {
 }
 
 export class CountryEntity {
-  id!: number;
+  id!: string;
   name!: string;
   iso3!: string;
   iso2!: string;
@@ -22,16 +22,16 @@ export class CountryEntity {
   currencyName!: string;
   currencySymbol!: string;
   tld!: string;
-  native!: string;
+  native!: string | null;
   region!: string;
-  regionId!: string;
+  regionId!: number | null;
   subregion!: string;
-  subregionId!: string;
+  subregionId!: number | null;
   nationality!: string;
   timezones!: Timezone[];
   translations!: Translations;
-  latitude!: string;
-  longitude!: string;
+  latitude!: number | null;
+  longitude!: number | null;
   emoji!: string;
   emojiU!: string;
 }

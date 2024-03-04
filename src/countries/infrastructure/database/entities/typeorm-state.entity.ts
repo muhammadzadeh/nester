@@ -1,29 +1,41 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+import { TypeormCityEntity } from './typeorm-city.entity';
+import { TypeormCountryEntity } from './typeorm-country.entity';
 
 @Entity({
   name: 'states',
 })
 export class TypeormStateEntity {
-  @PrimaryGeneratedColumn('increment', { type: 'int', primaryKeyConstraintName: 'PK_STATES' })
-  id!: number;
+  @PrimaryGeneratedColumn('uuid', { primaryKeyConstraintName: 'PK_STATES' })
+  readonly id!: string;
 
-  @Column({ type: 'int', name: 'country_id' })
-  countryId!: number;
+  @Column({ type: 'uuid', name: 'country_id' })
+  readonly countryId!: string;
 
   @Column({ type: 'varchar' })
-  name!: string;
+  readonly name!: string;
 
   @Column({ type: 'varchar', name: 'state_code' })
-  stateCode!: string;
+  readonly stateCode!: string;
 
-  @Column({ type: 'decimal', precision: 10, scale: 8 })
-  latitude!: number;
+  @Column({ type: 'decimal', precision: 14, scale: 10, nullable: true })
+  readonly latitude!: number | null;
 
-  @Column({ type: 'decimal', precision: 10, scale: 8 })
-  longitude!: number;
+  @Column({ type: 'decimal', precision: 14, scale: 10, nullable: true })
+  readonly longitude!: number | null;
 
   @Column({ type: 'varchar', nullable: true })
-  type!: null | string;
+  readonly type!: null | string;
 
   @CreateDateColumn({ name: 'created_at' })
   readonly createdAt!: Date;
@@ -33,4 +45,14 @@ export class TypeormStateEntity {
 
   @DeleteDateColumn({ name: 'deleted_at' })
   readonly deletedAt!: Date | null;
+
+  @ManyToOne(() => TypeormCountryEntity, (country) => country.states, { onDelete: 'CASCADE' })
+  @JoinColumn({
+    foreignKeyConstraintName: 'FK_STATES_COUNTRIES',
+    name: 'country_id',
+  })
+  readonly country!: TypeormCountryEntity | null;
+
+  @OneToMany(() => TypeormCityEntity, (city) => city.state)
+  readonly cities!: TypeormCityEntity[] | null;
 }

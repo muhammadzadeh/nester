@@ -1,78 +1,87 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { Timezone, Translations } from '../../../domain/entities/country.entity';
+import { TypeormStateEntity } from './typeorm-state.entity';
 
 @Entity({
   name: 'countries',
 })
 export class TypeormCountryEntity {
-  @PrimaryGeneratedColumn('increment', { type: 'int', primaryKeyConstraintName: 'PK_COUNTRIES' })
-  id!: number;
+  @PrimaryGeneratedColumn('uuid', { primaryKeyConstraintName: 'PK_COUNTRIES' })
+  readonly id!: string;
 
   @Column({ type: 'varchar' })
-  name!: string;
+  readonly name!: string;
 
   @Column({ type: 'character', length: 3 })
-  iso3!: string;
+  readonly iso3!: string;
 
   @Column({ type: 'character', length: 2 })
-  iso2!: string;
+  readonly iso2!: string;
 
   @Column({ type: 'character', length: 3, name: 'numeric_code' })
-  numericCode!: string;
+  readonly numericCode!: string;
 
   @Column({ type: 'varchar', name: 'phone_code' })
-  phoneCode!: string;
+  readonly phoneCode!: string;
 
   @Column({ type: 'varchar' })
-  capital!: string;
+  readonly capital!: string;
 
   @Column({ type: 'varchar' })
-  currency!: string;
+  readonly currency!: string;
 
   @Column({ type: 'varchar', name: 'currency_name' })
-  currencyName!: string;
+  readonly currencyName!: string;
 
   @Column({ type: 'varchar', name: 'currency_symbol' })
-  currencySymbol!: string;
+  readonly currencySymbol!: string;
 
   @Column({ type: 'varchar' })
-  tld!: string;
+  readonly tld!: string;
+
+  @Column({ type: 'varchar', nullable: true })
+  readonly native!: string | null;
 
   @Column({ type: 'varchar' })
-  native!: string;
+  readonly region!: string;
 
-  @Column({ type: 'varchar' })
-  region!: string;
-
-  @Column({ type: 'int', name: 'region_id' })
-  regionId!: number;
+  @Column({ type: 'int', name: 'region_id', nullable: true })
+  readonly regionId!: number | null;
 
   @Column({ type: 'varchar', name: 'subregion' })
-  subregion!: string;
+  readonly subregion!: string;
 
-  @Column({ type: 'int', name: 'subregion_id' })
-  subregionId!: number;
-
-  @Column({ type: 'varchar' })
-  nationality!: string;
-
-  @Column({ type: 'json', array: true })
-  timezones!: Timezone[];
-
-  @Column({ type: 'json', array: true })
-  translations!: Translations;
-
-  @Column({ type: 'decimal', precision: 10, scale: 8 })
-  latitude!: number;
-
-  @Column({ type: 'decimal', precision: 10, scale: 8 })
-  longitude!: number;
+  @Column({ type: 'int', name: 'subregion_id', nullable: true })
+  readonly subregionId!: number | null;
 
   @Column({ type: 'varchar' })
-  emoji!: string;
+  readonly nationality!: string;
+
+  @Column({ type: 'jsonb', nullable: true })
+  readonly timezones!: Timezone[] | null;
+
+  @Column({ type: 'jsonb' })
+  readonly translations!: Translations;
+
+  @Column({ type: 'decimal', precision: 14, scale: 10, nullable: true })
+  readonly latitude!: number | null;
+
+  @Column({ type: 'decimal', precision: 14, scale: 10, nullable: true })
+  readonly longitude!: number | null;
 
   @Column({ type: 'varchar' })
-  emojiU!: string;
+  readonly emoji!: string;
+
+  @Column({ type: 'varchar' })
+  readonly emojiU!: string;
 
   @CreateDateColumn({ name: 'created_at' })
   readonly createdAt!: Date;
@@ -82,4 +91,7 @@ export class TypeormCountryEntity {
 
   @DeleteDateColumn({ name: 'deleted_at' })
   readonly deletedAt!: Date | null;
+
+  @OneToMany(() => TypeormStateEntity, (state) => state.country)
+  readonly states!: TypeormStateEntity[] | null;
 }

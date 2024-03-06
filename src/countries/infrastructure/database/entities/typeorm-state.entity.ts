@@ -27,7 +27,7 @@ export class TypeormStateEntity {
   readonly name!: string;
 
   @Column({ type: 'varchar', name: 'state_code' })
-  readonly stateCode!: string;
+  readonly stateCode!: string | null;
 
   @Column({ type: 'varchar', nullable: true })
   readonly type!: null | string;

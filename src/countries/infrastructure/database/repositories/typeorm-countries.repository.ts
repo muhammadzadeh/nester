@@ -52,7 +52,7 @@ export class TypeormCountriesRepository implements CountriesRepository {
     const queryBuilder = this.repository.createQueryBuilder(alias);
 
     if (options.searchTerm) {
-      queryBuilder.andWhere(`${alias ? alias + '.' : ''}name ILIKE '%:name%'`, { name: options.searchTerm });
+      queryBuilder.andWhere(`${alias ? alias + '.' : ''}name ILIKE :name`, { name: `%${options.searchTerm}%` });
     }
     return queryBuilder;
   }

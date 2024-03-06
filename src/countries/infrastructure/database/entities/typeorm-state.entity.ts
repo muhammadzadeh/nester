@@ -28,12 +28,6 @@ export class TypeormStateEntity {
   @Column({ type: 'varchar', name: 'state_code' })
   readonly stateCode!: string;
 
-  @Column({ type: 'decimal', precision: 14, scale: 10, nullable: true })
-  readonly latitude!: number | null;
-
-  @Column({ type: 'decimal', precision: 14, scale: 10, nullable: true })
-  readonly longitude!: number | null;
-
   @Column({ type: 'varchar', nullable: true })
   readonly type!: null | string;
 

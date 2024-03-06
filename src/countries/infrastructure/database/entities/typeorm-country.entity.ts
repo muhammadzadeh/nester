@@ -33,9 +33,6 @@ export class TypeormCountryEntity {
   readonly phoneCode!: string;
 
   @Column({ type: 'varchar' })
-  readonly capital!: string;
-
-  @Column({ type: 'varchar' })
   readonly currency!: string;
 
   @Column({ type: 'varchar', name: 'currency_name' })
@@ -44,23 +41,14 @@ export class TypeormCountryEntity {
   @Column({ type: 'varchar', name: 'currency_symbol' })
   readonly currencySymbol!: string;
 
-  @Column({ type: 'varchar' })
-  readonly tld!: string;
-
   @Column({ type: 'varchar', nullable: true })
   readonly native!: string | null;
 
   @Column({ type: 'varchar' })
   readonly region!: string;
 
-  @Column({ type: 'int', name: 'region_id', nullable: true })
-  readonly regionId!: number | null;
-
   @Column({ type: 'varchar', name: 'subregion' })
   readonly subregion!: string;
-
-  @Column({ type: 'int', name: 'subregion_id', nullable: true })
-  readonly subregionId!: number | null;
 
   @Column({ type: 'varchar' })
   readonly nationality!: string;
@@ -70,12 +58,6 @@ export class TypeormCountryEntity {
 
   @Column({ type: 'jsonb' })
   readonly translations!: Translations;
-
-  @Column({ type: 'decimal', precision: 14, scale: 10, nullable: true })
-  readonly latitude!: number | null;
-
-  @Column({ type: 'decimal', precision: 14, scale: 10, nullable: true })
-  readonly longitude!: number | null;
 
   @Column({ type: 'varchar' })
   readonly emoji!: string;

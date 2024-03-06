@@ -17,21 +17,15 @@ export class CountryEntity {
   iso2!: string;
   numericCode!: string;
   phoneCode!: string;
-  capital!: string;
   currency!: string;
   currencyName!: string;
   currencySymbol!: string;
-  tld!: string;
   native!: string | null;
   region!: string;
-  regionId!: number | null;
   subregion!: string;
-  subregionId!: number | null;
   nationality!: string;
   timezones!: Timezone[];
   translations!: Translations;
-  latitude!: number | null;
-  longitude!: number | null;
   emoji!: string;
   emojiU!: string;
 }

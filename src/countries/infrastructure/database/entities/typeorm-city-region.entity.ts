@@ -8,6 +8,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { CityRegionEntity } from '../../../domain/entities/city-region.entity';
 import { TypeormCityEntity } from './typeorm-city.entity';
 
 @Entity({
@@ -38,4 +39,8 @@ export class TypeormCityRegionEntity {
     name: 'city_id',
   })
   readonly city!: TypeormCityEntity | null;
+
+  static toCityRegionEntity(item: TypeormCityRegionEntity): CityRegionEntity {
+    return new CityRegionEntity(item.cityId, item.name, item.id);
+  }
 }

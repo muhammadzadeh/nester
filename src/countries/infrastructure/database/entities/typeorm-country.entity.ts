@@ -7,7 +7,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Timezone, Translations } from '../../../domain/entities/country.entity';
+import { CountryEntity, Timezone, Translations } from '../../../domain/entities/country.entity';
 import { TypeormStateEntity } from './typeorm-state.entity';
 
 @Entity({
@@ -76,4 +76,26 @@ export class TypeormCountryEntity {
 
   @OneToMany(() => TypeormStateEntity, (state) => state.country)
   readonly states!: TypeormStateEntity[] | null;
+
+  static toCountryEntity(item: TypeormCountryEntity): CountryEntity {
+    return new CountryEntity(
+      item.id,
+      item.name,
+      item.iso3,
+      item.iso2,
+      item.numericCode,
+      item.phoneCode,
+      item.currency,
+      item.currencyName,
+      item.currencySymbol,
+      item.native,
+      item.region,
+      item.subregion,
+      item.nationality,
+      item.timezones ?? [],
+      item.translations,
+      item.emoji,
+      item.emojiU,
+    );
+  }
 }

@@ -5,22 +5,20 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
-  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { TypeormCityRegionEntity } from './typeorm-city-region.entity';
-import { TypeormStateEntity } from './typeorm-state.entity';
+import { TypeormCityEntity } from './typeorm-city.entity';
 
 @Entity({
-  name: 'cities',
+  name: 'city_regions',
 })
-export class TypeormCityEntity {
-  @PrimaryGeneratedColumn('uuid', { primaryKeyConstraintName: 'PK_CITIES' })
+export class TypeormCityRegionEntity {
+  @PrimaryGeneratedColumn('uuid', { primaryKeyConstraintName: 'PK_CITY_REGIONS' })
   readonly id!: string;
 
-  @Column({ type: 'uuid', name: 'state_id' })
-  readonly stateId!: string;
+  @Column({ type: 'uuid', name: 'city_id' })
+  readonly cityId!: string;
 
   @Column({ type: 'varchar' })
   readonly name!: string;
@@ -40,13 +38,10 @@ export class TypeormCityEntity {
   @DeleteDateColumn({ name: 'deleted_at' })
   readonly deletedAt!: Date | null;
 
-  @ManyToOne(() => TypeormStateEntity, (state) => state.cities, { onDelete: 'CASCADE' })
+  @ManyToOne(() => TypeormCityEntity, (city) => city.regions, { onDelete: 'CASCADE' })
   @JoinColumn({
-    foreignKeyConstraintName: 'FK_CITIES_STATES_ID',
-    name: 'state_id',
+    foreignKeyConstraintName: 'FK_CITY_REGIONS_CITIES_ID',
+    name: 'city_id',
   })
-  readonly state!: TypeormStateEntity | null;
-
-  @OneToMany(() => TypeormCityRegionEntity, (region) => region.city)
-  readonly regions!: TypeormCityRegionEntity[] | null;
+  readonly city!: TypeormCityEntity | null;
 }

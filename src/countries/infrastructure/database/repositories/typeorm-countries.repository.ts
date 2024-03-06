@@ -6,8 +6,8 @@ import { Pagination, PaginationOption } from '../../../../common/database';
 import { CountryEntity } from '../../../domain/entities/country.entity';
 import {
   CountriesRepository,
-  CountryOrderBy,
-  FindCountryOptions,
+  RegionOrderBy,
+  FindRegionOptions,
 } from '../../../domain/repositories/country.repository';
 import { TypeormCountryEntity } from '../entities/typeorm-country.entity';
 
@@ -19,8 +19,8 @@ export class TypeormCountriesRepository implements CountriesRepository {
   ) {}
 
   async findAll(
-    options: Partial<FindCountryOptions>,
-    pagination?: PaginationOption<CountryOrderBy>,
+    options: Partial<FindRegionOptions>,
+    pagination?: PaginationOption<RegionOrderBy>,
   ): Promise<Pagination<CountryEntity>> {
     const queryBuilder = this.buildSelectQuery(options, 'country');
 
@@ -40,13 +40,13 @@ export class TypeormCountriesRepository implements CountriesRepository {
     };
   }
 
-  async exists(options: Partial<FindCountryOptions>): Promise<boolean> {
+  async exists(options: Partial<FindRegionOptions>): Promise<boolean> {
     const queryBuilder = this.buildSelectQuery(options);
     return queryBuilder.getExists();
   }
 
   private buildSelectQuery(
-    options: Partial<FindCountryOptions>,
+    options: Partial<FindRegionOptions>,
     alias?: string,
   ): SelectQueryBuilder<TypeormCountryEntity> {
     const queryBuilder = this.repository.createQueryBuilder(alias);

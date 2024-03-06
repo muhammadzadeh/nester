@@ -3,18 +3,18 @@ import { CountryEntity } from '../entities/country.entity';
 
 export const COUNTRIES_REPOSITORY_TOKEN = Symbol('CountriesRepository');
 
-export interface FindCountryOptions {
+export interface FindRegionOptions {
   searchTerm: string;
 }
 
-export enum CountryOrderBy {
+export enum RegionOrderBy {
   NAME = 'name',
 }
 
 export interface CountriesRepository {
   findAll(
-    options: Partial<FindCountryOptions>,
-    pagination?: PaginationOption<CountryOrderBy>,
+    options: Partial<FindRegionOptions>,
+    pagination?: PaginationOption<RegionOrderBy>,
   ): Promise<Pagination<CountryEntity>>;
-  exists(options: Partial<FindCountryOptions>): Promise<boolean>;
+  exists(options: Partial<FindRegionOptions>): Promise<boolean>;
 }

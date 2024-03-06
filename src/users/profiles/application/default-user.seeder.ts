@@ -32,7 +32,7 @@ export class DefaultUserSeeder extends BaseSeeder {
     });
 
     if (!roles.length) {
-      this.logger.debug('Default ole does not exists! check role seeder!');
+      this.logger.debug('Default role does not exists! check role seeder!');
       return;
     }
     const defaultUser = this.config.defaultUser;

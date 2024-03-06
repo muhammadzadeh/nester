@@ -48,7 +48,7 @@ export class TypeormStateEntity {
 
   @ManyToOne(() => TypeormCountryEntity, (country) => country.states, { onDelete: 'CASCADE' })
   @JoinColumn({
-    foreignKeyConstraintName: 'FK_STATES_COUNTRIES',
+    foreignKeyConstraintName: 'FK_STATES_COUNTRIES_ID',
     name: 'country_id',
   })
   readonly country!: TypeormCountryEntity | null;

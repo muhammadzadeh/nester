@@ -31,7 +31,7 @@ export class TypeormNotificationEntity {
   @Column({ type: 'varchar', default: '1.0' })
   version!: string;
 
-  @Column({ type: 'varchar', name: 'user_id', nullable: true })
+  @Column({ type: 'uuid', name: 'user_id', nullable: true })
   @Index('IDX_NOTIFICATIONS_USER_ID')
   userId!: string | null;
 

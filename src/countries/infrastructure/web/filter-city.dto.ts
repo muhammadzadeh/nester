@@ -1,6 +1,6 @@
-import { IsEnum, IsNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { PaginationDto } from '../../../common/dto/pagination.dto';
-import { CityOrderBy } from '../../domain/repositories/city.repository';
+import { CityOrderBy } from '../../domain/repositories/cities.repository';
 
 export class FilterCityDto extends PaginationDto {
   @IsNotEmpty()
@@ -10,8 +10,4 @@ export class FilterCityDto extends PaginationDto {
   @IsOptional()
   @IsString()
   searchTerm?: string;
-
-  @IsOptional()
-  @IsUUID('4')
-  stateId?: string;
 }

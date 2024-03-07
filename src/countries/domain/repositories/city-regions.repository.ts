@@ -1,7 +1,7 @@
 import { Pagination, PaginationOption } from '../../../common/database';
 import { CityRegionEntity } from '../entities/city-region.entity';
 
-export const CITY_REGIONS_REPOSITORY_TOKEN = Symbol('CityRegionRepository');
+export const CITY_REGIONS_REPOSITORY_TOKEN = Symbol('CityRegionsRepository');
 
 export interface FindCityRegionOptions {
   cityId: string;
@@ -12,7 +12,7 @@ export enum CityRegionOrderBy {
   NAME = 'name',
 }
 
-export interface CityRegionRepository {
+export interface CityRegionsRepository {
   findAll(
     options: Partial<FindCityRegionOptions>,
     pagination?: PaginationOption<CityRegionOrderBy>,

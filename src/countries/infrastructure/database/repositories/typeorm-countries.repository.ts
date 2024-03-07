@@ -8,7 +8,7 @@ import {
   CountriesRepository,
   RegionOrderBy,
   FindRegionOptions,
-} from '../../../domain/repositories/country.repository';
+} from '../../../domain/repositories/countries.repository';
 import { TypeormCountryEntity } from '../entities/typeorm-country.entity';
 
 @Injectable()

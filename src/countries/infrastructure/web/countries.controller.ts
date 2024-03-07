@@ -1,6 +1,7 @@
-import { Get, Query } from '@nestjs/common';
+import { Get, Param, Query } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { IgnoreAuthorizationGuard } from '../../../authentication/infrastructure/web/decorators';
+import { FineOneUUIDDto } from '../../../common/dto/find-one-uuid.dto';
 import { CommonController } from '../../../common/guards/decorators';
 import { CountriesService } from '../../application/countries.service';
 import { CityListResponse } from './city-list.response';
@@ -43,11 +44,14 @@ export class CountriesController {
     status: 200,
     type: StateListResponse,
   })
-  async findCountryStates(@Query() filters: FilterStateDto): Promise<StateListResponse> {
+  async findCountryStates(
+    @Param() params: FineOneUUIDDto,
+    @Query() filters: FilterStateDto,
+  ): Promise<StateListResponse> {
     const result = await this.countriesService.findStates(
       {
         searchTerm: filters.searchTerm,
-        countryId: filters.countryId,
+        countryId: params.id,
       },
       {
         page: filters.page,
@@ -64,11 +68,11 @@ export class CountriesController {
     status: 200,
     type: CityListResponse,
   })
-  async findStateCities(@Query() filters: FilterCityDto): Promise<CityListResponse> {
+  async findStateCities(@Param() params: FineOneUUIDDto, @Query() filters: FilterCityDto): Promise<CityListResponse> {
     const result = await this.countriesService.findCities(
       {
         searchTerm: filters.searchTerm,
-        stateId: filters.stateId,
+        stateId: params.id,
       },
       {
         page: filters.page,
@@ -85,11 +89,14 @@ export class CountriesController {
     status: 200,
     type: CityRegionListResponse,
   })
-  async findCityRegions(@Query() filters: FilterRegionDto): Promise<CityRegionListResponse> {
+  async findCityRegions(
+    @Param() params: FineOneUUIDDto,
+    @Query() filters: FilterRegionDto,
+  ): Promise<CityRegionListResponse> {
     const result = await this.countriesService.findRegions(
       {
         searchTerm: filters.searchTerm,
-        cityId: filters.cityId,
+        cityId: params.id,
       },
       {
         page: filters.page,

@@ -5,37 +5,37 @@ import { CityEntity } from '../domain/entities/city.entity';
 import { CountryEntity } from '../domain/entities/country.entity';
 import { StateEntity } from '../domain/entities/state.entity';
 import {
+  CITIES_REPOSITORY_TOKEN,
+  CitiesRepository,
+  CityOrderBy,
+  FindCityOptions,
+} from '../domain/repositories/cities.repository';
+import {
   CITY_REGIONS_REPOSITORY_TOKEN,
   CityRegionOrderBy,
-  CityRegionRepository,
+  CityRegionsRepository,
   FindCityRegionOptions,
-} from '../domain/repositories/city-region.repository';
-import {
-  CITIES_REPOSITORY_TOKEN,
-  CityOrderBy,
-  CityRepository,
-  FindCityOptions,
-} from '../domain/repositories/city.repository';
+} from '../domain/repositories/city-regions.repository';
 import {
   COUNTRIES_REPOSITORY_TOKEN,
   CountriesRepository,
   FindRegionOptions,
   RegionOrderBy,
-} from '../domain/repositories/country.repository';
+} from '../domain/repositories/countries.repository';
 import {
   FindStateOptions,
   STATES_REPOSITORY_TOKEN,
   StateOrderBy,
   StatesRepository,
-} from '../domain/repositories/state.repository';
+} from '../domain/repositories/states.repository';
 
 @Injectable()
 export class CountriesService {
   constructor(
-    @Inject(CITY_REGIONS_REPOSITORY_TOKEN) private readonly cityRegionRepository: CityRegionRepository,
+    @Inject(CITY_REGIONS_REPOSITORY_TOKEN) private readonly cityRegionRepository: CityRegionsRepository,
     @Inject(COUNTRIES_REPOSITORY_TOKEN) private readonly countriesRepository: CountriesRepository,
     @Inject(STATES_REPOSITORY_TOKEN) private readonly statesRepository: StatesRepository,
-    @Inject(CITIES_REPOSITORY_TOKEN) private readonly cityRepository: CityRepository,
+    @Inject(CITIES_REPOSITORY_TOKEN) private readonly cityRepository: CitiesRepository,
   ) {}
 
   async findCountries(

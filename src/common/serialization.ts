@@ -126,6 +126,6 @@ export class Serializer {
   }
 
   static done() {
-    return Serializer.serialize(DoneResponse, { message: 'OK' });
+    return { message: 'OK' };
   }
 }

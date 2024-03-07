@@ -65,4 +65,13 @@ export class CountriesService {
   ): Promise<Pagination<CityRegionEntity>> {
     return await this.cityRegionRepository.findAll(options, pagination);
   }
+
+  async createCityRegion(data: CreateCityRegionData): Promise<void> {
+    await this.cityRegionRepository.save(new CityRegionEntity(data.cityId, data.name));
+  }
+}
+
+export class CreateCityRegionData {
+  readonly cityId!: string;
+  readonly name!: string;
 }

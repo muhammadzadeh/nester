@@ -50,4 +50,5 @@ export enum Permission {
   WRITE_NOTIFICATIONS = 'write:notifications',
   READ_ROLES = 'read:roles',
   WRITE_ROLES = 'write:roles',
+  WRITE_COUNTRIES= 'write:countries',
 }

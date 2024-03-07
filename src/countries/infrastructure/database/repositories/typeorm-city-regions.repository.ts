@@ -18,6 +18,11 @@ export class TypeormCityRegionsRepository implements CityRegionsRepository {
     private readonly repository: Repository<TypeormCityRegionEntity>,
   ) {}
 
+  async save(data: CityRegionEntity): Promise<CityRegionEntity> {
+    const item = await this.repository.save(data);
+    return TypeormCityRegionEntity.toCityRegionEntity(item);
+  }
+
   async findAll(
     options: Partial<FindCityRegionOptions>,
     pagination?: PaginationOption<CityRegionOrderBy> | undefined,

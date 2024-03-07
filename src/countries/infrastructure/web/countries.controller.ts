@@ -1,19 +1,21 @@
-import { Get, Param, Query } from '@nestjs/common';
+import { Get, Param, Post, Query } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
-import { IgnoreAuthorizationGuard } from '../../../authentication/infrastructure/web/decorators';
+import { IgnoreAuthorizationGuard, RequiredPermissions } from '../../../authentication/infrastructure/web/decorators';
 import { FineOneUUIDDto } from '../../../common/dto/find-one-uuid.dto';
 import { CommonController } from '../../../common/guards/decorators';
+import { DoneResponse, Serializer } from '../../../common/serialization';
 import { CountriesService } from '../../application/countries.service';
 import { CityListResponse } from './city-list.response';
 import { CityRegionListResponse } from './city-region-list.response';
 import { CountryListResponse } from './country-list.response';
+import { CreateCityRegionDto } from './create-city-region.dto';
 import { FilterCityDto } from './filter-city.dto';
 import { FilterCountryDto } from './filter-country.dto';
 import { FilterRegionDto } from './filter-regions.dto';
 import { FilterStateDto } from './filter-state.dto';
 import { StateListResponse } from './state-list.response';
+import { Permission } from '../../../users/roles/domain/entities/role.entity';
 
-@IgnoreAuthorizationGuard()
 @CommonController()
 @ApiTags('Countries')
 export class CountriesController {
@@ -24,6 +26,7 @@ export class CountriesController {
     status: 200,
     type: CountryListResponse,
   })
+  @IgnoreAuthorizationGuard()
   async findCountries(@Query() filters: FilterCountryDto): Promise<CountryListResponse> {
     const result = await this.countriesService.findCountries(
       {
@@ -44,6 +47,7 @@ export class CountriesController {
     status: 200,
     type: StateListResponse,
   })
+  @IgnoreAuthorizationGuard()
   async findCountryStates(
     @Param() params: FineOneUUIDDto,
     @Query() filters: FilterStateDto,
@@ -68,6 +72,7 @@ export class CountriesController {
     status: 200,
     type: CityListResponse,
   })
+  @IgnoreAuthorizationGuard()
   async findStateCities(@Param() params: FineOneUUIDDto, @Query() filters: FilterCityDto): Promise<CityListResponse> {
     const result = await this.countriesService.findCities(
       {
@@ -89,6 +94,7 @@ export class CountriesController {
     status: 200,
     type: CityRegionListResponse,
   })
+  @IgnoreAuthorizationGuard()
   async findCityRegions(
     @Param() params: FineOneUUIDDto,
     @Query() filters: FilterRegionDto,
@@ -106,5 +112,19 @@ export class CountriesController {
       },
     );
     return CityRegionListResponse.from(result, filters);
+  }
+
+  @Post('cities/:id/regions')
+  @ApiOkResponse({
+    status: 200,
+    type: DoneResponse,
+  })
+  @RequiredPermissions(Permission.WRITE_COUNTRIES)
+  async createCityRegion(@Param() params: FineOneUUIDDto, @Query() data: CreateCityRegionDto): Promise<DoneResponse> {
+    await this.countriesService.createCityRegion({
+      name: data.name,
+      cityId: params.id,
+    });
+    return Serializer.done();
   }
 }

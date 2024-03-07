@@ -13,6 +13,7 @@ export enum CityRegionOrderBy {
 }
 
 export interface CityRegionsRepository {
+  save(data: CityRegionEntity): Promise<CityRegionEntity>;
   findAll(
     options: Partial<FindCityRegionOptions>,
     pagination?: PaginationOption<CityRegionOrderBy>,

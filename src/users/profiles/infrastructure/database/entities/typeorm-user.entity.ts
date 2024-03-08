@@ -42,7 +42,7 @@ export class TypeormUserEntity {
   @Column({ type: 'varchar', name: 'avatar', nullable: true })
   readonly avatar!: string | null;
 
-  @Column({ type: 'varchar', name: 'avatar_id', nullable: true })
+  @Column({ type: 'uuid', name: 'avatar_id', nullable: true })
   readonly avatarId!: string | null;
 
   @Column({ type: 'varchar', name: 'password', nullable: true })
@@ -60,7 +60,7 @@ export class TypeormUserEntity {
   @Column({ type: 'boolean', name: 'is_mobile_verified', default: false })
   readonly isMobileVerified!: boolean;
 
-  @Column({ type: 'varchar', name: 'role_id', nullable: true })
+  @Column({ type: 'uuid', name: 'role_id', nullable: true })
   readonly roleId!: string | null;
 
   @CreateDateColumn({ name: 'created_at' })

@@ -5,14 +5,14 @@ import { AttachmentId, AttachmentUserEntity } from '../../../domain/entities/att
 @Entity({ name: 'attachment_users' })
 export class TypeormAttachmentUserEntity {
   @PrimaryColumn({
-    type: 'varchar',
+    type: 'uuid',
     name: 'attachment_id',
     primaryKeyConstraintName: 'PK_ATTACHMENT_USERS_ID',
   })
   attachmentId!: AttachmentId;
 
   @PrimaryColumn({
-    type: 'varchar',
+    type: 'uuid',
     name: 'user_id',
     primaryKeyConstraintName: 'PK_ATTACHMENT_USERS_ID',
   })

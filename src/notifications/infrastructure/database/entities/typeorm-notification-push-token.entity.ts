@@ -6,7 +6,7 @@ export class TypeormNotificationPushTokenEntity {
   @PrimaryGeneratedColumn('uuid', {primaryKeyConstraintName: 'PK_NOTIFICATION_PUSH_TOKENS_ID'})
   id!: string;
 
-  @Column({ type: 'varchar', name: 'user_id' })
+  @Column({ type: 'uuid', name: 'user_id' })
   userId!: string;
 
   @Column({ type: 'varchar'})

@@ -23,6 +23,7 @@ import { RabbitMQModule } from '../common/rabbit/infrastructure/rabbit-mq.module
 import { ThrottlerStorageRedisService } from '../common/throttler';
 import { NotificationsModule } from '../notifications/infrastructure/notifications.module';
 import { ProfileModule } from '../users/profiles/infrastructure/profiles.module';
+import { CountryModule } from '../countries/infrastructure/country.module';
 
 @Module({
   imports: [
@@ -78,6 +79,7 @@ import { ProfileModule } from '../users/profiles/infrastructure/profiles.module'
     AuthModule,
     ProfileModule,
     NotificationsModule,
+    CountryModule,
   ],
   controllers: [HealthController],
   providers: [DiscoveryService, StorageHealthIndicator],

@@ -43,7 +43,7 @@ export class TypeormAttachmentEntity {
   @Column({ type: 'int', name: 'size' })
   size!: number;
 
-  @Column({ type: 'varchar', name: 'uploader_id' })
+  @Column({ type: 'uuid', name: 'uploader_id' })
   @Index('IDX_ATTACHMENTS_UPLOADER_ID')
   uploaderId!: UserId;
 

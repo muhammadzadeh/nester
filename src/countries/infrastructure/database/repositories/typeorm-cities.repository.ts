@@ -36,7 +36,7 @@ export class TypeormCitiesRepository implements CitiesRepository {
     };
   }
   async exists(options: Partial<FindCityOptions>): Promise<boolean> {
-    const queryBuilder = this.buildSelectQuery(options);
+    const queryBuilder = this.buildSelectQuery(options, 'city');
     return queryBuilder.getExists();
   }
 

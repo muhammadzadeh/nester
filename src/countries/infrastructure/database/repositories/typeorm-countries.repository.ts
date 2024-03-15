@@ -41,7 +41,7 @@ export class TypeormCountriesRepository implements CountriesRepository {
   }
 
   async exists(options: Partial<FindRegionOptions>): Promise<boolean> {
-    const queryBuilder = this.buildSelectQuery(options);
+    const queryBuilder = this.buildSelectQuery(options, 'country');
     return queryBuilder.getExists();
   }
 

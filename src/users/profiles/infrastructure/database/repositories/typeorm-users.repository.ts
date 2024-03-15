@@ -14,7 +14,7 @@ export class TypeormUsersRepository implements UsersRepository {
   ) {}
 
   async exists(options: Partial<FindUserOptions>): Promise<boolean> {
-    const queryBuilder = this.buildSelectQuery(options);
+    const queryBuilder = this.buildSelectQuery(options, 'user');
     return queryBuilder.getExists();
   }
 

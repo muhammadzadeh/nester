@@ -14,7 +14,7 @@ export class TypeormRolesRepository implements RolesRepository {
   ) {}
 
   async exists(options: Partial<FindRoleOptions>): Promise<boolean> {
-    const queryBuilder = this.buildSelectQuery(options);
+    const queryBuilder = this.buildSelectQuery(options, 'role');
     return queryBuilder.getExists();
   }
 

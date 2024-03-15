@@ -45,7 +45,7 @@ export class TypeormCityRegionsRepository implements CityRegionsRepository {
     };
   }
   async exists(options: Partial<FindCityRegionOptions>): Promise<boolean> {
-    const queryBuilder = this.buildSelectQuery(options);
+    const queryBuilder = this.buildSelectQuery(options, 'region');
     return queryBuilder.getExists();
   }
 

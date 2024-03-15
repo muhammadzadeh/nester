@@ -4,7 +4,7 @@ import { Captcha } from '../../../common/captcha/decorators';
 import { CommonController } from '../../../common/guards/decorators';
 import { DoneResponse, Serializer } from '../../../common/serialization';
 import { AuthService } from '../../application/services/auth.service';
-import { IgnoreAuthorizationGuard } from './decorators';
+import { IgnoreAuthorizationGuard, Signup } from './decorators';
 import {
   AuthenticateByThirdPartyDto,
   AuthenticationResponse,
@@ -26,8 +26,7 @@ import {
 export class AuthenticationController {
   constructor(private readonly authService: AuthService) {}
 
-  @Post('signup/identifier-password')
-  @Captcha()
+  @Signup('signup/identifier-password')
   @ApiOkResponse({
     status: 200,
     type: DoneResponse,
@@ -37,8 +36,7 @@ export class AuthenticationController {
     return Serializer.done();
   }
 
-  @Post('signup/google')
-  @Captcha()
+  @Signup('signup/google')
   @ApiOkResponse({
     status: 200,
     type: AuthenticationResponse,
@@ -48,8 +46,7 @@ export class AuthenticationController {
     return AuthenticationResponse.from(token!);
   }
 
-  @Post('signup/otp')
-  @Captcha()
+  @Signup('signup/otp')
   @ApiOkResponse({
     status: 200,
     type: DoneResponse,

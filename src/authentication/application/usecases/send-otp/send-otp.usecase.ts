@@ -29,7 +29,10 @@ export class SendOtpUsecase {
 
     let user = await this.usersService.findOneByIdentifier(command.identifier);
     if (!user) {
-      if (this.configuration.authentication.registerUserOnSendOtp) {
+      if (
+        this.configuration.authentication.registerUserOnSendOtp &&
+        this.configuration.authentication.allowRegisterNewUser
+      ) {
         user = await this.usersService.create({
           email: email,
           mobile: mobile,

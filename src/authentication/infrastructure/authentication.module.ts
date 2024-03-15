@@ -30,6 +30,7 @@ import { TypeOrmOTPRepository } from './database/repositories';
 import { GoogleAuthProvider } from './providers/google';
 import { AuthenticationController } from './web';
 import { AuthorizationGuard, CheckPermissionGuard, IsUserEnableGuard } from './web/guards';
+import { CheckSignupGuard } from './web/guards/check-signup.guard';
 
 const authProviderManager: Provider = {
   provide: AuthProviderManager,
@@ -59,6 +60,7 @@ const otpRepository: Provider = {
     AuthorizationGuard,
     CheckPermissionGuard,
     IsUserEnableGuard,
+    CheckSignupGuard,
     RequestResetPasswordUsecase,
     ResetPasswordUsecase,
     SendOtpUsecase,

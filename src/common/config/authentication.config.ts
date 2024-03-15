@@ -16,7 +16,7 @@ export class TokenConfig {
   @IsOptional()
   @Transform(({ value }) => Duration.fromISO(value ?? 'P3D'))
   @Type(() => String)
-  readonly refreshTokenExpiration!:  Duration;
+  readonly refreshTokenExpiration!: Duration;
 }
 
 export class GoogleConfig {
@@ -43,6 +43,11 @@ export class AuthenticationConfig {
   @IsString()
   @Type(() => String)
   readonly passwordRegEx!: string;
+
+  @IsNotEmpty()
+  @IsBoolean()
+  @Type(() => Boolean)
+  readonly allowRegisterNewUser!: boolean;
 
   @IsNotEmpty()
   @IsBoolean()

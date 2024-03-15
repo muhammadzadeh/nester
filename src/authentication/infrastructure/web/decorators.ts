@@ -1,6 +1,8 @@
-import { applyDecorators, createParamDecorator, ExecutionContext, SetMetadata } from '@nestjs/common';
+import { applyDecorators, createParamDecorator, ExecutionContext, Post, SetMetadata, UseGuards } from '@nestjs/common';
+import { Captcha } from '../../../common/captcha/decorators';
 import { Email, Mobile, UserId } from '../../../common/types';
 import { Permission } from '../../../users/roles/domain/entities/role.entity';
+import { CheckSignupGuard } from './guards/check-signup.guard';
 
 export enum AuthenticationMetaKey {
   IGNORE_AUTHORIZATION_GUARD = 'ignore_authorization_guard',
@@ -24,6 +26,9 @@ export const AnonymousUser = (): MethodDecorator =>
 
 export const IgnoreIsEnableGuard = (): MethodDecorator =>
   applyDecorators(SetMetadata(AuthenticationMetaKey.IGNORE_CHECK_IS_ENABLE_GUARD, true));
+
+export const Signup = (path: string): MethodDecorator =>
+  applyDecorators(Post(path), Captcha(), UseGuards(CheckSignupGuard));
 
 export const CurrentUser = createParamDecorator(
   (_data: unknown, context: ExecutionContext): CurrentUser | undefined => {

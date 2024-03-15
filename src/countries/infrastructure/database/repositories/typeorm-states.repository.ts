@@ -36,7 +36,7 @@ export class TypeormStatesRepository implements StatesRepository {
     };
   }
   async exists(options: Partial<FindStateOptions>): Promise<boolean> {
-    const queryBuilder = this.buildSelectQuery(options);
+    const queryBuilder = this.buildSelectQuery(options, 'state');
     return queryBuilder.getExists();
   }
 

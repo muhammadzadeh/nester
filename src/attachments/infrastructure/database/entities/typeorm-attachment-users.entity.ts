@@ -1,6 +1,7 @@
 import { Entity, PrimaryColumn } from 'typeorm';
-import { UserId } from '../../../../common/types';
-import { AttachmentId, AttachmentUserEntity } from '../../../domain/entities/attachment-users.entity';
+import { UserId } from '../../../../../common/types';
+import { AttachmentId } from '../../../../../attachments/domain/entities/attachment-users.entity';
+import { AttachmentUserEntity } from '../../../domain/entities/attachment-users.entity';
 
 @Entity({ name: 'attachment_users' })
 export class TypeormAttachmentUserEntity {

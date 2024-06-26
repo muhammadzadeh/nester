@@ -10,3 +10,13 @@ export class DownloadAttachmentDto {
   @IsUUID()
   id!: string;
 }
+
+export class DownloadSharedAttachmentDto {
+  @ApiProperty({
+    type: String,
+    description: 'The attachment shared token',
+    example: 'fa9a52b2-b56d-43ff-b96e-5989665457f9',
+  })
+  @IsNotEmpty()
+  id!: string;
+}

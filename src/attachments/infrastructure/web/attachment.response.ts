@@ -14,14 +14,6 @@ export class AttachmentResponse {
   id!: AttachmentId;
 
   @ApiProperty({
-    type: String,
-    description: 'The attachment title',
-    example: 'Passport image',
-  })
-  @Type(() => String)
-  title!: string | null;
-
-  @ApiProperty({
     type: MimeTypeResponse,
     description: 'The attachment mime type',
     example: { ext: 'pdf', mime: 'application/pdf' },

@@ -1,4 +1,4 @@
-import { Pagination } from '../../../../common/database';
+import { Pagination } from '../../../common/database';
 import { AttachmentEntity } from '../entities/attachments.entity';
 
 export interface FindAttachmentOptions {

@@ -1,7 +1,7 @@
 import { MultipartFile } from '@fastify/multipart';
 import { HttpStatus, Inject, Injectable } from '@nestjs/common';
-import { Configuration } from '../../../../../common/config';
-import { Exception } from '../../../../../common/exception';
+import { Configuration } from '../../../../common/config';
+import { Exception } from '../../../../common/exception';
 import { AttachmentEntity, AttachmentVisibility, MimeType } from '../../../domain/entities/attachments.entity';
 import {
   ATTACHMENTS_REPOSITORY_TOKEN,

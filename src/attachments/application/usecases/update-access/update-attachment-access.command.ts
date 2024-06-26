@@ -1,13 +1,14 @@
-import { BaseCommand } from '../../../../../common/commands/base.command';
+import { BaseCommand } from '../../../../common/commands/base.command';
+import { UserId } from '../../../../common/types';
 
 export interface GrantAttachmentAccess {
   readonly attachmentIds: string[];
-  readonly userIds: number[];
+  readonly userIds: UserId[];
 }
 
 export interface RevokeAttachmentAccess {
   readonly attachmentId: string;
-  readonly userIds?: number[];
+  readonly userIds?: UserId[];
 }
 
 export class UpdateAttachmentAccessCommand extends BaseCommand {

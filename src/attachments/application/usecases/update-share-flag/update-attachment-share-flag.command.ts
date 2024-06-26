@@ -1,4 +1,4 @@
-import { BaseCommand } from '../../../../../common/commands/base.command';
+import { BaseCommand } from "../../../../common/commands/base.command";
 
 export class UpdateAttachmentShareFlagCommand extends BaseCommand {
   readonly attachmentIds!: string[];

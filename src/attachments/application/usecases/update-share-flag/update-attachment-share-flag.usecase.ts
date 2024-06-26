@@ -17,12 +17,12 @@ export class UpdateAttachmentShareFlagUsecase {
       return;
     }
 
-    const attachments = await this.attachmentsRepository.findMany({
+    const { items } = await this.attachmentsRepository.findAll({
       ids: command.attachmentIds,
     });
 
-    for (let i = 0; i < attachments.length; i++) {
-      const attachment = attachments[i];
+    for (let i = 0; i < items.length; i++) {
+      const attachment = items[i];
       await attachment.updateSharedFlag(command.isShared);
       await this.attachmentsRepository.save(attachment);
     }

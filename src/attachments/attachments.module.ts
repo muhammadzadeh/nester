@@ -1,6 +1,6 @@
 import { Module, Provider } from '@nestjs/common';
 import { AttachmentsService } from './application/attachments.service';
-import { StorageProvider, STORAGE_PROVIDER_TOKEN } from './application/storage-provider';
+import { STORAGE_PROVIDER_TOKEN, StorageProvider } from './application/storage-provider';
 import { DeleteAttachmentUsecase } from './application/usecases/delete/delete-attachment.usecase';
 import { DownloadUsecase } from './application/usecases/download/download.usecase';
 import { FindManyAttachmentUsecase } from './application/usecases/find-many/find-many-attachment.usecase';
@@ -11,13 +11,13 @@ import { UploadUsecase } from './application/usecases/upload/upload.usecase';
 import { ATTACHMENT_USERS_REPOSITORY_TOKEN } from './domain/repositories/attachment-users.repository';
 import { ATTACHMENTS_REPOSITORY_TOKEN } from './domain/repositories/attachments.repository';
 
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Configuration } from '../common/config';
+import { TypeormAttachmentEntity, TypeormAttachmentUserEntity } from './infrastructure/database/entities';
+import { TypeormAttachmentUsersRepository, TypeormAttachmentsRepository } from './infrastructure/database/repositories';
 import { LocalStorageProvider, MinioStorageProvider } from './infrastructure/providers';
 import { AttachmentsController } from './infrastructure/web';
 import { IsPrivateAttachmentConstraint } from './infrastructure/web/is-private-attachment.validator';
-import { TypeormAttachmentUsersRepository, TypeormAttachmentsRepository } from './infrastructure/database/repositories';
-import { TypeormAttachmentEntity, TypeormAttachmentUserEntity } from './infrastructure/database/entities';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { Configuration } from '../../common/config';
 
 const uploaderProvider: Provider = {
   provide: STORAGE_PROVIDER_TOKEN,

@@ -1,5 +1,4 @@
 import { ServiceUnavailableException } from '@nestjs/common';
-import { AttachmentVisibility } from '../domain/entities/attachments.entity';
 
 export const STORAGE_PROVIDER_TOKEN = Symbol('StorageProvider');
 export interface StorageProvider {

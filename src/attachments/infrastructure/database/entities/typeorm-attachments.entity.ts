@@ -7,9 +7,9 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { AttachmentEntity, AttachmentVisibility, MimeType } from '../../../domain/entities/attachments.entity';
+import { UserId } from '../../../../common/types';
 import { AttachmentId } from '../../../domain/entities/attachment-users.entity';
-import { UserId } from '../../../../../common/types';
+import { AttachmentEntity, AttachmentVisibility, MimeType } from '../../../domain/entities/attachments.entity';
 
 @Entity({ name: 'attachments' })
 export class TypeormAttachmentEntity {

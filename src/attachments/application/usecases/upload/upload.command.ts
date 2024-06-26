@@ -1,6 +1,6 @@
 import { MultipartFile } from '@fastify/multipart';
-import { AuthenticatedCommand } from '../../../../../common/commands/authenticated.command';
 import { AttachmentVisibility } from '../../../domain/entities/attachments.entity';
+import { AuthenticatedCommand } from '../../../../common/commands/authenticated.command';
 
 export type UploadedFiles = AsyncIterableIterator<MultipartFile>;
 

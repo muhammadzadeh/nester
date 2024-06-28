@@ -16,11 +16,10 @@ import {
 import { AbstractHttpAdapter, HttpAdapterHost } from '@nestjs/core';
 import { ThrottlerException } from '@nestjs/throttler';
 import { captureException } from '@sentry/node';
-import { IFlatError, ValidationException } from 'common/exception';
 import { I18nService } from 'nestjs-i18n';
-import { AttachmentIsTooBigException } from '../../attachments/application/exceptions';
-import { ExceptionMap } from './exception-map';
+import { IFlatError, ValidationException } from '../../common/exception';
 import { Configuration } from '../config';
+import { ExceptionMap } from './exception-map';
 
 enum Status {
   SUCCESS = 'success',
@@ -66,7 +65,6 @@ abstract class CommonExceptionFilter<U> implements ExceptionFilter<U> {
 
   protected logInto3rdParties(_error: U, _host: ArgumentsHost): void {}
 }
-
 
 @Catch(NestNotFoundException)
 @Injectable()
@@ -145,18 +143,6 @@ class ForbiddenExceptionFilter extends CommonExceptionFilter<ForbiddenException>
   }
 }
 
-@Catch(AttachmentIsTooBigException)
-@Injectable()
-class AttachmentIsTooBigExceptionFilter extends CommonExceptionFilter<ForbiddenException> {
-  protected readonly code = 413;
-
-  protected generateResponseBody(): ExceptionResponse {
-    const error_code = 'MAX_UPLOAD_SIZE';
-    const message = this.i18n.t<string, string>(`messages.${error_code}`);
-    return { message, status: Status.FAILURE, code: this.code, error_code };
-  }
-}
-
 @Catch(ThrottlerException)
 @Injectable()
 class ThrottlerExceptionFilter extends CommonExceptionFilter<ForbiddenException> {
@@ -221,7 +207,6 @@ export default (app: INestApplication): void => {
     new ValidationExceptionFilter(httpAdapter, debug, i18n),
     new BadRequestExceptionFilter(httpAdapter, debug, i18n),
     new NotFoundExceptionFilter(httpAdapter, debug, i18n),
-    new AttachmentIsTooBigExceptionFilter(httpAdapter, debug, i18n),
     new ThrottlerExceptionFilter(httpAdapter, debug, i18n),
   );
 };

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Type } from 'class-transformer';
 import { IsBoolean, IsNotEmpty, IsOptional, ValidateNested, validateSync } from 'class-validator';
-import { ValidationException } from 'common/exception';
+import { ValidationException } from '../../common/exception';
 import { ToBoolean } from '../decorators';
 import { AppConfigs } from './app';
 import { AuthenticationConfig } from './authentication.config';

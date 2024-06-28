@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { AttachmentId } from '../domain/entities/attachment-users.entity';
 import { AttachmentEntity } from '../domain/entities/attachments.entity';
 import { DeleteAttachmentCommand } from './usecases/delete/delete-attachment.command';
 import { DeleteAttachmentUsecase } from './usecases/delete/delete-attachment.usecase';
@@ -40,6 +41,11 @@ export class AttachmentsService {
 
   async delete(command: DeleteAttachmentCommand): Promise<void> {
     await this.deleteUsecase.execute(command);
+  }
+
+  async findOne(attachmentId: AttachmentId): Promise<AttachmentEntity | null> {
+    const items = await this.findMany({ attachmentIds: [attachmentId] });
+    return items[0];
   }
 
   async findMany(command: FindManyAttachmentCommand): Promise<AttachmentEntity[]> {

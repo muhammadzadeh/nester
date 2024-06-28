@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsEmail, IsNotEmpty, IsOptional, IsPhoneNumber, IsString } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { IsStrongPassword } from '../is-strong-password.validator';
 
 export class DefaultUserConfig {
@@ -9,7 +9,7 @@ export class DefaultUserConfig {
   readonly email!: string;
 
   @IsNotEmpty()
-  @IsPhoneNumber()
+  @IsString()
   @Type(() => String)
   readonly mobile!: string;
 

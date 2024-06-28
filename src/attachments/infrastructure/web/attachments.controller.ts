@@ -1,5 +1,6 @@
-import { Get, Param, Post, StreamableFile } from '@nestjs/common';
+import { Get, Param, Post, Req, StreamableFile } from '@nestjs/common';
 import { ApiBody, ApiConsumes, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { FastifyRequest } from 'fastify';
 import { CurrentUser } from '../../../authentication/infrastructure/web/decorators';
 import { CommonController } from '../../../common/guards/decorators';
 import { AttachmentsService } from '../../application/attachments.service';
@@ -7,7 +8,6 @@ import { UploadedFiles } from '../../application/usecases/upload/upload.command'
 import { AttachmentNotFoundException } from '../../domain/entities/attachments.entity';
 import { AttachmentListResponse } from './attachment-list.response';
 import { AttachmentVisibilityDto } from './attachment-visibility.dto';
-import { GetUploadedFiles } from './decorators';
 import { DownloadAttachmentDto, DownloadSharedAttachmentDto } from './download-attachment.dto';
 import { FilesUploadDto } from './files-upload.dto';
 
@@ -28,11 +28,20 @@ export class AttachmentsController {
   @ApiBody({ type: FilesUploadDto })
   async upload(
     @Param() visibilityDto: AttachmentVisibilityDto,
-    @GetUploadedFiles() uploadedFiles: UploadedFiles,
     @CurrentUser() user: CurrentUser,
+    @Req() request: FastifyRequest,
   ): Promise<AttachmentListResponse> {
+    const uploadedFiles = request.files();
+    const files: UploadedFiles[] = [];
+    for await (const file of uploadedFiles) {
+      files.push({
+        buffer: await file.toBuffer(),
+        name: file.fieldname,
+      });
+    }
+
     const attachments = await this.attachmentsService.upload({
-      files: uploadedFiles,
+      files: files,
       visibility: visibilityDto.visibility,
       userId: user.id,
       isDraft: false,

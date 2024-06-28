@@ -1,6 +1,6 @@
-import { PathTransform } from 'common/utils';
 import { Type } from 'class-transformer';
 import { IsDefined, IsIn, IsNumber, IsString, ValidateIf, ValidateNested } from 'class-validator';
+import { PathTransform } from '../../common/utils';
 
 class StorageConfigLocal {
   @IsDefined()
@@ -97,11 +97,6 @@ export class StorageConfig<T = 'local' | 'minio' | 'r2'> {
   @IsString()
   @IsIn(['local', 'minio', 'r2'])
   readonly type!: T;
-
-  @IsDefined()
-  @IsString()
-  @Type(() => String)
-  readonly baseUrl!: string;
 
   @IsDefined()
   @IsNumber()

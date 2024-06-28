@@ -1,4 +1,3 @@
-import { MultipartFile } from '@fastify/multipart';
 import { HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { Configuration } from '../../../../common/config';
 import { Exception } from '../../../../common/exception';
@@ -8,7 +7,7 @@ import {
   AttachmentsRepository,
 } from '../../../domain/repositories/attachments.repository';
 import { ExtendedMemeType, FileInfo, STORAGE_PROVIDER_TOKEN, StorageProvider } from '../../storage-provider';
-import { UploadCommand } from './upload.command';
+import { UploadCommand, UploadedFiles } from './upload.command';
 
 @Injectable()
 export class UploadUsecase {
@@ -23,7 +22,7 @@ export class UploadUsecase {
   async execute(command: UploadCommand): Promise<AttachmentEntity[]> {
     const files: AttachmentEntity[] = [];
 
-    for await (const file of command.files) {
+    for (const file of command.files) {
       const { fileSize, mimeType, fileBuffer, originalName } = await this.extractFileInfo(file);
 
       const createdAttachment = await this.create({
@@ -69,9 +68,9 @@ export class UploadUsecase {
     return fileTypeFromBuffer(buffer);
   }
 
-  private async extractFileInfo(file: MultipartFile): Promise<FileInfo> {
-    const originalName = file.filename;
-    const fileBuffer = await file.toBuffer();
+  private async extractFileInfo(file: UploadedFiles): Promise<FileInfo> {
+    const originalName = file.name;
+    const fileBuffer = file.buffer;
 
     const mimeType: ExtendedMemeType | undefined = await this.detectType(fileBuffer);
 

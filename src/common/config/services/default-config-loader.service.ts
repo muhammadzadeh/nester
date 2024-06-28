@@ -1,4 +1,4 @@
-import { absoluteFromBase } from 'common/utils';
+import { absoluteFromBase } from '../../../common/utils';
 import handlebars from 'handlebars';
 import yaml from 'js-yaml';
 import fs from 'node:fs';

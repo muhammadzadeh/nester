@@ -23,12 +23,16 @@ export class UpdateMyProfileUsecase {
     user.updateName(command.firstName, command.lastName);
 
     if (command.avatar && isUUID(command.avatar, '4')) {
-      const avatarRecord = await this.attachmentService.findOneOrFail(command.avatar);
+      const avatarRecord = await this.attachmentService.findOne(command.avatar);
+      if (!avatarRecord) {
+        throw new InvalidAvatarException(`Avatar not found!`);
+      }
+
       if (avatarRecord.isPrivate()) {
         throw new InvalidAvatarException(`Only public attachment allowed for avatar!`);
       }
 
-      user.updateAvatar(avatarRecord.getStoredPath(), avatarRecord.id);
+      user.updateAvatar(avatarRecord.getPathAndName(), avatarRecord.id);
     } else {
       user.removeAvatar();
     }

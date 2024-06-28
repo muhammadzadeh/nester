@@ -4,7 +4,7 @@ import * as constants from '@nestjs/common/constants';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as apiExcludeControllerExplorer from '@nestjs/swagger/dist/explorers/api-exclude-controller.explorer';
 import * as swaggerExplorer from '@nestjs/swagger/dist/swagger-explorer';
-import { ControllerType, MetaKey, TENANT_CONFIG } from 'common/guards/constants';
+import { ControllerType, MetaKey, TENANT_CONFIG } from '../../common/guards/constants';
 import { Configuration } from '../config';
 
 // This type is used to mark the module as mutable

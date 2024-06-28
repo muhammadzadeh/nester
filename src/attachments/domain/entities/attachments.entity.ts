@@ -126,8 +126,8 @@ export class AttachmentEntity {
 }
 
 export enum AttachmentVisibility {
-  PUBLIC = 'PUBLIC',
-  PRIVATE = 'PRIVATE',
+  PUBLIC = 'public',
+  PRIVATE = 'private',
 }
 
 export class MimeType {

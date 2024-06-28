@@ -1,7 +1,7 @@
 import { Inject, Logger } from '@nestjs/common';
 import { Configuration } from '../../../common/config';
 import { BaseSeeder, DatabaseSeeder } from '../../../common/database';
-import { randomString } from '../../../common/utils';
+import { randomStringAsync } from '../../../common/utils';
 import { RolesService } from '../../roles/application/roles.service';
 import { Permission } from '../../roles/domain/entities/role.entity';
 import { UserEntity } from '../domain/entities/user.entity';
@@ -60,11 +60,11 @@ export class DefaultUserSeeder extends BaseSeeder {
   }
 
   private async generateDefaultPassword(): Promise<string> {
-    return randomString({ length: 21, type: 'alphanumeric' });
+    return randomStringAsync({ length: 21, type: 'alphanumeric' });
   }
 
   private async generateDefaultEmail(): Promise<string> {
-    const firstPart = await randomString({ length: 13, type: 'alphanumeric' });
+    const firstPart = await randomStringAsync({ length: 13, type: 'alphanumeric' });
     return `${firstPart}@admin.com`.toLowerCase();
   }
 }

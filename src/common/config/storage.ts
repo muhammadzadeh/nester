@@ -1,6 +1,6 @@
-import { PathTransform } from 'common/utils';
 import { Type } from 'class-transformer';
 import { IsDefined, IsIn, IsNumber, IsString, ValidateIf, ValidateNested } from 'class-validator';
+import { PathTransform } from '../../common/utils';
 
 class StorageConfigLocal {
   @IsDefined()
@@ -18,16 +18,6 @@ class StorageConfigLocal {
   @PathTransform()
   @Type(() => String)
   readonly uploadDir!: string;
-
-  @IsDefined()
-  @IsString()
-  @Type(() => String)
-  readonly privateBaseUrl!: string;
-
-  @IsDefined()
-  @IsString()
-  @Type(() => String)
-  readonly publicBaseUrl!: string;
 }
 
 class StorageConfigMinio {
@@ -55,16 +45,6 @@ class StorageConfigMinio {
   @IsString()
   @Type(() => String)
   readonly storageEndpoint!: string;
-
-  @IsDefined()
-  @IsString()
-  @Type(() => String)
-  readonly privateBaseUrl!: string;
-
-  @IsDefined()
-  @IsString()
-  @Type(() => String)
-  readonly publicBaseUrl!: string;
 }
 
 class StorageConfigR2 {
@@ -92,16 +72,6 @@ class StorageConfigR2 {
   @IsString()
   @Type(() => String)
   readonly storageEndpoint!: string;
-
-  @IsDefined()
-  @IsString()
-  @Type(() => String)
-  readonly privateBaseUrl!: string;
-
-  @IsDefined()
-  @IsString()
-  @Type(() => String)
-  readonly publicBaseUrl!: string;
 }
 
 export class StorageConfig<T = 'local' | 'minio' | 'r2'> {
@@ -127,11 +97,6 @@ export class StorageConfig<T = 'local' | 'minio' | 'r2'> {
   @IsString()
   @IsIn(['local', 'minio', 'r2'])
   readonly type!: T;
-
-  @IsDefined()
-  @IsString()
-  @Type(() => String)
-  readonly baseUrl!: string;
 
   @IsDefined()
   @IsNumber()

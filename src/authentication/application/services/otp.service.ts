@@ -3,7 +3,7 @@ import { createHash } from 'crypto';
 import { DateTime, Duration } from 'luxon';
 import { Exception } from '../../../common/exception';
 import { Email, Mobile, UserId } from '../../../common/types';
-import { randomString } from '../../../common/utils';
+import { randomStringAsync } from '../../../common/utils';
 import { OTPEntity, OTPReason, OTPType } from '../../domain/entities';
 import { OTPRepository, OTP_REPOSITORY_TOKEN } from '../../domain/repositories';
 
@@ -106,7 +106,7 @@ export class OtpService {
   private async generateUniqueOTP(type: OTPType): Promise<string> {
     const length = type === OTPType.CODE ? 6 : 100;
     const mappedType = type === OTPType.CODE ? 'numeric' : 'url-safe';
-    const otp = await randomString({ length: length, type: mappedType });
+    const otp = await randomStringAsync({ length: length, type: mappedType });
 
     if (type === OTPType.TOKEN) {
       const exists = await this.otpRepository.exists(otp);

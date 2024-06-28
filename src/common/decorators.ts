@@ -1,16 +1,5 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { MultipartFile } from '@fastify/multipart';
-import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 import { Transform } from 'class-transformer';
 import { isArray, isEmpty } from 'class-validator';
-import { FastifyRequest } from 'fastify';
-
-export type UploadedFiles = AsyncIterableIterator<MultipartFile>;
-export const UploadedFiles = createParamDecorator(
-  (opt: Parameters<FastifyRequest['files']>[0] | undefined, ctx: ExecutionContext): UploadedFiles =>
-    ctx.switchToHttp().getRequest<FastifyRequest>().files(opt),
-);
 
 const UniqueArray = () => {
   const toPlain = Transform(

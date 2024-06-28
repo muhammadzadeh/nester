@@ -5,10 +5,13 @@ import { AttachmentEntity } from '../../domain/entities/attachments.entity';
 import { AttachmentResponse } from './attachment.response';
 
 export class AttachmentListResponse extends ListResponse<AttachmentResponse> {
-  static from(data: AttachmentEntity[]): AttachmentListResponse {
-    return new AttachmentListResponse(data, {
-      total: data.length,
-    });
+  static from(items: AttachmentEntity[]): AttachmentListResponse {
+    return new AttachmentListResponse(
+      items.map((item) => AttachmentResponse.from(item)),
+      {
+        total: items.length,
+      },
+    );
   }
 
   @ApiProperty({

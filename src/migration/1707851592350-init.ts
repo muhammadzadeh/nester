@@ -17,7 +17,8 @@ export class Init1707851592350 implements MigrationInterface {
         await queryRunner.query(`CREATE TYPE "public"."otp_logs_reason_enum" AS ENUM('login', 'verify', 'reset_password')`);
         await queryRunner.query(`CREATE TABLE "otp_logs" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "destination" character varying NOT NULL, "otp" character varying NOT NULL, "user_id" uuid NOT NULL, "type" "public"."otp_logs_type_enum" NOT NULL, "reason" "public"."otp_logs_reason_enum" NOT NULL, "expire_at" TIMESTAMP WITH TIME ZONE, "used_at" TIMESTAMP WITH TIME ZONE, "deleted_at" TIMESTAMP, "created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), CONSTRAINT "PK_OTP_LOGS_ID" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TYPE "public"."attachments_visibility_enum" AS ENUM('public', 'private')`);
-        await queryRunner.query(`CREATE TABLE "attachments" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "deleted_at" TIMESTAMP, "created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), "title" character varying, "name" character varying, "original_name" character varying, "visibility" "public"."attachments_visibility_enum" NOT NULL, "mime_type" jsonb, "size" integer NOT NULL, "uploader_id" uuid NOT NULL, CONSTRAINT "PK_ATTACHMENTS_ID" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE TABLE "attachments" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "deleted_at" TIMESTAMP, "created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), "path" character varying NOT NULL, "name" character varying NOT NULL, "original_name" character varying, "visibility" "public"."attachments_visibility_enum" NOT NULL, "mime_type" jsonb, "size" integer NOT NULL, "uploader_id" uuid NOT NULL, is_draft  boolean NOT NULL DEFAULT false, is_shared  boolean NOT NULL DEFAULT false, share_token  character varying, CONSTRAINT "PK_ATTACHMENTS_ID" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE INDEX "IDX_ATTACHMENTS_SHARE_TOKEN" ON "attachments" ("share_token") `);
         await queryRunner.query(`CREATE INDEX "IDX_ATTACHMENTS_UPLOADER_ID" ON "attachments" ("uploader_id") `);
         await queryRunner.query(`CREATE TABLE "attachment_users" ("attachment_id" uuid NOT NULL, "user_id" uuid NOT NULL, CONSTRAINT "PK_ATTACHMENT_USERS_ID" PRIMARY KEY ("attachment_id", "user_id"))`);
         await queryRunner.query(`CREATE TABLE "roles" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "title" character varying NOT NULL, "permissions" character varying array NOT NULL DEFAULT '{}', "created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), "deleted_at" TIMESTAMP, "is_system_role" boolean NOT NULL, CONSTRAINT "PK_ROLES_ID" PRIMARY KEY ("id"))`);
@@ -32,6 +33,7 @@ export class Init1707851592350 implements MigrationInterface {
         await queryRunner.query(`DROP TABLE "users"`);
         await queryRunner.query(`DROP TABLE "roles"`);
         await queryRunner.query(`DROP TABLE "attachment_users"`);
+        await queryRunner.query(`DROP INDEX "public"."IDX_ATTACHMENTS_SHARE_TOKEN"`);
         await queryRunner.query(`DROP INDEX "public"."IDX_ATTACHMENTS_UPLOADER_ID"`);
         await queryRunner.query(`DROP TABLE "attachments"`);
         await queryRunner.query(`DROP TYPE "public"."attachments_visibility_enum"`);

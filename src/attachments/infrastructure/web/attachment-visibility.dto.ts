@@ -4,11 +4,11 @@ import { AttachmentVisibility } from '../../domain/entities/attachments.entity';
 
 export class AttachmentVisibilityDto {
   @ApiProperty({
-    required: true,
     type: AttachmentVisibility,
     enum: AttachmentVisibility,
     enumName: 'AttachmentVisibility',
     description: 'the attachment visibility type',
+    required: true,
   })
   @IsNotEmpty()
   @IsEnum(AttachmentVisibility)

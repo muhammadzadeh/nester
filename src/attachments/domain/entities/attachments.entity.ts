@@ -1,40 +1,44 @@
 import { HttpStatus } from '@nestjs/common';
 import { randomUUID } from 'crypto';
 import { Exception } from '../../../common/exception';
-import { UploaderHolder } from '../../application/uploader';
-import { UserId } from '../../../common/types';
+import { randomStringSync } from '../../../common/utils';
 
 export class AttachmentEntity {
   constructor(
-    title: string | null,
-    name: string | null,
     originalName: string | null,
     size: number,
     visibility: AttachmentVisibility,
     mimeType: MimeType | null,
-    uploaderId: UserId,
+    uploaderId: string,
+    isDraft: boolean,
   );
   constructor(
-    title: string | null,
-    name: string | null,
     originalName: string | null,
     size: number,
     visibility: AttachmentVisibility,
     mimeType: MimeType | null,
-    uploaderId: UserId,
+    uploaderId: string,
+    isDraft: boolean,
+    path: string,
+    name: string | null,
+    isShared: boolean,
+    shareToken: string | null,
     id: string,
     deletedAt: Date | null,
     createdAt: Date,
     updatedAt: Date,
   );
   constructor(
-    title: string | null,
-    name: string | null,
     originalName: string | null,
     size: number,
     visibility: AttachmentVisibility,
     mimeType: MimeType | null,
-    uploaderId: UserId,
+    uploaderId: string,
+    isDraft: boolean,
+    path?: string,
+    name?: string | null,
+    isShared?: boolean,
+    shareToken?: string | null,
     id?: string,
     deletedAt?: Date | null,
     createdAt?: Date,
@@ -44,13 +48,16 @@ export class AttachmentEntity {
     this.deletedAt = deletedAt ?? null;
     this.createdAt = createdAt ?? new Date();
     this.updatedAt = updatedAt ?? new Date();
-    this.title = title;
-    this.name = name;
+    this.name = name ?? this.generateRandomString();
     this.originalName = originalName;
     this.visibility = visibility;
     this.mimeType = mimeType;
     this.size = size;
+    this.isDraft = isDraft;
+    this.isShared = isShared ?? false;
+    this.shareToken = shareToken ?? null;
     this.uploaderId = uploaderId;
+    this.path = path ?? this.getPathToStore();
     this.url = this.getDownloadUrl();
   }
 
@@ -58,32 +65,29 @@ export class AttachmentEntity {
   deletedAt!: Date | null;
   createdAt!: Date;
   updatedAt!: Date;
-  title!: string | null;
-  name!: string | null;
+  path!: string;
+  name!: string;
   originalName!: string | null;
   visibility!: AttachmentVisibility;
   mimeType!: MimeType | null;
   size!: number;
-  uploaderId!: UserId;
+  uploaderId!: string;
   url!: string;
+  isDraft!: boolean;
+  isShared!: boolean;
+  shareToken!: string | null;
 
-  getStoredPath(): string {
-    if (!this.uploaderId) {
-      throw new AttachmentNotFoundException();
-    }
-
-    const filePath =
-      this.visibility === AttachmentVisibility.PRIVATE
-        ? `${this.uploaderId}/${this.name}.${this.mimeType?.ext}`
-        : `attachments/${this.name}.${this.mimeType?.ext}`;
-
-    return filePath;
+  getPathAndName(): string {
+    return `${this.path}/${this.name}${this.mimeType?.ext}`;
   }
 
-  getDownloadUrl(): string {
-    return this.visibility === AttachmentVisibility.PRIVATE
-      ? `${UploaderHolder.get().getPrivateBaseURL()}/common/attachments/${this.id}`
-      : `${UploaderHolder.get().getPublicBaseURL()}/attachments/${this.name}.${this.mimeType?.ext}`;
+  changeToShareableUrl(): void {
+    this.url =
+      this.visibility === AttachmentVisibility.PRIVATE ? `/share/${this.shareToken}` : `/${this.getPathAndName()}`;
+  }
+
+  isPrivatelyShared() {
+    return this.isPrivate() && this.isShared;
   }
 
   isPublic() {
@@ -94,8 +98,30 @@ export class AttachmentEntity {
     return this.visibility === AttachmentVisibility.PRIVATE;
   }
 
-  isImage(): boolean {
-    return !!this.mimeType && ['jpg', 'png'].includes(this.mimeType?.ext);
+  async updateSharedFlag(isShared: boolean): Promise<void> {
+    this.isShared = isShared;
+    const randomString = this.generateRandomString();
+    const timestamp = Date.now();
+    if (isShared) {
+      this.shareToken = `${this.id}-${randomString}-${timestamp}`;
+    } else {
+      this.shareToken = null;
+    }
+  }
+
+  private generateRandomString(): string {
+    return randomStringSync({ length: 100, type: 'alphanumeric' });
+  }
+
+  private getPathToStore(): string {
+    const filePath =
+      this.visibility === AttachmentVisibility.PRIVATE ? `private/${this.uploaderId}` : `public/attachments`;
+
+    return filePath;
+  }
+
+  private getDownloadUrl(): string {
+    return this.visibility === AttachmentVisibility.PRIVATE ? `/${this.id}` : `/${this.getPathAndName()}`;
   }
 }
 

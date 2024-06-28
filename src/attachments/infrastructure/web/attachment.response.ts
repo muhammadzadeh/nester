@@ -1,25 +1,27 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { AttachmentId } from '../../domain/entities/attachment-users.entity';
-import { AttachmentVisibility } from '../../domain/entities/attachments.entity';
+import { AttachmentEntity, AttachmentVisibility } from '../../domain/entities/attachments.entity';
 import { MimeTypeResponse } from './mime-type.response';
 
 export class AttachmentResponse {
+  static from(item: AttachmentEntity): AttachmentResponse {
+    return {
+      id: item.id,
+      createdAt: item.createdAt,
+      mimeType: item.mimeType,
+      url: item.url,
+      visibility: item.visibility,
+    };
+  }
+
   @ApiProperty({
     type: String,
     description: 'The attachment ID',
     example: 'a1b2c3d4e54as4df4',
   })
   @Type(() => String)
-  id!: AttachmentId;
-
-  @ApiProperty({
-    type: String,
-    description: 'The attachment title',
-    example: 'Passport image',
-  })
-  @Type(() => String)
-  title!: string | null;
+  readonly id!: AttachmentId;
 
   @ApiProperty({
     type: MimeTypeResponse,
@@ -28,7 +30,7 @@ export class AttachmentResponse {
     name: 'mime_type',
   })
   @Type(() => MimeTypeResponse)
-  mimeType!: MimeTypeResponse | null;
+  readonly mimeType!: MimeTypeResponse | null;
 
   @ApiProperty({
     type: AttachmentVisibility,
@@ -37,7 +39,7 @@ export class AttachmentResponse {
     description: 'The attachment visibility type',
   })
   @Type(() => String)
-  visibility!: AttachmentVisibility;
+  readonly visibility!: AttachmentVisibility;
 
   @ApiProperty({
     type: Date,
@@ -46,12 +48,12 @@ export class AttachmentResponse {
     name: 'created_at',
   })
   @Type(() => Date)
-  createdAt!: Date;
+  readonly createdAt!: Date;
 
   @ApiProperty({
     type: Date,
     description: 'The attachment download link',
   })
   @Type(() => String)
-  url!: string;
+  readonly url!: string;
 }

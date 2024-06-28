@@ -7,7 +7,7 @@ import { Configuration } from '../../../common/config';
 import { TokenConfig } from '../../../common/config/authentication.config';
 import { Exception } from '../../../common/exception';
 import { Email, Mobile, UserId } from '../../../common/types';
-import { randomString } from '../../../common/utils';
+import { randomStringAsync } from '../../../common/utils';
 import { Permission } from '../../../users/roles/domain/entities/role.entity';
 
 @Injectable()
@@ -31,7 +31,7 @@ export class JwtTokenService {
     });
 
     const refreshTokenExpiration = this.tokenConfig.refreshTokenExpiration.as('second');
-    const refreshToken = await randomString({ length: 200, type: 'base64' });
+    const refreshToken = await randomStringAsync({ length: 200, type: 'base64' });
 
     await this.cacheService
       .getRedisClient()

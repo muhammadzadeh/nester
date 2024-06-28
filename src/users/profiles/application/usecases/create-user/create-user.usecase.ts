@@ -40,16 +40,20 @@ export class CreateUserUsecase {
 
     if (command.avatar) {
       if (isUUID(command.avatar, '4')) {
-        const avatarRecord = await this.attachmentService.findOneOrFail(command.avatar);
+        const avatarRecord = await this.attachmentService.findOne(command.avatar);
+        if (!avatarRecord) {
+          throw new InvalidAvatarException(`Avatar not found!`);
+        }
+
         if (avatarRecord.isPrivate()) {
           throw new InvalidAvatarException(`Only public attachment allowed for avatar!`);
         }
 
-        createdUser.updateAvatar(avatarRecord.getStoredPath(), avatarRecord.id);
+        createdUser.updateAvatar(avatarRecord.getPathAndName(), avatarRecord.id);
       } else {
         const avatarRecord = await this.moveUserAvatarToCdn(createdUser.id, command.avatar);
         if (avatarRecord) {
-          createdUser.updateAvatar(avatarRecord.getStoredPath(), avatarRecord.id);
+          createdUser.updateAvatar(avatarRecord.getPathAndName(), avatarRecord.id);
         }
       }
     }
@@ -63,14 +67,17 @@ export class CreateUserUsecase {
         responseType: 'arraybuffer',
       });
 
-      const items = await this.attachmentService.upload([
-        {
-          data: Buffer.from(avatarData.data, 'binary'),
-          filename: 'avatar',
-          uploaderId: userId,
-          visibility: AttachmentVisibility.PUBLIC,
-        },
-      ]);
+      const items = await this.attachmentService.upload({
+        files: [
+          {
+            buffer: avatarData.data,
+            name: 'avatar.png',
+          },
+        ],
+        isDraft: false,
+        userId: userId,
+        visibility: AttachmentVisibility.PUBLIC,
+      });
 
       return items[0];
     } catch (error) {

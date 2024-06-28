@@ -1,15 +1,15 @@
 import { UserId } from '../../../common/types';
-import { AttachmentId, AttachmentUserEntity } from '../entities/attachment-users.entity';
+import { AttachmentUserEntity } from '../entities/attachment-users.entity';
 
-export interface FindAttachmentUserData {
-  userId: UserId;
-  attachmentId: AttachmentId;
+export interface FindAttachmentUserOptions {
+  userId?: UserId;
+  attachmentId?: string;
 }
 
 export const ATTACHMENT_USERS_REPOSITORY_TOKEN = Symbol('AttachmentUsersRepository');
 
 export interface AttachmentUsersRepository {
-  save(input: AttachmentUserEntity): Promise<void>;
-  exists(input: Partial<FindAttachmentUserData>): Promise<boolean>;
-  delete(input: Partial<FindAttachmentUserData>): Promise<void>;
+  save(data: AttachmentUserEntity): Promise<void>;
+  exists(options: FindAttachmentUserOptions): Promise<boolean>;
+  delete(options: FindAttachmentUserOptions): Promise<void>;
 }

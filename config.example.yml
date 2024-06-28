@@ -34,7 +34,6 @@ authentication:
       clientSecret: replace_me
 storage:
   type: minio
-  baseUrl: http://localhost:9000
   maxFileSize: 30_000_000
   minio:
     privateBucket: private
@@ -42,8 +41,6 @@ storage:
     accessKeyId: replace_me
     secretAccessKey: replace_me
     storageEndpoint: replace_me
-    privateBaseUrl: replace_me
-    publicBaseUrl: replace_me
 mailer:
   provider: mailgun
   sender: no-reply@app.com
@@ -81,3 +78,5 @@ defaultUser:
   email: replace_me
   mobile: replace_me
   password: replace_me
+smsSender:
+  provider: local

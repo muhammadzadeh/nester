@@ -25,11 +25,11 @@ export class TypeormAttachmentEntity {
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt!: Date;
 
-  @Column({ type: 'varchar', nullable: true, name: 'title' })
-  title!: string | null;
+  @Column({ type: 'varchar', name: 'path' })
+  path!: string;
 
-  @Column({ type: 'varchar', nullable: true, name: 'name' })
-  name!: string | null;
+  @Column({ type: 'varchar', name: 'name' })
+  name!: string;
 
   @Column({ type: 'varchar', nullable: true, name: 'original_name' })
   originalName!: string | null;
@@ -47,15 +47,28 @@ export class TypeormAttachmentEntity {
   @Index('IDX_ATTACHMENTS_UPLOADER_ID')
   uploaderId!: UserId;
 
+  @Column({ type: 'boolean', name: 'is_draft' })
+  isDraft!: boolean;
+
+  @Column({ type: 'boolean', name: 'is_shared' })
+  isShared!: boolean;
+
+  @Column({ type: 'varchar', nullable: true, name: 'share_token' })
+  @Index('IDX_ATTACHMENTS_SHARE_TOKEN')
+  shareToken!: string | null;
+
   static toAttachmentEntity(item: TypeormAttachmentEntity): AttachmentEntity {
     return new AttachmentEntity(
-      item.title,
-      item.name,
       item.originalName,
       item.size,
       item.visibility,
       item.mimeType,
       item.uploaderId,
+      item.isDraft,
+      item.path,
+      item.name,
+      item.isShared,
+      item.shareToken,
       item.id,
       item.deletedAt,
       item.createdAt,

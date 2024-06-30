@@ -16,14 +16,12 @@ export class RoleResponse {
   }
   @ApiProperty({
     type: String,
-    name: 'id',
   })
   @Type(() => String)
   readonly id!: string;
 
   @ApiProperty({
     type: String,
-    name: 'title',
   })
   @Type(() => String)
   readonly title!: string;
@@ -32,7 +30,6 @@ export class RoleResponse {
     type: Permission,
     enum: Permission,
     enumName: 'Permission',
-    name: 'permissions',
     isArray: true,
   })
   @Type(() => String)
@@ -40,14 +37,12 @@ export class RoleResponse {
 
   @ApiProperty({
     type: Date,
-    name: 'created_at',
   })
   @Type(() => Date)
   readonly createdAt!: Date;
 
   @ApiProperty({
     type: Date,
-    name: 'updated_at',
     nullable: true,
   })
   @Type(() => Date)
@@ -55,7 +50,6 @@ export class RoleResponse {
 
   @ApiProperty({
     type: Date,
-    name: 'deleted_at',
     nullable: true,
   })
   @Type(() => Date)
@@ -63,7 +57,6 @@ export class RoleResponse {
 
   @ApiProperty({
     type: Boolean,
-    name: 'is_system_role',
   })
   @Type(() => Boolean)
   readonly isSystemRole!: boolean;

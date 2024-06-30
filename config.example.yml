@@ -60,7 +60,6 @@ captcha:
   enabled: false
   provider: recaptcha
   recaptcha:
-    verifyUrl: https://www.google.com/recaptcha/api/siteverify
     secret: replace_me
 logger:
   console:

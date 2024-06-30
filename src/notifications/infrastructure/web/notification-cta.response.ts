@@ -21,7 +21,6 @@ export class NotificationCTAResponse {
     type: Boolean,
     description: 'is main cta',
     example: false,
-    name: 'is_main',
   })
   @Type(() => Boolean)
   isMain!: boolean;

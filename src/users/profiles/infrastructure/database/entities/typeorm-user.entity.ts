@@ -15,11 +15,11 @@ import { UserEntity } from '../../../domain/entities/user.entity';
 @Entity({
   name: 'users',
 })
-@Check('CK_USERS_IDENTIFIER', 'email IS NOT NULL OR mobile IS NOT NULL')
-@Unique('UQ_USERS_EMAIL', ['email'])
-@Unique('UQ_USERS_MOBILE', ['mobile'])
+@Check('users_identifier_check', 'email IS NOT NULL OR mobile IS NOT NULL')
+@Unique('users_email_u', ['email'])
+@Unique('users_mobile_u', ['mobile'])
 export class TypeormUserEntity {
-  @PrimaryGeneratedColumn('uuid', { primaryKeyConstraintName: 'PK_USERS_ID' })
+  @PrimaryGeneratedColumn('uuid', { primaryKeyConstraintName: 'users_id_pkey' })
   readonly id!: UserId;
 
   @Column({ type: 'varchar', name: 'fist_name', nullable: true })

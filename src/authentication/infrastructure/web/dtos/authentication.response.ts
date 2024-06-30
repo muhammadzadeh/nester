@@ -13,7 +13,6 @@ export class AuthenticationResponse {
 
   @ApiProperty({
     type: String,
-    name: 'access_token',
     description: 'The access token',
   })
   @Type(() => String)
@@ -21,7 +20,6 @@ export class AuthenticationResponse {
 
   @ApiProperty({
     type: String,
-    name: 'refresh_token',
     description: 'The refresh token, using for generate new access token',
   })
   @Type(() => String)
@@ -29,7 +27,6 @@ export class AuthenticationResponse {
 
   @ApiProperty({
     type: Date,
-    name: 'expire_at',
     description: 'The access token expiration date',
   })
   @Type(() => Date)

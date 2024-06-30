@@ -6,11 +6,6 @@ export class RecaptchaConfig {
   @IsDefined()
   @IsString()
   @Type(() => String)
-  readonly verifyUrl?: string;
-
-  @IsDefined()
-  @IsString()
-  @Type(() => String)
   readonly secret?: string;
 }
 

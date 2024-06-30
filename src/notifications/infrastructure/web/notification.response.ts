@@ -70,7 +70,6 @@ export class NotificationResponse {
     enum: NotificationGroupType,
     enumName: 'NotificationGroupType',
     description: 'notification group type',
-    name: 'group_type',
   })
   @Type(() => String)
   readonly groupType!: NotificationGroupType;
@@ -96,7 +95,6 @@ export class NotificationResponse {
     type: Date,
     description: 'The creation date',
     example: new Date(),
-    name: 'created_at',
   })
   @Type(() => Date)
   readonly createdAt!: Date;

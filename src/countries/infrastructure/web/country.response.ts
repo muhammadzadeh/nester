@@ -18,42 +18,36 @@ export class CountryResponse {
 
   @ApiProperty({
     type: String,
-    name: 'id',
   })
   @Type(() => String)
   readonly id!: string;
 
   @ApiProperty({
     type: String,
-    name: 'name',
   })
   @Type(() => String)
   readonly name!: string;
 
   @ApiProperty({
     type: String,
-    name: 'iso3',
   })
   @Type(() => String)
   readonly iso3!: string;
 
   @ApiProperty({
     type: String,
-    name: 'iso2',
   })
   @Type(() => String)
   readonly iso2!: string;
 
   @ApiProperty({
     type: String,
-    name: 'phone_code',
   })
   @Type(() => String)
   readonly phoneCode!: string;
 
   @ApiProperty({
     type: TimezoneResponse,
-    name: 'timezones',
     isArray: true,
   })
   @Type(() => TimezoneResponse)
@@ -61,7 +55,6 @@ export class CountryResponse {
 
   @ApiProperty({
     type: String,
-    name: 'emoji',
     nullable: true,
   })
   @Type(() => String)

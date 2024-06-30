@@ -7,14 +7,14 @@ export class TypeormAttachmentUserEntity {
   @PrimaryColumn({
     type: 'uuid',
     name: 'attachment_id',
-    primaryKeyConstraintName: 'PK_ATTACHMENT_USERS_ID',
+    primaryKeyConstraintName: 'attachment_users_attachment_id_user_id_pkey',
   })
   attachmentId!: AttachmentId;
 
   @PrimaryColumn({
     type: 'uuid',
     name: 'user_id',
-    primaryKeyConstraintName: 'PK_ATTACHMENT_USERS_ID',
+    primaryKeyConstraintName: 'attachment_users_attachment_id_user_id_pkey',
   })
   userId!: UserId;
 

@@ -54,16 +54,16 @@ export class LoggerConfig {
   readonly fluent?: FluentConfig;
 
   transports(appConfig: AppConfigs): any[] {
-    const applied_transports = [];
+    const appliedTransports = [];
 
     if (this.fluent?.enabled) {
       const fluentTransport = support.winstonTransport();
       const tag = `${appConfig.name}-${appConfig.env}`;
-      applied_transports.push(new fluentTransport(tag, this.fluent));
+      appliedTransports.push(new fluentTransport(tag, this.fluent));
     }
 
     if (this.console?.enabled) {
-      applied_transports.push(
+      appliedTransports.push(
         new winston.transports.Console({
           level: this.console.level,
           format: winston.format.combine(
@@ -77,7 +77,7 @@ export class LoggerConfig {
         }),
       );
     }
-    return applied_transports;
+    return appliedTransports;
   }
 
   ignoredRoutes(): string[] {
@@ -89,6 +89,7 @@ export class LoggerConfig {
       '/common/auth/signin',
       '/common/auth/signup',
       '/common/auth/refresh-token',
+      '/attachments',
     ];
   }
 }

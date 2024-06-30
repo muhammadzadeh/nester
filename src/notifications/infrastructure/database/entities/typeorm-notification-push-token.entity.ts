@@ -3,13 +3,13 @@ import { NotificationPushTokenEntity, PushProvider } from '../../../domain/entit
 
 @Entity({ name: 'notification_push_tokens' })
 export class TypeormNotificationPushTokenEntity {
-  @PrimaryGeneratedColumn('uuid', {primaryKeyConstraintName: 'PK_NOTIFICATION_PUSH_TOKENS_ID'})
+  @PrimaryGeneratedColumn('uuid', { primaryKeyConstraintName: 'notification_push_tokens_id_pkey' })
   id!: string;
 
   @Column({ type: 'uuid', name: 'user_id' })
   userId!: string;
 
-  @Column({ type: 'varchar'})
+  @Column({ type: 'varchar' })
   token!: string;
 
   @Column({ type: 'enum', enum: PushProvider, default: PushProvider.FCM })

@@ -1,6 +1,5 @@
 import { Body, Post } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
-import { Captcha } from '../../../common/captcha/decorators';
 import { CommonController } from '../../../common/guards/decorators';
 import { DoneResponse, Serializer } from '../../../common/serialization';
 import { AuthService } from '../../application/services/auth.service';
@@ -19,6 +18,7 @@ import {
   SignupByOtpDto,
   VerifyDto,
 } from './dtos';
+import { Captcha } from '../../../common/captcha/infrastructure/web/decorators';
 
 @IgnoreAuthorizationGuard()
 @ApiTags('Authentication')

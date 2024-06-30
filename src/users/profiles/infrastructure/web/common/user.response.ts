@@ -29,14 +29,12 @@ export class UserResponse {
 
   @ApiProperty({
     type: String,
-    name: 'id',
   })
   @Type(() => String)
   readonly id!: UserId;
 
   @ApiProperty({
     type: String,
-    name: 'first_name',
     nullable: true,
   })
   @Type(() => String)
@@ -44,7 +42,6 @@ export class UserResponse {
 
   @ApiProperty({
     type: String,
-    name: 'last_name',
     nullable: true,
   })
   @Type(() => String)
@@ -52,7 +49,6 @@ export class UserResponse {
 
   @ApiProperty({
     type: String,
-    name: 'full_name',
     nullable: true,
   })
   @Type(() => String)
@@ -60,7 +56,6 @@ export class UserResponse {
 
   @ApiProperty({
     type: String,
-    name: 'email',
     nullable: true,
   })
   @Type(() => String)
@@ -68,7 +63,6 @@ export class UserResponse {
 
   @ApiProperty({
     type: String,
-    name: 'mobile',
     nullable: true,
   })
   @Type(() => String)
@@ -76,7 +70,6 @@ export class UserResponse {
 
   @ApiProperty({
     type: String,
-    name: 'avatar_id',
     nullable: true,
   })
   @Type(() => String)
@@ -84,7 +77,6 @@ export class UserResponse {
 
   @ApiProperty({
     type: String,
-    name: 'avatar',
     nullable: true,
   })
   @Type(() => String)
@@ -92,7 +84,6 @@ export class UserResponse {
 
   @ApiProperty({
     type: String,
-    name: 'username',
     nullable: true,
   })
   @Type(() => String)
@@ -100,28 +91,24 @@ export class UserResponse {
 
   @ApiProperty({
     type: Boolean,
-    name: 'is_blocked',
   })
   @Type(() => Boolean)
   readonly isBlocked!: boolean;
 
   @ApiProperty({
     type: Boolean,
-    name: 'is_email_verified',
   })
   @Type(() => Boolean)
   readonly isEmailVerified!: boolean;
 
   @ApiProperty({
     type: Boolean,
-    name: 'is_mobile_verified',
   })
   @Type(() => Boolean)
   readonly isMobileVerified!: boolean;
 
   @ApiProperty({
     type: String,
-    name: 'role_id',
     nullable: true,
   })
   @Type(() => String)
@@ -129,14 +116,12 @@ export class UserResponse {
 
   @ApiProperty({
     type: Date,
-    name: 'created_at',
   })
   @Type(() => Date)
   readonly createdAt!: Date;
 
   @ApiProperty({
     type: Date,
-    name: 'updated_at',
     nullable: true,
   })
   @Type(() => Date)
@@ -144,7 +129,6 @@ export class UserResponse {
 
   @ApiProperty({
     type: Date,
-    name: 'deleted_at',
     nullable: true,
   })
   @Type(() => Date)
@@ -152,7 +136,6 @@ export class UserResponse {
 
   @ApiProperty({
     type: Date,
-    name: 'last_logged_in_at',
     nullable: true,
   })
   @Type(() => Date)
@@ -160,7 +143,6 @@ export class UserResponse {
 
   @ApiProperty({
     type: Date,
-    name: 'password_updated_at',
     nullable: true,
   })
   @Type(() => Date)

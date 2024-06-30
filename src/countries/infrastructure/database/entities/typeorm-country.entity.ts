@@ -14,7 +14,7 @@ import { TypeormStateEntity } from './typeorm-state.entity';
   name: 'countries',
 })
 export class TypeormCountryEntity {
-  @PrimaryGeneratedColumn('uuid', { primaryKeyConstraintName: 'PK_COUNTRIES' })
+  @PrimaryGeneratedColumn('uuid', { primaryKeyConstraintName: 'countries_id_pkey' })
   readonly id!: string;
 
   @Column({ type: 'varchar' })

@@ -5,7 +5,7 @@ import { Permission, RoleEntity } from '../../../domain/entities/role.entity';
   name: 'roles',
 })
 export class TypeormRoleEntity {
-  @PrimaryGeneratedColumn('uuid', { primaryKeyConstraintName: 'PK_ROLES_ID' })
+  @PrimaryGeneratedColumn('uuid', { primaryKeyConstraintName: 'roles_id_pkey' })
   readonly id!: string;
 
   @Column({ type: 'varchar', name: 'title' })

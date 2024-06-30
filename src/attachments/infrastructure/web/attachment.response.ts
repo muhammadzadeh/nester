@@ -27,7 +27,6 @@ export class AttachmentResponse {
     type: MimeTypeResponse,
     description: 'The attachment mime type',
     example: { ext: 'pdf', mime: 'application/pdf' },
-    name: 'mime_type',
   })
   @Type(() => MimeTypeResponse)
   readonly mimeType!: MimeTypeResponse | null;
@@ -45,7 +44,6 @@ export class AttachmentResponse {
     type: Date,
     description: 'The attachment creation date',
     example: new Date(),
-    name: 'created_at',
   })
   @Type(() => Date)
   readonly createdAt!: Date;

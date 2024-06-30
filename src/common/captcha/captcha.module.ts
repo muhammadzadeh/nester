@@ -1,28 +1,35 @@
-import { HttpModule, HttpService } from '@nestjs/axios';
+import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { Configuration } from '../config';
-import { CaptchaGuard } from './guards';
-
-import { ICaptcha, Recaptcha } from './providers';
-import { IsRecaptchaValidConstraint } from './validations';
-
-const captchaProvider = {
-  provide: ICaptcha,
-  inject: [Configuration, HttpService],
-  useFactory: (config: Configuration, httpService: HttpService): Recaptcha => {
-    switch (config.captcha!.provider) {
-      case 'recaptcha':
-        return new Recaptcha(config, httpService);
-      default:
-        return new Recaptcha(config, httpService);
-    }
-  },
-};
+import { CAPTCHA_PROVIDER_TOKEN, CaptchaProvider } from './application/captcha-provider';
+import { Recaptcha } from './infrastructure/providers/recaptcha';
+import { CaptchaGuard } from './infrastructure/web/guard';
 
 @Module({
   imports: [HttpModule],
   controllers: [],
-  providers: [captchaProvider, IsRecaptchaValidConstraint, CaptchaGuard],
+  providers: [
+    {
+      provide: CAPTCHA_PROVIDER_TOKEN,
+      inject: [Configuration],
+      useFactory: (config: Configuration): CaptchaProvider => {
+        switch (config.captcha!.provider) {
+          case 'recaptcha':
+            return new Recaptcha({
+              enabled: config.captcha!.enabled,
+              secret: config.captcha!.recaptcha.secret!,
+            });
+
+          default:
+            return new Recaptcha({
+              enabled: config.captcha!.enabled,
+              secret: config.captcha!.recaptcha.secret!,
+            });
+        }
+      },
+    },
+    CaptchaGuard,
+  ],
   exports: [],
 })
 export class CaptchaModule {}

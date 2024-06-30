@@ -160,7 +160,6 @@ Configurations for captcha verification to protect the application from automate
   - `enabled`: Enables or disables captcha functionality. Useful for adding an extra layer of security during user interactions such as login, registration, or form submissions.
   - `provider`: Specifies the captcha provider. Options include `recaptcha` and `hcaptcha`, allowing the application to use Google's reCAPTCHA or hCaptcha for bot detection.
   - `recaptcha`: Configuration specific to reCAPTCHA.
-    - `verifyUrl`: The URL used to verify the captcha response with Google's reCAPTCHA service.
     - `secret`: The secret key for communicating with the reCAPTCHA service, used to authenticate the application's captcha requests.
 
 ## Logger

@@ -36,7 +36,7 @@ export class AttachmentsController {
     for await (const file of uploadedFiles) {
       files.push({
         buffer: await file.toBuffer(),
-        name: file.fieldname,
+        name: file.filename,
       });
     }
 

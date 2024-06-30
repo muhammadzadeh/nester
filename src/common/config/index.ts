@@ -8,29 +8,29 @@ import * as VaultClient from 'node-vault';
 const configProvider = {
   provide: RootConfig,
   useFactory: async (): Promise<RootConfig> => {
-    const default_config_loader = new DefaultConfigLoaderService('config.yml');
+    const defaultConfigLoader = new DefaultConfigLoaderService('config.yml');
 
-    const default_config = default_config_loader.getMappedConfig<RootConfig>();
-    const { vault: vault_config, app: app_config } = default_config;
-    let merged_config = default_config;
+    const defaultConfig = defaultConfigLoader.getMappedConfig<RootConfig>();
+    const { vault: vaultConfig, app: appConfig } = defaultConfig;
+    let mergedConfig = defaultConfig;
 
-    if (vault_config) {
-      const vault_client = VaultClient.default({
-        endpoint: vault_config.host,
-        token: vault_config.token,
+    if (vaultConfig) {
+      const vaultClient = VaultClient.default({
+        endpoint: vaultConfig.host,
+        token: vaultConfig.token,
       });
 
-      const defaultPath = `${vault_config.backend}/data/${app_config.name}/${app_config.env}`;
-      const vault_service = new VaultService(vault_client, defaultPath);
-      const vault_stored_configs = await vault_service.read<RootConfig>();
-      merged_config = mergeObjects(default_config, vault_stored_configs);
+      const defaultPath = `${vaultConfig.backend}/data/${appConfig.name}/${appConfig.env}`;
+      const vaultService = new VaultService(vaultClient, defaultPath);
+      const vaultStoredConfigs = await vaultService.read<RootConfig>();
+      mergedConfig = mergeObjects(defaultConfig, vaultStoredConfigs);
     }
 
-    const config_instance = plainToInstance(RootConfig, merged_config);
+    const configInstance = plainToInstance(RootConfig, mergedConfig);
 
-    config_instance.validate();
+    configInstance.validate();
 
-    return config_instance;
+    return configInstance;
   },
 };
 

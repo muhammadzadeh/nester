@@ -12,13 +12,13 @@ export interface RedisCache extends Cache {
 
 @Injectable()
 export class CacheService {
-  private readonly redis_client: Redis;
+  private readonly redisClient: Redis;
 
   constructor(@Inject(CACHE_MANAGER) cacheManager: RedisCache) {
-    this.redis_client = cacheManager.store.getClient();
+    this.redisClient = cacheManager.store.getClient();
   }
 
   getRedisClient(): Redis {
-    return this.redis_client;
+    return this.redisClient;
   }
 }

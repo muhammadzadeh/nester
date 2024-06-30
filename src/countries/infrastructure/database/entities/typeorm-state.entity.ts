@@ -17,7 +17,7 @@ import { TypeormCountryEntity } from './typeorm-country.entity';
   name: 'states',
 })
 export class TypeormStateEntity {
-  @PrimaryGeneratedColumn('uuid', { primaryKeyConstraintName: 'PK_STATES' })
+  @PrimaryGeneratedColumn('uuid', { primaryKeyConstraintName: 'states_id_pkey' })
   readonly id!: string;
 
   @Column({ type: 'uuid', name: 'country_id' })
@@ -43,7 +43,7 @@ export class TypeormStateEntity {
 
   @ManyToOne(() => TypeormCountryEntity, (country) => country.states, { onDelete: 'CASCADE' })
   @JoinColumn({
-    foreignKeyConstraintName: 'FK_STATES_COUNTRIES_ID',
+    foreignKeyConstraintName: 'states_country_id_countries_id_fkey',
     name: 'country_id',
   })
   readonly country!: TypeormCountryEntity | null;

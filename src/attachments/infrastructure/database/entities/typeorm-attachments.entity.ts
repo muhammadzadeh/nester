@@ -13,7 +13,7 @@ import { AttachmentEntity, AttachmentVisibility, MimeType } from '../../../domai
 
 @Entity({ name: 'attachments' })
 export class TypeormAttachmentEntity {
-  @PrimaryGeneratedColumn('uuid', { primaryKeyConstraintName: 'PK_ATTACHMENTS_ID' })
+  @PrimaryGeneratedColumn('uuid', { primaryKeyConstraintName: 'attachments_id_pkey' })
   id!: AttachmentId;
 
   @DeleteDateColumn({ name: 'deleted_at' })
@@ -44,7 +44,7 @@ export class TypeormAttachmentEntity {
   size!: number;
 
   @Column({ type: 'uuid', name: 'uploader_id' })
-  @Index('IDX_ATTACHMENTS_UPLOADER_ID')
+  @Index('attachments_uploader_id_idx')
   uploaderId!: UserId;
 
   @Column({ type: 'boolean', name: 'is_draft' })
@@ -54,7 +54,7 @@ export class TypeormAttachmentEntity {
   isShared!: boolean;
 
   @Column({ type: 'varchar', nullable: true, name: 'share_token' })
-  @Index('IDX_ATTACHMENTS_SHARE_TOKEN')
+  @Index('attachments_uploader_share_token_idx')
   shareToken!: string | null;
 
   static toAttachmentEntity(item: TypeormAttachmentEntity): AttachmentEntity {

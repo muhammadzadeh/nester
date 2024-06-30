@@ -22,7 +22,7 @@ import {
 
 @Entity({ name: 'notifications' })
 export class TypeormNotificationEntity {
-  @PrimaryGeneratedColumn('uuid', { primaryKeyConstraintName: 'PK_NOTIFICATIONS_ID' })
+  @PrimaryGeneratedColumn('uuid', { primaryKeyConstraintName: 'notifications_id_pkey' })
   id!: string;
 
   @Column({ type: 'varchar' })
@@ -32,11 +32,11 @@ export class TypeormNotificationEntity {
   version!: string;
 
   @Column({ type: 'uuid', name: 'user_id', nullable: true })
-  @Index('IDX_NOTIFICATIONS_USER_ID')
+  @Index('notifications_user_id_idx')
   userId!: string | null;
 
   @Column({ type: 'enum', enum: NotificationStatus, default: NotificationStatus.NOT_READ })
-  @Index('IDX_NOTIFICATIONS_STATUS')
+  @Index('notifications_status_idx')
   status!: NotificationStatus;
 
   @Column({ type: 'enum', enum: NotificationGroupType, name: 'group_type' })

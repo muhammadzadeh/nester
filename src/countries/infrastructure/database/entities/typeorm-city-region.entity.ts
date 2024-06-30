@@ -15,7 +15,7 @@ import { TypeormCityEntity } from './typeorm-city.entity';
   name: 'city_regions',
 })
 export class TypeormCityRegionEntity {
-  @PrimaryGeneratedColumn('uuid', { primaryKeyConstraintName: 'PK_CITY_REGIONS' })
+  @PrimaryGeneratedColumn('uuid', { primaryKeyConstraintName: 'city_regions_id_pkey' })
   readonly id!: string;
 
   @Column({ type: 'uuid', name: 'city_id' })
@@ -35,7 +35,7 @@ export class TypeormCityRegionEntity {
 
   @ManyToOne(() => TypeormCityEntity, (city) => city.regions, { onDelete: 'CASCADE' })
   @JoinColumn({
-    foreignKeyConstraintName: 'FK_CITY_REGIONS_CITIES_ID',
+    foreignKeyConstraintName: 'city_regions_city_id_cities_id_fkey',
     name: 'city_id',
   })
   readonly city!: TypeormCityEntity | null;

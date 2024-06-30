@@ -11,9 +11,9 @@ export enum RequestScope {
 }
 
 export enum ControllerType {
-  ADMIN = 'GUARD:TYPE:ADMIN',
-  USER = 'GUARD:TYPE:USER',
-  COMMON = 'GUARD:TYPE:COMMON',
+  ADMIN = 'admin',
+  USER = 'user',
+  COMMON = 'common',
 }
 
 export const TENANT_CONFIG = {

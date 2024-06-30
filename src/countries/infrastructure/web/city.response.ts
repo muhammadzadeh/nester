@@ -12,14 +12,12 @@ export class CityResponse {
 
   @ApiProperty({
     type: String,
-    name: 'id',
   })
   @Type(() => String)
   readonly id!: string;
 
   @ApiProperty({
     type: String,
-    name: 'name',
   })
   @Type(() => String)
   readonly name!: string;

@@ -22,7 +22,6 @@ export class PaginationMetaResponse {
     type: Number,
     description: 'Items count per page',
     example: 20,
-    name: 'page_size',
   })
   @Type(() => Number)
   pageSize: number;
@@ -31,7 +30,6 @@ export class PaginationMetaResponse {
     type: Number,
     description: 'Current Page',
     example: 1,
-    name: 'current_page',
   })
   @Type(() => Number)
   currentPage: number;
@@ -40,7 +38,6 @@ export class PaginationMetaResponse {
     type: Number,
     description: 'Last page number',
     example: 100,
-    name: 'last_page',
   })
   @Type(() => Number)
   lastPage: number;

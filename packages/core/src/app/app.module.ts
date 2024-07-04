@@ -6,7 +6,6 @@ import { TerminusModule } from '@nestjs/terminus';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Queue } from 'bull';
-import typeormOptions from '../common/typeorm';
 import { WinstonModule } from 'nest-winston';
 import { AcceptLanguageResolver, HeaderResolver, I18nModule, QueryResolver } from 'nestjs-i18n';
 import { join } from 'node:path';
@@ -45,7 +44,14 @@ import { ProfileModule } from '../users/profiles/infrastructure/profiles.module'
     }),
     TypeOrmModule.forRootAsync({
       inject: [Configuration],
-      useFactory: (configService: Configuration) => ({ ...configService.database, ...typeormOptions }),
+      useFactory: (configService: Configuration) => ({
+        ...configService.database,
+        entities: [join(__dirname, '../**/entities/*.entity.js')],
+        synchronize: false,
+        subscribers: [join(__dirname, '../**/entities/*.entity.js')],
+        migrations: [join(__dirname, '../**/migration/*.js')],
+        migrationsRun: true,
+      }),
     }),
     BullModule.forRootAsync({
       inject: [Configuration],

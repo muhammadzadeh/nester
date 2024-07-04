@@ -1,0 +1,18 @@
+{
+  "extends": "../tsconfig.build.json",
+  "compilerOptions": {
+    "outDir": "../../dist/core",
+    "baseUrl": ".",
+    "composite": true,
+    "paths": {
+      "@nester/common": ["../common/src"],
+      "@nester/common/*": ["../common/src/*"]
+    }
+  },
+  "files": ["src/i18n/en/messages.json"],
+  "references": [
+    {
+      "path": "../common/tsconfig.lib.json"
+    }
+  ]
+}

@@ -16,5 +16,6 @@
     "cSpell.words": [
         "jwtid",
         "Kavenegar"
-    ]
+    ],
+    "git.ignoreLimitWarning": true
 }

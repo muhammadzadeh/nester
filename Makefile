@@ -1,7 +1,7 @@
 NODE_BIN_PATH := $(abspath node_modules/.bin)
 TYPEORM := node ./node_modules/typeorm/cli.js
-TYPEORM_CFG := -d dist/typeorm-config
-TS_SRC = $(shell find ./src -type f -name '*.ts')
+TYPEORM_CFG := -d dist/core/typeorm-config
+TS_SRC = $(shell find ./packages -type f -name '*.ts')
 
 WATCH ?= true
 DEBUG ?= false
@@ -13,7 +13,7 @@ node_modules: node_modules/.bin ## Install NPM dependecies
 
 dist: $(TS_SRC) node_modules
 	rm -rf dist
-	$(NODE_BIN_PATH)/nest build $(if $(filter-out "test","$(NODE_ENV)"),,-p tsconfig.test.json)
+	$(NODE_BIN_PATH)/lerna run build $(if $(filter-out "test","$(NODE_ENV)"),,-p tsconfig.test.json)
 
 .lint:
 	$(NODE_BIN_PATH)/eslint "src/**/*.ts" $(if $(FIX),--fix,)
@@ -36,7 +36,7 @@ check-migration: db-upgrade ## Check for remaining migrations
 	) && exit 1 || true
 
 run: node_modules ## Run app
-	$(NODE_BIN_PATH)/nest start $(if $(WATCH),--watch,) $(if $(debug),--debug,)
+	$(NODE_BIN_PATH)/lerna run start:dev
 
 build: dist ## Compile and Build Project
 

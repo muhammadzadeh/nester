@@ -1,5 +1,5 @@
-FROM node:lts-bullseye-slim AS builder
-    
+FROM node:22.1.0-bullseye-slim AS builder
+
 USER root
 
 WORKDIR /app
@@ -20,8 +20,7 @@ COPY --chown=node:node . .
 
 RUN npm run build
 
-#FROM gcr.io/distroless/nodejs AS runner
-FROM node:lts-bullseye-slim AS runner
+FROM node:22.1.0-bullseye-slim AS runner
 
 WORKDIR /app
 

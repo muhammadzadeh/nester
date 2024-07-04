@@ -1,0 +1,8 @@
+{
+  "name": "@nester/common",
+  "scripts": {
+    "build": "tsc -b"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

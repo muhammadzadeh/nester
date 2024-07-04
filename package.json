@@ -1,49 +1,14 @@
 {
   "name": "nester",
-  "version": "0.0.1",
   "description": "This project is a fantastic starting point for anyone looking to kick off a new project using **NestJS**. It comes with some pre-written code to help you get started quickly, and it includes features for authentication, notifications, attachments, and user management.",
   "author": "muhammadzadeh",
-  "private": false,
-  "license": "UNLICENSED",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
   "engines": {
-    "node": "v20.11.0",
-    "npm": "v10.2.4"
-  },
-  "jest": {
-    "preset": "ts-jest",
-    "rootDir": "src",
-    "coverageDirectory": "../coverage",
-    "moduleDirectories": [
-      "node_modules",
-      "src"
-    ],
-    "coverageReporters": [
-      "text",
-      "text-summary",
-      "json"
-    ],
-    "testEnvironment": "node",
-    "globalSetup": "./common/test-pre.ts",
-    "verbose": false,
-    "setupFiles": [
-      "./common/test-setup.ts"
-    ]
-  },
-  "scripts": {
-    "prebuild": "rimraf dist",
-    "build": "nest build",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start": "nest start",
-    "start:dev": "nest start --watch",
-    "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/main",
-    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:cov": "jest --coverage",
-    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json",
-    "typeorm": "typeorm-ts-node-commonjs"
+    "node": "v22.1.0",
+    "npm": "v10.7.0"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.600.0",
@@ -102,6 +67,7 @@
     "winston": "^3.13.0"
   },
   "devDependencies": {
+    "lerna": "^8.1.5",
     "@golevelup/ts-jest": "^0.4.0",
     "@nestjs/cli": "^10.3.2",
     "@nestjs/schematics": "^10.1.1",

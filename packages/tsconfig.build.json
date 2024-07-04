@@ -8,8 +8,6 @@
     "allowSyntheticDefaultImports": true,
     "target": "ES2022",
     "sourceMap": true,
-    "outDir": "dist",
-    "baseUrl": ".",
     "incremental": true,
     "strict": true,
     "noFallthroughCasesInSwitch": true,
@@ -26,13 +24,6 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "resolveJsonModule": true,
-    "paths": {
-      "@nester/common": ["./packages/common"],
-      "@nester/common/*": ["./packages/common/*"],
-      "@nester/core": ["./packages/core"],
-      "@nester/core/*": ["./packages/core/*"]
-    }
   },
-  "include": ["packages/**/*"],
   "exclude": ["node_modules", "dist/**/*", "**/*.spec.ts"]
 }

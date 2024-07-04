@@ -1,6 +1,8 @@
 {
   "collection": "@nestjs/schematics",
-  "sourceRoot": "src",
+  "sourceRoot": "packages/core/src",
+  "monorepo": true,
+  "root": "packages/core",
   "compilerOptions": {
     "plugins": [
       {
@@ -13,8 +15,26 @@
         }
       }
     ],
-    "assets": [
-      { "include": "i18n/**/*", "watchAssets": true }
-    ]
+    "tsConfigPath": "packages/core/tsconfig.app.json"
+  },
+  "projects": {
+    "common": {
+      "type": "library",
+      "root": "packages/common",
+      "entryFile": "index",
+      "sourceRoot": "packages/common/src",
+      "compilerOptions": {
+        "tsConfigPath": "packages/common/tsconfig.lib.json"
+      }
+    },
+    "core": {
+      "type": "application",
+      "root": "packages/core",
+      "entryFile": "main",
+      "sourceRoot": "packages/core/src",
+      "compilerOptions": {
+        "tsConfigPath": "packages/core/tsconfig.app.json"
+      }
+    }
   }
 }

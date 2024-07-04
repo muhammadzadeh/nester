@@ -201,7 +201,8 @@ export type PushNotificationPayload = MulticastMessage;
 
 export type SmsNotificationPayload = {
   to: Mobile;
-  code: string;
+  message: string;
+  template: string;
 };
 
 export enum NotificationEvent {

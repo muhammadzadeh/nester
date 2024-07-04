@@ -1,10 +1,21 @@
-import { IsDefined, IsIn, IsString } from 'class-validator';
+import { Type } from 'class-transformer';
+import { IsDefined, IsIn, IsString, ValidateIf, ValidateNested } from 'class-validator';
 
-export class SmsSenderConfig<T = 'local'> {
-  readonly logger = true;
-
+export class KavenegarConfig {
   @IsDefined()
   @IsString()
-  @IsIn(['local'])
+  readonly apiKey!: string;
+}
+
+export class SmsSenderConfig<T = 'local' | 'kavenegar'> {
+  @IsDefined()
+  @IsString()
+  @IsIn(['local', 'kavenegar'])
   readonly provider!: T;
+
+  @IsDefined()
+  @ValidateNested()
+  @ValidateIf((obj) => obj.provider == 'kavenegar')
+  @Type(() => KavenegarConfig)
+  readonly kavenegar!: KavenegarConfig;
 }

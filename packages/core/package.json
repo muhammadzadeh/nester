@@ -22,6 +22,5 @@
     "typeorm": "typeorm-ts-node-commonjs"
   },
   "dependencies": {
-    "@nester/common": "*"
   }
 }

@@ -5,8 +5,8 @@
     "baseUrl": ".",
     "composite": true,
     "paths": {
-      "@nestjs/common": ["../common"],
-      "@nestjs/common/*": ["../common/*"]
+      "@nester/common": ["../common/src"],
+      "@nester/common/*": ["../common/src/*"]
     }
   },
   "references": [

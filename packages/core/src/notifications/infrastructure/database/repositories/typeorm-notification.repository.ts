@@ -4,7 +4,6 @@ import { Repository } from 'typeorm';
 import { SelectQueryBuilder } from 'typeorm/browser';
 import { MIN_PAGE_NUMBER, MIN_PAGE_SIZE } from '../../../../common/constants';
 import { Pagination } from '../../../../common/database';
-import { OrderDir } from '../../../../common/types';
 import { NotificationEntity } from '../../../domain/entities/notification.entity';
 import {
   FindNotificationData,
@@ -13,6 +12,7 @@ import {
   NotificationsRepository,
 } from '../../../domain/repositories/notifications.repository';
 import { TypeormNotificationEntity } from '../entities/typeorm-notification.entity';
+import { OrderDir } from '@nester/common';
 
 @Injectable()
 export class TypeormNotificationsRepository implements NotificationsRepository {

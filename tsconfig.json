@@ -31,5 +31,6 @@
       "@nester/core/*": ["./packages/core/*"]
     }
   },
+  "include": ["packages/**/*"],
   "exclude": ["node_modules", "dist/**/*", "**/*.spec.ts"]
 }

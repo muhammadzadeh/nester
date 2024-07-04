@@ -1,14 +1,17 @@
 {
-    "extends": "./tsconfig.json",
-    "compilerOptions": {
-      "outDir": ".",
-      "rootDir": ".",
-      "paths": {
-      }
-    },
-    "exclude": ["node_modules", "dist", "test/**/*", "*.spec.ts"],
-    "references": [
-      {
-      }
-    ]
-  }
+  "extends": "../tsconfig.build.json",
+  "compilerOptions": {
+    "outDir": "../../dist/core",
+    "rootDir": ".",
+    "paths": {
+      //"@nestjs/common": ["../common"],
+     // "@nestjs/common/*": ["../common/*"],
+    }
+  },
+  "exclude": ["node_modules", "dist", "test/**/*", "*.spec.ts"],
+  "references": [
+    {
+      "path": "../common/tsconfig.build.json"
+    }
+  ]
+}

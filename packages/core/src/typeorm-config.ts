@@ -1,5 +1,5 @@
 import { Configuration } from './common/config';
-import typeormOptions from 'common/typeorm';
+import typeormOptions from './common/typeorm';
 import { plainToInstance } from 'class-transformer';
 import { DataSource } from 'typeorm';
 import { PostgresQueryRunner } from 'typeorm/driver/postgres/PostgresQueryRunner';

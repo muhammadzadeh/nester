@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "module": "NodeNext",
+    "composite": true,
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
@@ -27,6 +28,8 @@
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "paths": {
+      "@nester/common": ["./packages/common"],
+      "@nester/common/*": ["./packages/common/*"],
       "@nester/core": ["./packages/core"],
       "@nester/core/*": ["./packages/core/*"]
     }

@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "module": "NodeNext",
-    "composite": true,
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,

@@ -1,10 +1,10 @@
-import { OrderDir } from '@nester/common';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { SelectQueryBuilder } from 'typeorm/browser';
 import { MIN_PAGE_NUMBER, MIN_PAGE_SIZE } from '../../../../common/constants';
 import { Pagination } from '../../../../common/database';
+import { OrderDir } from '../../../../common/types';
 import { NotificationEntity } from '../../../domain/entities/notification.entity';
 import {
   FindNotificationData,

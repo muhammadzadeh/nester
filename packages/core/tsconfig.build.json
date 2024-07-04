@@ -2,6 +2,8 @@
   "extends": "../tsconfig.build.json",
   "compilerOptions": {
     "outDir": "../../dist/core",
+    "baseUrl": ".",
+    "composite": true,
     "paths": {
       "@nestjs/common": ["../common"],
       "@nestjs/common/*": ["../common/*"]

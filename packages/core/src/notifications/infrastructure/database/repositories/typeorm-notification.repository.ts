@@ -1,8 +1,10 @@
+import { OrderDir } from '@nester/common';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { SelectQueryBuilder } from 'typeorm/browser';
-import { MIN_PAGE_SIZE, MIN_PAGE_NUMBER } from '../../../../common/constants';
+import { MIN_PAGE_NUMBER, MIN_PAGE_SIZE } from '../../../../common/constants';
+import { Pagination } from '../../../../common/database';
 import { NotificationEntity } from '../../../domain/entities/notification.entity';
 import {
   FindNotificationData,
@@ -11,8 +13,6 @@ import {
   NotificationsRepository,
 } from '../../../domain/repositories/notifications.repository';
 import { TypeormNotificationEntity } from '../entities/typeorm-notification.entity';
-import { Pagination } from '../../../../common/database';
-import { OrderDir } from '../../../../common/types';
 
 @Injectable()
 export class TypeormNotificationsRepository implements NotificationsRepository {
@@ -110,7 +110,9 @@ export class TypeormNotificationsRepository implements NotificationsRepository {
     }
 
     if (options.alertStatuses) {
-      queryBuilder.andWhere(`notification.alertStatus IN (:...alertStatuses)`, { alertStatuses: options.alertStatuses });
+      queryBuilder.andWhere(`notification.alertStatus IN (:...alertStatuses)`, {
+        alertStatuses: options.alertStatuses,
+      });
     }
 
     if (options.showAsAlert) {

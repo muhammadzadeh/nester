@@ -2,10 +2,21 @@
   "files": [],
   "references": [
     {
-      "path": "./common/tsconfig.build.json"
+      "path": "./common/tsconfig.lib.json"
     },
     {
       "path": "./core/tsconfig.build.json"
     }
-  ]
+  ],
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@nester/hi/my-library": [
+        "libs/my-library/src"
+      ],
+      "@nester/hi/my-library/*": [
+        "libs/my-library/src/*"
+      ]
+    }
+  }
 }

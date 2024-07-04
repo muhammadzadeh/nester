@@ -9,7 +9,7 @@
   },
   "references": [
     {
-      "path": "../common/tsconfig.build.json"
+      "path": "../common/tsconfig.lib.json"
     }
   ]
 }

@@ -1,5 +1,5 @@
 {
-  "name": "core",
+  "name": "@nester/core",
   "version": "0.0.1",
   "description": "This project is a fantastic starting point for anyone looking to kick off a new project using **NestJS**. It comes with some pre-written code to help you get started quickly, and it includes features for authentication, notifications, attachments, and user management.",
   "author": "muhammadzadeh",
@@ -22,7 +22,6 @@
     "typeorm": "typeorm-ts-node-commonjs"
   },
   "dependencies": {
-  },
-  "devDependencies": {
+    "@nester/common": "*"
   }
 }

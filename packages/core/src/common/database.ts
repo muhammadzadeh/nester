@@ -1,6 +1,6 @@
+import { OrderDir } from '@nester/common';
 import { Injectable, SetMetadata, applyDecorators } from '@nestjs/common';
 import { EntityManager } from 'typeorm';
-import { OrderDir } from './types';
 
 export abstract class BaseRepository<T> {
   abstract attachToTransaction(entityManager?: EntityManager): T;

@@ -9,6 +9,7 @@
       "@nester/common/*": ["../common/src/*"]
     }
   },
+  "files": ["src/i18n/en/messages.json"],
   "references": [
     {
       "path": "../common/tsconfig.lib.json"

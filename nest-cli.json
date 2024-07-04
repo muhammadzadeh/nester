@@ -15,12 +15,6 @@
         }
       }
     ],
-    "assets": [
-      {
-        "include": "i18n/**/*",
-        "watchAssets": true
-      }
-    ],
     "tsConfigPath": "packages/core/tsconfig.app.json"
   },
   "projects": {

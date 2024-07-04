@@ -11,7 +11,7 @@ import { ThrottlerBehindProxyGuard } from '../guards/throttler-behind-proxy.guar
 
 export default (app: NestFastifyApplication): void => {
   const configService = app.get(Configuration);
-  const is_swagger_enabled = configService.swagger?.enabled;
+  const isSwaggerEnabled = configService.swagger?.enabled;
 
   app.useGlobalGuards(app.get(ThrottlerBehindProxyGuard));
   app.useGlobalGuards(app.get(AuthorizationGuard));
@@ -20,7 +20,7 @@ export default (app: NestFastifyApplication): void => {
   app.useGlobalGuards(app.get(IsUserEnableGuard));
   app.register(
     helmet,
-    is_swagger_enabled
+    isSwaggerEnabled
       ? {
           contentSecurityPolicy: {
             directives: {

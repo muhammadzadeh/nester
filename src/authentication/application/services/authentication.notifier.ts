@@ -42,8 +42,9 @@ export class AuthenticationNotifier {
     sendNotification({
       event: NotificationEvent.OTP_GENERATED,
       smsData: {
-        code: otp,
+        message: otp,
         to: data.mobile!,
+        template: 'verify'
       },
     });
   }

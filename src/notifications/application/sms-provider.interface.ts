@@ -9,5 +9,6 @@ export interface SmsSender {
 
 export interface SendSmsData {
   to: Mobile;
-  code: string;
+  message: string;
+  template: string;
 }

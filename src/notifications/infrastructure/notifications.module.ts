@@ -14,6 +14,7 @@ import { TypeormNotificationEntity } from './database/entities/typeorm-notificat
 import { TypeormNotificationPushTokensRepository } from './database/repositories/typeorm-notification-push-token.repository';
 import { TypeormNotificationsRepository } from './database/repositories/typeorm-notification.repository';
 import { LocalMailer, MailgunMailer, SendgridMailer } from './providers/email';
+import { KavenegarSmsSender } from './providers/sms/kavenegar';
 import { LocalSmsSender } from './providers/sms/local';
 import { NotificationController } from './web/notification.controller';
 
@@ -39,6 +40,10 @@ const smsProvider: Provider = {
   inject: [Configuration, HttpService],
   useFactory: (config: Configuration): SmsSender => {
     switch (config.smsSender?.provider) {
+      case 'kavenegar':
+        return new KavenegarSmsSender({
+          apiKey: config.smsSender.kavenegar.apiKey,
+        });
       case 'local':
         return new LocalSmsSender();
       default:

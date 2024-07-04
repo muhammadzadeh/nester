@@ -79,3 +79,5 @@ defaultUser:
   password: replace_me
 smsSender:
   provider: local
+  kavenegar:
+    apiKey: replace_me

@@ -4,11 +4,11 @@ import { Configuration } from '../config';
 
 export default (app: INestApplication): void => {
   const configuration = app.get(Configuration);
-  const { sentry: sentry_config, app: app_configs } = configuration;
+  const { sentry: sentryConfig, app: appConfigs } = configuration;
 
-  if (sentry_config == undefined || !sentry_config.enabled) {
+  if (sentryConfig == undefined || !sentryConfig.enabled) {
     return;
   }
 
-  Sentry.init({ ...sentry_config, environment: app_configs.env });
+  Sentry.init({ ...sentryConfig, environment: appConfigs.env });
 };

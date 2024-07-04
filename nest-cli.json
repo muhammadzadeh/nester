@@ -1,6 +1,8 @@
 {
   "collection": "@nestjs/schematics",
-  "sourceRoot": "src",
+  "sourceRoot": "packages/core/src",
+  "monorepo": true,
+  "root": "packages/core",
   "compilerOptions": {
     "plugins": [
       {
@@ -18,7 +20,8 @@
         "include": "i18n/**/*",
         "watchAssets": true
       }
-    ]
+    ],
+    "tsConfigPath": "packages/core/tsconfig.app.json"
   },
   "projects": {
     "common": {

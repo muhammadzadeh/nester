@@ -1,14 +1,4 @@
-import {
-  Column,
-  CreateDateColumn,
-  DeleteDateColumn,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  OneToMany,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { StateEntity } from '../../../domain/entities/state.entity';
 import { TypeormCityEntity } from './typeorm-city.entity';
 import { TypeormCountryEntity } from './typeorm-country.entity';
@@ -32,13 +22,13 @@ export class TypeormStateEntity {
   @Column({ type: 'varchar', nullable: true })
   readonly type!: null | string;
 
-  @CreateDateColumn({ name: 'created_at' })
+  @Column({ type: 'timestamptz', name: 'created_at', default: 'now()' })
   readonly createdAt!: Date;
 
-  @UpdateDateColumn({ name: 'updated_at' })
+  @Column({ type: 'timestamptz', name: 'updated_at', default: 'now()' })
   readonly updatedAt!: Date;
 
-  @DeleteDateColumn({ name: 'deleted_at' })
+  @Column({ type: 'timestamptz', nullable: true, name: 'deleted_at' })
   readonly deletedAt!: Date | null;
 
   @ManyToOne(() => TypeormCountryEntity, (country) => country.states, { onDelete: 'CASCADE' })

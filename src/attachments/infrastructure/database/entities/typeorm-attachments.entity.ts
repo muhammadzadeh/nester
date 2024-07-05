@@ -1,12 +1,4 @@
-import {
-  Column,
-  CreateDateColumn,
-  DeleteDateColumn,
-  Entity,
-  Index,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
 import { UserId } from '../../../../common/types';
 import { AttachmentId } from '../../../domain/entities/attachment-users.entity';
 import { AttachmentEntity, AttachmentVisibility, MimeType } from '../../../domain/entities/attachments.entity';
@@ -14,48 +6,48 @@ import { AttachmentEntity, AttachmentVisibility, MimeType } from '../../../domai
 @Entity({ name: 'attachments' })
 export class TypeormAttachmentEntity {
   @PrimaryGeneratedColumn('uuid', { primaryKeyConstraintName: 'attachments_id_pkey' })
-  id!: AttachmentId;
-
-  @DeleteDateColumn({ name: 'deleted_at' })
-  deletedAt!: Date | null;
-
-  @CreateDateColumn({ name: 'created_at' })
-  createdAt!: Date;
-
-  @UpdateDateColumn({ name: 'updated_at' })
-  updatedAt!: Date;
+  readonly id!: AttachmentId;
 
   @Column({ type: 'varchar', name: 'path' })
-  path!: string;
+  readonly path!: string;
 
   @Column({ type: 'varchar', name: 'name' })
-  name!: string;
+  readonly name!: string;
 
   @Column({ type: 'varchar', nullable: true, name: 'original_name' })
-  originalName!: string | null;
+  readonly originalName!: string | null;
 
   @Column({ type: 'enum', enum: AttachmentVisibility, name: 'visibility' })
-  visibility!: AttachmentVisibility;
+  readonly visibility!: AttachmentVisibility;
 
   @Column({ type: 'jsonb', nullable: true, name: 'mime_type' })
-  mimeType!: MimeType | null;
+  readonly mimeType!: MimeType | null;
 
   @Column({ type: 'int', name: 'size' })
-  size!: number;
+  readonly size!: number;
 
   @Column({ type: 'uuid', name: 'uploader_id' })
   @Index('attachments_uploader_id_idx')
-  uploaderId!: UserId;
+  readonly uploaderId!: UserId;
 
   @Column({ type: 'boolean', name: 'is_draft' })
-  isDraft!: boolean;
+  readonly isDraft!: boolean;
 
   @Column({ type: 'boolean', name: 'is_shared' })
-  isShared!: boolean;
+  readonly isShared!: boolean;
 
   @Column({ type: 'varchar', nullable: true, name: 'share_token' })
   @Index('attachments_uploader_share_token_idx')
-  shareToken!: string | null;
+  readonly shareToken!: string | null;
+
+  @Column({ type: 'timestamptz', name: 'created_at', default: 'now()' })
+  readonly createdAt!: Date;
+
+  @Column({ type: 'timestamptz', name: 'updated_at', default: 'now()' })
+  readonly updatedAt!: Date;
+
+  @Column({ type: 'timestamptz', nullable: true, name: 'deleted_at' })
+  readonly deletedAt!: Date | null;
 
   static toAttachmentEntity(item: TypeormAttachmentEntity): AttachmentEntity {
     return new AttachmentEntity(

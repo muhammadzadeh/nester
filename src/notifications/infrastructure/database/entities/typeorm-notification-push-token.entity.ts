@@ -1,28 +1,28 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { NotificationPushTokenEntity, PushProvider } from '../../../domain/entities/notification-push-token.entity';
 
 @Entity({ name: 'notification_push_tokens' })
 export class TypeormNotificationPushTokenEntity {
   @PrimaryGeneratedColumn('uuid', { primaryKeyConstraintName: 'notification_push_tokens_id_pkey' })
-  id!: string;
+  readonly id!: string;
 
   @Column({ type: 'uuid', name: 'user_id' })
-  userId!: string;
+  readonly userId!: string;
 
   @Column({ type: 'varchar' })
-  token!: string;
+  readonly token!: string;
 
   @Column({ type: 'enum', enum: PushProvider, default: PushProvider.FCM })
-  provider!: PushProvider;
+  readonly provider!: PushProvider;
 
-  @DeleteDateColumn({ name: 'deleted_at' })
-  deletedAt!: Date | null;
+  @Column({ type: 'timestamptz', name: 'created_at', default: 'now()' })
+  readonly createdAt!: Date;
 
-  @CreateDateColumn({ name: 'created_at' })
-  createdAt!: Date;
+  @Column({ type: 'timestamptz', name: 'updated_at', default: 'now()' })
+  readonly updatedAt!: Date;
 
-  @UpdateDateColumn({ name: 'updated_at' })
-  updatedAt!: Date;
+  @Column({ type: 'timestamptz', nullable: true, name: 'deleted_at' })
+  readonly deletedAt!: Date | null;
 
   static toNotificationPushTokenEntity(input: TypeormNotificationPushTokenEntity): NotificationPushTokenEntity {
     return new NotificationPushTokenEntity(

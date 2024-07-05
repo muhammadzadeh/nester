@@ -1,12 +1,4 @@
-import {
-  Column,
-  CreateDateColumn,
-  DeleteDateColumn,
-  Entity,
-  Index,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
 import {
   AlertStatus,
   EmailNotificationPayload,
@@ -23,57 +15,57 @@ import {
 @Entity({ name: 'notifications' })
 export class TypeormNotificationEntity {
   @PrimaryGeneratedColumn('uuid', { primaryKeyConstraintName: 'notifications_id_pkey' })
-  id!: string;
+  readonly id!: string;
 
   @Column({ type: 'varchar' })
-  event!: NotificationEvent;
+  readonly event!: NotificationEvent;
 
   @Column({ type: 'varchar', default: '1.0' })
-  version!: string;
+  readonly version!: string;
 
   @Column({ type: 'uuid', name: 'user_id', nullable: true })
   @Index('notifications_user_id_idx')
-  userId!: string | null;
+  readonly userId!: string | null;
 
   @Column({ type: 'enum', enum: NotificationStatus, default: NotificationStatus.NOT_READ })
   @Index('notifications_status_idx')
-  status!: NotificationStatus;
+  readonly status!: NotificationStatus;
 
   @Column({ type: 'enum', enum: NotificationGroupType, name: 'group_type' })
-  groupType!: NotificationGroupType;
+  readonly groupType!: NotificationGroupType;
 
   @Column({ type: 'enum', enum: NotificationPriority })
-  priority!: NotificationPriority;
+  readonly priority!: NotificationPriority;
 
   @Column({ type: 'enum', enum: AlertStatus, name: 'alert_status', default: AlertStatus.NONE })
-  alertStatus!: AlertStatus;
+  readonly alertStatus!: AlertStatus;
 
   @Column({ type: 'boolean', name: 'show_as_alert' })
-  showAsAlert!: boolean;
+  readonly showAsAlert!: boolean;
 
   @Column({ type: 'jsonb', name: 'notification_center_data', nullable: true })
-  notificationCenterData!: NotificationCenterData | null;
+  readonly notificationCenterData!: NotificationCenterData | null;
 
   @Column({ type: 'jsonb', nullable: true, name: 'email_data' })
-  emailData!: EmailNotificationPayload | null;
+  readonly emailData!: EmailNotificationPayload | null;
 
   @Column({ type: 'jsonb', nullable: true, name: 'push_data' })
-  pushData!: PushNotificationPayload | null;
+  readonly pushData!: PushNotificationPayload | null;
 
   @Column({ type: 'jsonb', nullable: true, name: 'sms_data' })
-  smsData!: SmsNotificationPayload | null;
+  readonly smsData!: SmsNotificationPayload | null;
 
-  @DeleteDateColumn({ name: 'deleted_at' })
-  deletedAt!: Date | null;
+  @Column({ type: 'timestamptz', nullable: true, name: 'read_at' })
+  readonly readAt!: Date | null;
 
-  @Column({ type: 'timestamptz', name: 'read_at', nullable: true })
-  readAt!: Date | null;
+  @Column({ type: 'timestamptz', name: 'created_at', default: 'now()' })
+  readonly createdAt!: Date;
 
-  @CreateDateColumn({ name: 'created_at' })
-  createdAt!: Date;
+  @Column({ type: 'timestamptz', name: 'updated_at', default: 'now()' })
+  readonly updatedAt!: Date;
 
-  @UpdateDateColumn({ name: 'updated_at' })
-  updatedAt!: Date;
+  @Column({ type: 'timestamptz', nullable: true, name: 'deleted_at' })
+  readonly deletedAt!: Date | null;
 
   static toNotificationEntity(input: TypeormNotificationEntity): NotificationEntity {
     return new NotificationEntity(

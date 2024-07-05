@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Pagination, PaginationOption } from '../../../common/database';
+import { now } from '../../../common/time';
 import { Email, Mobile, UserId, Username } from '../../../common/types';
 import { UserEntity, UserNotFoundException } from '../domain/entities/user.entity';
 import { FindUserOptions, UserOrderBy } from '../domain/repositories/users.repository';
@@ -77,7 +78,7 @@ export class UsersService {
 
   async updateLoggedInTime(user: UserEntity): Promise<void> {
     await this.updateProfile(user.id, {
-      lastLoggedInAt: new Date(),
+      lastLoggedInAt: now().toJSDate(),
     });
   }
 }

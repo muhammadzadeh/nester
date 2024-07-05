@@ -1,4 +1,5 @@
 import { randomUUID } from 'crypto';
+import { now } from '../../../../common/time';
 import { UserId } from '../../../../common/types';
 export class RoleEntity {
   constructor(title: string, permissions: Permission[]);
@@ -23,8 +24,8 @@ export class RoleEntity {
     this.id = id ?? randomUUID();
     this.title = title;
     this.permissions = permissions ?? [];
-    this.createdAt = createdAt ?? new Date();
-    this.updatedAt = updatedAt ?? new Date();
+    this.createdAt = createdAt ?? now().toJSDate();
+    this.updatedAt = updatedAt ?? now().toJSDate();
     this.deletedAt = deletedAt ?? null;
     this.isSystemRole = isSystemRole ?? false;
   }
@@ -50,5 +51,5 @@ export enum Permission {
   WRITE_NOTIFICATIONS = 'write:notifications',
   READ_ROLES = 'read:roles',
   WRITE_ROLES = 'write:roles',
-  WRITE_COUNTRIES= 'write:countries',
+  WRITE_COUNTRIES = 'write:countries',
 }

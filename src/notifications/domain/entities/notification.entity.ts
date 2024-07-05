@@ -1,5 +1,6 @@
 import { randomUUID } from 'crypto';
 import { MulticastMessage } from 'firebase-admin/messaging';
+import { now } from '../../../common/time';
 import { Email, Mobile } from '../../../common/types';
 
 export class NotificationEntity {
@@ -61,8 +62,8 @@ export class NotificationEntity {
     this.status = status ?? NotificationStatus.NOT_READ;
     this.deletedAt = deletedAt ?? null;
     this.readAt = readAt ?? null;
-    this.createdAt = createdAt ?? new Date();
-    this.updatedAt = updatedAt ?? new Date();
+    this.createdAt = createdAt ?? now().toJSDate();
+    this.updatedAt = updatedAt ?? now().toJSDate();
     this.initialVirtualFields();
     this.alertStatus = alertStatus ?? (showAsAlert ? AlertStatus.NOT_READ : AlertStatus.NONE);
   }
@@ -92,7 +93,7 @@ export class NotificationEntity {
 
   markAsRead(): void {
     this.status = NotificationStatus.READ;
-    this.readAt = new Date();
+    this.readAt = now().toJSDate();
     this.markAlertAsSeen();
   }
 

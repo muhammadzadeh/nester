@@ -1,6 +1,7 @@
 import { HttpStatus } from '@nestjs/common';
 import { randomUUID } from 'crypto';
 import { Exception } from '../../../common/exception';
+import { now } from '../../../common/time';
 import { randomStringSync } from '../../../common/utils';
 
 export class AttachmentEntity {
@@ -46,8 +47,8 @@ export class AttachmentEntity {
   ) {
     this.id = id ?? randomUUID();
     this.deletedAt = deletedAt ?? null;
-    this.createdAt = createdAt ?? new Date();
-    this.updatedAt = updatedAt ?? new Date();
+    this.createdAt = createdAt ?? now().toJSDate();
+    this.updatedAt = updatedAt ?? now().toJSDate();
     this.name = name ?? this.generateRandomString();
     this.originalName = originalName;
     this.visibility = visibility;

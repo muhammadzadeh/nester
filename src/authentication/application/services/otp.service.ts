@@ -1,7 +1,8 @@
 import { HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { createHash } from 'crypto';
-import { DateTime, Duration } from 'luxon';
+import { Duration } from 'luxon';
 import { Exception } from '../../../common/exception';
+import { now } from '../../../common/time';
 import { Email, Mobile, UserId } from '../../../common/types';
 import { randomStringAsync } from '../../../common/utils';
 import { OTPEntity, OTPReason, OTPType } from '../../domain/entities';
@@ -14,7 +15,7 @@ import { OTPRepository, OTP_REPOSITORY_TOKEN } from '../../domain/repositories';
 class OtpNotFoundException extends Error {}
 
 const DEFAULT_TOKEN_OTP_DURATION = Duration.fromISO('PT15M');
-const DEFAULT_CODE_OTP_DURATION = Duration.fromISO('PT2M');
+const DEFAULT_CODE_OTP_DURATION = Duration.fromISO('PT5M');
 export class OtpGeneration {
   constructor(
     readonly userId: UserId,
@@ -24,7 +25,7 @@ export class OtpGeneration {
     readonly reason: OTPReason,
     readonly ttl: Duration = type === OTPType.CODE ? DEFAULT_CODE_OTP_DURATION : DEFAULT_TOKEN_OTP_DURATION,
   ) {
-    this.expireAt = DateTime.now().toUTC().plus(this.ttl).toJSDate();
+    this.expireAt = now().plus(this.ttl).toJSDate();
   }
 
   readonly expireAt: Date;

@@ -1,12 +1,4 @@
-import {
-  Column,
-  CreateDateColumn,
-  DeleteDateColumn,
-  Entity,
-  OneToMany,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { CountryEntity, Timezone, Translations } from '../../../domain/entities/country.entity';
 import { TypeormStateEntity } from './typeorm-state.entity';
 
@@ -65,13 +57,13 @@ export class TypeormCountryEntity {
   @Column({ type: 'varchar' })
   readonly emojiU!: string;
 
-  @CreateDateColumn({ name: 'created_at' })
+  @Column({ type: 'timestamptz', name: 'created_at', default: 'now()' })
   readonly createdAt!: Date;
 
-  @UpdateDateColumn({ name: 'updated_at' })
+  @Column({ type: 'timestamptz', name: 'updated_at', default: 'now()' })
   readonly updatedAt!: Date;
 
-  @DeleteDateColumn({ name: 'deleted_at' })
+  @Column({ type: 'timestamptz', nullable: true, name: 'deleted_at' })
   readonly deletedAt!: Date | null;
 
   @OneToMany(() => TypeormStateEntity, (state) => state.country)

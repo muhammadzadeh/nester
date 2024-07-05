@@ -1,4 +1,5 @@
 import { randomUUID } from 'crypto';
+import { now } from '../../../common/time';
 
 export class NotificationPushTokenEntity {
   constructor(userId: string, token: string, provider: PushProvider);
@@ -25,8 +26,8 @@ export class NotificationPushTokenEntity {
     this.userId = userId;
     this.provider = provider;
     this.deletedAt = deletedAt ?? null;
-    this.createdAt = createdAt ?? new Date();
-    this.updatedAt = updatedAt ?? new Date();
+    this.createdAt = createdAt ?? now().toJSDate();
+    this.updatedAt = updatedAt ?? now().toJSDate();
   }
 
   readonly id!: string;

@@ -1,14 +1,4 @@
-import {
-  Check,
-  Column,
-  CreateDateColumn,
-  DeleteDateColumn,
-  Entity,
-  Index,
-  PrimaryGeneratedColumn,
-  Unique,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Check, Column, Entity, Index, PrimaryGeneratedColumn, Unique } from 'typeorm';
 import { Email, Mobile, UserId, Username } from '../../../../../common/types';
 import { UserEntity } from '../../../domain/entities/user.entity';
 
@@ -63,13 +53,13 @@ export class TypeormUserEntity {
   @Column({ type: 'uuid', name: 'role_id', nullable: true })
   readonly roleId!: string | null;
 
-  @CreateDateColumn({ name: 'created_at' })
+  @Column({ type: 'timestamptz', name: 'created_at', default: 'now()' })
   readonly createdAt!: Date;
 
-  @UpdateDateColumn({ name: 'updated_at' })
+  @Column({ type: 'timestamptz', name: 'updated_at', default: 'now()' })
   readonly updatedAt!: Date;
 
-  @DeleteDateColumn({ name: 'deleted_at' })
+  @Column({ type: 'timestamptz', nullable: true, name: 'deleted_at' })
   readonly deletedAt!: Date | null;
 
   @Column({ type: 'timestamptz', name: 'last_logged_in_at', nullable: true })

@@ -1,6 +1,7 @@
 import { Inject } from '@nestjs/common';
 import { randomUUID } from 'crypto';
 import { BaseSeeder, DatabaseSeeder } from '../../../common/database';
+import { now } from '../../../common/time';
 import { Permission, RoleEntity } from '../domain/entities/role.entity';
 import { ROLES_REPOSITORY_TOKEN, RolesRepository } from '../domain/repositories/roles.repository';
 
@@ -10,8 +11,8 @@ const defaultRoles: RoleEntity[] = [
     title: 'Super Admin',
     permissions: [Permission.MANAGE_EVERY_THINGS],
     isSystemRole: true,
-    createdAt: new Date(),
-    updatedAt: new Date(),
+    createdAt: now().toJSDate(),
+    updatedAt: now().toJSDate(),
     deletedAt: null,
   },
 ];

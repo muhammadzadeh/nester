@@ -2,6 +2,7 @@ import { INestApplication } from '@nestjs/common';
 import * as requestIp from '@supercharge/request-ip';
 import { WINSTON_MODULE_NEST_PROVIDER, WinstonLogger } from 'nest-winston';
 import { Configuration } from '../config';
+import { now } from '../time';
 
 const getUserIp = (request: any): string | undefined => {
   return requestIp.getClientIp(request);
@@ -44,7 +45,7 @@ export default (app: INestApplication): void => {
   }
 
   async function logRequest(reply: any): Promise<void> {
-    reply.startTime = new Date().getTime();
+    reply.startTime = now().toJSDate().getTime();
   }
 
   async function logResponse(req: any, reply: any, payload: any): Promise<void> {
@@ -60,7 +61,7 @@ export default (app: INestApplication): void => {
       ip: getUserIp(req),
       url: req.raw.url,
       status_code: reply.raw.statusCode,
-      duration_ms: new Date().getTime() - reply.startTime,
+      duration_ms: now().toJSDate().getTime() - reply.startTime,
       user: {
         id: reply?.request?.user?.id,
         email: reply?.request?.user?.email,

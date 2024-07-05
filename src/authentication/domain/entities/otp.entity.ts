@@ -1,4 +1,5 @@
 import { randomUUID } from 'crypto';
+import { now } from '../../../common/time';
 
 export enum OTPType {
   CODE = 'code',
@@ -47,8 +48,8 @@ export class OTPEntity {
     this.otp = otp;
     this.type = type;
     this.reason = reason;
-    this.createdAt = createdAt ?? new Date();
-    this.updatedAt = updatedAt ?? new Date();
+    this.createdAt = createdAt ?? now().toJSDate();
+    this.updatedAt = updatedAt ?? now().toJSDate();
     this.expireAt = expireAt;
     this.usedAt = usedAt ?? null;
     this.deletedAt = deletedAt ?? null;
@@ -81,7 +82,7 @@ export class OTPEntity {
   }
 
   isExpired(): boolean {
-    return this.expireAt ? this.expireAt < new Date() : false;
+    return this.expireAt ? this.expireAt.getTime() < now().toJSDate().getTime() : false;
   }
 
   isUsed(): boolean {
@@ -101,6 +102,6 @@ export class OTPEntity {
   }
 
   markAsUsed(): void {
-    this.usedAt = new Date();
+    this.usedAt = now().toJSDate();
   }
 }

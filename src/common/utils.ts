@@ -103,21 +103,3 @@ export function snackCaseObject<T>(obj: any): T {
 
   return snackCased;
 }
-
-export async function randomStringAsync(options: {
-  length: number;
-  type: 'hex' | 'base64' | 'url-safe' | 'numeric' | 'distinguishable' | 'ascii-printable' | 'alphanumeric';
-}): Promise<string> {
-  const { cryptoRandomStringAsync } = await import('crypto-random-string');
-  return cryptoRandomStringAsync(options);
-}
-
-export function randomStringSync(options: { length: number; type: 'alphanumeric' }): string {
-  let result = '';
-  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  const charactersLength = characters.length;
-  for (let i = 0; i < options.length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-  }
-  return result;
-}

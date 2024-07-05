@@ -6,8 +6,8 @@ import { CacheService } from '../../../common/cache/services';
 import { Configuration } from '../../../common/config';
 import { TokenConfig } from '../../../common/config/authentication.config';
 import { Exception } from '../../../common/exception';
+import { randomStringAsync } from '../../../common/string';
 import { Email, Mobile, UserId } from '../../../common/types';
-import { randomStringAsync } from '../../../common/utils';
 import { Permission } from '../../../users/roles/domain/entities/role.entity';
 
 @Injectable()

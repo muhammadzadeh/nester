@@ -1,8 +1,8 @@
 import { HttpStatus } from '@nestjs/common';
 import { randomUUID } from 'crypto';
 import { Exception } from '../../../common/exception';
+import { randomStringSync } from '../../../common/string';
 import { now } from '../../../common/time';
-import { randomStringSync } from '../../../common/utils';
 
 export class AttachmentEntity {
   constructor(

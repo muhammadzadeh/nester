@@ -2,9 +2,9 @@ import { HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { createHash } from 'crypto';
 import { Duration } from 'luxon';
 import { Exception } from '../../../common/exception';
+import { randomStringSync } from '../../../common/string';
 import { now } from '../../../common/time';
 import { Email, Mobile, UserId } from '../../../common/types';
-import { randomStringAsync } from '../../../common/utils';
 import { OTPEntity, OTPReason, OTPType } from '../../domain/entities';
 import { OTPRepository, OTP_REPOSITORY_TOKEN } from '../../domain/repositories';
 
@@ -106,8 +106,8 @@ export class OtpService {
 
   private async generateUniqueOTP(type: OTPType): Promise<string> {
     const length = type === OTPType.CODE ? 6 : 100;
-    const mappedType = type === OTPType.CODE ? 'numeric' : 'url-safe';
-    const otp = await randomStringAsync({ length: length, type: mappedType });
+    const mappedType = type === OTPType.CODE ? 'memory-numeric' : 'url-safe';
+    const otp = randomStringSync({ length: length, type: mappedType });
 
     if (type === OTPType.TOKEN) {
       const exists = await this.otpRepository.exists(otp);

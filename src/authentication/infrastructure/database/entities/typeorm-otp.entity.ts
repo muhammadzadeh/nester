@@ -1,40 +1,40 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { OTPEntity, OTPReason, OTPType } from '../../../domain/entities';
 
 @Entity({ name: 'otp_logs' })
 export class TypeormOTPEntity {
   @PrimaryGeneratedColumn('uuid', { primaryKeyConstraintName: 'otp_logs_id_pkey' })
-  id!: string;
+  readonly id!: string;
 
   @Column({ type: 'varchar' })
-  destination!: string;
+  readonly destination!: string;
 
   @Column({ type: 'varchar' })
-  otp!: string;
+  readonly otp!: string;
 
   @Column({ type: 'uuid', name: 'user_id' })
-  userId!: string;
+  readonly userId!: string;
 
   @Column({ type: 'enum', enum: OTPType })
-  type!: OTPType;
+  readonly type!: OTPType;
 
   @Column({ type: 'enum', enum: OTPReason })
-  reason!: OTPReason;
+  readonly reason!: OTPReason;
 
   @Column({ type: 'timestamptz', nullable: true, name: 'expire_at' })
-  expireAt!: Date | null;
+  readonly expireAt!: Date | null;
 
   @Column({ type: 'timestamptz', nullable: true, name: 'used_at' })
-  usedAt!: Date | null;
+  readonly usedAt!: Date | null;
 
-  @DeleteDateColumn({ name: 'deleted_at' })
-  deletedAt!: Date | null;
+  @Column({ type: 'timestamptz', name: 'created_at', default: 'now()' })
+  readonly createdAt!: Date;
 
-  @CreateDateColumn({ name: 'created_at' })
-  createdAt!: Date;
+  @Column({ type: 'timestamptz', name: 'updated_at', default: 'now()' })
+  readonly updatedAt!: Date;
 
-  @UpdateDateColumn({ name: 'updated_at' })
-  updatedAt!: Date;
+  @Column({ type: 'timestamptz', nullable: true, name: 'deleted_at' })
+  readonly deletedAt!: Date | null;
 
   public static toOTPEntity(input: TypeormOTPEntity): OTPEntity {
     return new OTPEntity(

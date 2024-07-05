@@ -43,7 +43,6 @@ export class AttachmentResponse {
   @ApiProperty({
     type: Date,
     description: 'The attachment creation date',
-    example: new Date(),
   })
   @Type(() => Date)
   readonly createdAt!: Date;

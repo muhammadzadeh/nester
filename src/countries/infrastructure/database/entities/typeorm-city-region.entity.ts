@@ -1,13 +1,4 @@
-import {
-  Column,
-  CreateDateColumn,
-  DeleteDateColumn,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { CityRegionEntity } from '../../../domain/entities/city-region.entity';
 import { TypeormCityEntity } from './typeorm-city.entity';
 
@@ -24,13 +15,13 @@ export class TypeormCityRegionEntity {
   @Column({ type: 'varchar' })
   readonly name!: string;
 
-  @CreateDateColumn({ name: 'created_at' })
+  @Column({ type: 'timestamptz', name: 'created_at', default: 'now()' })
   readonly createdAt!: Date;
 
-  @UpdateDateColumn({ name: 'updated_at' })
+  @Column({ type: 'timestamptz', name: 'updated_at', default: 'now()' })
   readonly updatedAt!: Date;
 
-  @DeleteDateColumn({ name: 'deleted_at' })
+  @Column({ type: 'timestamptz', nullable: true, name: 'deleted_at' })
   readonly deletedAt!: Date | null;
 
   @ManyToOne(() => TypeormCityEntity, (city) => city.regions, { onDelete: 'CASCADE' })

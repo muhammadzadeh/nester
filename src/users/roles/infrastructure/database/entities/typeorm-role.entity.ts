@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { Permission, RoleEntity } from '../../../domain/entities/role.entity';
 
 @Entity({
@@ -14,13 +14,13 @@ export class TypeormRoleEntity {
   @Column({ type: 'varchar', name: 'permissions', default: [], array: true })
   readonly permissions!: Permission[];
 
-  @CreateDateColumn({ name: 'created_at' })
+  @Column({ type: 'timestamptz', name: 'created_at', default: 'now()' })
   readonly createdAt!: Date;
 
-  @UpdateDateColumn({ name: 'updated_at' })
+  @Column({ type: 'timestamptz', name: 'updated_at', default: 'now()' })
   readonly updatedAt!: Date;
 
-  @DeleteDateColumn({ name: 'deleted_at' })
+  @Column({ type: 'timestamptz', nullable: true, name: 'deleted_at' })
   readonly deletedAt!: Date | null;
 
   @Column({ type: 'boolean', name: 'is_system_role' })

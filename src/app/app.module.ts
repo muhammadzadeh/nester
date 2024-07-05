@@ -1,5 +1,5 @@
 import { BullModule, InjectQueue } from '@nestjs/bull';
-import { Module, OnApplicationBootstrap, OnModuleInit } from '@nestjs/common';
+import { Logger, Module, OnApplicationBootstrap, OnModuleInit } from '@nestjs/common';
 import { DiscoveryService } from '@nestjs/core';
 import { ScheduleModule } from '@nestjs/schedule';
 import { TerminusModule } from '@nestjs/terminus';
@@ -84,6 +84,8 @@ import { ProfileModule } from '../users/profiles/infrastructure/profiles.module'
   providers: [DiscoveryService],
 })
 export class AppModule implements OnModuleInit, OnApplicationBootstrap {
+  private readonly logger = new Logger(AppModule.name);
+
   constructor(
     private readonly discovery: DiscoveryService,
     @InjectQueue('jobs') private queue: Queue,
@@ -103,7 +105,7 @@ export class AppModule implements OnModuleInit, OnApplicationBootstrap {
       if (!wrapper.metatype || !Reflect.getMetadata(DATABASE_SEEDER_TAG, wrapper.metatype)) {
         continue;
       }
-      await wrapper.instance.run();
+      wrapper.instance.run().catch((error: any) => this.logger.error(error.message));
     }
   }
 }

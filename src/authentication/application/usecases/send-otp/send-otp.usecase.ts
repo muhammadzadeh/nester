@@ -49,7 +49,7 @@ export class SendOtpUsecase {
       throw new YourAccountIsBlockedException();
     }
 
-    const otpGeneration = new OtpGeneration(user.id, mobile, email, OTPType.CODE, OTPReason.VERIFY);
+    const otpGeneration = new OtpGeneration(user.id, mobile, email, OTPType.CODE, OTPReason.LOGIN);
     const otp = await this.otpService.generate(otpGeneration);
     await this.notificationSender.sendOtp(otpGeneration, otp);
   }

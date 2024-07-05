@@ -41,6 +41,8 @@ storage:
     accessKeyId: replace_me
     secretAccessKey: replace_me
     storageEndpoint: replace_me
+    privateBaseUrl: replace_me
+    publicBaseUrl: replace_me
 mailer:
   provider: mailgun
   sender: no-reply@app.com

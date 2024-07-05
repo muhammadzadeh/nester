@@ -18,6 +18,17 @@ class StorageConfigLocal {
   @PathTransform()
   @Type(() => String)
   readonly uploadDir!: string;
+
+
+  @IsDefined()
+  @IsString()
+  @Type(() => String)
+  readonly privateBaseUrl!: string;
+
+  @IsDefined()
+  @IsString()
+  @Type(() => String)
+  readonly publicBaseUrl!: string;
 }
 
 class StorageConfigMinio {
@@ -45,6 +56,16 @@ class StorageConfigMinio {
   @IsString()
   @Type(() => String)
   readonly storageEndpoint!: string;
+  
+  @IsDefined()
+  @IsString()
+  @Type(() => String)
+  readonly privateBaseUrl!: string;
+
+  @IsDefined()
+  @IsString()
+  @Type(() => String)
+  readonly publicBaseUrl!: string;
 }
 
 class StorageConfigR2 {

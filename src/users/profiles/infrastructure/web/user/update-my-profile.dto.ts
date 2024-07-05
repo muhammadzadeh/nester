@@ -18,7 +18,7 @@ export class UpdateMyProfileDto {
     return {
       firstName: this.firstName ?? null,
       lastName: this.lastName ?? null,
-      avatar: this.avatar ?? null,
+      avatarId: this.avatar ?? null,
       fullName: `${this.firstName ?? ''} ${this.lastName ?? ''}`,
     };
   }

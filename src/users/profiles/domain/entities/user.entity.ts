@@ -2,6 +2,7 @@ import { HttpStatus } from '@nestjs/common';
 import { randomUUID } from 'crypto';
 import { Exception } from '../../../../common/exception';
 import { Hash } from '../../../../common/hash';
+import { now } from '../../../../common/time';
 import { Email, Mobile, UserId, Username } from '../../../../common/types';
 export class UserEntity {
   constructor(firstName: string | null, lastName: string | null, email: Email | null, mobile: Mobile | null);
@@ -65,8 +66,8 @@ export class UserEntity {
     this.isEmailVerified = isEmailVerified ?? false;
     this.isMobileVerified = isMobileVerified ?? false;
     this.roleId = roleId ?? null;
-    this.createdAt = createdAt ?? new Date();
-    this.updatedAt = updatedAt ?? new Date();
+    this.createdAt = createdAt ?? now().toJSDate();
+    this.updatedAt = updatedAt ?? now().toJSDate();
     this.deletedAt = deletedAt ?? null;
     this.lastLoggedInAt = lastLoggedInAt ?? null;
     this.passwordUpdatedAt = passwordUpdatedAt ?? null;
@@ -114,7 +115,7 @@ export class UserEntity {
 
   updatePassword(plainPassword: string): void {
     this.password = Hash.makeSync(plainPassword);
-    this.passwordUpdatedAt = new Date();
+    this.passwordUpdatedAt = now().toJSDate();
   }
 
   updateRole(roleId: string): void {

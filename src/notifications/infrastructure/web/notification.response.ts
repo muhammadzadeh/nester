@@ -94,7 +94,6 @@ export class NotificationResponse {
   @ApiProperty({
     type: Date,
     description: 'The creation date',
-    example: new Date(),
   })
   @Type(() => Date)
   readonly createdAt!: Date;

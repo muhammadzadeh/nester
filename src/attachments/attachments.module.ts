@@ -33,6 +33,8 @@ const uploaderProvider: Provider = {
           secretAccessKey: config.storage.minio!.secretAccessKey,
           privateBucketName: config.storage.minio!.privateBucket,
           publicBucketName: config.storage.minio!.publicBucket,
+          privateBaseUrl: config.storage.minio!.privateBaseUrl,
+          publicBaseUrl: config.storage.minio!.publicBaseUrl,
         });
         break;
       case 'r2':
@@ -42,6 +44,8 @@ const uploaderProvider: Provider = {
           secretAccessKey: config.storage.r2!.secretAccessKey,
           privateBucketName: config.storage.r2!.privateBucket,
           publicBucketName: config.storage.r2!.publicBucket,
+          privateBaseUrl: config.storage.minio!.privateBaseUrl,
+          publicBaseUrl: config.storage.minio!.publicBaseUrl,
         });
         break;
       case 'local':
@@ -49,13 +53,17 @@ const uploaderProvider: Provider = {
           localStoragePath: config.storage.local!.uploadDir,
           privateDir: config.storage.local!.privateDir,
           publicDir: config.storage.local!.publicDir,
+          privateBaseUrl: config.storage.local!.privateBaseUrl,
+          publicBaseUrl: config.storage.local!.publicBaseUrl,
         });
         break;
       default:
         uploader = new LocalStorageProvider({
-          localStoragePath: './uploads',
-          privateDir: 'private',
-          publicDir: 'public',
+          localStoragePath: config.storage.local!.uploadDir,
+          privateDir: config.storage.local!.privateDir,
+          publicDir: config.storage.local!.publicDir,
+          privateBaseUrl: config.storage.local!.privateBaseUrl,
+          publicBaseUrl: config.storage.local!.publicBaseUrl,
         });
     }
 

@@ -22,7 +22,7 @@ export class UpdateProfileUsecase {
         throw new InvalidAvatarException(`Only public attachment allowed for avatar!`);
       }
 
-      command.data.avatar = avatarRecord.getPathAndName();
+      command.data.avatar = avatarRecord.url;
       command.data.avatarId = avatarRecord.id;
     }
 

@@ -22,9 +22,6 @@ import {
 
 @Injectable()
 export class MinioStorageProvider implements StorageProvider {
-  private readonly privateBucketName: string;
-  private readonly publicBucketName: string;
-
   private readonly s3Client: S3Client;
 
   constructor(readonly options: MinioOptions) {
@@ -37,27 +34,25 @@ export class MinioStorageProvider implements StorageProvider {
       },
       forcePathStyle: true,
     });
-    this.privateBucketName = options.privateBucketName;
-    this.publicBucketName = options.publicBucketName;
 
     this.setup();
   }
   async setup(): Promise<void> {
-    const isPrivateBucketExists = await this.isBucketExists(this.privateBucketName);
+    const isPrivateBucketExists = await this.isBucketExists(this.options.privateBucketName);
     if (!isPrivateBucketExists) {
       await this.s3Client.send(
         new CreateBucketCommand({
-          Bucket: this.privateBucketName,
+          Bucket: this.options.privateBucketName,
           ACL: 'private',
         }),
       );
     }
 
-    const isPublicBucketExists = await this.isBucketExists(this.publicBucketName);
+    const isPublicBucketExists = await this.isBucketExists(this.options.publicBucketName);
     if (!isPublicBucketExists) {
       await this.s3Client.send(
         new CreateBucketCommand({
-          Bucket: this.publicBucketName,
+          Bucket: this.options.publicBucketName,
           ACL: 'public-read',
         }),
       );
@@ -69,24 +64,32 @@ export class MinioStorageProvider implements StorageProvider {
             Effect: 'Allow',
             Principal: '*',
             Action: ['s3:GetBucketLocation', 's3:ListBucket'],
-            Resource: [`arn:aws:s3:::${this.publicBucketName}`],
+            Resource: [`arn:aws:s3:::${this.options.publicBucketName}`],
           },
           {
             Effect: 'Allow',
             Principal: '*',
             Action: ['s3:GetObject'],
-            Resource: [`arn:aws:s3:::${this.publicBucketName}/*`],
+            Resource: [`arn:aws:s3:::${this.options.publicBucketName}/*`],
           },
         ],
       };
 
       await this.s3Client.send(
         new PutBucketPolicyCommand({
-          Bucket: this.publicBucketName,
+          Bucket: this.options.publicBucketName,
           Policy: JSON.stringify(policy),
         }),
       );
     }
+  }
+
+  getPrivateBaseUrl(): string {
+    return this.options.privateBaseUrl;
+  }
+
+  getPublicBaseUrl(): string {
+    return this.options.publicBaseUrl;
   }
 
   getName(): string {
@@ -163,4 +166,6 @@ export interface MinioOptions extends StorageProviderOptions {
   secretAccessKey: string;
   privateBucketName: string;
   publicBucketName: string;
+  privateBaseUrl: string;
+  publicBaseUrl: string;
 }

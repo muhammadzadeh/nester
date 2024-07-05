@@ -49,7 +49,7 @@ export class TypeormAttachmentEntity {
   @Column({ type: 'timestamptz', nullable: true, name: 'deleted_at' })
   readonly deletedAt!: Date | null;
 
-  static toAttachmentEntity(item: TypeormAttachmentEntity): AttachmentEntity {
+  static toAttachmentEntity(item: TypeormAttachmentEntity, baseUrl: string): AttachmentEntity {
     return new AttachmentEntity(
       item.originalName,
       item.size,
@@ -65,6 +65,7 @@ export class TypeormAttachmentEntity {
       item.deletedAt,
       item.createdAt,
       item.updatedAt,
+      baseUrl
     );
   }
 }

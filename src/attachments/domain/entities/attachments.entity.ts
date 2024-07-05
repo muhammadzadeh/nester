@@ -28,6 +28,7 @@ export class AttachmentEntity {
     deletedAt: Date | null,
     createdAt: Date,
     updatedAt: Date,
+    baseUrl: string,
   );
   constructor(
     originalName: string | null,
@@ -44,6 +45,7 @@ export class AttachmentEntity {
     deletedAt?: Date | null,
     createdAt?: Date,
     updatedAt?: Date,
+    baseUrl?: string,
   ) {
     this.id = id ?? randomUUID();
     this.deletedAt = deletedAt ?? null;
@@ -58,33 +60,31 @@ export class AttachmentEntity {
     this.isShared = isShared ?? false;
     this.shareToken = shareToken ?? null;
     this.uploaderId = uploaderId;
+    this.baseUrl = baseUrl ?? '';
     this.path = path ?? this.getPathToStore();
-    this.url = this.getDownloadUrl();
+    this.initialUrl();
   }
 
-  id!: string;
+  readonly id!: string;
   deletedAt!: Date | null;
-  createdAt!: Date;
+  readonly createdAt!: Date;
   updatedAt!: Date;
-  path!: string;
-  name!: string;
-  originalName!: string | null;
-  visibility!: AttachmentVisibility;
-  mimeType!: MimeType | null;
-  size!: number;
-  uploaderId!: string;
+  readonly path!: string;
+  readonly name!: string;
+  readonly originalName!: string | null;
+  readonly visibility!: AttachmentVisibility;
+  readonly mimeType!: MimeType | null;
+  readonly size!: number;
+  readonly uploaderId!: string;
   url!: string;
   isDraft!: boolean;
   isShared!: boolean;
   shareToken!: string | null;
 
+  baseUrl!: string | null;
+
   getPathAndName(): string {
     return `${this.path}/${this.name}.${this.mimeType?.ext}`;
-  }
-
-  changeToShareableUrl(): void {
-    this.url =
-      this.visibility === AttachmentVisibility.PRIVATE ? `/share/${this.shareToken}` : `/${this.getPathAndName()}`;
   }
 
   isPrivatelyShared() {
@@ -97,6 +97,11 @@ export class AttachmentEntity {
 
   isPrivate() {
     return this.visibility === AttachmentVisibility.PRIVATE;
+  }
+
+  setBaseUrl(baseUrl: string): void {
+    this.baseUrl = baseUrl;
+    this.initialUrl();
   }
 
   async updateSharedFlag(isShared: boolean): Promise<void> {
@@ -122,7 +127,23 @@ export class AttachmentEntity {
   }
 
   private getDownloadUrl(): string {
-    return this.visibility === AttachmentVisibility.PRIVATE ? `/${this.id}` : `/${this.getPathAndName()}`;
+    return this.visibility === AttachmentVisibility.PRIVATE
+      ? `${this.baseUrl}/${this.id}`
+      : `${this.baseUrl}/${this.getPathAndName()}`;
+  }
+
+  private getShareUrl(): string {
+    return this.visibility === AttachmentVisibility.PRIVATE
+      ? `${this.baseUrl}/share/${this.shareToken}`
+      : `${this.baseUrl}/${this.getPathAndName()}`;
+  }
+
+  private initialUrl() {
+    if (this.isShared && this.shareToken) {
+      this.url = this.getShareUrl();
+    } else {
+      this.url = this.getDownloadUrl();
+    }
   }
 }
 

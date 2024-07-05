@@ -1,8 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, SelectQueryBuilder } from 'typeorm';
 import { Pagination } from '../../../../common/database';
-import { AttachmentEntity } from '../../../domain/entities/attachments.entity';
+import { STORAGE_PROVIDER_TOKEN, StorageProvider } from '../../../application/storage-provider';
+import { AttachmentEntity, AttachmentVisibility } from '../../../domain/entities/attachments.entity';
 import { AttachmentsRepository, FindAttachmentOptions } from '../../../domain/repositories/attachments.repository';
 import { TypeormAttachmentEntity } from '../entities';
 
@@ -11,6 +12,8 @@ export class TypeormAttachmentsRepository implements AttachmentsRepository {
   constructor(
     @InjectRepository(TypeormAttachmentEntity)
     private readonly repository: Repository<TypeormAttachmentEntity>,
+    @Inject(STORAGE_PROVIDER_TOKEN)
+    private readonly storageProvider: StorageProvider,
   ) {}
   async findAll(options: FindAttachmentOptions): Promise<Pagination<AttachmentEntity>> {
     const queryBuilder = this.buildSelectQuery(options, 'attachment');
@@ -18,20 +21,20 @@ export class TypeormAttachmentsRepository implements AttachmentsRepository {
     const [items, count] = await queryBuilder.getManyAndCount();
     return {
       total: count,
-      items: items.map((item) => TypeormAttachmentEntity.toAttachmentEntity(item)),
+      items: items.map((item) => TypeormAttachmentEntity.toAttachmentEntity(item, this.getBaseUrl(item.visibility))),
     };
   }
 
   async save(data: AttachmentEntity): Promise<AttachmentEntity> {
     const item = await this.repository.save(data);
-    return TypeormAttachmentEntity.toAttachmentEntity(item);
+    return TypeormAttachmentEntity.toAttachmentEntity(item, this.getBaseUrl(item.visibility));
   }
 
   async findOne(options: FindAttachmentOptions): Promise<AttachmentEntity | null> {
     const queryBuilder = this.buildSelectQuery(options, 'attachment');
 
     const item = await queryBuilder.getOne();
-    return item ? TypeormAttachmentEntity.toAttachmentEntity(item) : null;
+    return item ? TypeormAttachmentEntity.toAttachmentEntity(item, this.getBaseUrl(item.visibility)) : null;
   }
 
   async exists(options: FindAttachmentOptions): Promise<boolean> {
@@ -58,5 +61,11 @@ export class TypeormAttachmentsRepository implements AttachmentsRepository {
       queryBuilder.andWhere(`${alias ? alias + '.' : ''}id IN(:...ids)`, { ids: options.ids });
     }
     return queryBuilder;
+  }
+
+  private getBaseUrl(visibility: AttachmentVisibility): string {
+    return visibility === AttachmentVisibility.PRIVATE
+      ? this.storageProvider.getPrivateBaseUrl()
+      : this.storageProvider.getPublicBaseUrl();
   }
 }

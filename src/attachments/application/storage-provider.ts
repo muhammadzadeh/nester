@@ -2,6 +2,8 @@ import { ServiceUnavailableException } from '@nestjs/common';
 
 export const STORAGE_PROVIDER_TOKEN = Symbol('StorageProvider');
 export interface StorageProvider {
+  getPrivateBaseUrl(): string;
+  getPublicBaseUrl(): string;
   upload(input: UploadData): Promise<void>;
   download(path: string): Promise<Buffer>;
   delete(path: string): Promise<void>;

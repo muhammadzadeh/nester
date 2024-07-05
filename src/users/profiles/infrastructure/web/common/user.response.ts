@@ -2,6 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { Email, Mobile, UserId, Username } from '../../../../../common/types';
 import { UserEntity } from '../../../domain/entities/user.entity';
+import { AvatarResponse } from './avatar.response';
 
 export class UserResponse {
   static from(data: UserEntity): UserResponse {
@@ -12,8 +13,6 @@ export class UserResponse {
       fullName: data.fullName,
       email: data.email,
       mobile: data.mobile,
-      avatarId: data.avatarId,
-      avatar: data.avatar,
       username: data.username,
       isBlocked: data.isBlocked,
       isEmailVerified: data.isEmailVerified,
@@ -24,6 +23,13 @@ export class UserResponse {
       deletedAt: data.deletedAt,
       lastLoggedInAt: data.lastLoggedInAt,
       passwordUpdatedAt: data.passwordUpdatedAt,
+      avatar:
+        data.avatar && data.avatarId
+          ? {
+              id: data.avatarId,
+              url: data.avatar,
+            }
+          : null,
     };
   }
 
@@ -69,18 +75,11 @@ export class UserResponse {
   readonly mobile!: Mobile | null;
 
   @ApiProperty({
-    type: String,
+    type: AvatarResponse,
     nullable: true,
   })
-  @Type(() => String)
-  readonly avatarId!: string | null;
-
-  @ApiProperty({
-    type: String,
-    nullable: true,
-  })
-  @Type(() => String)
-  readonly avatar!: string | null;
+  @Type(() => AvatarResponse)
+  readonly avatar!: AvatarResponse | null;
 
   @ApiProperty({
     type: String,

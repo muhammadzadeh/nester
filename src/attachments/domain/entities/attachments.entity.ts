@@ -79,7 +79,7 @@ export class AttachmentEntity {
   shareToken!: string | null;
 
   getPathAndName(): string {
-    return `${this.path}/${this.name}${this.mimeType?.ext}`;
+    return `${this.path}/${this.name}.${this.mimeType?.ext}`;
   }
 
   changeToShareableUrl(): void {

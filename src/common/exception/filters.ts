@@ -15,9 +15,9 @@ import { AbstractHttpAdapter, HttpAdapterHost } from '@nestjs/core';
 import { ThrottlerException } from '@nestjs/throttler';
 import { captureException } from '@sentry/node';
 import { I18nService } from 'nestjs-i18n';
-import { IFlatError, ValidationException } from '../../common/exception';
 import { Configuration } from '../config';
 import { ExceptionMap } from './exception-map';
+import { FlatError, ValidationException } from './validation.exception';
 
 enum Status {
   SUCCESS = 'success',
@@ -28,8 +28,8 @@ interface ExceptionResponse {
   message: string;
   status: Status;
   code: HttpStatus;
-  error_code: string;
-  errors?: IFlatError[];
+  errorCode: string;
+  errors?: FlatError[];
   debug?: any;
 }
 
@@ -49,11 +49,11 @@ abstract class CommonExceptionFilter<U> implements ExceptionFilter<U> {
       const context = host.switchToHttp();
       const response = context.getResponse();
       const request = context.getRequest();
-      const trace_id = request['id'];
+      const traceId = request['id'];
 
-      const response_body = { ...this.generateResponseBody(error), trace_id };
+      const responseBody = { ...this.generateResponseBody(error), traceId: traceId };
 
-      this.adapterHost.reply(response, response_body, response_body.code);
+      this.adapterHost.reply(response, responseBody, responseBody.code);
     } catch (error) {
       this.logger.error(error);
     }
@@ -69,14 +69,14 @@ abstract class CommonExceptionFilter<U> implements ExceptionFilter<U> {
 class NotFoundExceptionFilter extends CommonExceptionFilter<NestNotFoundException> {
   protected readonly code = 404;
 
-  protected generateResponseBody({ message }: NestNotFoundException): ExceptionResponse {
-    const error_code = 'NOT_FOUND';
-    const translated_message = this.i18n.t<string, string>(`messages.${error_code}`);
+  protected generateResponseBody(exception: NestNotFoundException): ExceptionResponse {
+    const errorCode = 'NOT_FOUND';
+    const translatedMessage = this.i18n.t<string, string>(`messages.${errorCode}`);
     return {
-      message: message ?? translated_message,
+      message: exception.message ?? translatedMessage,
       status: Status.FAILURE,
       code: this.code,
-      error_code: 'NOT_FOUND',
+      errorCode: 'NOT_FOUND',
     };
   }
 }
@@ -86,15 +86,15 @@ class NotFoundExceptionFilter extends CommonExceptionFilter<NestNotFoundExceptio
 class ValidationExceptionFilter extends CommonExceptionFilter<ValidationException> {
   protected readonly code = 400;
 
-  protected generateResponseBody(error: ValidationException): ExceptionResponse {
-    const error_code = 'INVALID_INPUTS';
-    const message = this.i18n.t<string, string>(`messages.${error_code}`);
+  protected generateResponseBody(exception: ValidationException): ExceptionResponse {
+    const errorCode = 'INVALID_INPUTS';
+    const message = this.i18n.t<string, string>(`messages.${errorCode}`);
     return {
       message,
       status: Status.FAILURE,
       code: this.code,
-      error_code,
-      errors: error.getFlatErrors(),
+      errorCode: errorCode,
+      errors: exception.getFlatErrors(),
     };
   }
 }
@@ -105,13 +105,13 @@ class BadRequestExceptionFilter extends CommonExceptionFilter<BadRequestExceptio
   protected readonly code = 400;
 
   protected generateResponseBody(exception: BadRequestException): ExceptionResponse {
-    const error_code = 'BAD_REQUEST';
-    const message = this.i18n.t<string, string>(`messages.${error_code}`);
+    const errorCode = 'BAD_REQUEST';
+    const message = this.i18n.t<string, string>(`messages.${errorCode}`);
     return {
       message,
       status: Status.FAILURE,
       code: this.code,
-      error_code,
+      errorCode: errorCode,
       debug: this.isDebug ? JSON.parse(JSON.stringify(exception, Object.getOwnPropertyNames(exception))) : {},
     };
   }
@@ -123,9 +123,9 @@ class UnauthorizedExceptionFilter extends CommonExceptionFilter<UnauthorizedExce
   protected readonly code = 401;
 
   protected generateResponseBody(): ExceptionResponse {
-    const error_code = 'NOT_AUTHORIZED';
-    const message = this.i18n.t<string, string>(`messages.${error_code}`);
-    return { message, status: Status.FAILURE, code: this.code, error_code };
+    const errorCode = 'NOT_AUTHORIZED';
+    const message = this.i18n.t<string, string>(`messages.${errorCode}`);
+    return { message, status: Status.FAILURE, code: this.code, errorCode: errorCode };
   }
 }
 
@@ -135,9 +135,9 @@ class ForbiddenExceptionFilter extends CommonExceptionFilter<ForbiddenException>
   protected readonly code = 403;
 
   protected generateResponseBody(): ExceptionResponse {
-    const error_code = 'MISSING_PERMISSION';
-    const message = this.i18n.t<string, string>(`messages.${error_code}`);
-    return { message, status: Status.FAILURE, code: this.code, error_code };
+    const errorCode = 'MISSING_PERMISSION';
+    const message = this.i18n.t<string, string>(`messages.${errorCode}`);
+    return { message, status: Status.FAILURE, code: this.code, errorCode: errorCode };
   }
 }
 
@@ -147,9 +147,9 @@ class ThrottlerExceptionFilter extends CommonExceptionFilter<ForbiddenException>
   protected readonly code = 429;
 
   protected generateResponseBody(): ExceptionResponse {
-    const error_code = 'RATE_LIMIT';
-    const message = this.i18n.t<string, string>(`messages.${error_code}`);
-    return { message, status: Status.FAILURE, code: this.code, error_code };
+    const errorCode = 'RATE_LIMIT';
+    const message = this.i18n.t<string, string>(`messages.${errorCode}`);
+    return { message, status: Status.FAILURE, code: this.code, errorCode: errorCode };
   }
 }
 
@@ -159,25 +159,25 @@ class GlobalExceptionFilter extends CommonExceptionFilter<any> {
   protected readonly code = 500;
 
   protected generateResponseBody(exception: any): ExceptionResponse {
-    const exception_result: ExceptionResponse = {
+    const exceptionResult: ExceptionResponse = {
       message: '',
       status: Status.FAILURE,
       code: this.code,
       debug: this.isDebug ? JSON.parse(JSON.stringify(exception, Object.getOwnPropertyNames(exception))) : {},
-      error_code: 'UNEXPECTED_ERROR',
+      errorCode: 'UNEXPECTED_ERROR',
     };
 
-    const mapped_exception_data = ExceptionMap.get(exception);
+    const mappedExceptionData = ExceptionMap.get(exception);
 
-    if (mapped_exception_data) {
-      exception_result.code = mapped_exception_data.statusCode;
-      exception_result.error_code = mapped_exception_data.errorCode;
+    if (mappedExceptionData) {
+      exceptionResult.code = mappedExceptionData.statusCode;
+      exceptionResult.errorCode = mappedExceptionData.errorCode;
     }
 
-    const message = this.i18n.t<string, string>(`messages.${exception_result.error_code}`);
-    exception_result.message = message;
+    const message = this.i18n.t<string, string>(`messages.${exceptionResult.errorCode}`);
+    exceptionResult.message = message;
 
-    return exception_result;
+    return exceptionResult;
   }
 
   protected logInto3rdParties(exception: any, host: ArgumentsHost): void {

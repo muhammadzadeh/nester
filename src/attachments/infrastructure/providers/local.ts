@@ -35,12 +35,20 @@ export class LocalStorageProvider implements StorageProvider {
     return this.options.publicBaseUrl;
   }
 
+  getPrivateBucketName(): string {
+    return this.options.privateDir;
+  }
+
+  getPublicBucketName(): string {
+    return this.options.publicDir;
+  }
+
   @ExceptionMapper(StorageIsUnavailableException, 'Could not upload!')
   async upload(input: UploadData): Promise<void> {
     await fs.mkdir(`${this.options.localStoragePath}/${input.path}`, {
       recursive: true,
     });
-    await fs.writeFile(`${this.options.localStoragePath}/${input.path}`, input.data);
+    await fs.writeFile(`${this.options.localStoragePath}/${input.path}`, input.fileData as Buffer);
   }
 
   @ExceptionMapper(StorageIsUnavailableException, 'Could not download!')

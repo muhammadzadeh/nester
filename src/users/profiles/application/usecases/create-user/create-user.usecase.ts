@@ -67,19 +67,22 @@ export class CreateUserUsecase {
         responseType: 'arraybuffer',
       });
 
-      const items = await this.attachmentService.upload({
-        files: [
-          {
-            buffer: avatarData.data,
-            name: 'avatar.png',
+      const uploadedAttachment = await this.attachmentService.upload({
+        file: {
+          fileData: avatarData.data,
+          originalName: 'avatar.png',
+          mimeType: {
+            ext: '.png',
+            mime: 'image/png',
           },
-        ],
+        },
+
         isDraft: false,
         userId: userId,
         visibility: AttachmentVisibility.PUBLIC,
       });
 
-      return items[0];
+      return uploadedAttachment;
     } catch (error) {
       this.logger.error(`Could not move users avatar to out cdn!`);
       this.logger.error(error);

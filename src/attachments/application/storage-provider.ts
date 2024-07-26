@@ -1,4 +1,5 @@
 import { ServiceUnavailableException } from '@nestjs/common';
+import { Readable } from 'typeorm/platform/PlatformTools.js';
 
 export const STORAGE_PROVIDER_TOKEN = Symbol('StorageProvider');
 export interface StorageProvider {
@@ -9,12 +10,14 @@ export interface StorageProvider {
   delete(path: string): Promise<void>;
   getName(): string;
   setup(): Promise<void>;
+  getPrivateBucketName(): string;
+  getPublicBucketName(): string;
 }
 
 export class UploadData {
   readonly path!: string;
   readonly mimeType!: ExtendedMemeType;
-  readonly data!: Buffer;
+  readonly fileData!: Readable | Buffer;
 }
 
 export type ExtendedMemeType = {
@@ -23,9 +26,8 @@ export type ExtendedMemeType = {
 };
 
 export interface FileInfo {
-  fileBuffer: Buffer;
+  fileData: Readable | Buffer;
   mimeType: ExtendedMemeType;
-  fileSize: number;
   originalName: string;
 }
 

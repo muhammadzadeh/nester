@@ -108,12 +108,14 @@ export class MinioStorageProvider implements StorageProvider {
   @ExceptionMapper(StorageIsUnavailableException, 'Could not upload!')
   async upload(input: UploadData): Promise<void> {
     const { bucket, key } = this.getBucketAndKey(input.path);
+    const buffered = await this.streamToBuffer(input.fileData  as Readable);
+
     const uploadParams: PutObjectCommandInput = {
       Bucket: bucket,
       Key: key,
-      Body: input.fileData,
+      Body: buffered,
       ContentType: input.mimeType.mime,
-      ContentLength: (input.fileData as Readable).readableLength
+      ContentLength: buffered.byteLength
     };
 
     await this.s3Client.send(new PutObjectCommand(uploadParams));

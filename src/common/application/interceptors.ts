@@ -9,15 +9,7 @@ import {
 import { PATH_METADATA } from '@nestjs/common/constants';
 import { FastifyReply } from 'fastify';
 import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
-import { snackCaseObject } from '../utils';
-
-@Injectable()
-class SnackCaseInterceptor implements NestInterceptor {
-  intercept(_: ExecutionContext, next: CallHandler): Observable<any> {
-    return next.handle().pipe(map((data) => snackCaseObject(data)));
-  }
-}
+import { tap } from 'rxjs/operators';
 
 @Injectable()
 class SwaggerNoCacheInterceptor implements NestInterceptor {
@@ -40,5 +32,4 @@ class SwaggerNoCacheInterceptor implements NestInterceptor {
 
 export default (app: INestApplication): void => {
   app.useGlobalInterceptors(new SwaggerNoCacheInterceptor());
-  app.useGlobalInterceptors(new SnackCaseInterceptor());
 };

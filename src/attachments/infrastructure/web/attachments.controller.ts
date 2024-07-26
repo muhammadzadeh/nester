@@ -32,9 +32,9 @@ export class AttachmentsController {
   ): Promise<AttachmentListResponse> {
     const uploadedFiles = request.files();
 
-    const uploadPromises = [];
+    const attachments = [];
     for await (const file of uploadedFiles) {
-      const uploadPromise = this.attachmentsService.upload({
+      const attachment = await this.attachmentsService.upload({
         file: {
           fileData: file.file,
           originalName: file.filename,
@@ -48,10 +48,8 @@ export class AttachmentsController {
         isDraft: false,
       });
 
-      uploadPromises.push(uploadPromise);
+      attachments.push(attachment);
     }
-
-    const attachments = await Promise.all(uploadPromises);
 
     return AttachmentListResponse.from(attachments);
   }

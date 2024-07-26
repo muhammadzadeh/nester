@@ -40,7 +40,7 @@ export class Init1720184484521 implements MigrationInterface {
     );
     await queryRunner.query(`CREATE TYPE "public"."attachments_visibility_enum" AS ENUM('public', 'private')`);
     await queryRunner.query(
-      `CREATE TABLE "attachments" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "path" character varying NOT NULL, "name" character varying NOT NULL, "original_name" character varying, "visibility" "public"."attachments_visibility_enum" NOT NULL, "mime_type" jsonb, "size" integer NOT NULL, "uploader_id" uuid NOT NULL, "is_draft" boolean NOT NULL, "is_shared" boolean NOT NULL, "share_token" character varying, "created_at" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT 'now()', "updated_at" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT 'now()', "deleted_at" TIMESTAMP WITH TIME ZONE, CONSTRAINT "attachments_id_pkey" PRIMARY KEY ("id"))`,
+      `CREATE TABLE "attachments" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "path" character varying NOT NULL, "name" character varying NOT NULL, "original_name" character varying, "visibility" "public"."attachments_visibility_enum" NOT NULL, "mime_type" jsonb, "uploader_id" uuid NOT NULL, "is_draft" boolean NOT NULL, "is_shared" boolean NOT NULL, "share_token" character varying, "created_at" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT 'now()', "updated_at" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT 'now()', "deleted_at" TIMESTAMP WITH TIME ZONE, CONSTRAINT "attachments_id_pkey" PRIMARY KEY ("id"))`,
     );
     await queryRunner.query(`CREATE INDEX "attachments_uploader_id_idx" ON "attachments" ("uploader_id") `);
     await queryRunner.query(`CREATE INDEX "attachments_uploader_share_token_idx" ON "attachments" ("share_token") `);

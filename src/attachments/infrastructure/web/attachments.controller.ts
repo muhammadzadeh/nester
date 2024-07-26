@@ -1,11 +1,10 @@
 import { Get, Param, Post, Req, StreamableFile } from '@nestjs/common';
 import { ApiBody, ApiConsumes, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { FastifyRequest } from 'fastify';
+import { extname } from 'path';
 import { CurrentUser } from '../../../authentication/infrastructure/web/decorators';
 import { CommonController } from '../../../common/guards/decorators';
 import { AttachmentsService } from '../../application/attachments.service';
-import { UploadedFiles } from '../../application/usecases/upload/upload.command';
-import { AttachmentNotFoundException } from '../../domain/entities/attachments.entity';
 import { AttachmentListResponse } from './attachment-list.response';
 import { AttachmentVisibilityDto } from './attachment-visibility.dto';
 import { DownloadAttachmentDto, DownloadSharedAttachmentDto } from './download-attachment.dto';
@@ -32,20 +31,25 @@ export class AttachmentsController {
     @Req() request: FastifyRequest,
   ): Promise<AttachmentListResponse> {
     const uploadedFiles = request.files();
-    const files: UploadedFiles[] = [];
-    for await (const file of uploadedFiles) {
-      files.push({
-        buffer: await file.toBuffer(),
-        name: file.filename,
-      });
-    }
 
-    const attachments = await this.attachmentsService.upload({
-      files: files,
-      visibility: visibilityDto.visibility,
-      userId: user.id,
-      isDraft: false,
-    });
+    const attachments = [];
+    for await (const file of uploadedFiles) {
+      const attachment = await this.attachmentsService.upload({
+        file: {
+          fileData: file.file,
+          originalName: file.filename,
+          mimeType: {
+            ext: extname(file.filename),
+            mime: file.mimetype,
+          },
+        },
+        visibility: visibilityDto.visibility,
+        userId: user.id,
+        isDraft: false,
+      });
+
+      attachments.push(attachment);
+    }
 
     return AttachmentListResponse.from(attachments);
   }
@@ -55,43 +59,34 @@ export class AttachmentsController {
   })
   @Get(':id')
   async download(@Param() downloadDto: DownloadAttachmentDto, @CurrentUser() user: CurrentUser) {
-    try {
-      const { attachment, buffer } = await this.attachmentsService.download({
-        attachmentId: downloadDto.id,
-        userId: user.id,
-      });
+    const { attachment, buffer } = await this.attachmentsService.download({
+      id: downloadDto.id,
+      userId: user.id,
+    });
 
-      const encodedFilename = encodeURIComponent(attachment.name.replace(/\s+/g, '+'));
+    const encodedFilename = encodeURIComponent(attachment.name.replace(/\s+/g, '+'));
 
-      return new StreamableFile(buffer, {
-        type: attachment.mimeType?.mime,
-        length: attachment.size,
-        disposition: `attachment; filename*=UTF-8''${encodedFilename}`,
-      });
-    } catch (error) {
-      throw new AttachmentNotFoundException();
-    }
+    return new StreamableFile(buffer, {
+      type: attachment.mimeType?.mime,
+      disposition: `attachment; filename*=UTF-8''${encodedFilename}`,
+    });
   }
 
   @ApiOperation({
     operationId: 'downloadShared',
   })
-  @Get('share/:id')
+  @Get('share/:token')
   async downloadShared(@Param() downloadDto: DownloadSharedAttachmentDto) {
-    try {
-      const { attachment, buffer } = await this.attachmentsService.download({
-        attachmentId: downloadDto.id,
-      });
+    const { attachment, buffer } = await this.attachmentsService.download({
+      id: downloadDto.token,
+      isShared: true,
+    });
 
-      const encodedFilename = encodeURIComponent(attachment.name.replace(/\s+/g, '+'));
+    const encodedFilename = encodeURIComponent(attachment.name.replace(/\s+/g, '+'));
 
-      return new StreamableFile(buffer, {
-        type: attachment.mimeType?.mime,
-        length: attachment.size,
-        disposition: `attachment; filename*=UTF-8''${encodedFilename}`,
-      });
-    } catch (error) {
-      throw new AttachmentNotFoundException();
-    }
+    return new StreamableFile(buffer, {
+      type: attachment.mimeType?.mime,
+      disposition: `attachment; filename*=UTF-8''${encodedFilename}`,
+    });
   }
 }

@@ -23,9 +23,6 @@ export class TypeormAttachmentEntity {
   @Column({ type: 'jsonb', nullable: true, name: 'mime_type' })
   readonly mimeType!: MimeType | null;
 
-  @Column({ type: 'int', name: 'size' })
-  readonly size!: number;
-
   @Column({ type: 'uuid', name: 'uploader_id' })
   @Index('attachments_uploader_id_idx')
   readonly uploaderId!: UserId;
@@ -52,7 +49,6 @@ export class TypeormAttachmentEntity {
   static toAttachmentEntity(item: TypeormAttachmentEntity, baseUrl: string): AttachmentEntity {
     return new AttachmentEntity(
       item.originalName,
-      item.size,
       item.visibility,
       item.mimeType,
       item.uploaderId,

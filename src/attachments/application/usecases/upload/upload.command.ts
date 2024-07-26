@@ -1,13 +1,10 @@
 import { AuthenticatedCommand } from '../../../../common/commands/authenticated.command';
 import { AttachmentVisibility } from '../../../domain/entities/attachments.entity';
-
-export interface UploadedFiles {
-  buffer: Buffer;
-  name: string;
-}
+import { FileInfo } from '../../storage-provider';
 
 export class UploadCommand extends AuthenticatedCommand {
   readonly visibility!: AttachmentVisibility;
   readonly isDraft!: boolean;
-  readonly files!: UploadedFiles[];
+  readonly file!: FileInfo;
+  readonly storePath?: string;
 }

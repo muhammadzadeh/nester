@@ -15,8 +15,8 @@ export class DownloadSharedAttachmentDto {
   @ApiProperty({
     type: String,
     description: 'The attachment shared token',
-    example: 'fa9a52b2-b56d-43ff-b96e-5989665457f9',
+    example: 'fa9a52b2b56d43ffb96e5989665457f9',
   })
   @IsNotEmpty()
-  id!: string;
+  token!: string;
 }

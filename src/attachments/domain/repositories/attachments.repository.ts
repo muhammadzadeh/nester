@@ -4,6 +4,7 @@ import { AttachmentEntity } from '../entities/attachments.entity';
 export interface FindAttachmentOptions {
   ids?: string[];
   shareTokens?: string[];
+  isShared?: boolean;
 }
 
 export const ATTACHMENTS_REPOSITORY_TOKEN = Symbol('AttachmentsRepository');

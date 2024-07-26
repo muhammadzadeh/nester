@@ -60,6 +60,14 @@ export class TypeormAttachmentsRepository implements AttachmentsRepository {
     if (options.ids) {
       queryBuilder.andWhere(`${alias ? alias + '.' : ''}id IN(:...ids)`, { ids: options.ids });
     }
+    if (options.shareTokens) {
+      queryBuilder.andWhere(`${alias ? alias + '.' : ''}shareToken IN(:...shareTokens)`, {
+        shareTokens: options.shareTokens,
+      });
+    }
+    if (options.isShared != undefined) {
+      queryBuilder.andWhere(`${alias ? alias + '.' : ''}isShared = :isShared`, { isShared: options.isShared });
+    }
     return queryBuilder;
   }
 

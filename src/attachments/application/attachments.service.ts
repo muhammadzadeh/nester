@@ -31,7 +31,7 @@ export class AttachmentsService {
     private readonly uploadUsecase: UploadUsecase,
   ) {}
 
-  async upload(command: UploadCommand): Promise<AttachmentEntity[]> {
+  async upload(command: UploadCommand): Promise<AttachmentEntity> {
     return await this.uploadUsecase.execute(command);
   }
 

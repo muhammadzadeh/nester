@@ -92,6 +92,15 @@ export class MinioStorageProvider implements StorageProvider {
     return this.options.publicBaseUrl;
   }
 
+
+  getPrivateBucketName(): string {
+    return this.options.privateBucketName;
+  }
+
+  getPublicBucketName(): string {
+    return this.options.publicBucketName;
+  }
+
   getName(): string {
     return 'minio';
   }
@@ -102,8 +111,9 @@ export class MinioStorageProvider implements StorageProvider {
     const uploadParams: PutObjectCommandInput = {
       Bucket: bucket,
       Key: key,
-      Body: input.data,
+      Body: input.fileData,
       ContentType: input.mimeType.mime,
+      ContentLength: (input.fileData as Readable).readableLength
     };
 
     await this.s3Client.send(new PutObjectCommand(uploadParams));

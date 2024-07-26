@@ -7,15 +7,14 @@ import { now } from '../../../common/time';
 export class AttachmentEntity {
   constructor(
     originalName: string | null,
-    size: number,
     visibility: AttachmentVisibility,
     mimeType: MimeType | null,
     uploaderId: string,
     isDraft: boolean,
+    path: string,
   );
   constructor(
     originalName: string | null,
-    size: number,
     visibility: AttachmentVisibility,
     mimeType: MimeType | null,
     uploaderId: string,
@@ -32,12 +31,11 @@ export class AttachmentEntity {
   );
   constructor(
     originalName: string | null,
-    size: number,
     visibility: AttachmentVisibility,
     mimeType: MimeType | null,
     uploaderId: string,
     isDraft: boolean,
-    path?: string,
+    path: string,
     name?: string | null,
     isShared?: boolean,
     shareToken?: string | null,
@@ -55,13 +53,12 @@ export class AttachmentEntity {
     this.originalName = originalName;
     this.visibility = visibility;
     this.mimeType = mimeType;
-    this.size = size;
     this.isDraft = isDraft;
     this.isShared = isShared ?? false;
     this.shareToken = shareToken ?? null;
     this.uploaderId = uploaderId;
     this.baseUrl = baseUrl ?? '';
-    this.path = path ?? this.getPathToStore();
+    this.path = path;
     this.initialUrl();
   }
 
@@ -74,7 +71,6 @@ export class AttachmentEntity {
   readonly originalName!: string | null;
   readonly visibility!: AttachmentVisibility;
   readonly mimeType!: MimeType | null;
-  readonly size!: number;
   readonly uploaderId!: string;
   url!: string;
   isDraft!: boolean;
@@ -84,7 +80,7 @@ export class AttachmentEntity {
   baseUrl!: string | null;
 
   getPathAndName(): string {
-    return `${this.path}/${this.name}.${this.mimeType?.ext}`;
+    return `${this.path}/${this.name}${this.mimeType?.ext}`;
   }
 
   isPrivatelyShared() {
@@ -117,13 +113,6 @@ export class AttachmentEntity {
 
   private generateRandomString(): string {
     return randomStringSync({ length: 100, type: 'alphanumeric' });
-  }
-
-  private getPathToStore(): string {
-    const filePath =
-      this.visibility === AttachmentVisibility.PRIVATE ? `private/${this.uploaderId}` : `public/attachments`;
-
-    return filePath;
   }
 
   private getDownloadUrl(): string {

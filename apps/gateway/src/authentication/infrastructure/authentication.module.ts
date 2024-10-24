@@ -77,7 +77,7 @@ const otpRepository: Provider = {
     {
       provide: IsStrongPasswordConstraint,
       inject: [Configuration],
-      useFactory: (config: Configuration) => new IsStrongPasswordConstraint(config),
+      useFactory: (config: Configuration) => new IsStrongPasswordConstraint(config.authentication.passwordRegEx),
     },
   ],
   exports: [OtpService, AuthService, JwtTokenService],

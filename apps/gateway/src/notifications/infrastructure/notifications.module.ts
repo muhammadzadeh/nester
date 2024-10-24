@@ -1,7 +1,7 @@
 import { HttpModule, HttpService } from '@nestjs/axios';
 import { Module, Provider } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigModule, Configuration } from '@repo/config';
+import { Configuration } from '@repo/config';
 import { MAILER_TOKEN, Mailer } from '../application/email-provider.interface';
 import { NotificationsConsumer } from '../application/notifications.consumer';
 import { NotificationsDispatcher } from '../application/notifications.dispatcher';
@@ -63,11 +63,7 @@ const notificationPushTokensRepository: Provider = {
 };
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([TypeormNotificationEntity, TypeormNotificationPushTokenEntity]),
-    ConfigModule,
-    HttpModule,
-  ],
+  imports: [TypeOrmModule.forFeature([TypeormNotificationEntity, TypeormNotificationPushTokenEntity]), HttpModule],
   controllers: [NotificationController],
   providers: [
     mailProvider,

@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "pnpm build --watch",
     "build": "tsc -b -v",
+    "clean": "rm -rf dist",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\""
   },
   "files": [
@@ -23,21 +24,12 @@
     }
   },
   "exports": {
-    "identifier": {
-      "types": "./src/is-identifier.validator.ts",
-      "default": "./dist/is-identifier.validator.js"
-    },
-    "uuid": {
-      "types": "./src/is-not-uuid.validator.ts",
-      "default": "./dist/is-not-uuid.validator.js"
-    },
-    "password": {
-      "types": "./src/is-strong-password.validator.ts",
-      "default": "./dist/is-strong-password.validator.js"
+    "./*": {
+      "import": "./dist/*.js",
+      "require": "./dist/*.js"
     }
   },
   "dependencies": {
-    "@repo/config": "*",
     "@nestjs/mapped-types": "*",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1"

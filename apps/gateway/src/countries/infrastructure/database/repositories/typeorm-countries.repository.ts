@@ -1,13 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { SelectQueryBuilder } from 'typeorm/browser';
+import { Repository, SelectQueryBuilder } from 'typeorm';
 import { Paginated, PaginationOption } from '../../../../common/database';
 import { CountryEntity } from '../../../domain/entities/country.entity';
 import {
   CountriesRepository,
-  RegionOrderBy,
   FindRegionOptions,
+  RegionOrderBy,
 } from '../../../domain/repositories/countries.repository';
 import { TypeormCountryEntity } from '../entities/typeorm-country.entity';
 

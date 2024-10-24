@@ -5,8 +5,8 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { TerminusModule } from '@nestjs/terminus';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule, Configuration } from '@repo/config';
 import { Queue } from 'bull';
-import typeormOptions from 'common/typeorm';
 import { WinstonModule } from 'nest-winston';
 import { AcceptLanguageResolver, HeaderResolver, I18nModule, QueryResolver } from 'nestjs-i18n';
 import { join } from 'node:path';
@@ -14,19 +14,22 @@ import { AttachmentsModule } from '../attachments/attachments.module';
 import { AuthenticationModule } from '../authentication/infrastructure/authentication.module';
 import { CacheServiceModule } from '../common/cache/cache.module';
 import { CaptchaModule } from '../common/captcha/captcha.module';
-import { ConfigModule, Configuration } from '@repo/config';
 import { DATABASE_SEEDER_TAG } from '../common/database';
 import { AuthModule } from '../common/guards';
 import { HealthController } from '../common/health/health.controller';
 import { RabbitMQModule } from '../common/rabbit/infrastructure/rabbit-mq.module';
 import { ThrottlerStorageRedisService } from '../common/throttler';
+import typeormOptions from '../common/typeorm';
 import { CountryModule } from '../countries/infrastructure/country.module';
 import { NotificationsModule } from '../notifications/infrastructure/notifications.module';
 import { ProfileModule } from '../users/profiles/infrastructure/profiles.module';
 
 @Module({
   imports: [
-    ConfigModule,
+    ConfigModule.forRootAsync({
+      inject: [],
+      useFactory: () => ({ filePath: '../../apps/gateway/config.yml' }),
+    }),
     WinstonModule.forRootAsync({
       inject: [Configuration],
       useFactory: ({ logger, app }: Configuration) => ({

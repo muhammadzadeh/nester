@@ -16,6 +16,9 @@
         "dist/**"
       ]
     },
+    "clean": {
+      "cache": false
+    },
     "lint": {},
     "test": {},
     "test:e2e": {}

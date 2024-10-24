@@ -1,0 +1,52 @@
+{
+  "name": "@repo/validator",
+  "description": "The App Validator",
+  "version": "0.0.1",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "dev": "npm build --watch",
+    "build": "tsc -b -v",
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\""
+  },
+  "files": [
+    "./dist/**"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "typesVersions": {
+    "*": {
+      "*": [
+        "src/*"
+      ]
+    }
+  },
+  "exports": {
+    "identifier": {
+      "types": "./src/is-identifier.validator.ts",
+      "default": "./dist/is-identifier.validator.js"
+    },
+    "uuid": {
+      "types": "./src/is-not-uuid.validator.ts",
+      "default": "./dist/is-not-uuid.validator.js"
+    },
+    "password": {
+      "types": "./src/is-strong-password.validator.ts",
+      "default": "./dist/is-strong-password.validator.js"
+    }
+  },
+  "dependencies": {
+    "@nestjs/mapped-types": "*",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.1"
+  },
+  "devDependencies": {
+    "@repo/eslint-config": "*",
+    "@repo/typescript-config": "*",
+    "@types/node": "^20.3.1",
+    "ts-loader": "^9.4.3",
+    "ts-node": "^10.9.1",
+    "typescript": "5.4.5"
+  }
+}

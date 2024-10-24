@@ -1,4 +1,4 @@
-import { Pagination, PaginationOption } from '../../../../common/database';
+import { Paginated, PaginationOption } from '../../../../common/database';
 import { Email, Mobile, UserId, Username } from '../../../../common/types';
 import { UserEntity } from '../entities/user.entity';
 
@@ -21,7 +21,7 @@ export interface UsersRepository {
   findAll(
     options: Partial<FindUserOptions>,
     pagination?: PaginationOption<UserOrderBy>,
-  ): Promise<Pagination<UserEntity>>;
+  ): Promise<Paginated<UserEntity>>;
   exists(options: Partial<FindUserOptions>): Promise<boolean>;
   update(options: Partial<FindUserOptions>, data: Partial<UserEntity>): Promise<void>;
 }

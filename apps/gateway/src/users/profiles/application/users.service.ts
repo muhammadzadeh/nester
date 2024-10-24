@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Pagination, PaginationOption } from '../../../common/database';
+import { Paginated, PaginationOption } from '../../../common/database';
 import { now } from '../../../common/time';
 import { Email, Mobile, UserId, Username } from '../../../common/types';
 import { UserEntity, UserNotFoundException } from '../domain/entities/user.entity';
@@ -49,7 +49,7 @@ export class UsersService {
   async findAll(
     conditions: Partial<FindUserOptions>,
     pagination?: PaginationOption<UserOrderBy>,
-  ): Promise<Pagination<UserEntity>> {
+  ): Promise<Paginated<UserEntity>> {
     return this.findAllProfileUsecase.execute(
       FindAllProfileQuery.create({
         conditions,

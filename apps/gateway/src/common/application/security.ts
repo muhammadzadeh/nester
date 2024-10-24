@@ -6,7 +6,7 @@ import {
   IsUserEnableGuard,
 } from '../../authentication/infrastructure/web/guards';
 import { CaptchaGuard } from '../captcha/infrastructure/web/guard';
-import { Configuration } from '../config';
+import { Configuration } from '@repo/config';
 import { ThrottlerBehindProxyGuard } from '../guards/throttler-behind-proxy.guard';
 
 export default (app: NestFastifyApplication): void => {

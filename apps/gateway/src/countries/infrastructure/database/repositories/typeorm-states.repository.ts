@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { SelectQueryBuilder } from 'typeorm/browser';
-import { Pagination, PaginationOption } from '../../../../common/database';
+import { Paginated, PaginationOption } from '../../../../common/database';
 import { StateEntity } from '../../../domain/entities/state.entity';
 import { FindStateOptions, StateOrderBy, StatesRepository } from '../../../domain/repositories/states.repository';
 import { TypeormStateEntity } from '../entities/typeorm-state.entity';
@@ -17,7 +17,7 @@ export class TypeormStatesRepository implements StatesRepository {
   async findAll(
     options: Partial<FindStateOptions>,
     pagination?: PaginationOption<StateOrderBy> | undefined,
-  ): Promise<Pagination<StateEntity>> {
+  ): Promise<Paginated<StateEntity>> {
     const queryBuilder = this.buildSelectQuery(options, 'state');
 
     if (pagination?.orderBy) {

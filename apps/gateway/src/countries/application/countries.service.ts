@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { Pagination, PaginationOption } from '../../common/database';
+import { Paginated, PaginationOption } from '../../common/database';
 import { CityRegionEntity } from '../domain/entities/city-region.entity';
 import { CityEntity } from '../domain/entities/city.entity';
 import { CountryEntity } from '../domain/entities/country.entity';
@@ -41,28 +41,28 @@ export class CountriesService {
   async findCountries(
     options: Partial<FindRegionOptions>,
     pagination?: PaginationOption<RegionOrderBy>,
-  ): Promise<Pagination<CountryEntity>> {
+  ): Promise<Paginated<CountryEntity>> {
     return await this.countriesRepository.findAll(options, pagination);
   }
 
   async findStates(
     options: Partial<FindStateOptions>,
     pagination?: PaginationOption<StateOrderBy>,
-  ): Promise<Pagination<StateEntity>> {
+  ): Promise<Paginated<StateEntity>> {
     return await this.statesRepository.findAll(options, pagination);
   }
 
   async findCities(
     options: Partial<FindCityOptions>,
     pagination?: PaginationOption<CityOrderBy>,
-  ): Promise<Pagination<CityEntity>> {
+  ): Promise<Paginated<CityEntity>> {
     return await this.cityRepository.findAll(options, pagination);
   }
 
   async findRegions(
     options: Partial<FindCityRegionOptions>,
     pagination?: PaginationOption<CityRegionOrderBy>,
-  ): Promise<Pagination<CityRegionEntity>> {
+  ): Promise<Paginated<CityRegionEntity>> {
     return await this.cityRegionRepository.findAll(options, pagination);
   }
 

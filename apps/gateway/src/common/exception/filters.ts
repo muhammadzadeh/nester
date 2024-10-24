@@ -15,7 +15,7 @@ import { AbstractHttpAdapter, HttpAdapterHost } from '@nestjs/core';
 import { ThrottlerException } from '@nestjs/throttler';
 import { captureException } from '@sentry/node';
 import { I18nService } from 'nestjs-i18n';
-import { Configuration } from '../config';
+import { Configuration } from '@repo/config';
 import { ExceptionMap } from './exception-map';
 import { FlatError, ValidationException } from './validation.exception';
 

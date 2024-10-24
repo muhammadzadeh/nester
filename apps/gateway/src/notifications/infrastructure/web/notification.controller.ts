@@ -2,7 +2,7 @@ import { Body, Get, Post, Query } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { CurrentUser } from '../../../authentication/infrastructure/web/decorators';
 import { CommonController } from '../../../common/guards/decorators';
-import { DoneResponse, Serializer } from '../../../common/serialization';
+import { DoneResponse } from '../../../common/serialization';
 import { NotificationsService } from '../../application/notifications.service';
 import { AddPushTokenDto } from './add-push-token.dto';
 import { FilterNotificationDto } from './filter-notification.dto';
@@ -25,7 +25,7 @@ export class NotificationController {
     @CurrentUser() user: CurrentUser,
   ): Promise<DoneResponse> {
     await this.notificationsService.markNotificationAsRead(id, user.id);
-    return Serializer.done();
+    return new DoneResponse();
   }
 
   @Post('read-all')
@@ -35,7 +35,7 @@ export class NotificationController {
   })
   async markAllNotificationsAsRead(@CurrentUser() user: CurrentUser): Promise<DoneResponse> {
     await this.notificationsService.markAllNotificationsAsRead(user.id);
-    return Serializer.done();
+    return new DoneResponse();
   }
 
   @Get('unread-count')
@@ -76,6 +76,6 @@ export class NotificationController {
   })
   async addPushToken(@Body() { token }: AddPushTokenDto, @CurrentUser() user: CurrentUser): Promise<DoneResponse> {
     await this.notificationsService.addPushToken(token, user.id);
-    return Serializer.done();
+    return new DoneResponse();
   }
 }

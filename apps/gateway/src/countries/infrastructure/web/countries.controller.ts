@@ -3,7 +3,8 @@ import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { IgnoreAuthorizationGuard, RequiredPermissions } from '../../../authentication/infrastructure/web/decorators';
 import { FineOneUUIDDto } from '../../../common/dto/find-one-uuid.dto';
 import { CommonController } from '../../../common/guards/decorators';
-import { DoneResponse, Serializer } from '../../../common/serialization';
+import { DoneResponse } from '../../../common/serialization';
+import { Permission } from '../../../users/roles/domain/entities/role.entity';
 import { CountriesService } from '../../application/countries.service';
 import { CityListResponse } from './city-list.response';
 import { CityRegionListResponse } from './city-region-list.response';
@@ -14,7 +15,6 @@ import { FilterCountryDto } from './filter-country.dto';
 import { FilterRegionDto } from './filter-regions.dto';
 import { FilterStateDto } from './filter-state.dto';
 import { StateListResponse } from './state-list.response';
-import { Permission } from '../../../users/roles/domain/entities/role.entity';
 
 @CommonController()
 @ApiTags('Countries')
@@ -125,6 +125,6 @@ export class CountriesController {
       name: data.name,
       cityId: params.id,
     });
-    return Serializer.done();
+    return new DoneResponse();
   }
 }

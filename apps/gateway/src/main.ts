@@ -12,7 +12,7 @@ import configureSecurity from './common/application/security';
 import configureSentry from './common/application/sentry';
 import configureSwagger from './common/application/swagger';
 import configureGlobalTransformers from './common/application/transformers';
-import { Configuration } from './common/config';
+import { Configuration } from '@repo/config';
 import configureGlobalFilters from './common/exception/filters';
 
 async function bootstrap() {

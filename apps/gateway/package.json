@@ -16,6 +16,10 @@
     "typeorm": "typeorm-ts-node-commonjs"
   },
   "dependencies": {
+    "@repo/decorator": "*",
+    "@repo/validator": "*",
+    "@repo/utils": "*",
+    "@repo/config": "*",
     "@aws-sdk/client-s3": "^3.678.0",
     "@fastify/helmet": "^11.1.1",
     "@fastify/multipart": "^8.3.0",

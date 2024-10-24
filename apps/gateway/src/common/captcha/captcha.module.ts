@@ -1,6 +1,6 @@
 import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
-import { Configuration } from '../config';
+import { Configuration } from '@repo/config';
 import { CAPTCHA_PROVIDER_TOKEN, CaptchaProvider } from './application/captcha-provider';
 import { Recaptcha } from './infrastructure/providers/recaptcha';
 import { CaptchaGuard } from './infrastructure/web/guard';

@@ -1,6 +1,6 @@
 import { IsNotEmpty } from 'class-validator';
-import { ToLowerCase } from '../../../../common/decorators';
-import { IsIdentifier } from '../../../../common/is-identifier.validator';
+import { ToLowerCase } from '@repo/decorator';
+import { IsIdentifier } from '@repo/validator/is-identifier.validator';
 
 export class IdentifierDto {
   @IsNotEmpty()

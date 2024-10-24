@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, SelectQueryBuilder } from 'typeorm';
-import { Pagination } from '../../../../common/database';
+import { Paginated } from '../../../../common/database';
 import { STORAGE_PROVIDER_TOKEN, StorageProvider } from '../../../application/storage-provider';
 import { AttachmentEntity, AttachmentVisibility } from '../../../domain/entities/attachments.entity';
 import { AttachmentsRepository, FindAttachmentOptions } from '../../../domain/repositories/attachments.repository';
@@ -15,7 +15,7 @@ export class TypeormAttachmentsRepository implements AttachmentsRepository {
     @Inject(STORAGE_PROVIDER_TOKEN)
     private readonly storageProvider: StorageProvider,
   ) {}
-  async findAll(options: FindAttachmentOptions): Promise<Pagination<AttachmentEntity>> {
+  async findAll(options: FindAttachmentOptions): Promise<Paginated<AttachmentEntity>> {
     const queryBuilder = this.buildSelectQuery(options, 'attachment');
 
     const [items, count] = await queryBuilder.getManyAndCount();

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, SelectQueryBuilder } from 'typeorm';
-import { Pagination, PaginationOption } from '../../../../../common/database';
+import { Paginated, PaginationOption } from '../../../../../common/database';
 import { UserEntity } from '../../../domain/entities/user.entity';
 import { FindUserOptions, UserOrderBy, UsersRepository } from '../../../domain/repositories/users.repository';
 import { TypeormUserEntity } from '../entities/typeorm-user.entity';
@@ -32,7 +32,7 @@ export class TypeormUsersRepository implements UsersRepository {
   async findAll(
     options: Partial<FindUserOptions>,
     pagination?: PaginationOption<UserOrderBy>,
-  ): Promise<Pagination<UserEntity>> {
+  ): Promise<Paginated<UserEntity>> {
     const queryBuilder = this.buildSelectQuery(options, 'user');
 
     if (pagination?.orderBy) {

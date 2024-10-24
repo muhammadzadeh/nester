@@ -1,4 +1,4 @@
-import { Pagination, PaginationOption } from '../../../common/database';
+import { Paginated, PaginationOption } from '../../../common/database';
 import { StateEntity } from '../entities/state.entity';
 
 export const STATES_REPOSITORY_TOKEN = Symbol('StatesRepository');
@@ -16,6 +16,6 @@ export interface StatesRepository {
   findAll(
     options: Partial<FindStateOptions>,
     pagination?: PaginationOption<StateOrderBy>,
-  ): Promise<Pagination<StateEntity>>;
+  ): Promise<Paginated<StateEntity>>;
   exists(options: Partial<FindStateOptions>): Promise<boolean>;
 }

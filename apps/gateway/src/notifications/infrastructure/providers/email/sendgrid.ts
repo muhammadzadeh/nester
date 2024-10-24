@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import nodemailer from 'nodemailer';
-import { Configuration } from '../../../../common/config';
+import { Configuration } from '@repo/config';
 import { SendEmailData, Mailer } from '../../../application/email-provider.interface';
 import { NotificationChannelStatus } from '../../../domain/entities/notification.entity';
 import { NotificationDispatcherResponse } from '../../../application/notifications.dispatcher';

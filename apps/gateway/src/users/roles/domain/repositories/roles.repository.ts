@@ -1,4 +1,4 @@
-import { Pagination, PaginationOption } from '../../../../common/database';
+import { Paginated, PaginationOption } from '../../../../common/database';
 import { UserId } from '../../../../common/types';
 import { Permission, RoleEntity } from '../entities/role.entity';
 
@@ -19,7 +19,7 @@ export interface RolesRepository {
   findAll(
     options: Partial<FindRoleOptions>,
     pagination?: PaginationOption<RoleOrderBy>,
-  ): Promise<Pagination<RoleEntity>>;
+  ): Promise<Paginated<RoleEntity>>;
   exists(options: Partial<FindRoleOptions>): Promise<boolean>;
   update(options: Partial<FindRoleOptions>, data: Partial<RoleEntity>): Promise<void>;
 }

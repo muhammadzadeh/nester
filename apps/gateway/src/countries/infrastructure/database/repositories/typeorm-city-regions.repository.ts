@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { SelectQueryBuilder } from 'typeorm/browser';
-import { Pagination, PaginationOption } from '../../../../common/database';
+import { Paginated, PaginationOption } from '../../../../common/database';
 import { CityRegionEntity } from '../../../domain/entities/city-region.entity';
 import {
   CityRegionOrderBy,
@@ -26,7 +26,7 @@ export class TypeormCityRegionsRepository implements CityRegionsRepository {
   async findAll(
     options: Partial<FindCityRegionOptions>,
     pagination?: PaginationOption<CityRegionOrderBy> | undefined,
-  ): Promise<Pagination<CityRegionEntity>> {
+  ): Promise<Paginated<CityRegionEntity>> {
     const queryBuilder = this.buildSelectQuery(options, 'region');
 
     if (pagination?.orderBy) {

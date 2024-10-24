@@ -12,7 +12,7 @@ import { ATTACHMENT_USERS_REPOSITORY_TOKEN } from './domain/repositories/attachm
 import { ATTACHMENTS_REPOSITORY_TOKEN } from './domain/repositories/attachments.repository';
 
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Configuration } from '../common/config';
+import { Configuration } from '@repo/config';
 import { TypeormAttachmentEntity, TypeormAttachmentUserEntity } from './infrastructure/database/entities';
 import { TypeormAttachmentUsersRepository, TypeormAttachmentsRepository } from './infrastructure/database/repositories';
 import { LocalStorageProvider, MinioStorageProvider } from './infrastructure/providers';

@@ -23,7 +23,7 @@ import {
   NotificationsRepository,
 } from '../domain/repositories/notifications.repository';
 import { NotificationsDispatcher } from './notifications.dispatcher';
-import { Pagination } from '../../common/database';
+import { Paginated } from '../../common/database';
 
 @Injectable()
 export class NotificationsService {
@@ -65,7 +65,7 @@ export class NotificationsService {
     await this.notificationDispatcher.dispatch(createdNotification);
   }
 
-  async findAll(input: FindPaginatedNotificationData): Promise<Pagination<NotificationEntity>> {
+  async findAll(input: FindPaginatedNotificationData): Promise<Paginated<NotificationEntity>> {
     return await this.notificationsRepository.findAll(input);
   }
 
@@ -110,7 +110,7 @@ export class NotificationsService {
     await this.tokensRepository.save(new NotificationPushTokenEntity(userId, token, PushProvider.FCM));
   }
 
-  async findAllAlerts(input: FindPaginatedNotificationData): Promise<Pagination<NotificationEntity>> {
+  async findAllAlerts(input: FindPaginatedNotificationData): Promise<Paginated<NotificationEntity>> {
     const result = await this.findAll({
       ...input,
       statuses: [NotificationStatus.NOT_READ],

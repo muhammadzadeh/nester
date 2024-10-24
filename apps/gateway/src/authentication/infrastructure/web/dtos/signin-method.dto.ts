@@ -1,8 +1,8 @@
 import { IsNotEmpty, IsString } from 'class-validator';
 import { Email, Mobile } from '../../../../common/types';
-import { IsNotUUID } from '../../../../common/is-not-uuid.validator';
-import { ToLowerCase } from '../../../../common/decorators';
-import { IsIdentifier } from '../../../../common/is-identifier.validator';
+import { IsNotUUID } from '@repo/validator/is-not-uuid.validator';
+import { ToLowerCase } from '@repo/decorator';
+import { IsIdentifier } from '@repo/validator/is-identifier.validator';
 
 export class SigninMethodDto {
   @IsNotEmpty()

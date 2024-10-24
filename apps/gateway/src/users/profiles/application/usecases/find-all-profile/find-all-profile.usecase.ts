@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { Pagination } from '../../../../../common/database';
+import { Paginated } from '../../../../../common/database';
 import { UserEntity } from '../../../domain/entities/user.entity';
 import { USERS_REPOSITORY_TOKEN, UsersRepository } from '../../../domain/repositories/users.repository';
 import { FindAllProfileQuery } from './find-all-profile.query';
@@ -8,7 +8,7 @@ import { FindAllProfileQuery } from './find-all-profile.query';
 export class FindAllProfileUsecase {
   constructor(@Inject(USERS_REPOSITORY_TOKEN) private readonly usersRepository: UsersRepository) {}
 
-  async execute(query: FindAllProfileQuery): Promise<Pagination<UserEntity>> {
+  async execute(query: FindAllProfileQuery): Promise<Paginated<UserEntity>> {
     return this.usersRepository.findAll(query.conditions, query.pagination);
   }
 }

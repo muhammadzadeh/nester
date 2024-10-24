@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { isEmail, isPhoneNumber } from 'class-validator';
-import { Configuration } from '../../../../common/config';
+import { Configuration } from '@repo/config';
 import { UsersService } from '../../../../users/profiles/application/users.service';
 import { OTPReason, OTPType } from '../../../domain/entities';
 import { YourAccountIsBlockedException } from '../../exceptions';

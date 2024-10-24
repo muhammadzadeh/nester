@@ -14,7 +14,7 @@ import { AttachmentsModule } from '../attachments/attachments.module';
 import { AuthenticationModule } from '../authentication/infrastructure/authentication.module';
 import { CacheServiceModule } from '../common/cache/cache.module';
 import { CaptchaModule } from '../common/captcha/captcha.module';
-import { ConfigModule, Configuration } from '../common/config';
+import { ConfigModule, Configuration } from '@repo/config';
 import { DATABASE_SEEDER_TAG } from '../common/database';
 import { AuthModule } from '../common/guards';
 import { HealthController } from '../common/health/health.controller';

@@ -6,17 +6,16 @@ import {
 } from 'class-validator';
 
 import { Injectable } from '@nestjs/common';
-/* import { Configuration } from './config'; */
+ import { Configuration } from '@repo/config'; 
 
 @ValidatorConstraint({ async: true })
 @Injectable()
 export class IsStrongPasswordConstraint implements ValidatorConstraintInterface {
-  constructor(/* private readonly config: Configuration */) {}
+  constructor( private readonly config: Configuration ) {}
 
   async validate(password: any) {
-   /*  const passwordRegex = new RegExp(this.config.authentication.passwordRegEx);
-    return typeof password === 'string' && passwordRegex.test(password); */
-    return true;
+     const passwordRegex = new RegExp(this.config.authentication.passwordRegEx);
+    return typeof password === 'string' && passwordRegex.test(password); 
   }
 
   defaultMessage(): string {

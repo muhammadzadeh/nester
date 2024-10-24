@@ -1,13 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { Pagination } from '../../../common/database';
+import { Paginated } from '../../../common/database';
 import { ListResponse } from '../../../common/serialization';
 import { CountryEntity } from '../../domain/entities/country.entity';
 import { CountryResponse } from './country.response';
 import { FilterCountryDto } from './filter-country.dto';
 
 export class CountryListResponse extends ListResponse<CountryResponse> {
-  static from(data: Pagination<CountryEntity>, filters: FilterCountryDto): CountryListResponse {
+  static from(data: Paginated<CountryEntity>, filters: FilterCountryDto): CountryListResponse {
     return new CountryListResponse(
       data.items.map((item) => CountryResponse.from(item)),
       {

@@ -1,7 +1,7 @@
+import { ToLowerCase } from '@repo/decorator';
+import { IsStrongPassword } from '@repo/validator/is-strong-password.validator';
 import { IsEnum, IsNotEmpty, IsString, isEmail } from 'class-validator';
-import { ToLowerCase } from '../../../../common/decorators';
-import { IsIdentifier } from '../../../../common/is-identifier.validator';
-import { IsStrongPassword } from '../../../../common/is-strong-password.validator';
+import { IsIdentifier } from '@repo/validator/is-identifier.validator';
 import { OtpVerification } from '../../../application/services/otp.service';
 import { OTPReason, OTPType } from '../../../domain/entities';
 

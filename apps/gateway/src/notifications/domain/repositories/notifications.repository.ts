@@ -1,4 +1,4 @@
-import { Pagination, PaginationOption } from '../../../common/database';
+import { Paginated, PaginationOption } from '../../../common/database';
 import { AlertStatus, NotificationEntity, NotificationStatus } from '../entities/notification.entity';
 
 export interface FindNotificationData {
@@ -24,6 +24,6 @@ export interface NotificationsRepository {
   update(options: Partial<FindNotificationData>, data: Partial<NotificationEntity>): Promise<void>
   findOne(options: Partial<FindNotificationData>): Promise<NotificationEntity | null>;
   exists(options: Partial<FindNotificationData>): Promise<boolean>;
-  findAll(options: FindPaginatedNotificationData): Promise<Pagination<NotificationEntity>>;
+  findAll(options: FindPaginatedNotificationData): Promise<Paginated<NotificationEntity>>;
   count(options: Partial<FindNotificationData>): Promise<number>;
 }

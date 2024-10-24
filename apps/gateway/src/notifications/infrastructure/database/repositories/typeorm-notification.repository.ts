@@ -11,7 +11,7 @@ import {
   NotificationsRepository,
 } from '../../../domain/repositories/notifications.repository';
 import { TypeormNotificationEntity } from '../entities/typeorm-notification.entity';
-import { Pagination } from '../../../../common/database';
+import { Paginated } from '../../../../common/database';
 import { OrderDir } from '../../../../common/types';
 
 @Injectable()
@@ -67,7 +67,7 @@ export class TypeormNotificationsRepository implements NotificationsRepository {
     return await queryBuilder.getExists();
   }
 
-  async findAll(options: FindPaginatedNotificationData): Promise<Pagination<NotificationEntity>> {
+  async findAll(options: FindPaginatedNotificationData): Promise<Paginated<NotificationEntity>> {
     const {
       orderBy = NotificationOrderBy.UPDATED_AT,
       orderDir = OrderDir.DESC,

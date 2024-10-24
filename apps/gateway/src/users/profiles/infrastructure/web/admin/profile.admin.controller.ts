@@ -2,7 +2,7 @@ import { Body, Get, Param, Patch, Query } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { RequiredPermissions } from '../../../../../authentication/infrastructure/web/decorators';
 import { AdminController } from '../../../../../common/guards/decorators';
-import { DoneResponse, Serializer } from '../../../../../common/serialization';
+import { DoneResponse } from '../../../../../common/serialization';
 import { Permission } from '../../../../roles/domain/entities/role.entity';
 import { UsersService } from '../../../application/users.service';
 import { FilterUserDto } from '../common/filter-user.dto';
@@ -46,6 +46,6 @@ export class ProfileControllerForAdmin {
   @RequiredPermissions(Permission.WRITE_USERS)
   async updateMyProfile(@Param() params: GetUserDto, @Body() data: UpdateUserRoleDto): Promise<DoneResponse> {
     await this.usersService.updateProfile(params.id, data.toEntity());
-    return Serializer.done();
+    return new DoneResponse();
   }
 }

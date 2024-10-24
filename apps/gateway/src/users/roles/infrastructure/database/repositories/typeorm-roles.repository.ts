@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, SelectQueryBuilder } from 'typeorm';
-import { Pagination, PaginationOption } from '../../../../../common/database';
+import { Paginated, PaginationOption } from '../../../../../common/database';
 import { RoleEntity } from '../../../domain/entities/role.entity';
 import { FindRoleOptions, RoleOrderBy, RolesRepository } from '../../../domain/repositories/roles.repository';
 import { TypeormRoleEntity } from '../entities/typeorm-role.entity';
@@ -32,7 +32,7 @@ export class TypeormRolesRepository implements RolesRepository {
   async findAll(
     options: Partial<FindRoleOptions>,
     pagination?: PaginationOption<RoleOrderBy>,
-  ): Promise<Pagination<RoleEntity>> {
+  ): Promise<Paginated<RoleEntity>> {
     const queryBuilder = this.buildSelectQuery(options, 'role');
 
     if (pagination?.orderBy) {

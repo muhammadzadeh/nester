@@ -1,4 +1,4 @@
-import { Pagination } from '../../../common/database';
+import { Paginated } from '../../../common/database';
 import { NotificationPushTokenEntity, PushProvider } from '../entities/notification-push-token.entity';
 
 export interface FindNotificationData {
@@ -10,5 +10,5 @@ export const NOTIFICATION_PUSH_TOKEN_REPOSITORY_TOKEN = Symbol('NotificationPush
 
 export interface NotificationPushTokensRepository {
   save(data: NotificationPushTokenEntity): Promise<void>;
-  findAll(options: Partial<FindNotificationData>): Promise<Pagination<NotificationPushTokenEntity>>;
+  findAll(options: Partial<FindNotificationData>): Promise<Paginated<NotificationPushTokenEntity>>;
 }

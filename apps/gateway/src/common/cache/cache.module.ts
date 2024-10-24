@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { CacheModule } from '@nestjs/cache-manager';
 import ioRedis from 'cache-manager-ioredis';
-import { Configuration } from '../config';
+import { Configuration } from '@repo/config';
 import { CacheService } from './services';
 
 @Module({

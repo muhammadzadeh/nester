@@ -1,14 +1,14 @@
+import { ToLowerCase } from '@repo/decorator';
+import { IsStrongPassword } from '@repo/validator/is-strong-password.validator';
 import { Type } from 'class-transformer';
 import { IsNotEmpty, IsString } from 'class-validator';
-import { ToLowerCase } from '../../../../common/decorators';
-import { IsIdentifier } from '../../../../common/is-identifier.validator';
-import { IsNotUUID } from '../../../../common/is-not-uuid.validator';
-import { IsStrongPassword } from '../../../../common/is-strong-password.validator';
+import { IsIdentifier } from '@repo/validator/is-identifier.validator';
+import { IsNotUUID } from '@repo/validator/is-not-uuid.validator';
 import { Email, Mobile } from '../../../../common/types';
 import {
+  AuthenticateByThirdPartyData,
   SignupByOtpData,
   SignupByPasswordData,
-  AuthenticateByThirdPartyData,
 } from '../../../application/services/auth.service';
 import { AuthProviderType } from '../../../application/usecases/third-parties/auth-provider';
 

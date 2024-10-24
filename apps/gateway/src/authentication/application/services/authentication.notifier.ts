@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Configuration } from '../../../common/config';
+import { Configuration } from '@repo/config';
 import {
   EmailNotificationPayload,
   NotificationEvent,

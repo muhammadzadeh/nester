@@ -1,5 +1,5 @@
 import { HttpStatus, Inject, Injectable } from '@nestjs/common';
-import { Pagination, PaginationOption } from '../../../common/database';
+import { Paginated, PaginationOption } from '../../../common/database';
 import { Exception } from '../../../common/exception';
 import { Permission, RoleEntity } from '../domain/entities/role.entity';
 import {
@@ -38,7 +38,7 @@ export class RolesService {
   async findAll(
     options: Partial<FindRoleOptions>,
     pagination?: PaginationOption<RoleOrderBy>,
-  ): Promise<Pagination<RoleEntity>> {
+  ): Promise<Paginated<RoleEntity>> {
     return this.rolesRepository.findAll(options, pagination);
   }
 }

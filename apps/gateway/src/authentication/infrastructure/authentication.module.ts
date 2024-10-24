@@ -1,8 +1,8 @@
 import { Module, Provider } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { Configuration } from '@repo/config';
+import { IsStrongPasswordConstraint } from '@repo/validator/is-strong-password.validator';
 import { CacheServiceModule } from '../../common/cache/cache.module';
-import { Configuration } from '../../common/config';
-import { IsStrongPasswordConstraint } from '../../common/is-strong-password.validator';
 import { ProfileModule } from '../../users/profiles/infrastructure/profiles.module';
 import { RolesModule } from '../../users/roles/infrastructure/roles.module';
 import { AuthService } from '../application/services/auth.service';

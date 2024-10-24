@@ -1,5 +1,5 @@
 import { CanActivate, ExecutionContext, Injectable, Logger } from '@nestjs/common';
-import { Configuration } from '../../../../common/config';
+import { Configuration } from '@repo/config';
 
 @Injectable()
 export class CheckSignupGuard implements CanActivate {

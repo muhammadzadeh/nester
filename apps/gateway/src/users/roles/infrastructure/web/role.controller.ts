@@ -2,7 +2,7 @@ import { Body, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { RequiredPermissions } from '../../../../authentication/infrastructure/web/decorators';
 import { AdminController } from '../../../../common/guards/decorators';
-import { DoneResponse, Serializer } from '../../../../common/serialization';
+import { DoneResponse } from '../../../../common/serialization';
 import { RolesService } from '../../application/roles.service';
 import { Permission } from '../../domain/entities/role.entity';
 import { CreateRoleDto } from './create-role.dto';
@@ -23,7 +23,7 @@ export class RoleController {
   @RequiredPermissions(Permission.WRITE_ROLES)
   async createRole(@Body() data: CreateRoleDto): Promise<DoneResponse> {
     await this.rolesService.createRole(data);
-    return Serializer.done();
+    return new DoneResponse();
   }
 
   @Put(':id')
@@ -34,7 +34,7 @@ export class RoleController {
   @RequiredPermissions(Permission.WRITE_ROLES)
   async updateRole(@Param() params: GetRoleDto, @Body() data: UpdateRoleDto): Promise<DoneResponse> {
     await this.rolesService.updateRole(params.id, data);
-    return Serializer.done();
+    return new DoneResponse();
   }
 
   @Get()

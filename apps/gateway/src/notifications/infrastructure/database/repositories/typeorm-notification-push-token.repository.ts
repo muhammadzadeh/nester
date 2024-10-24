@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { SelectQueryBuilder } from 'typeorm/browser';
-import { Pagination } from '../../../../common/database';
+import { Paginated } from '../../../../common/database';
 import { NotificationPushTokenEntity } from '../../../domain/entities/notification-push-token.entity';
 import {
   FindNotificationData,
@@ -21,7 +21,7 @@ export class TypeormNotificationPushTokensRepository implements NotificationPush
     await this.repository.save(data);
   }
 
-  async findAll(options: Partial<FindNotificationData>): Promise<Pagination<NotificationPushTokenEntity>> {
+  async findAll(options: Partial<FindNotificationData>): Promise<Paginated<NotificationPushTokenEntity>> {
     const queryBuilder = this.buildQuery(options);
     const result = await queryBuilder.getManyAndCount();
 

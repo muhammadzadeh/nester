@@ -1,9 +1,9 @@
-import { Configuration } from './common/config';
+import { Configuration } from '@repo/config';
 import typeormOptions from 'common/typeorm';
 import { plainToInstance } from 'class-transformer';
 import { DataSource } from 'typeorm';
 import { PostgresQueryRunner } from 'typeorm/driver/postgres/PostgresQueryRunner';
-import { DefaultConfigLoaderService } from './common/config/services';
+import { DefaultConfigLoaderService } from '@repo/config';
 
 if (process.env.NODE_ENV === 'test') {
   const oldQuery = PostgresQueryRunner.prototype['query'];

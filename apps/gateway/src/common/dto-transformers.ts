@@ -1,6 +1,6 @@
 import { ClassConstructor, plainToInstance, Transform } from 'class-transformer';
-import slugify from 'slugify';
 import { escape } from 'lodash';
+import slugify from 'slugify';
 
 export const EscapeHtml = <T>({ value }: { value: T }): string | T =>
   typeof value == 'string' ? escape(value).trim() : value;
@@ -15,7 +15,7 @@ const stringBooleanMap = new Map([
   ['false', false],
 ]);
 export const StringBoolean = <T>({ value }: { value: T }): boolean | T =>
-  typeof value == 'string' ? stringBooleanMap.get(value) ?? value : value;
+  typeof value == 'string' ? (stringBooleanMap.get(value) ?? value) : value;
 
 export const StringSlugify = <T>({ value }: { value: T }): string | T =>
   typeof value == 'string' ? slugify(value, { lower: true }) : value;

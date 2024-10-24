@@ -1,7 +1,8 @@
 import { Body, Post } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { Captcha } from '../../../common/captcha/infrastructure/web/decorators';
 import { CommonController } from '../../../common/guards/decorators';
-import { DoneResponse, Serializer } from '../../../common/serialization';
+import { DoneResponse } from '../../../common/serialization';
 import { AuthService } from '../../application/services/auth.service';
 import { IgnoreAuthorizationGuard, Signup } from './decorators';
 import {
@@ -18,7 +19,6 @@ import {
   SignupByOtpDto,
   VerifyDto,
 } from './dtos';
-import { Captcha } from '../../../common/captcha/infrastructure/web/decorators';
 
 @IgnoreAuthorizationGuard()
 @ApiTags('Authentication')
@@ -33,7 +33,7 @@ export class AuthenticationController {
   })
   async signupByIdentifierPassword(@Body() dto: IdentifierPasswordSignupDto): Promise<DoneResponse> {
     await this.authService.signupByPassword(dto.toSignupByPasswordData());
-    return Serializer.done();
+    return new DoneResponse();
   }
 
   @Signup('signup/google')
@@ -53,7 +53,7 @@ export class AuthenticationController {
   })
   async signupByOtp(@Body() dto: SignupByOtpDto): Promise<DoneResponse> {
     await this.authService.signupByOtp(dto.toSignupByOtpData());
-    return Serializer.done();
+    return new DoneResponse();
   }
 
   @Post('verify')
@@ -119,7 +119,7 @@ export class AuthenticationController {
   })
   async generateOtp(@Body() input: OtpGenerationDto): Promise<DoneResponse> {
     await this.authService.sendOtp(input.toSendOtp());
-    return Serializer.done();
+    return new DoneResponse();
   }
 
   @Post('password/reset-link')
@@ -130,7 +130,7 @@ export class AuthenticationController {
   })
   async sendResetPasswordLink(@Body() input: IdentifierDto): Promise<DoneResponse> {
     await this.authService.requestResetPassword(input.identifier);
-    return Serializer.done();
+    return new DoneResponse();
   }
 
   @Post('password/reset')
@@ -141,7 +141,7 @@ export class AuthenticationController {
   })
   async resetPassword(@Body() dto: ResetPasswordDto): Promise<DoneResponse> {
     await this.authService.resetPassword(dto.toOTPVerification(), dto.newPassword);
-    return Serializer.done();
+    return new DoneResponse();
   }
 
   @Post('refresh-token')

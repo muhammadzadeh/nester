@@ -2,7 +2,7 @@ import { Body, Get, Put } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { CurrentUser } from '../../../../../authentication/infrastructure/web/decorators';
 import { UserController } from '../../../../../common/guards/decorators';
-import { DoneResponse, Serializer } from '../../../../../common/serialization';
+import { DoneResponse } from '../../../../../common/serialization';
 import { UsersService } from '../../../application/users.service';
 import { UserResponse } from '../common/user.response';
 import { UpdateMyProfileDto } from './update-my-profile.dto';
@@ -29,6 +29,6 @@ export class ProfileControllerForUser {
   })
   async updateMyProfile(@CurrentUser() user: CurrentUser, @Body() data: UpdateMyProfileDto): Promise<DoneResponse> {
     await this.usersService.updateProfile(user.id, data.toEntity());
-    return Serializer.done();
+    return new DoneResponse();
   }
 }

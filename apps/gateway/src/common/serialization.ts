@@ -1,8 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ClassConstructor, Type, plainToInstance } from 'class-transformer';
+import { Type } from 'class-transformer';
 import { MIN_PAGE_NUMBER, MIN_PAGE_SIZE } from './constants';
-import { ResponseGroup } from './types';
-import { snackCaseObject } from './utils';
 
 export interface PagedResponseMeta {
   readonly total: number;
@@ -108,21 +106,4 @@ export class DoneResponse {
   })
   @Type(() => String)
   message!: string;
-}
-
-export class Serializer {
-  static serialize<T, K>(output: ClassConstructor<T>, input: K, groups?: ResponseGroup[]): T {
-    return snackCaseObject<T>(
-      plainToInstance(output, input, {
-        exposeDefaultValues: true,
-        exposeUnsetFields: true,
-        strategy: 'excludeAll',
-        groups,
-      }),
-    );
-  }
-
-  static done() {
-    return { message: 'OK' };
-  }
 }

@@ -32,20 +32,20 @@ export class CountriesSeeder extends BaseSeeder {
       return;
     }
 
-    this.logger.log(`trying seed country, state and cities!`);
+    this.logger.verbose(`trying seed country, state and cities!`);
     const countries = await this.downloadDatasource();
-    this.logger.log(`Seeding country and state data ...`);
+    this.logger.verbose(`Seeding country and state data ...`);
     for (let i = 0; i < countries.length; i++) {
       const country = countries[i];
       await this.createCountryRecord(country);
     }
-    this.logger.log(`Country data seeded successfully!`);
+    this.logger.verbose(`Country data seeded successfully!`);
   }
 
   private async downloadDatasource(): Promise<Country[]> {
-    this.logger.log(`Downloading countries data ...`);
+    this.logger.verbose(`Downloading countries data ...`);
     const url =
-      'https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/master/countries%2Bstates%2Bcities.json';
+      'https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/refs/heads/master/json/countries%2Bstates%2Bcities.json';
     const result = await lastValueFrom(this.httpService.get(url, { responseType: 'json' }));
     return camelCaseObject(result.data);
   }
@@ -62,10 +62,10 @@ export class CountriesSeeder extends BaseSeeder {
   }
 
   private async createStateAndCityRecords(countryId: string, state: State): Promise<void> {
-    const { id, cities, ...stateWithoutCity } = state;
+    const { id, cities, stateCode, ...stateWithoutCity } = state;
     const createdState = await this.datasource.manager
       .getRepository(TypeormStateEntity)
-      .save({ ...stateWithoutCity, countryId });
+      .save({ ...stateWithoutCity, stateCode: stateCode?? stateWithoutCity.name, countryId });
 
     const mappedCities = cities.map((city) => {
       const { id, stateId, ...cityWithoutId } = city;

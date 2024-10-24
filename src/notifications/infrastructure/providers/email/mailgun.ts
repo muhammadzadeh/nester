@@ -43,7 +43,7 @@ export class MailgunMailer implements Mailer {
         },
         auth: mail_auth,
       });
-      this.logger.log(`Message sent: ${JSON.stringify(mail_options, null, 2)}`);
+      this.logger.verbose(`Message sent: ${JSON.stringify(mail_options, null, 2)}`);
       return {
         status: NotificationChannelStatus.SENT,
         providerResult: result.data,

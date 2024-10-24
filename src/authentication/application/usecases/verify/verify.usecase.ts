@@ -28,7 +28,7 @@ export class VerifyUsecase {
     const email = isEmail(command.identifier) ? command.identifier : undefined;
     const mobile = isPhoneNumber(command.identifier) ? command.identifier : undefined;
     if (!mobile && !email) {
-      this.logger.log(`to verify user, we need email or mobile ${command.identifier}`);
+      this.logger.verbose(`to verify user, we need email or mobile ${command.identifier}`);
       throw new CannotVerifyException(`to verify user, we need email or mobile ${command.identifier}`);
     }
 
@@ -42,7 +42,7 @@ export class VerifyUsecase {
 
     const user = await this.usersService.findOneByIdentifier(verifyResult.userId);
     if (!user) {
-      this.logger.log(`user not found, ${command.identifier}`);
+      this.logger.verbose(`user not found, ${command.identifier}`);
       throw new CannotVerifyException(`user not found, ${command.identifier}`);
     }
 

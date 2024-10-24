@@ -12,7 +12,7 @@ export class KavenegarSmsSender implements SmsSender {
   constructor(private readonly options: KavenegarConfig) {}
 
   async send(data: SendSmsData): Promise<NotificationDispatcherResponse> {
-    this.logger.log(`sending sms to ${data.to} using kavenegar`);
+    this.logger.verbose(`sending sms to ${data.to} using kavenegar`);
     const result = await this.httpService.axiosRef.get(
       `https://api.kavenegar.com/v1/${this.options.apiKey}/verify/lookup.json`,
       {

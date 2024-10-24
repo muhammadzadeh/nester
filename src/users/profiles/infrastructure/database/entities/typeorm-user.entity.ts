@@ -22,11 +22,11 @@ export class TypeormUserEntity {
   readonly fullName!: string | null;
 
   @Column({ type: 'varchar', name: 'email', nullable: true })
-  @Index('IDX_USERS_EMAIL')
+  @Index('users_email_idx')
   readonly email!: Email | null;
 
   @Column({ type: 'varchar', name: 'mobile', nullable: true })
-  @Index('IDX_USERS_MOBILE')
+  @Index('users_mobile_idx')
   readonly mobile!: Mobile | null;
 
   @Column({ type: 'varchar', name: 'avatar', nullable: true })

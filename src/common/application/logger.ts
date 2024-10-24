@@ -67,19 +67,20 @@ export default (app: INestApplication): void => {
         email: reply?.request?.user?.email,
         type: reply?.request?.user?.type,
       },
-      http: {
-        request: shouldIgnoreRoute(req)
-          ? undefined
-          : {
-              query: req.query,
-              param: req.param,
-              headers: req.headers,
-              body: req.body,
-            },
-        response: {
-          body: level === 'error' ? responseBody : shouldIgnoreRoute(req) ? undefined : responseBody,
-        },
-      },
+      http:
+        level === 'error' || (level === 'info' && !shouldIgnoreRoute(req))
+          ? {
+              request: {
+                query: req.query,
+                param: req.param,
+                headers: req.headers ? { ...req.headers, authorization: 'filtered', cookie: 'filtered' } : {},
+                body: req.body,
+              },
+              response: {
+                body: responseBody,
+              },
+            }
+          : undefined,
     };
 
     logger.log(log);

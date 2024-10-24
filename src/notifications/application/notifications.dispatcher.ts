@@ -13,7 +13,7 @@ export class NotificationsDispatcher {
   ) {}
 
   async dispatch(input: NotificationEntity): Promise<void> {
-    this.logger.log(`dispatching notification ${input.id}`);
+    this.logger.verbose(`dispatching notification ${input.id}`);
 
     if (input.shouldSentByEmail()) {
       await this.sendEmail(input);

@@ -6,9 +6,7 @@
     "base.js",
     "library.js",
     "nest.js",
-    "next.js",
-    "prettier-base.js",
-    "react-internal.js"
+    "prettier-base.js"
   ],
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^7.1.0",

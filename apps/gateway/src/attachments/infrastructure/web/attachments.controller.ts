@@ -1,9 +1,9 @@
 import { Get, Param, Post, Req, StreamableFile } from '@nestjs/common';
 import { ApiBody, ApiConsumes, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { CommonController } from '@repo/decorator';
 import { FastifyRequest } from 'fastify';
 import { extname } from 'path';
 import { CurrentUser } from '../../../authentication/infrastructure/web/decorators';
-import { CommonController } from '../../../common/guards/decorators';
 import { AttachmentsService } from '../../application/attachments.service';
 import { AttachmentListResponse } from './attachment-list.response';
 import { AttachmentVisibilityDto } from './attachment-visibility.dto';

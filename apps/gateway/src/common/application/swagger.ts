@@ -4,8 +4,9 @@ import * as constants from '@nestjs/common/constants';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as apiExcludeControllerExplorer from '@nestjs/swagger/dist/explorers/api-exclude-controller.explorer';
 import * as swaggerExplorer from '@nestjs/swagger/dist/swagger-explorer';
-import { ControllerType, MetaKey, TENANT_CONFIG } from '../../common/guards/constants';
 import { Configuration } from '@repo/config';
+import { TENANT_CONFIG } from '@repo/types/constants';
+import { ControllerType, MetaKey } from '@repo/types/enums';
 
 // This type is used to mark the module as mutable
 type Mutable<T> = { -readonly [P in keyof T]: T[P] };
@@ -74,7 +75,6 @@ function configureGlobalPrefix(): (type: string) => void {
     currentRoute = { route: type, length: type.length };
   };
 }
-
 
 export default (app: INestApplication): void => {
   const cfg = app.get(Configuration).swagger;

@@ -1,7 +1,7 @@
 import { Body, Get, Post, Query } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { CommonController } from '@repo/decorator';
 import { CurrentUser } from '../../../authentication/infrastructure/web/decorators';
-import { CommonController } from '../../../common/guards/decorators';
 import { DoneResponse } from '../../../common/serialization';
 import { NotificationsService } from '../../application/notifications.service';
 import { AddPushTokenDto } from './add-push-token.dto';

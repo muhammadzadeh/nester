@@ -1,8 +1,8 @@
 import { Get, Param, Post, Query } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { CommonController } from '@repo/decorator';
 import { IgnoreAuthorizationGuard, RequiredPermissions } from '../../../authentication/infrastructure/web/decorators';
 import { FineOneUUIDDto } from '../../../common/dto/find-one-uuid.dto';
-import { CommonController } from '../../../common/guards/decorators';
 import { DoneResponse } from '../../../common/serialization';
 import { Permission } from '../../../users/roles/domain/entities/role.entity';
 import { CountriesService } from '../../application/countries.service';

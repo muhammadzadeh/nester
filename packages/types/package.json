@@ -1,7 +1,7 @@
 {
-  "name": "@repo/decorator",
-  "description": "The App Decorator",
-  "version": "0.0.2",
+  "name": "@repo/types",
+  "description": "The App Types",
+  "version": "0.0.1",
   "private": true,
   "license": "MIT",
   "scripts": {
@@ -24,16 +24,17 @@
     }
   },
   "exports": {
-    ".": {
-      "types": "./src/index.ts",
-      "default": "./dist/index.js"
+    "enum": {
+      "types": "./src/enums.ts",
+      "default": "./dist/enums.js"
+    },
+    "constant": {
+      "types": "./src/constants.ts",
+      "default": "./dist/constants.js"
     }
   },
   "dependencies": {
-    "@repo/types": "*",
     "@nestjs/mapped-types": "*",
-    "@nestjs/common": "^10.4.6",
-    "@nestjs/swagger": "^7.4.2",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1"
   },

@@ -1,7 +1,7 @@
 import { Body, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { AdminController } from '@repo/decorator';
 import { RequiredPermissions } from '../../../../authentication/infrastructure/web/decorators';
-import { AdminController } from '../../../../common/guards/decorators';
 import { DoneResponse } from '../../../../common/serialization';
 import { RolesService } from '../../application/roles.service';
 import { Permission } from '../../domain/entities/role.entity';

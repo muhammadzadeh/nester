@@ -1,7 +1,7 @@
 import { Body, Post } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { CommonController } from '@repo/decorator';
 import { Captcha } from '../../../common/captcha/infrastructure/web/decorators';
-import { CommonController } from '../../../common/guards/decorators';
 import { DoneResponse } from '../../../common/serialization';
 import { AuthService } from '../../application/services/auth.service';
 import { IgnoreAuthorizationGuard, Signup } from './decorators';

@@ -55,7 +55,7 @@ export class DefaultUserSeeder extends BaseSeeder {
 
     if (!this.config.defaultUser) {
       this.logger.debug('Default user config is not provided, Generating Random data!');
-      this.logger.log(`Default credentials is: \n email: ${defaultEmail} \n password: ${defaultPassword}`);
+      this.logger.verbose(`Default credentials is: \n email: ${defaultEmail} \n password: ${defaultPassword}`);
     }
   }
 

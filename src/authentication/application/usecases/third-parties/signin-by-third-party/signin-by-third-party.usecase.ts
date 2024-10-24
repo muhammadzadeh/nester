@@ -31,7 +31,7 @@ export class SigninByThirdPartyUsecase {
 
     const user = await this.usersService.findOneByIdentifier(thirdPartyResult.email);
     if (!user) {
-      this.logger.log(`user not found, ${thirdPartyResult.email}`);
+      this.logger.verbose(`user not found, ${thirdPartyResult.email}`);
       throw new InvalidCredentialException(`user not found, ${thirdPartyResult.email}`);
     }
 

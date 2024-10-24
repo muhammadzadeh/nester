@@ -26,7 +26,7 @@ export class SignupByOtpUsecase {
     const email = isEmail(command.identifier) ? command.identifier : undefined;
     const mobile = isPhoneNumber(command.identifier) ? command.identifier : undefined;
     if (!mobile && !email) {
-      this.logger.log(`Email or mobile is  missing for identifier ${command.identifier}`);
+      this.logger.verbose(`Email or mobile is  missing for identifier ${command.identifier}`);
       throw new InvalidIdentifierException(`Invalid identifier, Email or Phone number must be provided`);
     }
 

@@ -12,7 +12,7 @@ export class LocalMailer implements Mailer {
   }
 
   async sendMail(data: SendEmailData): Promise<NotificationDispatcherResponse> {
-    this.logger.log(`localMailer::sendMail :: ${JSON.stringify(data)}`);
+    this.logger.verbose(`localMailer::sendMail :: ${JSON.stringify(data)}`);
     return {
       status: NotificationChannelStatus.SENT,
     };

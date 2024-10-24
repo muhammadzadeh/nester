@@ -27,7 +27,7 @@ export class AuthorizationGuard implements CanActivate {
       [controller, route],
     );
     if (ignoreRoute) {
-      this.logger.log(`Ignoring ${route.name} at ${controller.name}.`);
+      this.logger.verbose(`Ignoring ${route.name} at ${controller.name}.`);
       return true;
     }
 

@@ -20,7 +20,7 @@ export class RequestResetPasswordUsecase {
   async execute(command: RequestResetPasswordCommand): Promise<void> {
     const user = await this.usersService.findOneByIdentifier(command.identifier);
     if (!user) {
-      this.logger.log(`trying to reset password for not existing account ${command.identifier}`);
+      this.logger.verbose(`trying to reset password for not existing account ${command.identifier}`);
       return;
     }
 
@@ -31,7 +31,7 @@ export class RequestResetPasswordUsecase {
     const email = isEmail(command.identifier) ? command.identifier : undefined;
     const mobile = isPhoneNumber(command.identifier) ? command.identifier : undefined;
     if (!mobile && !email) {
-      this.logger.log(`to send reset password code, we need email or mobile ${command.identifier}`);
+      this.logger.verbose(`to send reset password code, we need email or mobile ${command.identifier}`);
       return;
     }
 

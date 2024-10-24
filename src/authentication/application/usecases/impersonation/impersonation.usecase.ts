@@ -22,7 +22,7 @@ export class ImpersonationUsecase {
   async execute(command: ImpersonationCommand): Promise<Token> {
     const user = await this.usersService.findOneByIdentifier(command.identifier);
     if (!user) {
-      this.logger.log(`user not found, ${command.identifier}`);
+      this.logger.verbose(`user not found, ${command.identifier}`);
       throw new InvalidCredentialException(`user not found, ${command.identifier}`);
     }
 

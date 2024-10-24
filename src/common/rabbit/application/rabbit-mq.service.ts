@@ -54,7 +54,7 @@ export class RabbitMqService {
       this.connection = await connect(this.options.uri, { reconnect: true });
 
       this.connection.on('connect', () => {
-        this.logger.log(`Successfully connected to RabbitMQ broker`);
+        this.logger.verbose(`Successfully connected to RabbitMQ broker`);
       });
 
       this.connection.on('disconnect', ({ err }) => {
@@ -70,7 +70,7 @@ export class RabbitMqService {
       await channel.prefetch(2);
       await channel.assertExchange(exchange.name, exchange.type, { durable: true });
       this.channels[exchange.name] = channel;
-      this.logger.log(`Exchange (${exchange.name}) created!`);
+      this.logger.verbose(`Exchange (${exchange.name}) created!`);
     }
   }
 
@@ -112,7 +112,7 @@ export class RabbitMqService {
 
   private async createQueue(queueName: string, channel: Channel): Promise<Replies.AssertQueue> {
     const queue = await channel.assertQueue(queueName, { durable: true });
-    this.logger.log(`Queue (${queue.queue}) created!`);
+    this.logger.verbose(`Queue (${queue.queue}) created!`);
     return queue;
   }
 
@@ -130,7 +130,7 @@ export class RabbitMqService {
         return;
       }
 
-      this.logger.log(`new Message from queue ${queue.queue}(${msg.fields.consumerTag}) received!`);
+      this.logger.verbose(`new Message from queue ${queue.queue}(${msg.fields.consumerTag}) received!`);
 
       try {
         await this.invokeHandler(msg);

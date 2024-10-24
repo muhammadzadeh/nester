@@ -29,7 +29,7 @@ export class SendgridMailer implements Mailer {
 
     try {
       const email = await transporter.sendMail(mailOptions);
-      this.logger.log(`sendgrid::sendMail. Message sent: ${email.response}`);
+      this.logger.verbose(`sendgrid::sendMail. Message sent: ${email.response}`);
       return {
         status: NotificationChannelStatus.SENT,
         providerResult: email.response,

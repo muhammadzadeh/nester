@@ -28,7 +28,7 @@ export class SigninByOtpUsecase {
     const email = isEmail(command.identifier) ? command.identifier : undefined;
     const mobile = isPhoneNumber(command.identifier) ? command.identifier : undefined;
     if (!mobile && !email) {
-      this.logger.log(`to signin by OTP, we need email or mobile ${command.identifier}`);
+      this.logger.verbose(`to signin by OTP, we need email or mobile ${command.identifier}`);
       throw new InvalidCredentialException(`to signin by OTP, we need email or mobile ${command.identifier}`);
     }
 
@@ -38,7 +38,7 @@ export class SigninByOtpUsecase {
 
     const user = await this.usersService.findOneByIdentifier(verifyResult.userId);
     if (!user) {
-      this.logger.log(`user not found, ${command.identifier}`);
+      this.logger.verbose(`user not found, ${command.identifier}`);
       throw new InvalidCredentialException(`user not found, ${command.identifier}`);
     }
 

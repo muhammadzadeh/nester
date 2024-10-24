@@ -23,7 +23,7 @@ export class SendOtpUsecase {
     const email = isEmail(command.identifier) ? command.identifier : undefined;
     const mobile = isPhoneNumber(command.identifier) ? command.identifier : undefined;
     if (!mobile && !email) {
-      this.logger.log(`to send OTP, we need email or mobile ${command.identifier}`);
+      this.logger.verbose(`to send OTP, we need email or mobile ${command.identifier}`);
       return;
     }
 
@@ -40,7 +40,7 @@ export class SendOtpUsecase {
           isMobileVerified: false,
         });
       } else {
-        this.logger.log(`trying send OTP for not existing account ${command.identifier}`);
+        this.logger.verbose(`trying send OTP for not existing account ${command.identifier}`);
         return;
       }
     }

@@ -1,1 +1,1 @@
-console.log('Hello world');
+console.verbose('Hello world');

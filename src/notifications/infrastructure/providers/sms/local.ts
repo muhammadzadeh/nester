@@ -12,7 +12,7 @@ export class LocalSmsSender implements SmsSender {
   }
 
   async send(data: SendSmsData): Promise<NotificationDispatcherResponse> {
-    this.logger.log(`The SMS sent successfully, ${JSON.stringify(data)}`);
+    this.logger.verbose(`The SMS sent successfully, ${JSON.stringify(data)}`);
     return {
       status: NotificationChannelStatus.SENT,
     };

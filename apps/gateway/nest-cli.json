@@ -1,6 +1,7 @@
 {
   "collection": "@nestjs/schematics",
   "sourceRoot": "src",
+  "deleteOutDir": true,
   "compilerOptions": {
     "plugins": [
       {
@@ -8,7 +9,9 @@
         "options": {
           "introspectComments": true,
           "dtoFileNameSuffix": [
-            ".dto.ts"
+            ".dto.ts",
+            ".response.ts",
+            ".request.ts"
           ]
         }
       }

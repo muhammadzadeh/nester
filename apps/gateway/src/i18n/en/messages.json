@@ -29,5 +29,15 @@
     "PRIVATE_ATTACHMENT_ALLOWED": "Only private attachments allowed for this section",
     "INVALID_FORMAT": "Unsupported file format!",
     "NOTIFICATION_NOT_FOUND": "Notification Not Found!",
-    "ROLE_NOT_FOUND": "Role Not found"
+    "ROLE_NOT_FOUND": "Role Not found",
+    "DUPLICATE_RECORD": "Duplicate record",
+    "UNPROCESSABLE_ENTITY": "Imposable process your request!",
+    "INVALID_IDENTIFIER": "The provided identifier is invalid!",
+    "UNVERIFIED_TOKEN": "Its not possible to verify provided token!",
+    "CAN_NOT_VERIFY": "Its not possible to verify provided token!",
+    "OTP_DESTINATION_INVALID": "Invalid OTP Destination!",
+    "INVALID_AUTHENTICATION_METHOD": "The selected Authentication method is invalid!",
+    "USER_NOT_FOUND": "The user not found!",
+    "MOBILE_OR_EMAIL_REQUIRED": "The Email or Mobile is required!",
+    "INVALID_AVATAR": "Invalid Avatar!"
 }

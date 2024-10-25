@@ -6,7 +6,7 @@ import * as apiExcludeControllerExplorer from '@nestjs/swagger/dist/explorers/ap
 import * as swaggerExplorer from '@nestjs/swagger/dist/swagger-explorer';
 import { Configuration } from '@repo/config';
 import { TENANT_CONFIG } from '@repo/types/constants';
-import { ControllerType, MetaKey } from '@repo/types/enums';
+import { ControllerType, MetaKey } from '@repo/types/common.enums';
 
 // This type is used to mark the module as mutable
 type Mutable<T> = { -readonly [P in keyof T]: T[P] };

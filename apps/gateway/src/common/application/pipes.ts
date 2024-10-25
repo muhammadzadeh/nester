@@ -1,5 +1,5 @@
 import { INestApplication, ValidationPipe } from '@nestjs/common';
-import { ValidationException } from '../exception';
+import { ValidationException } from '@repo/exception';
 
 export default (app: INestApplication): void => {
   app.useGlobalPipes(

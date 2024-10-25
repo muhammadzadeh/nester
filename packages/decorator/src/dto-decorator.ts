@@ -98,4 +98,4 @@ const valueToBoolean = (value: any) => {
   return undefined;
 };
 
-export { ToArray, ToBoolean, ToLowerCase, UniqueArray };
+export { ToArray, ToBoolean, ToLowerCase, UniqueArray , valueToBoolean};

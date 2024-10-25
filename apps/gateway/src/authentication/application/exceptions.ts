@@ -1,26 +1,45 @@
 import { HttpStatus } from '@nestjs/common';
-import { Exception } from '../../common/exception';
+import { BaseHttpException } from '@repo/exception/base.exception';
+import { ErrorCode } from '@repo/types/error-code.enum';
 
-@Exception({ statusCode: HttpStatus.BAD_REQUEST, errorCode: 'USER_NOT_REGISTERED' })
-export class UserNotRegisteredException extends Error {}
+export class UserNotRegisteredException extends BaseHttpException {
+  readonly status: HttpStatus = HttpStatus.BAD_REQUEST;
+  readonly useOriginalMessage?: boolean;
+  readonly code: ErrorCode = ErrorCode.USER_NOT_REGISTERED;
+}
 
-@Exception({ statusCode: HttpStatus.BAD_REQUEST, errorCode: 'USER_ALREADY_REGISTERED' })
-export class UserAlreadyRegisteredException extends Error {}
+export class UserAlreadyRegisteredException extends BaseHttpException {
+  readonly status: HttpStatus = HttpStatus.UNPROCESSABLE_ENTITY;
+  readonly useOriginalMessage?: boolean;
+  readonly code: ErrorCode = ErrorCode.USER_ALREADY_REGISTERED;
+}
 
-@Exception({
-  errorCode: 'ACCOUNT_IS_BLOCKED',
-  statusCode: HttpStatus.BAD_REQUEST,
-})
-export class YourAccountIsBlockedException extends Error {}
+export class YourAccountIsBlockedException extends BaseHttpException {
+  readonly status: HttpStatus = HttpStatus.FORBIDDEN;
+  readonly useOriginalMessage?: boolean;
+  readonly code: ErrorCode = ErrorCode.ACCOUNT_IS_BLOCKED;
+}
 
-@Exception({ statusCode: HttpStatus.BAD_REQUEST, errorCode: 'INVALID_CREDENTIALS' })
-export class InvalidCredentialException extends Error {}
+export class InvalidCredentialException extends BaseHttpException {
+  readonly status: HttpStatus = HttpStatus.FORBIDDEN;
+  readonly useOriginalMessage?: boolean;
+  readonly code: ErrorCode = ErrorCode.INVALID_CREDENTIALS;
+}
 
-@Exception({ statusCode: HttpStatus.BAD_REQUEST, errorCode: 'INVALID_OTP' })
-export class InvalidOtpException extends Error {}
+export class InvalidOtpException extends BaseHttpException {
+  readonly status: HttpStatus = HttpStatus.FORBIDDEN;
+  readonly useOriginalMessage?: boolean;
+  readonly code: ErrorCode = ErrorCode.INVALID_OTP;
+}
 
-@Exception({ statusCode: HttpStatus.BAD_REQUEST, errorCode: 'USER_NOT_VERIFIED' })
-export class UserNotVerifiedException extends Error {}
+export class UserNotVerifiedException extends BaseHttpException {
+  readonly status: HttpStatus = HttpStatus.FORBIDDEN;
+  readonly useOriginalMessage?: boolean;
+  readonly code: ErrorCode = ErrorCode.USER_NOT_VERIFIED;
+}
 
-@Exception({ statusCode: HttpStatus.BAD_REQUEST, errorCode: 'INVALID_IDENTIFIER' })
-export class InvalidIdentifierException extends Error {}
+export class InvalidIdentifierException extends BaseHttpException {
+  readonly status: HttpStatus = HttpStatus.UNPROCESSABLE_ENTITY;
+  readonly useOriginalMessage?: boolean;
+  readonly code: ErrorCode = ErrorCode.INVALID_IDENTIFIER;
+}

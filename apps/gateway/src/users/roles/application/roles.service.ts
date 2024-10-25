@@ -1,6 +1,7 @@
 import { HttpStatus, Inject, Injectable } from '@nestjs/common';
+import { BaseHttpException } from '@repo/exception/base.exception';
+import { ErrorCode } from '@repo/types/error-code.enum';
 import { Paginated, PaginationOption } from '../../../common/database';
-import { Exception } from '../../../common/exception';
 import { Permission, RoleEntity } from '../domain/entities/role.entity';
 import {
   FindRoleOptions,
@@ -50,8 +51,8 @@ export class CreateRoleData {
 
 export class UpdateRoleData extends CreateRoleData {}
 
-@Exception({
-  errorCode: 'ROLE_NOT_FOUND',
-  statusCode: HttpStatus.NOT_FOUND,
-})
-export class RoleNotFoundException extends Error {}
+export class RoleNotFoundException extends BaseHttpException {
+  readonly status: HttpStatus = HttpStatus.NOT_FOUND;
+  readonly useOriginalMessage?: boolean;
+  readonly code: ErrorCode = ErrorCode.ROLE_NOT_FOUND;
+}

@@ -11,8 +11,8 @@ import {
   S3Client,
 } from '@aws-sdk/client-s3';
 import { Injectable } from '@nestjs/common';
+import { MapException } from '@repo/decorator/function-decorator';
 import { Readable } from 'stream';
-import { ExceptionMapper } from '../../../common/exception';
 import {
   StorageIsUnavailableException,
   StorageProvider,
@@ -92,7 +92,6 @@ export class MinioStorageProvider implements StorageProvider {
     return this.options.publicBaseUrl;
   }
 
-
   getPrivateBucketName(): string {
     return this.options.privateBucketName;
   }
@@ -105,23 +104,23 @@ export class MinioStorageProvider implements StorageProvider {
     return 'minio';
   }
 
-  @ExceptionMapper(StorageIsUnavailableException, 'Could not upload!')
+  @MapException(StorageIsUnavailableException, 'Could not upload!')
   async upload(input: UploadData): Promise<void> {
     const { bucket, key } = this.getBucketAndKey(input.path);
-    const buffered = await this.streamToBuffer(input.fileData  as Readable);
+    const buffered = await this.streamToBuffer(input.fileData as Readable);
 
     const uploadParams: PutObjectCommandInput = {
       Bucket: bucket,
       Key: key,
       Body: buffered,
       ContentType: input.mimeType.mime,
-      ContentLength: buffered.byteLength
+      ContentLength: buffered.byteLength,
     };
 
     await this.s3Client.send(new PutObjectCommand(uploadParams));
   }
 
-  @ExceptionMapper(StorageIsUnavailableException, 'Could not download!')
+  @MapException(StorageIsUnavailableException, 'Could not download!')
   async download(path: string): Promise<Buffer> {
     const { bucket, key } = this.getBucketAndKey(path);
     const downloadParams: GetObjectCommandInput = {
@@ -134,7 +133,7 @@ export class MinioStorageProvider implements StorageProvider {
     return await this.streamToBuffer(response.Body as Readable);
   }
 
-  @ExceptionMapper(StorageIsUnavailableException, 'Could not delete!')
+  @MapException(StorageIsUnavailableException, 'Could not delete!')
   async delete(path: string): Promise<void> {
     const { bucket, key } = this.getBucketAndKey(path);
     const deleteParams: DeleteObjectCommandInput = {

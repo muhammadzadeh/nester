@@ -5,6 +5,7 @@ export enum MetaKey {
     ANONYMOUS_ROUTE = 'anonymous_route',
     CHECK_IS_AVAILABILITY_UPDATED= 'is_availability_updated_guard'
   }
+  
   export enum RequestScope {
     ADMIN = 'admin',
     USER = 'user',

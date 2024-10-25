@@ -1,5 +1,6 @@
 import { HttpStatus, Inject, Injectable } from '@nestjs/common';
-import { Exception } from '../../../../common/exception';
+import { BaseHttpException } from '@repo/exception/base.exception';
+import { ErrorCode } from '@repo/types/error-code.enum';
 import { AttachmentEntity, AttachmentVisibility } from '../../../domain/entities/attachments.entity';
 import {
   ATTACHMENTS_REPOSITORY_TOKEN,
@@ -83,23 +84,23 @@ const SupportedMimeTypes = new Set([
   'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
   'application/vnd.ms-powerpoint',
   'image/webp',
-  'application/sql'
+  'application/sql',
 ]);
 
-@Exception({
-  errorCode: 'ATTACHMENT_IS_TOO_BIG',
-  statusCode: HttpStatus.BAD_REQUEST,
-})
-export class AttachmentIsTooBigException extends Error {}
+export class AttachmentIsTooBigException extends BaseHttpException {
+  readonly status: HttpStatus = HttpStatus.PAYLOAD_TOO_LARGE;
+  readonly useOriginalMessage?: boolean;
+  readonly code: ErrorCode = ErrorCode.ATTACHMENT_IS_TOO_BIG;
+}
 
-@Exception({
-  errorCode: 'INVALID_FORMAT',
-  statusCode: HttpStatus.BAD_REQUEST,
-})
-export class InvalidAttachmentFormatException extends Error {}
+export class InvalidAttachmentFormatException extends BaseHttpException {
+  readonly status: HttpStatus = HttpStatus.BAD_REQUEST;
+  readonly useOriginalMessage?: boolean;
+  readonly code: ErrorCode = ErrorCode.INVALID_FORMAT;
+}
 
-@Exception({
-  errorCode: 'ATTACHMENT_LIST_EMPTY',
-  statusCode: HttpStatus.BAD_REQUEST,
-})
-export class AttachmentsShouldNotBeEmptyException extends Error {}
+export class AttachmentsShouldNotBeEmptyException extends BaseHttpException {
+  readonly status: HttpStatus = HttpStatus.BAD_REQUEST;
+  readonly useOriginalMessage?: boolean;
+  readonly code: ErrorCode = ErrorCode.ATTACHMENT_LIST_EMPTY;
+}

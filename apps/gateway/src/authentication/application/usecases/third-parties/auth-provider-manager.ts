@@ -1,5 +1,6 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
-import { Exception } from '../../../../common/exception';
+import { BaseHttpException } from '@repo/exception/base.exception';
+import { ErrorCode } from '@repo/types/error-code.enum';
 import { Auth, AuthProvider, AuthProviderType, AuthUser } from './auth-provider';
 
 @Injectable()
@@ -22,5 +23,8 @@ export class AuthProviderManager {
   }
 }
 
-@Exception({ statusCode: HttpStatus.BAD_REQUEST, errorCode: 'INVALID_AUTHENTICATION_METHOD' })
-export class InvalidAuthenticationMethodException extends Error {}
+export class InvalidAuthenticationMethodException extends BaseHttpException {
+  readonly status: HttpStatus = HttpStatus.NOT_FOUND;
+  readonly useOriginalMessage?: boolean;
+  readonly code: ErrorCode = ErrorCode.INVALID_AUTHENTICATION_METHOD;
+}

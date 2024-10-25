@@ -1,6 +1,7 @@
 import { HttpStatus } from '@nestjs/common';
+import { BaseHttpException } from '@repo/exception/base.exception';
+import { ErrorCode } from '@repo/types/error-code.enum';
 import { randomUUID } from 'crypto';
-import { Exception } from '../../../../common/exception';
 import { Hash } from '../../../../common/hash';
 import { now } from '../../../../common/time';
 import { Email, Mobile, UserId, Username } from '../../../../common/types';
@@ -138,20 +139,20 @@ export class UserEntity {
   }
 }
 
-@Exception({
-  errorCode: 'USER_NOT_FOUND',
-  statusCode: HttpStatus.NOT_FOUND,
-})
-export class UserNotFoundException extends Error {}
+export class UserNotFoundException extends BaseHttpException {
+  readonly status: HttpStatus = HttpStatus.NOT_FOUND;
+  readonly useOriginalMessage?: boolean;
+  readonly code: ErrorCode = ErrorCode.USER_NOT_FOUND;
+}
 
-@Exception({
-  errorCode: 'MOBILE_OR_EMAIL_REQUIRED',
-  statusCode: HttpStatus.BAD_REQUEST,
-})
-export class MobileOrEmailRequiredException extends Error {}
+export class MobileOrEmailRequiredException extends BaseHttpException {
+  readonly status: HttpStatus = HttpStatus.BAD_REQUEST;
+  readonly useOriginalMessage?: boolean;
+  readonly code: ErrorCode = ErrorCode.MOBILE_OR_EMAIL_REQUIRED;
+}
 
-@Exception({
-  errorCode: 'Invalid_AVATAR',
-  statusCode: HttpStatus.BAD_REQUEST,
-})
-export class InvalidAvatarException extends Error {}
+export class InvalidAvatarException extends BaseHttpException {
+  readonly status: HttpStatus = HttpStatus.BAD_REQUEST;
+  readonly useOriginalMessage?: boolean;
+  readonly code: ErrorCode = ErrorCode.INVALID_AVATAR;
+}

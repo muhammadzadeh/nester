@@ -1,6 +1,7 @@
 import { HttpStatus } from '@nestjs/common';
+import { BaseHttpException } from '@repo/exception/base.exception';
+import { ErrorCode } from '@repo/types/error-code.enum';
 import { randomUUID } from 'crypto';
-import { Exception } from '../../../common/exception';
 import { randomStringSync } from '../../../common/string';
 import { now } from '../../../common/time';
 
@@ -146,8 +147,8 @@ export class MimeType {
   mime!: string;
 }
 
-@Exception({
-  errorCode: 'ATTACHMENT_NOT_FOUND',
-  statusCode: HttpStatus.NOT_FOUND,
-})
-export class AttachmentNotFoundException extends Error {}
+export class AttachmentNotFoundException extends BaseHttpException {
+  readonly status: HttpStatus = HttpStatus.NOT_FOUND;
+  readonly useOriginalMessage?: boolean;
+  readonly code: ErrorCode = ErrorCode.ATTACHMENT_NOT_FOUND;
+}

@@ -1,9 +1,11 @@
 import './common/apm';
 import { NestFactory } from '@nestjs/core';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
+import { Configuration } from '@repo/config';
 import { randomUUID } from 'crypto';
 import { AppModule } from './app/app.module';
 import configureGlobalCors from './common/application/cors';
+import configureGlobalFilters from './common/application/exception-filters';
 import configureGlobalInterceptors from './common/application/interceptors';
 import configureGlobalLogger from './common/application/logger';
 import configureGlobalMultipart from './common/application/multipart';
@@ -12,8 +14,6 @@ import configureSecurity from './common/application/security';
 import configureSentry from './common/application/sentry';
 import configureSwagger from './common/application/swagger';
 import configureGlobalTransformers from './common/application/transformers';
-import { Configuration } from '@repo/config';
-import configureGlobalFilters from './common/exception/filters';
 
 async function bootstrap() {
   const fastify = new FastifyAdapter({

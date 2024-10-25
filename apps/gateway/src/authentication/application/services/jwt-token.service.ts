@@ -1,10 +1,11 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { Configuration, TokenConfig } from '@repo/config';
+import { BaseHttpException } from '@repo/exception/base.exception';
+import { ErrorCode } from '@repo/types/error-code.enum';
 import { randomUUID } from 'crypto';
 import { JwtPayload, decode, sign, verify } from 'jsonwebtoken';
 import { DateTime, Duration } from 'luxon';
 import { CacheService } from '../../../common/cache/services';
-import { Exception } from '../../../common/exception';
 import { randomStringAsync } from '../../../common/string';
 import { Email, Mobile, UserId } from '../../../common/types';
 import { Permission } from '../../../users/roles/domain/entities/role.entity';
@@ -180,17 +181,17 @@ export class JwtTokenService {
   }
 }
 
-@Exception({
-  errorCode: 'INVALID_TOKEN',
-  statusCode: HttpStatus.BAD_REQUEST,
-})
-export class InvalidTokenException extends Error {}
+export class InvalidTokenException extends BaseHttpException {
+  readonly status: HttpStatus = HttpStatus.BAD_REQUEST;
+  readonly useOriginalMessage?: boolean;
+  readonly code: ErrorCode = ErrorCode.INVALID_TOKEN;
+}
 
-@Exception({
-  errorCode: 'INVALID_TOKEN',
-  statusCode: HttpStatus.UNAUTHORIZED,
-})
-export class TokenVerificationException extends Error {}
+export class TokenVerificationException extends BaseHttpException {
+  readonly status: HttpStatus = HttpStatus.UNAUTHORIZED;
+  readonly useOriginalMessage?: boolean;
+  readonly code: ErrorCode = ErrorCode.UNVERIFIED_TOKEN;
+}
 
 export class Token {
   accessToken!: string;

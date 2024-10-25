@@ -1,5 +1,7 @@
 import { HttpStatus, Inject, Injectable } from '@nestjs/common';
-import { Exception } from '../../common/exception';
+import { BaseHttpException } from '@repo/exception/base.exception';
+import { ErrorCode } from '@repo/types/error-code.enum';
+import { Paginated } from '../../common/database';
 import { NotificationPushTokenEntity, PushProvider } from '../domain/entities/notification-push-token.entity';
 import {
   AlertStatus,
@@ -23,7 +25,6 @@ import {
   NotificationsRepository,
 } from '../domain/repositories/notifications.repository';
 import { NotificationsDispatcher } from './notifications.dispatcher';
-import { Paginated } from '../../common/database';
 
 @Injectable()
 export class NotificationsService {
@@ -152,8 +153,8 @@ export class CreateNotificationData {
   readonly smsData?: SmsNotificationPayload;
 }
 
-@Exception({
-  errorCode: 'NOTIFICATION_NOT_FOUND',
-  statusCode: HttpStatus.NOT_FOUND,
-})
-export class NotificationNotFoundException extends Error {}
+export class NotificationNotFoundException extends BaseHttpException {
+  readonly status: HttpStatus = HttpStatus.NOT_FOUND;
+  readonly useOriginalMessage?: boolean;
+  readonly code: ErrorCode = ErrorCode.NOTIFICATION_NOT_FOUND;
+}

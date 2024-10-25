@@ -1,6 +1,7 @@
 import { HttpStatus, Injectable, Logger } from '@nestjs/common';
+import { BaseHttpException } from '@repo/exception/base.exception';
+import { ErrorCode } from '@repo/types/error-code.enum';
 import { isEmail, isPhoneNumber } from 'class-validator';
-import { Exception } from '../../../../common/exception';
 import { publish } from '../../../../common/rabbit/application/rabbit-mq.service';
 import { UsersService } from '../../../../users/profiles/application/users.service';
 import { UserEntity } from '../../../../users/profiles/domain/entities/user.entity';
@@ -89,8 +90,8 @@ export class VerifyUsecase {
   }
 }
 
-@Exception({
-  errorCode: 'CAN_NOT_VERIFY',
-  statusCode: HttpStatus.BAD_REQUEST,
-})
-export class CannotVerifyException extends Error {}
+export class CannotVerifyException extends BaseHttpException {
+  readonly status: HttpStatus = HttpStatus.BAD_REQUEST;
+  readonly useOriginalMessage?: boolean;
+  readonly code: ErrorCode = ErrorCode.CAN_NOT_VERIFY;
+}

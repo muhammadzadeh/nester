@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
+import { MapException } from '@repo/decorator/function-decorator';
 import fs from 'node:fs/promises';
-import { ExceptionMapper } from '../../../common/exception';
 import {
   StorageIsUnavailableException,
   StorageProvider,
@@ -43,7 +43,7 @@ export class LocalStorageProvider implements StorageProvider {
     return this.options.publicDir;
   }
 
-  @ExceptionMapper(StorageIsUnavailableException, 'Could not upload!')
+  @MapException(StorageIsUnavailableException, 'Could not upload!')
   async upload(input: UploadData): Promise<void> {
     await fs.mkdir(`${this.options.localStoragePath}/${input.path}`, {
       recursive: true,
@@ -51,12 +51,12 @@ export class LocalStorageProvider implements StorageProvider {
     await fs.writeFile(`${this.options.localStoragePath}/${input.path}`, input.fileData as Buffer);
   }
 
-  @ExceptionMapper(StorageIsUnavailableException, 'Could not download!')
+  @MapException(StorageIsUnavailableException, 'Could not download!')
   download(path: string): Promise<Buffer> {
     return fs.readFile(`${this.options.localStoragePath}/${path}`);
   }
 
-  @ExceptionMapper(StorageIsUnavailableException, 'Could not delete!')
+  @MapException(StorageIsUnavailableException, 'Could not delete!')
   async delete(path: string): Promise<void> {
     const files = await fs.readdir(`${this.options.localStoragePath}/${path}`);
     await Promise.all(files.filter((f) => f.includes(path)).map((f) => fs.rm(f)));

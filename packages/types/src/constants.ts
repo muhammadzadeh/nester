@@ -1,4 +1,4 @@
-import { ControllerType } from './enums';
+import { ControllerType } from './common.enums';
 
 export const TENANT_CONFIG = {
   USER: {

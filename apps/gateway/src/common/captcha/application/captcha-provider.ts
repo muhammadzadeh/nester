@@ -1,5 +1,6 @@
 import { HttpStatus } from '@nestjs/common';
-import { Exception } from '../../exception';
+import { BaseHttpException } from '@repo/exception/base.exception';
+import { ErrorCode } from '@repo/types/error-code.enum';
 
 export const CAPTCHA_PROVIDER_TOKEN = Symbol('Captcha');
 
@@ -8,8 +9,8 @@ export interface CaptchaProvider {
   getName(): string;
 }
 
-@Exception({
-  errorCode: 'INVALID_CAPTCHA_TOKEN',
-  statusCode: HttpStatus.FORBIDDEN,
-})
-export class InvalidRecaptchaException extends Error {}
+export class InvalidRecaptchaException extends BaseHttpException {
+  readonly status: HttpStatus = HttpStatus.FORBIDDEN;
+  readonly useOriginalMessage?: boolean;
+  readonly code: ErrorCode = ErrorCode.INVALID_CAPTCHA_TOKEN;
+}

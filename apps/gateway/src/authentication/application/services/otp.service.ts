@@ -1,18 +1,25 @@
 import { HttpStatus, Inject, Injectable } from '@nestjs/common';
+import { BaseHttpException } from '@repo/exception/base.exception';
+import { ErrorCode } from '@repo/types/error-code.enum';
 import { createHash } from 'crypto';
 import { Duration } from 'luxon';
-import { Exception } from '../../../common/exception';
 import { randomStringSync } from '../../../common/string';
 import { now } from '../../../common/time';
 import { Email, Mobile, UserId } from '../../../common/types';
 import { OTPEntity, OTPReason, OTPType } from '../../domain/entities';
 import { OTPRepository, OTP_REPOSITORY_TOKEN } from '../../domain/repositories';
 
-@Exception({
-  errorCode: 'OTP_NOT_FOUND',
-  statusCode: HttpStatus.BAD_REQUEST,
-})
-class OtpNotFoundException extends Error {}
+class OtpNotFoundException extends BaseHttpException {
+  readonly status: HttpStatus = HttpStatus.BAD_REQUEST;
+  readonly useOriginalMessage?: boolean;
+  readonly code: ErrorCode = ErrorCode.OTP_NOT_FOUND;
+}
+
+class OtpDestinationInvalidException extends BaseHttpException {
+  readonly status: HttpStatus = HttpStatus.BAD_REQUEST;
+  readonly useOriginalMessage?: boolean;
+  readonly code: ErrorCode = ErrorCode.OTP_DESTINATION_INVALID;
+}
 
 const DEFAULT_TOKEN_OTP_DURATION = Duration.fromISO('PT15M');
 const DEFAULT_CODE_OTP_DURATION = Duration.fromISO('PT5M');
@@ -44,12 +51,6 @@ export class OtpVerification {
 export class OTPVerificationResult {
   readonly userId!: string;
 }
-
-@Exception({
-  errorCode: 'OTP_DESTINATION_INVALID',
-  statusCode: HttpStatus.BAD_REQUEST,
-})
-class OtpDestinationInvalidException extends Error {}
 
 @Injectable()
 export class OtpService {

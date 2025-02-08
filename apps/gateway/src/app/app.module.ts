@@ -13,16 +13,16 @@ import { WinstonModule } from 'nest-winston';
 import { AcceptLanguageResolver, HeaderResolver, I18nModule, QueryResolver } from 'nestjs-i18n';
 import { join } from 'node:path';
 import { AttachmentsModule } from '../attachments/attachments.module';
-import { AuthenticationModule } from '../authentication/infrastructure/authentication.module';
+import { AuthenticationModule } from '../authentication/authentication.module';
 import { CacheServiceModule } from '../common/cache/cache.module';
 import { CaptchaModule } from '../common/captcha/captcha.module';
 import { AuthModule } from '../common/guards';
 import { HealthController } from '../common/health/health.controller';
 import { ThrottlerStorageRedisService } from '../common/throttler';
 import typeormOptions from '../common/typeorm';
-import { CountryModule } from '../countries/infrastructure/country.module';
-import { NotificationsModule } from '../notifications/infrastructure/notifications.module';
-import { ProfileModule } from '../users/profiles/infrastructure/profiles.module';
+import { CountryModule } from '../countries/country.module';
+import { NotificationsModule } from '../notifications/notifications.module';
+import { ProfileModule } from '../users/profiles/profiles.module';
 
 @Module({
   imports: [

@@ -42,5 +42,9 @@
   "workspaces": [
     "apps/*",
     "packages/*"
-  ]
+  ],
+  "dependencies": {
+    "@swc/cli": "^0.6.0",
+    "nestjs-i18n": "^10.5.0"
+  }
 }

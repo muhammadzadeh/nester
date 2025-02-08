@@ -1,9 +1,9 @@
 import { HttpService } from '@nestjs/axios';
 import { Logger } from '@nestjs/common';
+import { BaseSeeder, DatabaseSeeder } from '@repo/types/database';
 import { camelCaseObject } from '@repo/utils';
 import { lastValueFrom } from 'rxjs';
 import { DataSource } from 'typeorm';
-import { BaseSeeder, DatabaseSeeder } from '@repo/types/database';
 import { CityEntity } from '../domain/entities/city.entity';
 import { CountryEntity } from '../domain/entities/country.entity';
 import { StateEntity } from '../domain/entities/state.entity';
@@ -12,7 +12,7 @@ import { TypeormCountryEntity } from '../infrastructure/database/entities/typeor
 import { TypeormStateEntity } from '../infrastructure/database/entities/typeorm-state.entity';
 
 type State = StateEntity & { cities: CityEntity[] };
-type Country = CountryEntity & { states: State[] };
+type Country = CountryEntity & { phonecode: string; states: State[] };
 @DatabaseSeeder()
 export class CountriesSeeder extends BaseSeeder {
   private logger = new Logger(CountriesSeeder.name);
@@ -55,9 +55,9 @@ export class CountriesSeeder extends BaseSeeder {
   }
 
   private async createCountryRecord(country: Country): Promise<void> {
-    const { id, states, ...countryWithoutState } = country;
+    const { id, states, phonecode, ...countryWithoutState } = country;
 
-    const createdCountry = await this.datasource.manager.getRepository(TypeormCountryEntity).save(countryWithoutState);
+    const createdCountry = await this.datasource.manager.getRepository(TypeormCountryEntity).save({...countryWithoutState, phoneCode: phonecode});
 
     for (let i = 0; i < states.length; i++) {
       const state = states[i];

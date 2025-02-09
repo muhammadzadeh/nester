@@ -1,9 +1,9 @@
 import { HttpStatus } from '@nestjs/common';
 import { BaseHttpException } from '@repo/exception/base.exception';
-import { ErrorCode } from '@repo/types/error-code.enum';
-import { randomUUID } from 'crypto';
+import { ErrorCode } from '@repo/types';
 import { randomStringSync } from '@repo/utils/string';
 import { now } from '@repo/utils/time';
+import { randomUUID } from 'crypto';
 
 export class AttachmentEntity {
   constructor(

@@ -1,15 +1,12 @@
-import { Get, Param, Post, Query } from '@nestjs/common';
+import { Get, Param, Query } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { CommonController } from '@repo/decorator';
-import { FineOneUUIDDto } from '@repo/types/find-one-uuid.dto';
-import { DoneResponse } from '@repo/types/serialization';
-import { IgnoreAuthorizationGuard, RequiredPermissions } from '../../../authentication/presenter/http/decorators';
-import { Permission } from '../../../users/roles/domain/entities/role.entity';
+import { FineOneUUIDDto } from '@repo/types';
+import { IgnoreAuthorizationGuard } from '../../../authentication/presenter/http/decorators';
 import { CountriesService } from '../../application/countries.service';
 import { CityListResponse } from './city-list.response';
 import { CityRegionListResponse } from './city-region-list.response';
 import { CountryListResponse } from './country-list.response';
-import { CreateCityRegionDto } from './create-city-region.dto';
 import { FilterCityDto } from './filter-city.dto';
 import { FilterCountryDto } from './filter-country.dto';
 import { FilterRegionDto } from './filter-regions.dto';
@@ -112,19 +109,5 @@ export class CountriesController {
       },
     );
     return CityRegionListResponse.from(result, filters);
-  }
-
-  @Post('cities/:id/regions')
-  @ApiOkResponse({
-    status: 200,
-    type: DoneResponse,
-  })
-  @RequiredPermissions(Permission.WRITE_COUNTRIES)
-  async createCityRegion(@Param() params: FineOneUUIDDto, @Query() data: CreateCityRegionDto): Promise<DoneResponse> {
-    await this.countriesService.createCityRegion({
-      name: data.name,
-      cityId: params.id,
-    });
-    return new DoneResponse();
   }
 }

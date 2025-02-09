@@ -1,7 +1,6 @@
 import { applyDecorators, createParamDecorator, ExecutionContext, Post, SetMetadata, UseGuards } from '@nestjs/common';
+import { Email, Mobile, Permission, UserId } from '@repo/types';
 import { Captcha } from '../../../common/captcha/infrastructure/web/decorators';
-import { Email, Mobile, UserId } from '@repo/types/common.types';
-import { Permission } from '../../../users/roles/domain/entities/role.entity';
 import { CheckSignupGuard } from './guards/check-signup.guard';
 
 export enum AuthenticationMetaKey {

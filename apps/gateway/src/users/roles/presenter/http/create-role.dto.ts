@@ -1,5 +1,5 @@
+import { Permission } from '@repo/types';
 import { IsArray, IsEnum, IsNotEmpty, IsString } from 'class-validator';
-import { Permission } from '../../domain/entities/role.entity';
 
 export class CreateRoleDto {
   @IsNotEmpty()

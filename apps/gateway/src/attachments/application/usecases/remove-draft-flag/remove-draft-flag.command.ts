@@ -1,4 +1,4 @@
-import { BaseCommand } from "@repo/types/commands/base.command";
+import { BaseCommand } from "@repo/types";
 
 export class RemoveAttachmentDraftFlagCommand extends BaseCommand {
   readonly attachmentIds!: string[];

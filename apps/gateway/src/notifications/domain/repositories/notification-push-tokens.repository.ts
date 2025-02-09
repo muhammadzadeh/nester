@@ -1,4 +1,4 @@
-import { Paginated } from '@repo/types/database';
+import { Paginated } from '@repo/types';
 import { NotificationPushTokenEntity, PushProvider } from '../entities/notification-push-token.entity';
 
 export interface FindNotificationData {

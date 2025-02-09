@@ -1,10 +1,10 @@
 import { ToLowerCase } from '@repo/decorator';
+import { Email, Mobile } from '@repo/types';
+import { IsIdentifier } from '@repo/validator/is-identifier.validator';
+import { IsNotUUID } from '@repo/validator/is-not-uuid.validator';
 import { IsStrongPassword } from '@repo/validator/is-strong-password.validator';
 import { Type } from 'class-transformer';
 import { IsNotEmpty, IsString } from 'class-validator';
-import { IsIdentifier } from '@repo/validator/is-identifier.validator';
-import { IsNotUUID } from '@repo/validator/is-not-uuid.validator';
-import { Email, Mobile } from '@repo/types/common.types';
 import {
   AuthenticateByThirdPartyData,
   SignupByOtpData,

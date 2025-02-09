@@ -1,14 +1,12 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { Configuration, TokenConfig } from '@repo/config';
 import { BaseHttpException } from '@repo/exception/base.exception';
-import { ErrorCode } from '@repo/types/error-code.enum';
+import { Email, ErrorCode, Mobile, Permission, UserId } from '@repo/types';
+import { randomStringAsync } from '@repo/utils/string';
 import { randomUUID } from 'crypto';
 import { JwtPayload, decode, sign, verify } from 'jsonwebtoken';
 import { DateTime, Duration } from 'luxon';
 import { CacheService } from '../../../common/cache/services';
-import { randomStringAsync } from '@repo/utils/string';
-import { Email, Mobile, UserId } from '@repo/types/common.types';
-import { Permission } from '../../../users/roles/domain/entities/role.entity';
 
 @Injectable()
 export class JwtTokenService {

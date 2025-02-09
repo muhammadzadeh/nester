@@ -1,6 +1,5 @@
-import { Paginated, PaginationOption } from '@repo/types/database';
-import { UserId } from '@repo/types/common.types';
-import { Permission, RoleEntity } from '../entities/role.entity';
+import { Paginated, PaginationOption, Permission, UserId } from '@repo/types';
+import { RoleEntity } from '../entities/role.entity';
 
 export const ROLES_REPOSITORY_TOKEN = Symbol('RolesRepository');
 

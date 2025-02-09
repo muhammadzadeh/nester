@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { Paginated, PaginationOption } from '@repo/types/database';
+import { Email, Mobile, Paginated, PaginationOption, UserId, Username } from '@repo/types';
 import { now } from '@repo/utils/time';
-import { Email, Mobile, UserId, Username } from '@repo/types/common.types';
 import { UserEntity, UserNotFoundException } from '../domain/entities/user.entity';
 import { FindUserOptions, UserOrderBy } from '../domain/repositories/users.repository';
 import { CreateUserCommand } from './usecases/create-user/create-user.command';

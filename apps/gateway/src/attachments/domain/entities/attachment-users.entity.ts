@@ -1,4 +1,4 @@
-import { UserId } from '@repo/types/common.types';
+import { UserId } from '@repo/types';
 
 export class AttachmentUserEntity {
   constructor(

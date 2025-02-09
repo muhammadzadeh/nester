@@ -1,4 +1,4 @@
-import { OptionalAuthenticatedCommand } from '@repo/types/commands/optional-authenticated.command';
+import { OptionalAuthenticatedCommand } from '@repo/types';
 
 export class DownloadCommand extends OptionalAuthenticatedCommand {
   readonly id!: string;

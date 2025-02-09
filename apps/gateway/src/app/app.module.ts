@@ -7,7 +7,7 @@ import { ThrottlerModule } from '@nestjs/throttler';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, Configuration } from '@repo/config';
 import { RabbitMQModule } from '@repo/rabbit/rabbit-mq.module';
-import { DATABASE_SEEDER_TAG } from '@repo/types/database';
+import { DATABASE_SEEDER_TAG } from '@repo/types';
 import { Queue } from 'bull';
 import { WinstonModule } from 'nest-winston';
 import { AcceptLanguageResolver, HeaderResolver, I18nModule, QueryResolver } from 'nestjs-i18n';

@@ -1,8 +1,8 @@
 import { Inject } from '@nestjs/common';
-import { randomUUID } from 'crypto';
-import { BaseSeeder, DatabaseSeeder } from '@repo/types/database';
+import { BaseSeeder, DatabaseSeeder, Permission } from '@repo/types';
 import { now } from '@repo/utils/time';
-import { Permission, RoleEntity } from '../domain/entities/role.entity';
+import { randomUUID } from 'crypto';
+import { RoleEntity } from '../domain/entities/role.entity';
 import { ROLES_REPOSITORY_TOKEN, RolesRepository } from '../domain/repositories/roles.repository';
 
 const defaultRoles: RoleEntity[] = [

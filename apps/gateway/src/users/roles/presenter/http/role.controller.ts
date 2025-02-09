@@ -1,10 +1,9 @@
 import { Body, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { AdminController } from '@repo/decorator';
+import { DoneResponse, Permission } from '@repo/types';
 import { RequiredPermissions } from '../../../../authentication/presenter/http/decorators';
-import { DoneResponse } from '@repo/types/serialization';
 import { RolesService } from '../../application/roles.service';
-import { Permission } from '../../domain/entities/role.entity';
 import { CreateRoleDto } from './create-role.dto';
 import { FilterRoleDto } from './filter-role.dto';
 import { GetRoleDto } from './get-role.dto';

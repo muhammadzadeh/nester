@@ -1,4 +1,4 @@
-import { BaseCommand } from "@repo/types/commands/base.command";
+import { BaseCommand } from "@repo/types";
 
 export class UpdateAttachmentShareFlagCommand extends BaseCommand {
   readonly attachmentIds!: string[];

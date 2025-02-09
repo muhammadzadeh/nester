@@ -1,5 +1,5 @@
+import { UserId } from '@repo/types';
 import { Entity, PrimaryColumn } from 'typeorm';
-import { UserId } from '@repo/types/common.types';
 import { AttachmentId, AttachmentUserEntity } from '../../../domain/entities/attachment-users.entity';
 
 @Entity({ name: 'attachment_users' })

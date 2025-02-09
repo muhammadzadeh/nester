@@ -1,7 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { ListResponse, Paginated } from '@repo/types';
 import { Type } from 'class-transformer';
-import { Paginated } from '@repo/types/database';
-import { ListResponse } from '@repo/types/serialization';
 import { NotificationEntity } from '../../domain/entities/notification.entity';
 import { FilterNotificationDto } from './filter-notification.dto';
 import { NotificationResponse } from './notification.response';

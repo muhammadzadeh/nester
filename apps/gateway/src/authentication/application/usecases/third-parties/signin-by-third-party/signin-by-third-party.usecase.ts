@@ -1,10 +1,10 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { IllegalStateException } from '@repo/exception';
 import { publish } from '@repo/rabbit/rabbit-mq.service';
+import { Permission } from '@repo/types';
 import { UsersService } from '../../../../../users/profiles/application/users.service';
 import { UserEntity } from '../../../../../users/profiles/domain/entities/user.entity';
 import { RolesService } from '../../../../../users/roles/application/roles.service';
-import { Permission } from '../../../../../users/roles/domain/entities/role.entity';
 import { AUTHENTICATION_EXCHANGE_NAME } from '../../../../domain/constants';
 import { AuthenticationEvents, UserLoggedInEvent } from '../../../../domain/events';
 import { InvalidCredentialException, YourAccountIsBlockedException } from '../../../exceptions';

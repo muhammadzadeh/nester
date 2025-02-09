@@ -1,12 +1,11 @@
 import { HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { BaseHttpException } from '@repo/exception/base.exception';
-import { ErrorCode } from '@repo/types/error-code.enum';
-import { isEmail, isPhoneNumber } from 'class-validator';
 import { publish } from '@repo/rabbit/rabbit-mq.service';
+import { ErrorCode, Permission } from '@repo/types';
+import { isEmail, isPhoneNumber } from 'class-validator';
 import { UsersService } from '../../../../users/profiles/application/users.service';
 import { UserEntity } from '../../../../users/profiles/domain/entities/user.entity';
 import { RolesService } from '../../../../users/roles/application/roles.service';
-import { Permission } from '../../../../users/roles/domain/entities/role.entity';
 import { AUTHENTICATION_EXCHANGE_NAME } from '../../../domain/constants';
 import { OTPReason } from '../../../domain/entities';
 import { AuthenticationEvents, UserVerifiedEvent } from '../../../domain/events';

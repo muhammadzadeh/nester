@@ -1,9 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { MIN_PAGE_NUMBER, MIN_PAGE_SIZE, OrderDir, Paginated } from '@repo/types';
 import { Repository, SelectQueryBuilder } from 'typeorm';
-import { MIN_PAGE_NUMBER, MIN_PAGE_SIZE } from '@repo/types/constants';
-import { Paginated } from '@repo/types/database';
-import { OrderDir } from '@repo/types/common.enums';
 import { NotificationEntity } from '../../../domain/entities/notification.entity';
 import {
   FindNotificationData,

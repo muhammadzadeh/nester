@@ -4,8 +4,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as apiExcludeControllerExplorer from '@nestjs/swagger/dist/explorers/api-exclude-controller.explorer';
 import * as swaggerExplorer from '@nestjs/swagger/dist/swagger-explorer';
 import { Configuration } from '@repo/config';
-import { ControllerType, MetaKey } from '@repo/types/common.enums';
-import { TENANT_CONFIG } from '@repo/types/constants';
+import { ControllerType, MetaKey, TENANT_CONFIG } from '@repo/types';
 
 // This type is used to mark the module as mutable
 type Mutable<T> = { -readonly [P in keyof T]: T[P] };

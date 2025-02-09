@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Permission } from '@repo/types';
 import { Type } from 'class-transformer';
-import { Permission, RoleEntity } from '../../domain/entities/role.entity';
+import { RoleEntity } from '../../domain/entities/role.entity';
 
 export class RoleResponse {
   static from(data: RoleEntity): RoleResponse {

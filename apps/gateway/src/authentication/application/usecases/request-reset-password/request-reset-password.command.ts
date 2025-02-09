@@ -1,5 +1,4 @@
-import { BaseCommand } from '@repo/types/commands/base.command';
-import { Email, Mobile } from '@repo/types/common.types';
+import { BaseCommand, Email, Mobile } from '@repo/types';
 
 export class RequestResetPasswordCommand extends BaseCommand {
   readonly identifier!: Email | Mobile;

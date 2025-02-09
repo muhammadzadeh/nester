@@ -1,4 +1,4 @@
-import { BaseCommand } from '@repo/types/commands/base.command';
+import { BaseCommand } from '@repo/types';
 import { OtpVerification } from '../../services/otp.service';
 
 export class ResetPasswordCommand extends BaseCommand {

@@ -1,9 +1,9 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Configuration } from '@repo/config';
+import { Permission } from '@repo/types';
 import { UsersService } from '../../../../users/profiles/application/users.service';
 import { UserEntity } from '../../../../users/profiles/domain/entities/user.entity';
 import { RolesService } from '../../../../users/roles/application/roles.service';
-import { Permission } from '../../../../users/roles/domain/entities/role.entity';
 import { InvalidCredentialException } from '../../exceptions';
 import { AccessType, JwtTokenService, Token } from '../../services/jwt-token.service';
 import { ImpersonationCommand } from './impersonation.command';

@@ -1,5 +1,6 @@
+import { Permission } from '@repo/types';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import { Permission, RoleEntity } from '../../../domain/entities/role.entity';
+import { RoleEntity } from '../../../domain/entities/role.entity';
 
 @Entity({
   name: 'roles',

@@ -1,4 +1,4 @@
-import { AuthenticatedCommand } from '@repo/types/commands/authenticated.command';
+import { AuthenticatedCommand } from '@repo/types';
 
 export class UpdateMyProfileCommand extends AuthenticatedCommand {
   readonly firstName!: string | null;

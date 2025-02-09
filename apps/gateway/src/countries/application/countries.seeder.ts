@@ -1,6 +1,6 @@
 import { HttpService } from '@nestjs/axios';
 import { Logger } from '@nestjs/common';
-import { BaseSeeder, DatabaseSeeder } from '@repo/types/database';
+import { BaseSeeder, DatabaseSeeder } from '@repo/types';
 import { camelCaseObject } from '@repo/utils';
 import { lastValueFrom } from 'rxjs';
 import { DataSource } from 'typeorm';

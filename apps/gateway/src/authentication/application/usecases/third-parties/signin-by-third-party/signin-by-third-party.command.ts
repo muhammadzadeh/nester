@@ -1,5 +1,5 @@
 
-import { BaseCommand } from '@repo/types/commands/base.command';
+import { BaseCommand } from '@repo/types';
 import { Auth, AuthProviderType } from '../auth-provider';
 
 export class SigninByThirdPartyCommand extends BaseCommand {

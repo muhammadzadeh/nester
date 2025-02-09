@@ -1,7 +1,6 @@
 import { HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { BaseHttpException } from '@repo/exception/base.exception';
-import { Paginated } from '@repo/types/database';
-import { ErrorCode } from '@repo/types/error-code.enum';
+import { ErrorCode, Paginated } from '@repo/types';
 import { NotificationPushTokenEntity, PushProvider } from '../domain/entities/notification-push-token.entity';
 import {
   AlertStatus,

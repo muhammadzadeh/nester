@@ -1,4 +1,4 @@
-import { Paginated, PaginationOption } from '@repo/types/database';
+import { Paginated, PaginationOption } from '@repo/types';
 import { AlertStatus, NotificationEntity, NotificationStatus } from '../entities/notification.entity';
 
 export interface FindNotificationData {

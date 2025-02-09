@@ -1,11 +1,10 @@
 import { HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { BaseHttpException } from '@repo/exception/base.exception';
-import { ErrorCode } from '@repo/types/error-code.enum';
-import { createHash } from 'crypto';
-import { Duration } from 'luxon';
+import { Email, ErrorCode, Mobile, UserId } from '@repo/types';
 import { randomStringSync } from '@repo/utils/string';
 import { now } from '@repo/utils/time';
-import { Email, Mobile, UserId } from '@repo/types/common.types';
+import { createHash } from 'crypto';
+import { Duration } from 'luxon';
 import { OTPEntity, OTPReason, OTPType } from '../../domain/entities';
 import { OTPRepository, OTP_REPOSITORY_TOKEN } from '../../domain/repositories';
 

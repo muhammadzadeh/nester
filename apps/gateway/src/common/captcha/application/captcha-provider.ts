@@ -1,6 +1,6 @@
 import { HttpStatus } from '@nestjs/common';
 import { BaseHttpException } from '@repo/exception/base.exception';
-import { ErrorCode } from '@repo/types/error-code.enum';
+import { ErrorCode } from '@repo/types';
 
 export const CAPTCHA_PROVIDER_TOKEN = Symbol('Captcha');
 

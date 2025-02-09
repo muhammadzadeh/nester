@@ -37,10 +37,10 @@ export class TypeormAttachmentEntity {
   @Index('attachments_uploader_share_token_idx')
   readonly shareToken!: string | null;
 
-  @Column({ type: 'timestamptz', name: 'created_at', default: 'now()' })
+  @Column({ type: 'timestamptz', name: 'created_at', default: () => 'CURRENT_TIMESTAMP' })
   readonly createdAt!: Date;
 
-  @Column({ type: 'timestamptz', name: 'updated_at', default: 'now()' })
+  @Column({ type: 'timestamptz', name: 'updated_at', default: () => 'CURRENT_TIMESTAMP' })
   readonly updatedAt!: Date;
 
   @Column({ type: 'timestamptz', nullable: true, name: 'deleted_at' })

@@ -16,7 +16,7 @@ if (process.env.NODE_ENV === 'test') {
 }
 
 function getDatabaseConfigs() {
-  const defaultConfigLoader = new DefaultConfigLoaderService('config.yml');
+  const defaultConfigLoader = new DefaultConfigLoaderService('../../apps/gateway/config.yml');
   const defaultConfig = defaultConfigLoader.getMappedConfig<Configuration>();
   const configInstance = plainToInstance(Configuration, defaultConfig);
   configInstance.validate();

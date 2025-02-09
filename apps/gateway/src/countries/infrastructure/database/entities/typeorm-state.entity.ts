@@ -22,10 +22,10 @@ export class TypeormStateEntity {
   @Column({ type: 'varchar', nullable: true })
   readonly type!: null | string;
 
-  @Column({ type: 'timestamptz', name: 'created_at', default: 'now()' })
+  @Column({ type: 'timestamptz', name: 'created_at', default: () => 'CURRENT_TIMESTAMP' })
   readonly createdAt!: Date;
 
-  @Column({ type: 'timestamptz', name: 'updated_at', default: 'now()' })
+  @Column({ type: 'timestamptz', name: 'updated_at', default: () => 'CURRENT_TIMESTAMP' })
   readonly updatedAt!: Date;
 
   @Column({ type: 'timestamptz', nullable: true, name: 'deleted_at' })

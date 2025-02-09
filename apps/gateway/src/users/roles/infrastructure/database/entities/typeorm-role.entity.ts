@@ -14,10 +14,10 @@ export class TypeormRoleEntity {
   @Column({ type: 'varchar', name: 'permissions', default: [], array: true })
   readonly permissions!: Permission[];
 
-  @Column({ type: 'timestamptz', name: 'created_at', default: 'now()' })
+  @Column({ type: 'timestamptz', name: 'created_at', default: () => 'CURRENT_TIMESTAMP' })
   readonly createdAt!: Date;
 
-  @Column({ type: 'timestamptz', name: 'updated_at', default: 'now()' })
+  @Column({ type: 'timestamptz', name: 'updated_at', default: () => 'CURRENT_TIMESTAMP' })
   readonly updatedAt!: Date;
 
   @Column({ type: 'timestamptz', nullable: true, name: 'deleted_at' })

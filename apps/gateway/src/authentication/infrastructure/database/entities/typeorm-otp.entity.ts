@@ -27,10 +27,10 @@ export class TypeormOTPEntity {
   @Column({ type: 'timestamptz', nullable: true, name: 'used_at' })
   readonly usedAt!: Date | null;
 
-  @Column({ type: 'timestamptz', name: 'created_at', default: 'now()' })
+  @Column({ type: 'timestamptz', name: 'created_at', default: () => 'CURRENT_TIMESTAMP' })
   readonly createdAt!: Date;
 
-  @Column({ type: 'timestamptz', name: 'updated_at', default: 'now()' })
+  @Column({ type: 'timestamptz', name: 'updated_at', default: () => 'CURRENT_TIMESTAMP' })
   readonly updatedAt!: Date;
 
   @Column({ type: 'timestamptz', nullable: true, name: 'deleted_at' })

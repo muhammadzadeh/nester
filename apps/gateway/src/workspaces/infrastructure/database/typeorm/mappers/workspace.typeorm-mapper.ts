@@ -2,7 +2,7 @@ import { WorkspaceEntity } from '../../../../domain/entities/workspace.entity';
 import { WorkspaceReadFactory } from '../../../../domain/factories/workspace.factory';
 import { WorkspaceTypeormEntity } from '../entities/workspace.typeorm-entity';
 
-export class WorkspaceMapper {
+export class WorkspaceTypeormMapper {
 	static toDomain(args: WorkspaceTypeormEntity): WorkspaceEntity {
 		return WorkspaceReadFactory.create({
 			id: args.id,

@@ -1,0 +1,34 @@
+version: "3.8"
+
+networks:
+  staging:
+    external: true
+
+services:
+  api:
+    hostname: beta.app-server.stage
+    image: __IMAGE__
+    networks:
+      - staging
+    deploy:
+      mode: replicated
+      replicas: 5
+      update_config:
+        parallelism: 2
+        order: start-first
+        failure_action: rollback
+        delay: 10s
+      rollback_config:
+        parallelism: 0
+        order: stop-first
+      restart_policy:
+        condition: any
+        delay: 5s
+        max_attempts: 3
+        window: 20s
+    healthcheck:
+      test: ["CMD", "node", "dist/base/health/health.js"]
+      interval: 30s
+      retries: 3
+      start_period: 10s
+      timeout: 10s

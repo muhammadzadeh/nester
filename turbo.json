@@ -2,13 +2,10 @@
   "$schema": "https://turbo.build/schema.json",
   "ui": "tui",
   "globalDependencies": [
-    "**/.env", "**/config.yml"
+    "**/.env",
+    "**/config.yml"
   ],
   "tasks": {
-    "dev": {
-      "cache": false,
-      "persistent": true
-    },
     "build": {
       "dependsOn": [
         "^build"
@@ -16,6 +13,19 @@
       "outputs": [
         "dist/**"
       ]
+    },
+    "dev": {
+      "dependsOn": [
+        "build"
+      ],
+      "cache": false,
+      "persistent": true
+    },
+    "migration-generate": {
+      "dependsOn": [
+        "build"
+      ],
+      "cache": false
     },
     "clean": {
       "cache": false

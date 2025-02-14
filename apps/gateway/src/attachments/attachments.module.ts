@@ -1,4 +1,4 @@
-import { Module, Provider } from '@nestjs/common';
+import { Global, Module, Provider } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Configuration } from '@repo/config';
 import { AttachmentsService } from './application/attachments.service';
@@ -70,6 +70,7 @@ const uploaderProvider: Provider = {
   },
 };
 
+@Global()
 @Module({
   imports: [TypeOrmModule.forFeature([TypeormAttachmentEntity, TypeormAttachmentUserEntity])],
   controllers: [AttachmentsController],

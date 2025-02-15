@@ -66,18 +66,28 @@ export class WorkspaceUsersTypeormRepository implements WorkspaceUsersRepository
 		alias?: string,
 	): SelectQueryBuilder<WorkspaceUserTypeormEntity> {
 		const queryBuilder = this.repository.createQueryBuilder(alias);
-		if (options.ids) {
+		if (options.ids?.length) {
 			queryBuilder.andWhere(`${alias ? alias + '.' : ''}id IN (:...ids)`, { ids: options.ids });
 		}
-		if (options.roleIds) {
+		if (options.roleIds?.length) {
 			queryBuilder.andWhere(`${alias ? alias + '.' : ''}role_id IN (:...roleIds)`, { roleIds: options.roleIds });
 		}
-		if (options.userIds) {
+		if (options.userIds?.length) {
 			queryBuilder.andWhere(`${alias ? alias + '.' : ''}user_id IN (:...userIds)`, { userIds: options.userIds });
 		}
-		if (options.workspaceIds) {
+		if (options.workspaceIds?.length) {
 			queryBuilder.andWhere(`${alias ? alias + '.' : ''}workspace_id IN (:...workspaceIds)`, {
 				workspaceIds: options.workspaceIds,
+			});
+		}
+		if (options.emails?.length) {
+			queryBuilder.andWhere(`${alias ? alias + '.' : ''}email IN (:...emails)`, {
+				emails: options.emails,
+			});
+		}
+		if (options.mobiles?.length) {
+			queryBuilder.andWhere(`${alias ? alias + '.' : ''}mobile IN (:...mobiles)`, {
+				mobiles: options.mobiles,
 			});
 		}
 		return queryBuilder;

@@ -31,55 +31,57 @@ import { GoogleAuthProvider } from './infrastructure/providers/google';
 import { AuthenticationController } from './presenter/http';
 import { AuthorizationGuard, CheckPermissionGuard, IsUserEnableGuard } from './presenter/http/guards';
 import { CheckSignupGuard } from './presenter/http/guards/check-signup.guard';
+import { CheckWorkspacePermissionGuard } from './presenter/http/guards/check-workspace-permission.guard';
 
 const authProviderManager: Provider = {
-  provide: AuthProviderManager,
-  inject: [Configuration],
-  useFactory: (configuration: Configuration) => {
-    const authProviders: AuthProvider[] = [new GoogleAuthProvider(configuration)];
+	provide: AuthProviderManager,
+	inject: [Configuration],
+	useFactory: (configuration: Configuration) => {
+		const authProviders: AuthProvider[] = [new GoogleAuthProvider(configuration)];
 
-    return new AuthProviderManager(authProviders);
-  },
+		return new AuthProviderManager(authProviders);
+	},
 };
 
 const otpRepository: Provider = {
-  provide: OTP_REPOSITORY_TOKEN,
-  useClass: TypeOrmOTPRepository,
+	provide: OTP_REPOSITORY_TOKEN,
+	useClass: TypeOrmOTPRepository,
 };
 
 @Module({
-  imports: [TypeOrmModule.forFeature([TypeormOTPEntity]), CacheServiceModule, ProfileModule, RolesModule],
-  controllers: [AuthenticationController],
-  providers: [
-    authProviderManager,
-    otpRepository,
-    AuthService,
-    OtpService,
-    AuthenticationNotifier,
-    JwtTokenService,
-    AuthorizationGuard,
-    CheckPermissionGuard,
-    IsUserEnableGuard,
-    CheckSignupGuard,
-    RequestResetPasswordUsecase,
-    ResetPasswordUsecase,
-    SendOtpUsecase,
-    VerifyUsecase,
-    SigninByOtpUsecase,
-    SignupByOtpUsecase,
-    SigninByPasswordUsecase,
-    SignupByPasswordUsecase,
-    ImpersonationUsecase,
-    SignupByThirdPartyUsecase,
-    SigninByThirdPartyUsecase,
-    RefreshTokenUsecase,
-    RevokeTokenUsecase,
-    {
-      provide: IsStrongPasswordConstraint,
-      inject: [Configuration],
-      useFactory: (config: Configuration) => new IsStrongPasswordConstraint(config.authentication.passwordRegEx),
-    },
-  ],
-  exports: [OtpService, AuthService, JwtTokenService],
+	imports: [TypeOrmModule.forFeature([TypeormOTPEntity]), CacheServiceModule, ProfileModule, RolesModule],
+	controllers: [AuthenticationController],
+	providers: [
+		authProviderManager,
+		otpRepository,
+		AuthService,
+		OtpService,
+		AuthenticationNotifier,
+		JwtTokenService,
+		AuthorizationGuard,
+		CheckPermissionGuard,
+		CheckWorkspacePermissionGuard,
+		IsUserEnableGuard,
+		CheckSignupGuard,
+		RequestResetPasswordUsecase,
+		ResetPasswordUsecase,
+		SendOtpUsecase,
+		VerifyUsecase,
+		SigninByOtpUsecase,
+		SignupByOtpUsecase,
+		SigninByPasswordUsecase,
+		SignupByPasswordUsecase,
+		ImpersonationUsecase,
+		SignupByThirdPartyUsecase,
+		SigninByThirdPartyUsecase,
+		RefreshTokenUsecase,
+		RevokeTokenUsecase,
+		{
+			provide: IsStrongPasswordConstraint,
+			inject: [Configuration],
+			useFactory: (config: Configuration) => new IsStrongPasswordConstraint(config.authentication.passwordRegEx),
+		},
+	],
+	exports: [OtpService, AuthService, JwtTokenService],
 })
 export class AuthenticationModule {}

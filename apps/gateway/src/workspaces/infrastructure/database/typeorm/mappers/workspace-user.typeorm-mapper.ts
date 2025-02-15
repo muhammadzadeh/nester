@@ -7,6 +7,11 @@ export class WorkspaceUserTypeormMapper {
 		return WorkspaceUserReadFactory.create({
 			id: args.id,
 			userId: args.userId,
+			invitedByUserId: args.invitedByUserId,
+			mobile: args.mobile,
+			email: args.email,
+			status: args.status,
+			token: args.token,
 			workspaceId: args.workspaceId,
 			roleId: args.roleId,
 			createdAt: args.createdAt,
@@ -19,6 +24,11 @@ export class WorkspaceUserTypeormMapper {
 		return {
 			id: args.id,
 			userId: args.userId,
+			invitedByUserId: args.invitedByUserId,
+			mobile: args.mobile,
+			email: args.email,
+			status: args.status,
+			token: args.token,
 			workspaceId: args.workspaceId,
 			roleId: args.roleId,
 			createdAt: args.createdAt,

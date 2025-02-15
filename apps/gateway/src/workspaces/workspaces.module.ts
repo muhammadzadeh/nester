@@ -1,5 +1,6 @@
 import { Module, Provider } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AddUserToWorkspaceUsecase } from './application/usecases/add-user-to-workspace/add-user-to-workspace.usecase';
 import { CreateWorkspaceUsecase } from './application/usecases/create-workspace/create-workspace.usecase';
 import { WorkspacesService } from './application/workspaces.service';
 import { WorkspaceUsersRepository } from './domain/repositories/workspace-users.repository';
@@ -20,7 +21,13 @@ const workspaceUsersRepository: Provider = {
 };
 @Module({
 	imports: [TypeOrmModule.forFeature([WorkspaceTypeormEntity, WorkspaceUserTypeormEntity])],
-	providers: [WorkspacesService, workspacesRepository, workspaceUsersRepository, CreateWorkspaceUsecase],
+	providers: [
+		WorkspacesService,
+		workspacesRepository,
+		workspaceUsersRepository,
+		CreateWorkspaceUsecase,
+		AddUserToWorkspaceUsecase,
+	],
 	controllers: [WorkspaceUserController],
 	exports: [],
 })

@@ -6,6 +6,8 @@ export interface FindWorkspaceUserOptions {
 	userIds: string[];
 	workspaceIds: string[];
 	roleIds: string[];
+	emails: string[];
+	mobiles: string[]
 }
 
 export enum WorkspaceUserOrderBy {

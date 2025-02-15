@@ -39,5 +39,7 @@
     "INVALID_AUTHENTICATION_METHOD": "The selected Authentication method is invalid!",
     "USER_NOT_FOUND": "The user not found!",
     "MOBILE_OR_EMAIL_REQUIRED": "The Email or Mobile is required!",
-    "INVALID_AVATAR": "Invalid Avatar!"
+    "INVALID_AVATAR": "Invalid Avatar!",
+    "USER_ALREADY_IN_WORKSPACE": "User Already in workspace!",
+    "WORKSPACE_NOT_FOUND": "Workspace not found!"
 }

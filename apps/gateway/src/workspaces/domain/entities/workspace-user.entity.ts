@@ -1,4 +1,6 @@
+import { WorkspacePermission } from '@repo/types';
 import { WorkspaceUserStatus } from '../enums/workspace-user-status.enum';
+import { WorkspaceEntity } from './workspace.entity';
 
 export class WorkspaceUserEntity {
 	constructor(
@@ -41,4 +43,7 @@ export class WorkspaceUserEntity {
 	deletedAt!: Date | null;
 	token!: string;
 	status!: WorkspaceUserStatus;
+
+	workspace?: WorkspaceEntity;
+	permissions?: WorkspacePermission[];
 }

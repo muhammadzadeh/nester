@@ -28,9 +28,7 @@ export class RoleResponse {
   readonly title!: string;
 
   @ApiProperty({
-    type: Permission,
-    enum: Permission,
-    enumName: 'Permission',
+    type: String,
     isArray: true,
   })
   @Type(() => String)

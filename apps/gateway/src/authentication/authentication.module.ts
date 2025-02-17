@@ -1,5 +1,6 @@
 import { Module, Provider } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthenticationModule as BaseAuthenticationModule } from '@repo/authentication';
 import { Configuration } from '@repo/config';
 import { IsStrongPasswordConstraint } from '@repo/validator/is-strong-password.validator';
 import { CacheServiceModule } from '../common/cache/cache.module';
@@ -29,9 +30,7 @@ import { TypeormOTPEntity } from './infrastructure/database/entities';
 import { TypeOrmOTPRepository } from './infrastructure/database/repositories';
 import { GoogleAuthProvider } from './infrastructure/providers/google';
 import { AuthenticationController } from './presenter/http';
-import { AuthorizationGuard, CheckPermissionGuard, IsUserEnableGuard } from './presenter/http/guards';
-import { CheckSignupGuard } from './presenter/http/guards/check-signup.guard';
-import { CheckWorkspacePermissionGuard } from './presenter/http/guards/check-workspace-permission.guard';
+import { AuthorizationGuard, CheckPermissionGuard } from './presenter/http/guards';
 
 const authProviderManager: Provider = {
 	provide: AuthProviderManager,
@@ -49,7 +48,13 @@ const otpRepository: Provider = {
 };
 
 @Module({
-	imports: [TypeOrmModule.forFeature([TypeormOTPEntity]), CacheServiceModule, ProfileModule, RolesModule],
+	imports: [
+		TypeOrmModule.forFeature([TypeormOTPEntity]),
+		CacheServiceModule,
+		ProfileModule,
+		RolesModule,
+		BaseAuthenticationModule,
+	],
 	controllers: [AuthenticationController],
 	providers: [
 		authProviderManager,
@@ -60,9 +65,6 @@ const otpRepository: Provider = {
 		JwtTokenService,
 		AuthorizationGuard,
 		CheckPermissionGuard,
-		CheckWorkspacePermissionGuard,
-		IsUserEnableGuard,
-		CheckSignupGuard,
 		RequestResetPasswordUsecase,
 		ResetPasswordUsecase,
 		SendOtpUsecase,

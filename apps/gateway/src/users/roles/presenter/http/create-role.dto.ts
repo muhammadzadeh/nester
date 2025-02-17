@@ -1,13 +1,13 @@
 import { Permission } from '@repo/types';
-import { IsArray, IsEnum, IsNotEmpty, IsString } from 'class-validator';
+import { IsArray, IsIn, IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateRoleDto {
-  @IsNotEmpty()
-  @IsString()
-  readonly title!: string;
+	@IsNotEmpty()
+	@IsString()
+	readonly title!: string;
 
-  @IsNotEmpty()
-  @IsArray()
-  @IsEnum(Permission, { each: true })
-  readonly permissions!: Permission[];
+	@IsNotEmpty()
+	@IsArray()
+	@IsIn([...Object.values(Permissions)], { each: true })
+	readonly permissions!: Permission[];
 }

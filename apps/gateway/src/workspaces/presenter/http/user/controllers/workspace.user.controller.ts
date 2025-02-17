@@ -1,12 +1,8 @@
 import { Body, Post } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { CurrentUser, CurrentWorkspace, RequiredWorkspacePermissions, User, Workspace } from '@repo/authentication';
 import { UserController } from '@repo/decorator';
 import { DoneResponse, WorkspacePermission } from '@repo/types';
-import {
-	CurrentUser,
-	CurrentWorkspace,
-	RequiredWorkspacePermissions,
-} from '../../../../../authentication/presenter/http/decorators';
 import { WorkspacesService } from '../../../../application/workspaces.service';
 import { AddUserToWorkspaceUserRequestDto } from '../dtos/request/add-user-to-workspace.user.request-dto';
 import { CreateWorkspaceUserRequestDto } from '../dtos/request/create-workspace.user.request-dto';
@@ -23,7 +19,7 @@ export class WorkspaceUserController {
 		type: WorkspaceUserResponseDto,
 	})
 	async createWorkspace(
-		@CurrentUser() user: CurrentUser,
+		@User() user: CurrentUser,
 		@Body() data: CreateWorkspaceUserRequestDto,
 	): Promise<WorkspaceUserResponseDto> {
 		const createdWorkspace = await this.workspacesService.create({ ...data, userId: user.id });
@@ -37,8 +33,8 @@ export class WorkspaceUserController {
 	})
 	@RequiredWorkspacePermissions(WorkspacePermission.WRITE_USERS)
 	async addUser(
-		@CurrentUser() user: CurrentUser,
-		@CurrentWorkspace() workspace: CurrentWorkspace,
+		@User() user: CurrentUser,
+		@Workspace() workspace: CurrentWorkspace,
 		@Body() data: AddUserToWorkspaceUserRequestDto,
 	): Promise<DoneResponse> {
 		await this.workspacesService.addUser({ ...data, userId: user.id, workspaceId: workspace.id });

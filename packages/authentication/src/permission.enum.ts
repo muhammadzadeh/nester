@@ -1,4 +1,6 @@
-export enum Permission {
+export type Permission = SystemPermission | WorkspacePermission;
+
+export enum SystemPermission {
 	MANAGE_EVERY_THINGS = '*',
 	READ_ALL = 'read:*',
 	WRITE_ALL = 'write:*',

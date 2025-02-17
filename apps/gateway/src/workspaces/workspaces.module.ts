@@ -10,6 +10,7 @@ import { WorkspaceTypeormEntity } from './infrastructure/database/typeorm/entiti
 import { WorkspaceUsersTypeormRepository } from './infrastructure/database/typeorm/repositories/workspace-users.typeorm-repository';
 import { WorkspacesTypeormRepository } from './infrastructure/database/typeorm/repositories/workspaces.typeorm-repository';
 import { WorkspaceUserController } from './presenter/http/user/controllers/workspace.user.controller';
+import { CheckWorkspacePermissionGuard } from './presenter/http/user/guards/check-workspace-permission.guard';
 
 const workspacesRepository: Provider = {
 	provide: WorkspacesRepository,
@@ -27,6 +28,7 @@ const workspaceUsersRepository: Provider = {
 		workspaceUsersRepository,
 		CreateWorkspaceUsecase,
 		AddUserToWorkspaceUsecase,
+		CheckWorkspacePermissionGuard,
 	],
 	controllers: [WorkspaceUserController],
 	exports: [],

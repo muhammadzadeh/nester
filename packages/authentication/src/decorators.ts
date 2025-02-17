@@ -1,16 +1,11 @@
 import { applyDecorators, createParamDecorator, ExecutionContext, Post, SetMetadata, UseGuards } from '@nestjs/common';
-import { Email, Mobile, Permission, UserId, WorkspacePermission } from '@repo/types';
-import { Captcha } from '../../../common/captcha/infrastructure/web/decorators';
-import { CheckSignupGuard } from './guards/check-signup.guard';
-
-export enum AuthenticationMetaKey {
-	IGNORE_AUTHORIZATION_GUARD = 'ignore_authorization_guard',
-	ALLOW_UN_AUTHORIZED_REQUESTS = 'allow_unauthorized_requests',
-	REQUIRED_PERMISSION = 'required_permissions',
-	REQUIRED_WORKSPACE_PERMISSION = 'required_workspace_permissions',
-	IGNORE_CHECK_IS_ENABLE_GUARD = 'ignore_check_is_enable_guard',
-	REGISTER_USER = 'register_user',
-}
+import { Permission, WorkspacePermission } from '@repo/types';
+import { Captcha } from '@repo/captcha';
+import { AuthenticationMetaKey } from './authentication-meta-ket.enum';
+import { CURRENT_USER_KEY, CURRENT_WORKSPACE_KEY } from './constants';
+import { CurrentUser } from './current-user';
+import { CurrentWorkspace } from './current-workspace';
+import { CheckSignupGuard } from './check-signup.guard';
 
 export const IgnoreAuthorizationGuard = (): MethodDecorator & ClassDecorator =>
 	SetMetadata(AuthenticationMetaKey.IGNORE_AUTHORIZATION_GUARD, true);
@@ -33,18 +28,16 @@ export const IgnoreIsEnableGuard = (): MethodDecorator =>
 export const Signup = (path: string): MethodDecorator =>
 	applyDecorators(Post(path), Captcha(), UseGuards(CheckSignupGuard));
 
-export const CurrentUser = createParamDecorator(
-	(_data: unknown, context: ExecutionContext): CurrentUser | undefined => {
-		const user: CurrentUser = context.switchToHttp().getRequest()[CURRENT_USER_KEY];
-		if (!user) {
-			return undefined;
-		}
+export const User = createParamDecorator((_data: unknown, context: ExecutionContext): CurrentUser | undefined => {
+	const user: CurrentUser = context.switchToHttp().getRequest()[CURRENT_USER_KEY];
+	if (!user) {
+		return undefined;
+	}
 
-		return user;
-	},
-);
+	return user;
+});
 
-export const CurrentWorkspace = createParamDecorator(
+export const Workspace = createParamDecorator(
 	(_data: unknown, context: ExecutionContext): CurrentWorkspace | undefined => {
 		const workspace: CurrentWorkspace = context.switchToHttp().getRequest()[CURRENT_WORKSPACE_KEY];
 		if (!workspace) {
@@ -54,21 +47,3 @@ export const CurrentWorkspace = createParamDecorator(
 		return workspace;
 	},
 );
-
-export const CURRENT_USER_KEY = 'user';
-export const CURRENT_WORKSPACE_KEY = 'workspace';
-
-export type CurrentUser = {
-	id: UserId;
-	email: Email | null;
-	mobile: Mobile | null;
-	isEmailVerified: boolean;
-	isMobileVerified: boolean;
-	permissions?: Permission[];
-	isBlocked: boolean;
-};
-
-export type CurrentWorkspace = {
-	id: string;
-	permissions: WorkspacePermission[];
-};

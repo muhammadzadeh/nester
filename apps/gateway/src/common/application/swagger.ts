@@ -3,6 +3,7 @@ import * as constants from '@nestjs/common/constants';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as apiExcludeControllerExplorer from '@nestjs/swagger/dist/explorers/api-exclude-controller.explorer';
 import * as swaggerExplorer from '@nestjs/swagger/dist/swagger-explorer';
+import { WORKSPACE_HEADER_KEY } from '@repo/authentication';
 import { Configuration } from '@repo/config';
 import { ControllerType, MetaKey, TENANT_CONFIG } from '@repo/types';
 
@@ -92,7 +93,7 @@ export function configureSwagger(app: INestApplication): void {
 			.addServer(appConfig.url ?? '')
 			.addGlobalParameters({
 				in: 'header',
-				name: 'workspace',
+				name: WORKSPACE_HEADER_KEY,
 				allowEmptyValue: true,
 				required: false,
 			})

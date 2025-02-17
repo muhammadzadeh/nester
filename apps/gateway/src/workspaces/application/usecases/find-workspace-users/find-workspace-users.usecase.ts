@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { Paginated } from '@repo/types';
 import { UsersService } from '../../../../users/profiles/application/users.service';
 import { UserEntity } from '../../../../users/profiles/domain/entities/user.entity';
+import { RolesService } from '../../../../users/roles/application/roles.service';
 import { RoleEntity } from '../../../../users/roles/domain/entities/role.entity';
-import { RolesRepository } from '../../../../users/roles/domain/repositories/roles.repository';
 import { WorkspaceUserEntity } from '../../../domain/entities/workspace-user.entity';
 import { WorkspaceEntity } from '../../../domain/entities/workspace.entity';
 import { WorkspaceUsersRepository } from '../../../domain/repositories/workspace-users.repository';
@@ -15,8 +15,8 @@ export class FindWorkspaceUsersUsecase {
 	constructor(
 		private readonly workspaceUsersRepository: WorkspaceUsersRepository,
 		private readonly workspacesRepository: WorkspacesRepository,
+		private readonly rolesService: RolesService,
 		private readonly usersService: UsersService,
-		private readonly rolesService: RolesRepository,
 	) {}
 
 	async execute(query: FindWorkspaceUsersQuery): Promise<Paginated<WorkspaceUserEntity>> {

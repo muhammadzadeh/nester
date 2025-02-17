@@ -33,7 +33,7 @@ export class WorkspaceUserController {
 		return WorkspaceUserResponseDto.from(createdWorkspace);
 	}
 
-	@Post()
+	@Post('users')
 	@ApiOkResponse({
 		status: 200,
 		type: DoneResponse,

@@ -4,9 +4,9 @@ import { Paginated, PaginationOption } from '@repo/types';
 import { Repository, SelectQueryBuilder } from 'typeorm';
 import { WorkspaceEntity } from '../../../../domain/entities/workspace.entity';
 import {
-  FindWorkspaceOptions,
-  WorkspaceOrderBy,
-  WorkspacesRepository,
+	FindWorkspaceOptions,
+	WorkspaceOrderBy,
+	WorkspacesRepository,
 } from '../../../../domain/repositories/workspaces.repository';
 import { WorkspaceTypeormEntity } from '../entities/workspace.typeorm-entity';
 import { WorkspaceTypeormMapper } from '../mappers/workspace.typeorm-mapper';

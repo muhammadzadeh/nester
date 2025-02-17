@@ -5,16 +5,16 @@ import { NotificationChannelStatus } from '../../../domain/entities/notification
 
 @Injectable()
 export class LocalSmsSender implements SmsSender {
-  private readonly logger = new Logger(LocalSmsSender.name);
+	private readonly logger = new Logger(LocalSmsSender.name);
 
-  getName(): string {
-    return 'local';
-  }
+	getName(): string {
+		return 'local';
+	}
 
-  async send(data: SendSmsData): Promise<NotificationDispatcherResponse> {
-    this.logger.verbose(`The SMS sent successfully, ${JSON.stringify(data)}`);
-    return {
-      status: NotificationChannelStatus.SENT,
-    };
-  }
+	async send(data: SendSmsData): Promise<NotificationDispatcherResponse> {
+		this.logger.verbose(`The SMS sent successfully, ${JSON.stringify(data)}`);
+		return {
+			status: NotificationChannelStatus.SENT,
+		};
+	}
 }

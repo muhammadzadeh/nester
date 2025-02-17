@@ -6,21 +6,21 @@ import { PostgresQueryRunner } from 'typeorm/driver/postgres/PostgresQueryRunner
 import { DefaultConfigLoaderService } from '@repo/config';
 
 if (process.env.NODE_ENV === 'test') {
-  const oldQuery = PostgresQueryRunner.prototype['query'];
-  PostgresQueryRunner.prototype['query'] = function (this, query, params, usr) {
-    if (query.startsWith('CREATE TABLE')) {
-      query = 'CREATE UNLOGGED TABLE' + query.substring(12);
-    }
-    return oldQuery.call(this, query, params, usr);
-  };
+	const oldQuery = PostgresQueryRunner.prototype['query'];
+	PostgresQueryRunner.prototype['query'] = function (this, query, params, usr) {
+		if (query.startsWith('CREATE TABLE')) {
+			query = 'CREATE UNLOGGED TABLE' + query.substring(12);
+		}
+		return oldQuery.call(this, query, params, usr);
+	};
 }
 
 function getDatabaseConfigs() {
-  const defaultConfigLoader = new DefaultConfigLoaderService('../../apps/gateway/config.yml');
-  const defaultConfig = defaultConfigLoader.getMappedConfig<Configuration>();
-  const configInstance = plainToInstance(Configuration, defaultConfig);
-  configInstance.validate();
-  return configInstance;
+	const defaultConfigLoader = new DefaultConfigLoaderService('../../apps/gateway/config.yml');
+	const defaultConfig = defaultConfigLoader.getMappedConfig<Configuration>();
+	const configInstance = plainToInstance(Configuration, defaultConfig);
+	configInstance.validate();
+	return configInstance;
 }
 
 export const ds = new DataSource({ ...getDatabaseConfigs().database, ...typeormOptions });

@@ -1,5 +1,5 @@
-import { Email, Mobile, UserId } from "@repo/types";
-import { Permission } from "./permission.enum";
+import { Email, Mobile, UserId } from '@repo/types';
+import { Permission } from './permission.enum';
 
 export type CurrentUser = {
 	id: UserId;

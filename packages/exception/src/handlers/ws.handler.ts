@@ -6,10 +6,10 @@ import { ExceptionHandler } from './exception-handler.interface';
 
 @Injectable()
 export class WsExceptionHandler implements ExceptionHandler {
-  handle(error: ExceptionResponse, host: ArgumentsHost, _httpAdapterHost: HttpAdapterHost): void {
-    const client: Socket = host.switchToWs().getClient();
-    const traceId = client.id;
+	handle(error: ExceptionResponse, host: ArgumentsHost, _httpAdapterHost: HttpAdapterHost): void {
+		const client: Socket = host.switchToWs().getClient();
+		const traceId = client.id;
 
-    client.emit('exception', { ...error, traceId });
-  }
+		client.emit('exception', { ...error, traceId });
+	}
 }

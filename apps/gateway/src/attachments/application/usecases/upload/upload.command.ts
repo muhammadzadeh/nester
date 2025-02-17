@@ -3,8 +3,8 @@ import { AttachmentVisibility } from '../../../domain/entities/attachments.entit
 import { FileInfo } from '../../storage-provider';
 
 export class UploadCommand extends AuthenticatedCommand {
-  readonly visibility!: AttachmentVisibility;
-  readonly isDraft!: boolean;
-  readonly file!: FileInfo;
-  readonly storePath?: string;
+	readonly visibility!: AttachmentVisibility;
+	readonly isDraft!: boolean;
+	readonly file!: FileInfo;
+	readonly storePath?: string;
 }

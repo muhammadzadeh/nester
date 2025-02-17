@@ -7,25 +7,25 @@ import { VerifyData } from '../../../application/services/auth.service';
 import { OTPType } from '../../../domain/entities';
 
 export class VerifyDto {
-  @IsNotEmpty()
-  @IsString()
-  otp!: string;
+	@IsNotEmpty()
+	@IsString()
+	otp!: string;
 
-  @IsNotEmpty()
-  @IsEnum(OTPType)
-  type!: OTPType;
+	@IsNotEmpty()
+	@IsEnum(OTPType)
+	type!: OTPType;
 
-  @IsNotEmpty()
-  @IsNotUUID()
-  @ToLowerCase()
-  @IsIdentifier()
-  identifier!: Email | Mobile;
+	@IsNotEmpty()
+	@IsNotUUID()
+	@ToLowerCase()
+	@IsIdentifier()
+	identifier!: Email | Mobile;
 
-  toVerifyData(): VerifyData {
-    return {
-      identifier: this.identifier,
-      otp: this.otp,
-      type: this.type,
-    };
-  }
+	toVerifyData(): VerifyData {
+		return {
+			identifier: this.identifier,
+			otp: this.otp,
+			type: this.type,
+		};
+	}
 }

@@ -6,56 +6,56 @@ import { IsStrongPassword } from '@repo/validator/is-strong-password.validator';
 import { Type } from 'class-transformer';
 import { IsNotEmpty, IsString } from 'class-validator';
 import {
-  AuthenticateByThirdPartyData,
-  SignupByOtpData,
-  SignupByPasswordData,
+	AuthenticateByThirdPartyData,
+	SignupByOtpData,
+	SignupByPasswordData,
 } from '../../../application/services/auth.service';
 import { AuthProviderType } from '../../../application/usecases/third-parties/auth-provider';
 
 export class SignupByOtpDto {
-  @IsNotEmpty()
-  @IsString()
-  @IsNotUUID()
-  @ToLowerCase()
-  @IsIdentifier()
-  identifier!: string;
+	@IsNotEmpty()
+	@IsString()
+	@IsNotUUID()
+	@ToLowerCase()
+	@IsIdentifier()
+	identifier!: string;
 
-  toSignupByOtpData(): SignupByOtpData {
-    return { identifier: this.identifier };
-  }
+	toSignupByOtpData(): SignupByOtpData {
+		return { identifier: this.identifier };
+	}
 }
 
 export class AuthenticateByThirdPartyDto {
-  @IsNotEmpty()
-  @IsString()
-  token!: string;
+	@IsNotEmpty()
+	@IsString()
+	token!: string;
 
-  toAuthenticateByThirdPartyData(): AuthenticateByThirdPartyData {
-    return {
-      data: { token: this.token },
-      provider: AuthProviderType.GOOGLE,
-    };
-  }
+	toAuthenticateByThirdPartyData(): AuthenticateByThirdPartyData {
+		return {
+			data: { token: this.token },
+			provider: AuthProviderType.GOOGLE,
+		};
+	}
 }
 
 export class IdentifierPasswordSignupDto {
-  @IsNotEmpty()
-  @Type(() => String)
-  @IsNotUUID()
-  @ToLowerCase()
-  @IsIdentifier()
-  identifier!: Email | Mobile;
+	@IsNotEmpty()
+	@Type(() => String)
+	@IsNotUUID()
+	@ToLowerCase()
+	@IsIdentifier()
+	identifier!: Email | Mobile;
 
-  @IsNotEmpty()
-  @IsString()
-  @Type(() => String)
-  @IsStrongPassword()
-  password!: string;
+	@IsNotEmpty()
+	@IsString()
+	@Type(() => String)
+	@IsStrongPassword()
+	password!: string;
 
-  toSignupByPasswordData(): SignupByPasswordData {
-    return {
-      identifier: this.identifier,
-      password: this.password,
-    };
-  }
+	toSignupByPasswordData(): SignupByPasswordData {
+		return {
+			identifier: this.identifier,
+			password: this.password,
+		};
+	}
 }

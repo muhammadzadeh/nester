@@ -9,36 +9,36 @@ import { SignupByOtpCommand } from './signup-by-otp.command';
 
 @Injectable()
 export class SignupByOtpUsecase {
-  private readonly logger = new Logger(SignupByOtpUsecase.name);
+	private readonly logger = new Logger(SignupByOtpUsecase.name);
 
-  constructor(
-    private readonly notificationSender: AuthenticationNotifier,
-    private readonly usersService: UsersService,
-    private readonly otpService: OtpService,
-  ) {}
+	constructor(
+		private readonly notificationSender: AuthenticationNotifier,
+		private readonly usersService: UsersService,
+		private readonly otpService: OtpService,
+	) {}
 
-  async execute(command: SignupByOtpCommand): Promise<void> {
-    const user = await this.usersService.findOneByIdentifier(command.identifier);
-    if (user) {
-      throw new UserAlreadyRegisteredException(`User with identifier ${command.identifier} already exists.`);
-    }
+	async execute(command: SignupByOtpCommand): Promise<void> {
+		const user = await this.usersService.findOneByIdentifier(command.identifier);
+		if (user) {
+			throw new UserAlreadyRegisteredException(`User with identifier ${command.identifier} already exists.`);
+		}
 
-    const email = isEmail(command.identifier) ? command.identifier : undefined;
-    const mobile = isPhoneNumber(command.identifier) ? command.identifier : undefined;
-    if (!mobile && !email) {
-      this.logger.verbose(`Email or mobile is  missing for identifier ${command.identifier}`);
-      throw new InvalidIdentifierException(`Invalid identifier, Email or Phone number must be provided`);
-    }
+		const email = isEmail(command.identifier) ? command.identifier : undefined;
+		const mobile = isPhoneNumber(command.identifier) ? command.identifier : undefined;
+		if (!mobile && !email) {
+			this.logger.verbose(`Email or mobile is  missing for identifier ${command.identifier}`);
+			throw new InvalidIdentifierException(`Invalid identifier, Email or Phone number must be provided`);
+		}
 
-    const createdUser = await this.usersService.create({
-      email: email,
-      mobile: mobile,
-      isEmailVerified: false,
-      isMobileVerified: false,
-    });
+		const createdUser = await this.usersService.create({
+			email: email,
+			mobile: mobile,
+			isEmailVerified: false,
+			isMobileVerified: false,
+		});
 
-    const otpGeneration = new OtpGeneration(createdUser.id, mobile, email, OTPType.CODE, OTPReason.VERIFY);
-    const otp = await this.otpService.generate(otpGeneration);
-    await this.notificationSender.sendOtp(otpGeneration, otp);
-  }
+		const otpGeneration = new OtpGeneration(createdUser.id, mobile, email, OTPType.CODE, OTPReason.VERIFY);
+		const otp = await this.otpService.generate(otpGeneration);
+		await this.notificationSender.sendOtp(otpGeneration, otp);
+	}
 }

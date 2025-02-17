@@ -6,23 +6,23 @@ import { UsersService } from './users.service';
 
 @Injectable()
 export class UsersConsumer {
-  constructor(private readonly usersService: UsersService) {}
+	constructor(private readonly usersService: UsersService) {}
 
-  @OnRabbitEvent({
-    exchange: AUTHENTICATION_EXCHANGE_NAME,
-    routingKey: AuthenticationEvents.USER_VERIFIED,
-    queue: 'users_user_verified',
-  })
-  async markUserAsVerified(event: UserVerifiedEvent): Promise<void> {
-    await this.usersService.markUserAsVerified(event.user);
-  }
+	@OnRabbitEvent({
+		exchange: AUTHENTICATION_EXCHANGE_NAME,
+		routingKey: AuthenticationEvents.USER_VERIFIED,
+		queue: 'users_user_verified',
+	})
+	async markUserAsVerified(event: UserVerifiedEvent): Promise<void> {
+		await this.usersService.markUserAsVerified(event.user);
+	}
 
-  @OnRabbitEvent({
-    exchange: AUTHENTICATION_EXCHANGE_NAME,
-    routingKey: AuthenticationEvents.USER_LOGGED_IN,
-    queue: 'users_user_logged_in',
-  })
-  async updateLoggedInTime(event: UserLoggedInEvent): Promise<void> {
-    await this.usersService.updateLoggedInTime(event.user);
-  }
+	@OnRabbitEvent({
+		exchange: AUTHENTICATION_EXCHANGE_NAME,
+		routingKey: AuthenticationEvents.USER_LOGGED_IN,
+		queue: 'users_user_logged_in',
+	})
+	async updateLoggedInTime(event: UserLoggedInEvent): Promise<void> {
+		await this.usersService.updateLoggedInTime(event.user);
+	}
 }

@@ -1,7 +1,7 @@
 import { IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateCityRegionDto {
-  @IsNotEmpty()
-  @IsString()
-  name!: string;
+	@IsNotEmpty()
+	@IsString()
+	name!: string;
 }

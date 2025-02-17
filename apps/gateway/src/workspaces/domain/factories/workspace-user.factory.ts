@@ -24,7 +24,9 @@ export class WorkspaceUserReadFactory {
 }
 
 export class WorkspaceUserWriteFactory {
-	static create(args: Omit<WorkspaceUserEntity, 'id' | 'createdAt' | 'updatedAt' | 'deletedAt' | 'token' | 'status'>): WorkspaceUserEntity {
+	static create(
+		args: Omit<WorkspaceUserEntity, 'id' | 'createdAt' | 'updatedAt' | 'deletedAt' | 'token' | 'status'>,
+	): WorkspaceUserEntity {
 		const tokenLength = randomInt(20, 40);
 		const token = randomStringSync({ type: 'url-safe', length: tokenLength });
 		return new WorkspaceUserEntity(

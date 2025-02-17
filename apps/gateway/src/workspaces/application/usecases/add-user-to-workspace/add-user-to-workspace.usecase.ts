@@ -83,12 +83,15 @@ export class AddUserToWorkspaceUsecase {
 				? {
 						title: this.i18n.t(`notification.${NotificationEvent.INVITED_TO_WORKSPACE}.notification.title`, {
 							lang: I18nContext.current()?.lang,
-							args: { name: workspace.title, },
+							args: { name: workspace.title },
 						}),
-						description: this.i18n.t(`notification.${NotificationEvent.INVITED_TO_WORKSPACE}.notification.description`, {
-							lang: I18nContext.current()?.lang,
-							args: { name: workspace.title, inviterName: inviterUser.fullName },
-						}),
+						description: this.i18n.t(
+							`notification.${NotificationEvent.INVITED_TO_WORKSPACE}.notification.description`,
+							{
+								lang: I18nContext.current()?.lang,
+								args: { name: workspace.title, inviterName: inviterUser.fullName },
+							},
+						),
 					}
 				: undefined,
 		});

@@ -16,11 +16,11 @@ export enum SystemPermission {
 }
 
 export enum WorkspacePermission {
-	MANAGE_EVERY_THINGS = '*',
-	READ_ALL = 'read:*',
-	WRITE_ALL = 'write:*',
-	READ_USERS = 'read:workspace:users',
-	WRITE_USERS = 'write:workspace:users',
-	READ_WORKSPACE = 'read:workspace',
-	WRITE_WORKSPACE = 'write:workspace',
+	MANAGE_EVERY_THINGS = 'workspace:*',
+	READ_ALL = 'workspace:read:*',
+	WRITE_ALL = 'workspace:write:*',
+	READ_USERS = 'workspace:read:users',
+	WRITE_USERS = 'workspace:write:users',
+	READ_WORKSPACE = 'workspace:read',
+	WRITE_WORKSPACE = 'workspace:write',
 }

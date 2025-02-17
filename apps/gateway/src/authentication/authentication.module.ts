@@ -3,7 +3,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthenticationModule as BaseAuthenticationModule } from '@repo/authentication';
 import { Configuration } from '@repo/config';
 import { IsStrongPasswordConstraint } from '@repo/validator/is-strong-password.validator';
-import { CacheServiceModule } from '../common/cache/cache.module';
 import { ProfileModule } from '../users/profiles/profiles.module';
 import { RolesModule } from '../users/roles/roles.module';
 import { AuthService } from './application/services/auth.service';
@@ -48,13 +47,7 @@ const otpRepository: Provider = {
 };
 
 @Module({
-	imports: [
-		TypeOrmModule.forFeature([TypeormOTPEntity]),
-		CacheServiceModule,
-		ProfileModule,
-		RolesModule,
-		BaseAuthenticationModule,
-	],
+	imports: [TypeOrmModule.forFeature([TypeormOTPEntity]), ProfileModule, RolesModule, BaseAuthenticationModule],
 	controllers: [AuthenticationController],
 	providers: [
 		authProviderManager,

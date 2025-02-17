@@ -1,11 +1,11 @@
 import { applyDecorators, createParamDecorator, ExecutionContext, Post, SetMetadata, UseGuards } from '@nestjs/common';
-import { Permission, WorkspacePermission } from '@repo/types';
 import { Captcha } from '@repo/captcha';
 import { AuthenticationMetaKey } from './authentication-meta-ket.enum';
+import { CheckSignupGuard } from './check-signup.guard';
 import { CURRENT_USER_KEY, CURRENT_WORKSPACE_KEY } from './constants';
 import { CurrentUser } from './current-user';
 import { CurrentWorkspace } from './current-workspace';
-import { CheckSignupGuard } from './check-signup.guard';
+import { SystemPermission, WorkspacePermission } from './permission.enum';
 
 export const IgnoreAuthorizationGuard = (): MethodDecorator & ClassDecorator =>
 	SetMetadata(AuthenticationMetaKey.IGNORE_AUTHORIZATION_GUARD, true);
@@ -13,7 +13,7 @@ export const IgnoreAuthorizationGuard = (): MethodDecorator & ClassDecorator =>
 export const AllowUnauthorizedGuard = (): MethodDecorator & ClassDecorator =>
 	SetMetadata(AuthenticationMetaKey.ALLOW_UN_AUTHORIZED_REQUESTS, true);
 
-export const RequiredPermissions = (...permissions: Permission[]): MethodDecorator & ClassDecorator =>
+export const RequiredPermissions = (...permissions: SystemPermission[]): MethodDecorator & ClassDecorator =>
 	SetMetadata(AuthenticationMetaKey.REQUIRED_PERMISSION, { permissions });
 
 export const RequiredWorkspacePermissions = (...permissions: WorkspacePermission[]): MethodDecorator & ClassDecorator =>

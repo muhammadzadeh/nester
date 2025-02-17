@@ -5,4 +5,5 @@ export * from './constants';
 export * from './current-user';
 export * from './current-workspace';
 export * from './decorators';
+export * from './is-user-enable.guard';
 export * from './permission.enum';

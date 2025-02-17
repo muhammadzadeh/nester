@@ -1,7 +1,10 @@
 import { Module, Provider } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ProfileModule } from '../users/profiles/profiles.module';
+import { RolesModule } from '../users/roles/roles.module';
 import { AddUserToWorkspaceUsecase } from './application/usecases/add-user-to-workspace/add-user-to-workspace.usecase';
 import { CreateWorkspaceUsecase } from './application/usecases/create-workspace/create-workspace.usecase';
+import { FindWorkspaceUsersUsecase } from './application/usecases/find-workspace-users/find-workspace-users.usecase';
 import { WorkspacesService } from './application/workspaces.service';
 import { WorkspaceUsersRepository } from './domain/repositories/workspace-users.repository';
 import { WorkspacesRepository } from './domain/repositories/workspaces.repository';
@@ -21,7 +24,7 @@ const workspaceUsersRepository: Provider = {
 	useClass: WorkspaceUsersTypeormRepository,
 };
 @Module({
-	imports: [TypeOrmModule.forFeature([WorkspaceTypeormEntity, WorkspaceUserTypeormEntity])],
+	imports: [TypeOrmModule.forFeature([WorkspaceTypeormEntity, WorkspaceUserTypeormEntity]), ProfileModule, RolesModule],
 	providers: [
 		WorkspacesService,
 		workspacesRepository,
@@ -29,6 +32,7 @@ const workspaceUsersRepository: Provider = {
 		CreateWorkspaceUsecase,
 		AddUserToWorkspaceUsecase,
 		CheckWorkspacePermissionGuard,
+		FindWorkspaceUsersUsecase,
 	],
 	controllers: [WorkspaceUserController],
 	exports: [],

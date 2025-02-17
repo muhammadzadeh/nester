@@ -9,6 +9,7 @@ import {
 	WORKSPACE_HEADER_KEY,
 	WorkspacePermission,
 } from '@repo/authentication';
+import { CacheService } from '../../../../../common/cache/services';
 import { WorkspacesService } from '../../../../application/workspaces.service';
 import { WorkspaceUserEntity } from '../../../../domain/entities/workspace-user.entity';
 import { WorkspaceUserStatus } from '../../../../domain/enums/workspace-user-status.enum';
@@ -17,6 +18,7 @@ import { WorkspaceUserStatus } from '../../../../domain/enums/workspace-user-sta
 export class CheckWorkspacePermissionGuard implements CanActivate {
 	constructor(
 		private readonly workspacesService: WorkspacesService,
+		private readonly cacheService: CacheService,
 		private readonly reflector: Reflector,
 	) {}
 
@@ -43,18 +45,32 @@ export class CheckWorkspacePermissionGuard implements CanActivate {
 
 		let workspace: CurrentWorkspace | undefined = undefined;
 		if (workspaceId) {
-			const { items } = await this.workspacesService.findUsers({
-				userIds: [user.id],
-				workspaceIds: [workspaceId],
-				statuses: [WorkspaceUserStatus.ACCEPTED],
-			});
+			const cachedPermissions = await this.readPermissionsFromCache(workspaceId, user.id);
 
-			const workspaceUserPermission: WorkspaceUserEntity | undefined = items.at(0);
+			if (!cachedPermissions) {
+				const { items } = await this.workspacesService.findUsers({
+					conditions: {
+						userIds: [user.id],
+						workspaceIds: [workspaceId],
+						statuses: [WorkspaceUserStatus.ACCEPTED],
+					},
+				});
 
-			if (workspaceUserPermission) {
+				const workspaceUser: WorkspaceUserEntity | undefined = items.at(0);
+
+				if (workspaceUser?.role?.permissions) {
+					workspace = {
+						id: workspaceId,
+						permissions: workspaceUser.role.permissions as WorkspacePermission[],
+					};
+
+					await this.cachePermissions(workspaceId, user.id, workspace.permissions);
+					request[CURRENT_WORKSPACE_KEY] = workspace;
+				}
+			} else {
 				workspace = {
 					id: workspaceId,
-					permissions: workspaceUserPermission.permissions ?? [],
+					permissions: cachedPermissions,
 				};
 				request[CURRENT_WORKSPACE_KEY] = workspace;
 			}
@@ -75,5 +91,23 @@ export class CheckWorkspacePermissionGuard implements CanActivate {
 
 	private extractWorkspaceFromRequest(request: Request): string | null {
 		return request.headers.get(WORKSPACE_HEADER_KEY);
+	}
+
+	private async readPermissionsFromCache(workspaceId: string, userId: string): Promise<WorkspacePermission[] | null> {
+		const cachedPermissions = await this.cacheService
+			.getRedisClient()
+			.get(`workspace:${workspaceId}:${userId}:permissions`);
+
+		return cachedPermissions ? (JSON.parse(cachedPermissions) as WorkspacePermission[]) : null;
+	}
+
+	private async cachePermissions(
+		workspaceId: string,
+		userId: string,
+		permissions: WorkspacePermission[],
+	): Promise<void> {
+		await this.cacheService
+			.getRedisClient()
+			.setex(`workspace:${workspaceId}:${userId}:permissions`, 600, JSON.stringify(permissions));
 	}
 }

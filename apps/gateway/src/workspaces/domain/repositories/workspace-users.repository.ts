@@ -1,5 +1,6 @@
 import { Paginated, PaginationOption } from '@repo/types';
 import { WorkspaceUserEntity } from '../entities/workspace-user.entity';
+import { WorkspaceUserStatus } from '../enums/workspace-user-status.enum';
 
 export interface FindWorkspaceUserOptions {
 	ids: string[];
@@ -7,7 +8,8 @@ export interface FindWorkspaceUserOptions {
 	workspaceIds: string[];
 	roleIds: string[];
 	emails: string[];
-	mobiles: string[]
+	mobiles: string[];
+	statuses: WorkspaceUserStatus[];
 }
 
 export enum WorkspaceUserOrderBy {

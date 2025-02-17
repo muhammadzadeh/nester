@@ -90,6 +90,11 @@ export class WorkspaceUsersTypeormRepository implements WorkspaceUsersRepository
 				mobiles: options.mobiles,
 			});
 		}
+		if (options.statuses?.length) {
+			queryBuilder.andWhere(`${alias ? alias + '.' : ''}status IN (:...statuses)`, {
+				statuses: options.statuses,
+			});
+		}
 		return queryBuilder;
 	}
 }

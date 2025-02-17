@@ -9,5 +9,4 @@ export * from './error-code.enum';
 export * from './find-one-uuid.dto';
 export * from './notification-event.enum';
 export * from './pagination.dto';
-export * from './permission.enum';
 export * from './serialization';

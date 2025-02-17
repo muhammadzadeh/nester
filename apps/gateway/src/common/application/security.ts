@@ -1,12 +1,9 @@
 import helmet from '@fastify/helmet';
 import { NestFastifyApplication } from '@nestjs/platform-fastify';
+import { IsUserEnableGuard } from '@repo/authentication';
 import { CaptchaGuard } from '@repo/captcha';
 import { Configuration } from '@repo/config';
-import {
-	AuthorizationGuard,
-	CheckPermissionGuard,
-	IsUserEnableGuard,
-} from '../../authentication/presenter/http/guards';
+import { AuthorizationGuard, CheckPermissionGuard } from '../../authentication/presenter/http/guards';
 import { CheckWorkspacePermissionGuard } from '../../workspaces/presenter/http/user/guards/check-workspace-permission.guard';
 import { ThrottlerBehindProxyGuard } from '../guards/throttler-behind-proxy.guard';
 

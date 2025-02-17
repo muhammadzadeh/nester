@@ -1,9 +1,10 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { CacheModule } from '@nestjs/cache-manager';
 import ioRedis from 'cache-manager-ioredis';
 import { Configuration } from '@repo/config';
 import { CacheService } from './services';
 
+@Global()
 @Module({
   imports: [
     CacheModule.registerAsync({

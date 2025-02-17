@@ -1,4 +1,5 @@
-import { WorkspacePermission } from '@repo/types';
+import { UserEntity } from '../../../users/profiles/domain/entities/user.entity';
+import { RoleEntity } from '../../../users/roles/domain/entities/role.entity';
 import { WorkspaceUserStatus } from '../enums/workspace-user-status.enum';
 import { WorkspaceEntity } from './workspace.entity';
 
@@ -45,5 +46,6 @@ export class WorkspaceUserEntity {
 	status!: WorkspaceUserStatus;
 
 	workspace?: WorkspaceEntity;
-	permissions?: WorkspacePermission[];
+	role?: RoleEntity;
+	user?: UserEntity;
 }

@@ -1,8 +1,15 @@
 import { Body, Post } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
-import { CurrentUser, CurrentWorkspace, RequiredWorkspacePermissions, User, Workspace } from '@repo/authentication';
+import {
+	CurrentUser,
+	CurrentWorkspace,
+	RequiredWorkspacePermissions,
+	User,
+	Workspace,
+	WorkspacePermission,
+} from '@repo/authentication';
 import { UserController } from '@repo/decorator';
-import { DoneResponse, WorkspacePermission } from '@repo/types';
+import { DoneResponse } from '@repo/types';
 import { WorkspacesService } from '../../../../application/workspaces.service';
 import { AddUserToWorkspaceUserRequestDto } from '../dtos/request/add-user-to-workspace.user.request-dto';
 import { CreateWorkspaceUserRequestDto } from '../dtos/request/create-workspace.user.request-dto';

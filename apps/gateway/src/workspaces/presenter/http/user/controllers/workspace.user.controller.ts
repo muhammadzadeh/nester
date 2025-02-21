@@ -14,6 +14,7 @@ import { WorkspacesService } from '../../../../application/workspaces.service';
 import { AddUserToWorkspaceUserRequestDto } from '../dtos/request/add-user-to-workspace.user.request-dto';
 import { CreateWorkspaceUserRequestDto } from '../dtos/request/create-workspace.user.request-dto';
 import { FilterWorkspaceUserUserRequestDto } from '../dtos/request/filter-works-ace-user.user.request-dto';
+import { RespondInvitationUserRequestDto } from '../dtos/request/respond-invitation.user.request-dto';
 import { WorkspaceUserListUserResponseDto } from '../dtos/response/workspace-user-list.user.response-dto';
 import { WorkspaceUserResponseDto } from '../dtos/response/workspace.user.response-dto';
 
@@ -72,5 +73,21 @@ export class WorkspaceUserController {
 			},
 		});
 		return WorkspaceUserListUserResponseDto.from(result, filters);
+	}
+
+	@Post('invitations')
+	@ApiOkResponse({
+		status: 200,
+		type: DoneResponse,
+	})
+	async respondInvitation(
+		@User() user: CurrentUser,
+		@Body() data: RespondInvitationUserRequestDto,
+	): Promise<DoneResponse> {
+		await this.workspacesService.respondInvitation({
+			...data,
+			userId: user.id,
+		});
+		return new DoneResponse();
 	}
 }

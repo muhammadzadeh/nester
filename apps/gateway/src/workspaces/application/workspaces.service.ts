@@ -8,12 +8,15 @@ import { CreateWorkspaceCommand } from './usecases/create-workspace/create-works
 import { CreateWorkspaceUsecase } from './usecases/create-workspace/create-workspace.usecase';
 import { FindWorkspaceUsersQuery } from './usecases/find-workspace-users/find-workspace-users.query';
 import { FindWorkspaceUsersUsecase } from './usecases/find-workspace-users/find-workspace-users.usecase';
+import { RespondInvitationCommand } from './usecases/respond-invitation/respond-invitation.command';
+import { RespondInvitationUsecase } from './usecases/respond-invitation/respond-invitation.usecase';
 
 @Injectable()
 export class WorkspacesService {
 	constructor(
 		private readonly findWorkspaceUsers: FindWorkspaceUsersUsecase,
 		private readonly addWorkspaceUser: AddUserToWorkspaceUsecase,
+		private readonly respondUsecase: RespondInvitationUsecase,
 		private readonly createWorkspace: CreateWorkspaceUsecase,
 	) {}
 
@@ -23,6 +26,10 @@ export class WorkspacesService {
 
 	async addUser(command: AddUserToWorkspaceCommand): Promise<void> {
 		await this.addWorkspaceUser.execute(command);
+	}
+
+	async respondInvitation(command: RespondInvitationCommand): Promise<void> {
+		await this.respondUsecase.execute(command);
 	}
 
 	async findUsers(command: FindWorkspaceUsersQuery): Promise<Paginated<WorkspaceUserEntity>> {

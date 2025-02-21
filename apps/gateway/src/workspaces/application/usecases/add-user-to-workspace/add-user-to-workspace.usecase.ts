@@ -3,6 +3,7 @@ import { NotificationEvent } from '@repo/types';
 import { I18nContext, I18nService } from 'nestjs-i18n';
 import { sendNotification } from '../../../../notifications/infrastructure/utils';
 import { UsersService } from '../../../../users/profiles/application/users.service';
+import { WorkspaceUserStatus } from '../../../domain/enums/workspace-user-status.enum';
 import { UserAlreadyInWorkspaceException } from '../../../domain/exceptions/user-already-in-workspace.exception';
 import { WorkspaceNotFoundException } from '../../../domain/exceptions/workspace-not-found.exception';
 import { WorkspaceUserWriteFactory } from '../../../domain/factories/workspace-user.factory';
@@ -30,6 +31,7 @@ export class AddUserToWorkspaceUsecase {
 
 		const { items: workspaceUsers } = await this.workspaceUsersRepository.findAll({
 			workspaceIds: [command.workspaceId],
+			statuses: [WorkspaceUserStatus.ACCEPTED, WorkspaceUserStatus.ACCEPTED],
 		});
 
 		await this.checkUserExistence(command, workspaceUsers);

@@ -95,6 +95,11 @@ export class WorkspaceUsersTypeormRepository implements WorkspaceUsersRepository
 				statuses: options.statuses,
 			});
 		}
+		if (options.tokens?.length) {
+			queryBuilder.andWhere(`${alias ? alias + '.' : ''}token IN (:...tokens)`, {
+				tokens: options.tokens,
+			});
+		}
 		return queryBuilder;
 	}
 }

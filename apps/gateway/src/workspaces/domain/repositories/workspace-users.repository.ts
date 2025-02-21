@@ -9,6 +9,7 @@ export interface FindWorkspaceUserOptions {
 	roleIds: string[];
 	emails: string[];
 	mobiles: string[];
+	tokens: string[];
 	statuses: WorkspaceUserStatus[];
 }
 

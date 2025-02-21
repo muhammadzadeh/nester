@@ -43,5 +43,7 @@
     "INVALID_AVATAR": "Invalid Avatar!",
     "USER_ALREADY_IN_WORKSPACE": "User Already in workspace!",
     "WORKSPACE_NOT_FOUND": "Workspace not found!",
-    "FORBIDDEN_STATE_CHANGE": "It's not possible to update status!"
+    "FORBIDDEN_STATE_CHANGE": "It's not possible to update status!",
+    "INVITATION_ALREADY_RESPONDED": "Already responded to this invitation!",
+    "INVITATION_NOT_FOUND": "Invitation not found!"
 }

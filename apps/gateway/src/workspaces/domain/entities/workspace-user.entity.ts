@@ -72,6 +72,10 @@ export class WorkspaceUserEntity {
 		this.respondedAt = now().toJSDate();
 	}
 
+	canRespond(): boolean {
+		return this.status === WorkspaceUserStatus.PENDING;
+	}
+
 	private changeStatus(newStatus: WorkspaceUserStatus): void {
 		if (!this.stateMachine.get(this.status)?.has(newStatus)) {
 			throw new ForbiddenStatusChangeException(

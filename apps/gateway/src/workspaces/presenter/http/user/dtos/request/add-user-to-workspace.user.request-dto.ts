@@ -1,9 +1,9 @@
-import { IsEmail, IsNotEmpty, IsUUID, ValidateIf } from 'class-validator';
+import { IsEmail, IsMobilePhone, IsNotEmpty, IsUUID, ValidateIf } from 'class-validator';
 
 export class AddUserToWorkspaceUserRequestDto {
 	@ValidateIf(({ email }) => !email)
 	@IsNotEmpty()
-	@IsEmail()
+	@IsMobilePhone()
 	readonly mobile!: string | null;
 
 	@ValidateIf(({ mobile }) => !mobile)

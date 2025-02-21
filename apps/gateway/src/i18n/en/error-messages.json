@@ -4,6 +4,7 @@
     "MISSING_PERMISSION": "Permission is missing",
     "NOT_AUTHORIZED": "Authorization failed, Please login again",
     "NOT_FOUND": "Not found",
+    "FORBIDDEN": "Permission is missing",
     "INVALID_INPUTS": "'Invalid Input, Please check Inputs'",
     "RATE_LIMIT": "Too Many Requests",
     "MAX_UPLOAD_SIZE": "Attachment is too big",

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
+import { ToBoolean } from '@repo/decorator';
 import { Type } from 'class-transformer';
 import { IsBoolean, IsNotEmpty, IsOptional, ValidateNested, validateSync } from 'class-validator';
-import { ToBoolean } from '@repo/decorator';
 import { AppConfigs } from './app';
 import { AuthenticationConfig } from './authentication.config';
 import { CaptchaConfig } from './captcha';
@@ -19,6 +19,7 @@ import { StorageConfig } from './storage';
 import { SwaggerConfig } from './swagger';
 import { ThrottlingConfig } from './throttling';
 import { VaultConfig } from './vault';
+import { WorkspaceConfig } from './workspace';
 
 @Injectable()
 export class Configuration {
@@ -132,4 +133,9 @@ export class Configuration {
 	@ValidateNested()
 	@Type(() => DefaultUserConfig)
 	readonly defaultUser?: DefaultUserConfig;
+
+	@IsNotEmpty()
+	@ValidateNested()
+	@Type(() => WorkspaceConfig)
+	readonly workspace!: WorkspaceConfig;
 }

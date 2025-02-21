@@ -105,5 +105,5 @@ export class DoneResponse {
 		example: 'OK',
 	})
 	@Type(() => String)
-	message!: string;
+	message: string = 'OK';
 }

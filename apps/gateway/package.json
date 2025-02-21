@@ -7,7 +7,7 @@
     "build": "nest build",
     "clean": "rm -rf dist",
     "start": "nest start",
-    "start:debug": "nest start --debug --watch",
+		"debug": "nest start --debug=0.0.0.0:9229 --watch",
     "start:prod": "node dist/main",
     "test": "jest",
     "test:watch": "jest --watch",

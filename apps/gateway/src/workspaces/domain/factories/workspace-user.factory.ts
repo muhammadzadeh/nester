@@ -5,7 +5,7 @@ import { WorkspaceUserEntity } from '../entities/workspace-user.entity';
 import { WorkspaceUserStatus } from '../enums/workspace-user-status.enum';
 
 export class WorkspaceUserReadFactory {
-	static create(args: WorkspaceUserEntity): WorkspaceUserEntity {
+	static create(args: Omit<WorkspaceUserEntity, 'markAsAccepted'>): WorkspaceUserEntity {
 		return new WorkspaceUserEntity(
 			args.id,
 			args.invitedByUserId,
@@ -19,13 +19,14 @@ export class WorkspaceUserReadFactory {
 			args.createdAt,
 			args.updatedAt,
 			args.deletedAt,
+			args.acceptedAt,
 		);
 	}
 }
 
 export class WorkspaceUserWriteFactory {
 	static create(
-		args: Omit<WorkspaceUserEntity, 'id' | 'createdAt' | 'updatedAt' | 'deletedAt' | 'token' | 'status'>,
+		args: Omit<WorkspaceUserEntity, 'id' | 'createdAt' | 'updatedAt' | 'deletedAt' | 'token' | 'status' | 'acceptedAt' | 'markAsAccepted'>,
 	): WorkspaceUserEntity {
 		const tokenLength = randomInt(20, 40);
 		const token = randomStringSync({ type: 'url-safe', length: tokenLength });
@@ -41,6 +42,7 @@ export class WorkspaceUserWriteFactory {
 			WorkspaceUserStatus.PENDING,
 			now().toJSDate(),
 			now().toJSDate(),
+			null,
 			null,
 		);
 	}

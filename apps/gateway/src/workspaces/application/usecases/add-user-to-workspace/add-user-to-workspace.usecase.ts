@@ -28,16 +28,19 @@ export class AddUserToWorkspaceUsecase {
 			throw new WorkspaceNotFoundException(`The workspace ${command.workspaceId} not found!`);
 		}
 
-		const exists = await this.workspaceUsersRepository.exists({
+		const { items: workspaceUsers } = await this.workspaceUsersRepository.findAll({
 			workspaceIds: [command.workspaceId],
-			mobiles: command.mobile ? [command.mobile] : undefined,
-			emails: command.email ? [command.email] : undefined,
 		});
 
-		if (exists) {
-			throw new UserAlreadyInWorkspaceException(
-				`The user(${command.mobile ?? command.email}) already in workspace ${command.workspaceId}`,
-			);
+		await this.checkUserExistence(command, workspaceUsers);
+
+		const workspaceUserIds: string[] = workspaceUsers.filter((item) => item.userId).map((item) => item.userId!);
+		if (workspaceUserIds.length) {
+			const { items: users } = await this.usersService.findAll({
+				ids: workspaceUserIds,
+			});
+
+			await this.checkUserExistence(command, users);
 		}
 
 		const invitedUser = await this.usersService.findOneByIdentifier(command.mobile ?? command.email!);
@@ -95,5 +98,21 @@ export class AddUserToWorkspaceUsecase {
 					}
 				: undefined,
 		});
+	}
+
+	private async checkUserExistence(
+		command: AddUserToWorkspaceCommand,
+		users: { mobile: string | null; email: string | null }[],
+	): Promise<void> {
+		const existByEmailOrMobile = users.find(
+			(item) =>
+				(item.mobile && command.mobile && item.mobile === command.mobile) ||
+				(item.email && command.email && item.email === command.email),
+		);
+		if (existByEmailOrMobile) {
+			throw new UserAlreadyInWorkspaceException(
+				`The user(${command.mobile ?? command.email}) already in workspace ${command.workspaceId}`,
+			);
+		}
 	}
 }

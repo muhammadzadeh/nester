@@ -20,7 +20,7 @@ const defaultRoles: RoleEntity[] = [
 		id: randomUUID(),
 		title: 'Workspace Creator',
 		permissions: [WorkspacePermission.MANAGE_EVERY_THINGS],
-		isSystemRole: true,
+		isSystemRole: false,
 		createdAt: now().toJSDate(),
 		updatedAt: now().toJSDate(),
 		deletedAt: null,

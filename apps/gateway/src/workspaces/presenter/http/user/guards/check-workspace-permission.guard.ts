@@ -1,4 +1,4 @@
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
+import { CanActivate, ExecutionContext, Injectable, Logger } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import {
 	AuthenticationMetaKey,
@@ -16,6 +16,8 @@ import { WorkspaceUserStatus } from '../../../../domain/enums/workspace-user-sta
 
 @Injectable()
 export class CheckWorkspacePermissionGuard implements CanActivate {
+	private readonly logger = new Logger(CheckWorkspacePermissionGuard.name);
+
 	constructor(
 		private readonly workspacesService: WorkspacesService,
 		private readonly cacheService: CacheService,
@@ -29,6 +31,7 @@ export class CheckWorkspacePermissionGuard implements CanActivate {
 
 		const user: CurrentUser = request[CURRENT_USER_KEY];
 		if (!user) {
+			this.logger.verbose(`The user not authorized! workspace permission check skipped!`);
 			return true;
 		}
 
@@ -38,6 +41,7 @@ export class CheckWorkspacePermissionGuard implements CanActivate {
 		);
 
 		if (!routeMetadata) {
+			this.logger.verbose(`The route does not need to check workspace permission!`);
 			return true;
 		}
 
@@ -48,6 +52,7 @@ export class CheckWorkspacePermissionGuard implements CanActivate {
 			const cachedPermissions = await this.readPermissionsFromCache(workspaceId, user.id);
 
 			if (!cachedPermissions) {
+				this.logger.verbose(`The workspace(${workspaceId}) not cached, fetch from db!`);
 				const { items } = await this.workspacesService.findUsers({
 					conditions: {
 						userIds: [user.id],
@@ -68,6 +73,7 @@ export class CheckWorkspacePermissionGuard implements CanActivate {
 					request[CURRENT_WORKSPACE_KEY] = workspace;
 				}
 			} else {
+				this.logger.verbose(`The workspace(${workspaceId}) cached, fetch from cache!`);
 				workspace = {
 					id: workspaceId,
 					permissions: cachedPermissions,
@@ -77,6 +83,7 @@ export class CheckWorkspacePermissionGuard implements CanActivate {
 		}
 
 		if (!workspace) {
+			this.logger.verbose(`The workspace(${workspaceId}) not found, make sure you are set it in headers!`);
 			return false;
 		}
 
@@ -89,8 +96,8 @@ export class CheckWorkspacePermissionGuard implements CanActivate {
 		);
 	}
 
-	private extractWorkspaceFromRequest(request: Request): string | null {
-		return request.headers.get(WORKSPACE_HEADER_KEY);
+	private extractWorkspaceFromRequest(request: any): string | null {
+		return request.headers[WORKSPACE_HEADER_KEY];
 	}
 
 	private async readPermissionsFromCache(workspaceId: string, userId: string): Promise<WorkspacePermission[] | null> {

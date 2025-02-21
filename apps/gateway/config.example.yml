@@ -83,3 +83,5 @@ smsSender:
   provider: local
   kavenegar:
     apiKey: replace_me
+workspace:
+  defaultRoleId: replace_me

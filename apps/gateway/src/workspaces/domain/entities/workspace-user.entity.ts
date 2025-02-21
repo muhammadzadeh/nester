@@ -1,3 +1,4 @@
+import { now } from '@repo/utils/time';
 import { UserEntity } from '../../../users/profiles/domain/entities/user.entity';
 import { RoleEntity } from '../../../users/roles/domain/entities/role.entity';
 import { WorkspaceUserStatus } from '../enums/workspace-user-status.enum';
@@ -17,6 +18,7 @@ export class WorkspaceUserEntity {
 		createdAt: Date,
 		updatedAt: Date,
 		deletedAt: Date | null,
+		acceptedAt: Date | null,
 	) {
 		this.id = id;
 		this.invitedByUserId = invitedByUserId;
@@ -30,6 +32,7 @@ export class WorkspaceUserEntity {
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
 		this.deletedAt = deletedAt;
+		this.acceptedAt = acceptedAt;
 	}
 
 	readonly id!: string;
@@ -42,10 +45,17 @@ export class WorkspaceUserEntity {
 	readonly createdAt!: Date;
 	updatedAt!: Date;
 	deletedAt!: Date | null;
+	acceptedAt!: Date | null;
 	token!: string;
 	status!: WorkspaceUserStatus;
 
 	workspace?: WorkspaceEntity;
 	role?: RoleEntity;
 	user?: UserEntity;
+
+	markAsAccepted(userId: string): void {
+		this.userId = userId;
+		this.status = WorkspaceUserStatus.ACCEPTED;
+		this.acceptedAt = now().toJSDate();
+	}
 }

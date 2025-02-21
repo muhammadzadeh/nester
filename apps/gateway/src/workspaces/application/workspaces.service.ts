@@ -8,6 +8,8 @@ import { CreateWorkspaceCommand } from './usecases/create-workspace/create-works
 import { CreateWorkspaceUsecase } from './usecases/create-workspace/create-workspace.usecase';
 import { FindWorkspaceUsersQuery } from './usecases/find-workspace-users/find-workspace-users.query';
 import { FindWorkspaceUsersUsecase } from './usecases/find-workspace-users/find-workspace-users.usecase';
+import { FindWorkspacesQuery } from './usecases/find-workspaces/find-workspaces.query';
+import { FindWorkspacesUsecase } from './usecases/find-workspaces/find-workspaces.usecase';
 import { RespondInvitationCommand } from './usecases/respond-invitation/respond-invitation.command';
 import { RespondInvitationUsecase } from './usecases/respond-invitation/respond-invitation.usecase';
 
@@ -15,6 +17,7 @@ import { RespondInvitationUsecase } from './usecases/respond-invitation/respond-
 export class WorkspacesService {
 	constructor(
 		private readonly findWorkspaceUsers: FindWorkspaceUsersUsecase,
+		private readonly findWorkspacesUsecase: FindWorkspacesUsecase,
 		private readonly addWorkspaceUser: AddUserToWorkspaceUsecase,
 		private readonly respondUsecase: RespondInvitationUsecase,
 		private readonly createWorkspace: CreateWorkspaceUsecase,
@@ -34,5 +37,9 @@ export class WorkspacesService {
 
 	async findUsers(command: FindWorkspaceUsersQuery): Promise<Paginated<WorkspaceUserEntity>> {
 		return await this.findWorkspaceUsers.execute(command);
+	}
+
+	async findWorkspaces(command: FindWorkspacesQuery): Promise<Paginated<WorkspaceEntity>> {
+		return await this.findWorkspacesUsecase.execute(command);
 	}
 }

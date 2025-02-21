@@ -5,6 +5,7 @@ import { RolesModule } from '../users/roles/roles.module';
 import { AddUserToWorkspaceUsecase } from './application/usecases/add-user-to-workspace/add-user-to-workspace.usecase';
 import { CreateWorkspaceUsecase } from './application/usecases/create-workspace/create-workspace.usecase';
 import { FindWorkspaceUsersUsecase } from './application/usecases/find-workspace-users/find-workspace-users.usecase';
+import { FindWorkspacesUsecase } from './application/usecases/find-workspaces/find-workspaces.usecase';
 import { RespondInvitationUsecase } from './application/usecases/respond-invitation/respond-invitation.usecase';
 import { WorkspacesService } from './application/workspaces.service';
 import { WorkspaceUsersRepository } from './domain/repositories/workspace-users.repository';
@@ -35,6 +36,7 @@ const workspaceUsersRepository: Provider = {
 		CheckWorkspacePermissionGuard,
 		FindWorkspaceUsersUsecase,
 		RespondInvitationUsecase,
+		FindWorkspacesUsecase,
 	],
 	controllers: [WorkspaceUserController],
 	exports: [],

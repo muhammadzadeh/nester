@@ -17,7 +17,7 @@ export class WorkspaceUserTypeormMapper {
 			createdAt: args.createdAt,
 			updatedAt: args.updatedAt,
 			deletedAt: args.deletedAt,
-			acceptedAt: args.acceptedAt,
+			respondedAt: args.respondedAt,
 		});
 	}
 
@@ -35,7 +35,7 @@ export class WorkspaceUserTypeormMapper {
 			createdAt: args.createdAt,
 			updatedAt: args.updatedAt,
 			deletedAt: args.deletedAt,
-			acceptedAt: args.acceptedAt,
+			respondedAt: args.respondedAt,
 		};
 	}
 }

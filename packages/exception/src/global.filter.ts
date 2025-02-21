@@ -6,7 +6,7 @@ import { isNumber, isString } from 'lodash';
 import { I18nService } from 'nestjs-i18n';
 import { ExceptionResponse, Status } from './exception.response';
 import { ExceptionHandler, HttpExceptionHandler, RpcExceptionHandler, WsExceptionHandler } from './handlers';
-import { IllegalStateException } from './illegal-state.exception';
+import { IllegalStateException } from './exceptions/illegal-state.exception';
 import {
 	BadRequestExceptionMapper,
 	ConflictExceptionMapper,

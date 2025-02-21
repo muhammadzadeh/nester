@@ -42,6 +42,6 @@ export class WorkspaceUserTypeormEntity {
 	@Column({ type: 'timestamptz', nullable: true, name: 'deleted_at' })
 	readonly deletedAt!: Date | null;
 
-	@Column({ type: 'timestamptz', nullable: true, name: 'accepted_at' })
-	readonly acceptedAt!: Date | null;
+	@Column({ type: 'timestamptz', nullable: true, name: 'responded_at' })
+	readonly respondedAt!: Date | null;
 }

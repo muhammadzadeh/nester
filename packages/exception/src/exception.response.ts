@@ -1,5 +1,5 @@
 import { HttpStatus } from '@nestjs/common';
-import { FlatError } from './validation.exception';
+import { FlatError } from './exceptions/validation.exception';
 
 export enum Status {
 	SUCCESS = 'success',

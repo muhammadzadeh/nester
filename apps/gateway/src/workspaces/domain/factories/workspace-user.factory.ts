@@ -5,7 +5,7 @@ import { WorkspaceUserEntity } from '../entities/workspace-user.entity';
 import { WorkspaceUserStatus } from '../enums/workspace-user-status.enum';
 
 export class WorkspaceUserReadFactory {
-	static create(args: Omit<WorkspaceUserEntity, 'markAsAccepted'>): WorkspaceUserEntity {
+	static create(args: Omit<WorkspaceUserEntity, 'markAsAccepted' | 'markAsRejected'>): WorkspaceUserEntity {
 		return new WorkspaceUserEntity(
 			args.id,
 			args.invitedByUserId,
@@ -19,14 +19,25 @@ export class WorkspaceUserReadFactory {
 			args.createdAt,
 			args.updatedAt,
 			args.deletedAt,
-			args.acceptedAt,
+			args.respondedAt,
 		);
 	}
 }
 
 export class WorkspaceUserWriteFactory {
 	static create(
-		args: Omit<WorkspaceUserEntity, 'id' | 'createdAt' | 'updatedAt' | 'deletedAt' | 'token' | 'status' | 'acceptedAt' | 'markAsAccepted'>,
+		args: Omit<
+			WorkspaceUserEntity,
+			| 'id'
+			| 'createdAt'
+			| 'updatedAt'
+			| 'deletedAt'
+			| 'token'
+			| 'status'
+			| 'respondedAt'
+			| 'markAsAccepted'
+			| 'markAsRejected'
+		>,
 	): WorkspaceUserEntity {
 		const tokenLength = randomInt(20, 40);
 		const token = randomStringSync({ type: 'url-safe', length: tokenLength });

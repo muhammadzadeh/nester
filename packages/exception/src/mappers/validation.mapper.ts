@@ -1,6 +1,6 @@
 import { HttpStatus } from '@nestjs/common';
 import { ExceptionResponse, Status } from '../exception.response';
-import { ValidationException } from '../validation.exception';
+import { ValidationException } from '../exceptions/validation.exception';
 import { ExceptionMapper } from './exception-mapper';
 
 export class ValidationExceptionMapper implements ExceptionMapper {

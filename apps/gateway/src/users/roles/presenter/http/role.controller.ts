@@ -1,6 +1,6 @@
 import { Body, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
-import { RequiredPermissions, SystemPermission } from '@repo/authentication';
+import { RequiredSystemPermissions, SystemPermission } from '@repo/authentication';
 import { AdminController } from '@repo/decorator';
 import { DoneResponse } from '@repo/types';
 import { RolesService } from '../../application/roles.service';
@@ -19,7 +19,7 @@ export class RoleController {
 		status: 200,
 		type: DoneResponse,
 	})
-	@RequiredPermissions(SystemPermission.WRITE_ROLES)
+	@RequiredSystemPermissions(SystemPermission.WRITE_ROLES)
 	async createRole(@Body() data: CreateRoleDto): Promise<DoneResponse> {
 		await this.rolesService.createRole(data);
 		return new DoneResponse();
@@ -30,7 +30,7 @@ export class RoleController {
 		status: 200,
 		type: DoneResponse,
 	})
-	@RequiredPermissions(SystemPermission.WRITE_ROLES)
+	@RequiredSystemPermissions(SystemPermission.WRITE_ROLES)
 	async updateRole(@Param() params: GetRoleDto, @Body() data: UpdateRoleDto): Promise<DoneResponse> {
 		await this.rolesService.updateRole(params.id, data);
 		return new DoneResponse();
@@ -41,7 +41,7 @@ export class RoleController {
 		status: 200,
 		type: RoleListResponse,
 	})
-	@RequiredPermissions(SystemPermission.READ_ROLES)
+	@RequiredSystemPermissions(SystemPermission.READ_ROLES)
 	async getRoles(@Query() filters: FilterRoleDto): Promise<RoleListResponse> {
 		const result = await this.rolesService.findAll(
 			{},

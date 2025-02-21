@@ -13,7 +13,7 @@ export const IgnoreAuthorizationGuard = (): MethodDecorator & ClassDecorator =>
 export const AllowUnauthorizedGuard = (): MethodDecorator & ClassDecorator =>
 	SetMetadata(AuthenticationMetaKey.ALLOW_UN_AUTHORIZED_REQUESTS, true);
 
-export const RequiredPermissions = (...permissions: SystemPermission[]): MethodDecorator & ClassDecorator =>
+export const RequiredSystemPermissions = (...permissions: SystemPermission[]): MethodDecorator & ClassDecorator =>
 	SetMetadata(AuthenticationMetaKey.REQUIRED_PERMISSION, { permissions });
 
 export const RequiredWorkspacePermissions = (...permissions: WorkspacePermission[]): MethodDecorator & ClassDecorator =>

@@ -1,9 +1,10 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, Unique } from 'typeorm';
 import { WorkspaceUserStatus } from '../../../../domain/enums/workspace-user-status.enum';
 
 @Entity({
 	name: 'workspace_users',
 })
+@Unique('workspace_users_token_u', ['token'])
 export class WorkspaceUserTypeormEntity {
 	@PrimaryGeneratedColumn('uuid', { primaryKeyConstraintName: 'workspace_users_id_pkey' })
 	readonly id!: string;
@@ -26,7 +27,7 @@ export class WorkspaceUserTypeormEntity {
 	@Column({ type: 'varchar', name: 'mobile', nullable: true })
 	readonly mobile!: string | null;
 
-	@Column({ type: 'varchar', name: 'token', unique: true })
+	@Column({ type: 'varchar', name: 'token' })
 	readonly token!: string;
 
 	@Column({ type: 'enum', enumName: 'WorkspaceUserStatus', enum: WorkspaceUserStatus })

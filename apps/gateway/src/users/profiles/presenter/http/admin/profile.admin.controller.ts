@@ -1,6 +1,6 @@
 import { Body, Get, Param, Patch, Query } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
-import { RequiredPermissions, SystemPermission } from '@repo/authentication';
+import { RequiredSystemPermissions, SystemPermission } from '@repo/authentication';
 import { AdminController } from '@repo/decorator';
 import { DoneResponse } from '@repo/types';
 import { UsersService } from '../../../application/users.service';
@@ -20,7 +20,7 @@ export class ProfileControllerForAdmin {
 		status: 200,
 		type: UserListResponse,
 	})
-	@RequiredPermissions(SystemPermission.READ_USERS)
+	@RequiredSystemPermissions(SystemPermission.READ_USERS)
 	async getAllUsers(@Query() filters: FilterUserDto): Promise<UserListResponse> {
 		const result = await this.usersService.findAll({}, filters);
 		return UserListResponse.from(result, filters);
@@ -31,7 +31,7 @@ export class ProfileControllerForAdmin {
 		status: 200,
 		type: UserResponse,
 	})
-	@RequiredPermissions(SystemPermission.READ_USERS)
+	@RequiredSystemPermissions(SystemPermission.READ_USERS)
 	async getUserById(@Param() params: GetUserDto): Promise<UserResponse> {
 		const userProfile = await this.usersService.findOneByIdentifierOrFail(params.id);
 		return UserResponse.from(userProfile);
@@ -42,7 +42,7 @@ export class ProfileControllerForAdmin {
 		status: 200,
 		type: DoneResponse,
 	})
-	@RequiredPermissions(SystemPermission.WRITE_USERS)
+	@RequiredSystemPermissions(SystemPermission.WRITE_USERS)
 	async updateMyProfile(@Param() params: GetUserDto, @Body() data: UpdateUserRoleDto): Promise<DoneResponse> {
 		await this.usersService.updateProfile(params.id, data.toEntity());
 		return new DoneResponse();

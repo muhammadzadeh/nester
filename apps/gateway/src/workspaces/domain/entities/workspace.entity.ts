@@ -27,5 +27,5 @@ export class WorkspaceEntity {
 	updatedAt!: Date;
 	deletedAt!: Date | null;
 
-	logo!: AttachmentEntity | null;
+	logo?: AttachmentEntity;
 }

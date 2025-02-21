@@ -34,7 +34,7 @@ This decorator is used to bypass the authorization requirement for specific rout
 
 This decorator allows requests to proceed whether they include a token or not. It's beneficial for routes that can be accessed both by authenticated and unauthenticated users. For instance, a route that displays a community post can use this decorator to show the post to all users, but if a user is authenticated (i.e., a token is provided), the application can display additional user-specific actions or information.
 
-### `RequiredPermissions`
+### `RequiredSystemPermissions`
 
 For routes that require specific permissions to access, this decorator is used to enforce access control. It checks if the user has the necessary permissions before granting access. This is crucial for routes that handle sensitive operations or data, ensuring that only authorized users can perform these actions.
 

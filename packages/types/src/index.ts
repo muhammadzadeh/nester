@@ -1,6 +1,7 @@
 export * from './commands/authenticated.command';
 export * from './commands/base.command';
 export * from './commands/optional-authenticated.command';
+export * from './commands/workspace-authenticated.command';
 export * from './common.enums';
 export * from './common.types';
 export * from './constants';

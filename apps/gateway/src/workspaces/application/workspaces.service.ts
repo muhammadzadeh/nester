@@ -12,11 +12,17 @@ import { FindWorkspacesQuery } from './usecases/find-workspaces/find-workspaces.
 import { FindWorkspacesUsecase } from './usecases/find-workspaces/find-workspaces.usecase';
 import { RespondInvitationCommand } from './usecases/respond-invitation/respond-invitation.command';
 import { RespondInvitationUsecase } from './usecases/respond-invitation/respond-invitation.usecase';
+import { RemoveWorkspaceUserCommand } from './usecases/remove-user-from-workspace/remove-user.command';
+import { RemoveWorkspaceUserUsecase } from './usecases/remove-user-from-workspace/remove-user.usecase';
+import { LeftFromWorkspaceUsecase } from './usecases/left-from-workspace/left-from-workspace.usecase';
+import { LeftFromWorkspaceCommand } from './usecases/left-from-workspace/left-from-workspace.command';
 
 @Injectable()
 export class WorkspacesService {
 	constructor(
+		private readonly leftWorkspaceUsecase: LeftFromWorkspaceUsecase,
 		private readonly findWorkspaceUsers: FindWorkspaceUsersUsecase,
+		private readonly removeUserUsecase: RemoveWorkspaceUserUsecase,
 		private readonly findWorkspacesUsecase: FindWorkspacesUsecase,
 		private readonly addWorkspaceUser: AddUserToWorkspaceUsecase,
 		private readonly respondUsecase: RespondInvitationUsecase,
@@ -33,6 +39,14 @@ export class WorkspacesService {
 
 	async respondInvitation(command: RespondInvitationCommand): Promise<void> {
 		await this.respondUsecase.execute(command);
+	}
+
+	async removeUser(command: RemoveWorkspaceUserCommand): Promise<void> {
+		await this.removeUserUsecase.execute(command);
+	}
+
+	async leftWorkspace(command: LeftFromWorkspaceCommand): Promise<void> {
+		await this.leftWorkspaceUsecase.execute(command);
 	}
 
 	async findUsers(command: FindWorkspaceUsersQuery): Promise<Paginated<WorkspaceUserEntity>> {

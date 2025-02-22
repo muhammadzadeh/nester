@@ -5,7 +5,9 @@ import { WorkspaceUserEntity } from '../entities/workspace-user.entity';
 import { WorkspaceUserStatus } from '../enums/workspace-user-status.enum';
 
 export class WorkspaceUserReadFactory {
-	static create(args: Omit<WorkspaceUserEntity, 'markAsAccepted' | 'markAsRejected' | 'canRespond'>): WorkspaceUserEntity {
+	static create(
+		args: Omit<WorkspaceUserEntity, 'markAsAccepted' | 'markAsRejected' | 'canRespond' | 'markAsDeleted'>,
+	): WorkspaceUserEntity {
 		return new WorkspaceUserEntity(
 			args.id,
 			args.invitedByUserId,
@@ -38,6 +40,7 @@ export class WorkspaceUserWriteFactory {
 			| 'markAsAccepted'
 			| 'markAsRejected'
 			| 'canRespond'
+			| 'markAsDeleted'
 		>,
 	): WorkspaceUserEntity {
 		const tokenLength = randomInt(20, 40);

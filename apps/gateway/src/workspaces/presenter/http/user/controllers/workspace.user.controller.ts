@@ -1,4 +1,4 @@
-import { Body, Get, Post, Query } from '@nestjs/common';
+import { Body, Delete, Get, Param, Post, Query } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import {
 	CurrentUser,
@@ -9,7 +9,7 @@ import {
 	WorkspacePermission,
 } from '@repo/authentication';
 import { UserController } from '@repo/decorator';
-import { DoneResponse } from '@repo/types';
+import { DoneResponse, FineOneUUIDDto } from '@repo/types';
 import { WorkspacesService } from '../../../../application/workspaces.service';
 import { WorkspaceUserStatus } from '../../../../domain/enums/workspace-user-status.enum';
 import { AddUserToWorkspaceUserRequestDto } from '../dtos/request/add-user-to-workspace.user.request-dto';
@@ -100,6 +100,33 @@ export class WorkspaceUserController {
 			},
 		});
 		return WorkspaceUserListUserResponseDto.from(result, filters);
+	}
+
+	@Delete('users/:id')
+	@ApiOkResponse({
+		status: 200,
+		type: DoneResponse,
+	})
+	@RequiredWorkspacePermissions(WorkspacePermission.WRITE_USERS)
+	async removeUser(@Param() params: FineOneUUIDDto): Promise<DoneResponse> {
+		await this.workspacesService.removeUser({
+			workspaceUserId: params.id,
+		});
+		return new DoneResponse();
+	}
+
+	@Post('left')
+	@ApiOkResponse({
+		status: 200,
+		type: DoneResponse,
+	})
+	@RequiredWorkspacePermissions(WorkspacePermission.READ_WORKSPACE)
+	async leftWorkplace(@User() user: CurrentUser, @Workspace() workspace: CurrentWorkspace): Promise<DoneResponse> {
+		await this.workspacesService.leftWorkspace({
+			workspaceId: workspace.id,
+			userId: user.id,
+		});
+		return new DoneResponse();
 	}
 
 	@Post('invitations')

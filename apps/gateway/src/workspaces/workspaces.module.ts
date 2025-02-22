@@ -6,6 +6,8 @@ import { AddUserToWorkspaceUsecase } from './application/usecases/add-user-to-wo
 import { CreateWorkspaceUsecase } from './application/usecases/create-workspace/create-workspace.usecase';
 import { FindWorkspaceUsersUsecase } from './application/usecases/find-workspace-users/find-workspace-users.usecase';
 import { FindWorkspacesUsecase } from './application/usecases/find-workspaces/find-workspaces.usecase';
+import { LeftFromWorkspaceUsecase } from './application/usecases/left-from-workspace/left-from-workspace.usecase';
+import { RemoveWorkspaceUserUsecase } from './application/usecases/remove-user-from-workspace/remove-user.usecase';
 import { RespondInvitationUsecase } from './application/usecases/respond-invitation/respond-invitation.usecase';
 import { WorkspacesService } from './application/workspaces.service';
 import { WorkspaceUsersRepository } from './domain/repositories/workspace-users.repository';
@@ -37,6 +39,8 @@ const workspaceUsersRepository: Provider = {
 		FindWorkspaceUsersUsecase,
 		RespondInvitationUsecase,
 		FindWorkspacesUsecase,
+		RemoveWorkspaceUserUsecase,
+		LeftFromWorkspaceUsecase,
 	],
 	controllers: [WorkspaceUserController],
 	exports: [],

@@ -66,6 +66,8 @@ export class WorkspaceUsersTypeormRepository implements WorkspaceUsersRepository
 		alias?: string,
 	): SelectQueryBuilder<WorkspaceUserTypeormEntity> {
 		const queryBuilder = this.repository.createQueryBuilder(alias);
+		queryBuilder.andWhere(`${alias ? alias + '.' : ''}deleted_at IS NULL`);
+
 		if (options.ids?.length) {
 			queryBuilder.andWhere(`${alias ? alias + '.' : ''}id IN (:...ids)`, { ids: options.ids });
 		}

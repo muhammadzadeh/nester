@@ -76,6 +76,10 @@ export class WorkspaceUserEntity {
 		return this.status === WorkspaceUserStatus.PENDING;
 	}
 
+	markAsDeleted(): void {
+		this.deletedAt = now().toJSDate();
+	}
+
 	private changeStatus(newStatus: WorkspaceUserStatus): void {
 		if (!this.stateMachine.get(this.status)?.has(newStatus)) {
 			throw new ForbiddenStatusChangeException(

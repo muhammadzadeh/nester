@@ -5,10 +5,10 @@ import { IsNotUUID } from '@repo/validator/is-not-uuid.validator';
 import { IsNotEmpty, IsString } from 'class-validator';
 
 export class SigninMethodDto {
-  @IsNotEmpty()
-  @IsString()
-  @IsNotUUID()
-  @ToLowerCase()
-  @IsIdentifier()
-  identifier!: Email | Mobile;
+	@IsNotEmpty()
+	@IsString()
+	@IsNotUUID()
+	@ToLowerCase()
+	@IsIdentifier()
+	identifier!: Email | Mobile;
 }

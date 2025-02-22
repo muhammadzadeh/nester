@@ -4,6 +4,7 @@
     "MISSING_PERMISSION": "Permission is missing",
     "NOT_AUTHORIZED": "Authorization failed, Please login again",
     "NOT_FOUND": "Not found",
+    "FORBIDDEN": "Permission is missing",
     "INVALID_INPUTS": "'Invalid Input, Please check Inputs'",
     "RATE_LIMIT": "Too Many Requests",
     "MAX_UPLOAD_SIZE": "Attachment is too big",
@@ -39,5 +40,10 @@
     "INVALID_AUTHENTICATION_METHOD": "The selected Authentication method is invalid!",
     "USER_NOT_FOUND": "The user not found!",
     "MOBILE_OR_EMAIL_REQUIRED": "The Email or Mobile is required!",
-    "INVALID_AVATAR": "Invalid Avatar!"
+    "INVALID_AVATAR": "Invalid Avatar!",
+    "USER_ALREADY_IN_WORKSPACE": "User Already in workspace!",
+    "WORKSPACE_NOT_FOUND": "Workspace not found!",
+    "FORBIDDEN_STATE_CHANGE": "It's not possible to update status!",
+    "INVITATION_ALREADY_RESPONDED": "Already responded to this invitation!",
+    "INVITATION_NOT_FOUND": "Invitation not found!"
 }

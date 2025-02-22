@@ -18,61 +18,61 @@ import { KavenegarSmsSender } from './infrastructure/providers/sms/kavenegar';
 import { LocalSmsSender } from './infrastructure/providers/sms/local';
 import { NotificationController } from './presenter/http/notification.controller';
 const mailProvider: Provider = {
-  provide: MAILER_TOKEN,
-  inject: [Configuration, HttpService],
-  useFactory: (config: Configuration, httpService: HttpService): Mailer => {
-    switch (config.mailer?.provider) {
-      case 'local':
-        return new LocalMailer();
-      case 'mailgun':
-        return new MailgunMailer(config, httpService);
-      case 'sendgrid':
-        return new SendgridMailer(config);
-      default:
-        return new LocalMailer();
-    }
-  },
+	provide: MAILER_TOKEN,
+	inject: [Configuration, HttpService],
+	useFactory: (config: Configuration, httpService: HttpService): Mailer => {
+		switch (config.mailer?.provider) {
+			case 'local':
+				return new LocalMailer();
+			case 'mailgun':
+				return new MailgunMailer(config, httpService);
+			case 'sendgrid':
+				return new SendgridMailer(config);
+			default:
+				return new LocalMailer();
+		}
+	},
 };
 
 const smsProvider: Provider = {
-  provide: SMS_SENDER_TOKEN,
-  inject: [Configuration, HttpService],
-  useFactory: (config: Configuration): SmsSender => {
-    switch (config.smsSender?.provider) {
-      case 'kavenegar':
-        return new KavenegarSmsSender({
-          apiKey: config.smsSender.kavenegar.apiKey,
-        });
-      case 'local':
-        return new LocalSmsSender();
-      default:
-        return new LocalSmsSender();
-    }
-  },
+	provide: SMS_SENDER_TOKEN,
+	inject: [Configuration, HttpService],
+	useFactory: (config: Configuration): SmsSender => {
+		switch (config.smsSender?.provider) {
+			case 'kavenegar':
+				return new KavenegarSmsSender({
+					apiKey: config.smsSender.kavenegar.apiKey,
+				});
+			case 'local':
+				return new LocalSmsSender();
+			default:
+				return new LocalSmsSender();
+		}
+	},
 };
 
 const notificationsRepository: Provider = {
-  provide: NOTIFICATION_REPOSITORY_TOKEN,
-  useClass: TypeormNotificationsRepository,
+	provide: NOTIFICATION_REPOSITORY_TOKEN,
+	useClass: TypeormNotificationsRepository,
 };
 
 const notificationPushTokensRepository: Provider = {
-  provide: NOTIFICATION_PUSH_TOKEN_REPOSITORY_TOKEN,
-  useClass: TypeormNotificationPushTokensRepository,
+	provide: NOTIFICATION_PUSH_TOKEN_REPOSITORY_TOKEN,
+	useClass: TypeormNotificationPushTokensRepository,
 };
 
 @Module({
-  imports: [TypeOrmModule.forFeature([TypeormNotificationEntity, TypeormNotificationPushTokenEntity]), HttpModule],
-  controllers: [NotificationController],
-  providers: [
-    mailProvider,
-    smsProvider,
-    NotificationsConsumer,
-    NotificationsDispatcher,
-    NotificationsService,
-    notificationsRepository,
-    notificationPushTokensRepository,
-  ],
-  exports: [],
+	imports: [TypeOrmModule.forFeature([TypeormNotificationEntity, TypeormNotificationPushTokenEntity]), HttpModule],
+	controllers: [NotificationController],
+	providers: [
+		mailProvider,
+		smsProvider,
+		NotificationsConsumer,
+		NotificationsDispatcher,
+		NotificationsService,
+		notificationsRepository,
+		notificationPushTokensRepository,
+	],
+	exports: [],
 })
 export class NotificationsModule {}

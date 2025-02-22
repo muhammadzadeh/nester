@@ -5,15 +5,15 @@ import { UpdatePasswordCommand } from './update-password.command';
 
 @Injectable()
 export class UpdatePasswordUsecase {
-  constructor(@Inject(USERS_REPOSITORY_TOKEN) private readonly usersRepository: UsersRepository) {}
+	constructor(@Inject(USERS_REPOSITORY_TOKEN) private readonly usersRepository: UsersRepository) {}
 
-  async execute(command: UpdatePasswordCommand): Promise<void> {
-    const user = await this.usersRepository.findOne({ ids: [command.userId] });
-    if (!user) {
-      throw new UserNotFoundException();
-    }
+	async execute(command: UpdatePasswordCommand): Promise<void> {
+		const user = await this.usersRepository.findOne({ ids: [command.userId] });
+		if (!user) {
+			throw new UserNotFoundException();
+		}
 
-    user.updatePassword(command.password);
-    await this.usersRepository.save(user);
-  }
+		user.updatePassword(command.password);
+		await this.usersRepository.save(user);
+	}
 }

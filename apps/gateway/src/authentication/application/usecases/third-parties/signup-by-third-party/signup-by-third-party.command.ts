@@ -2,6 +2,6 @@ import { BaseCommand } from '@repo/types';
 import { Auth, AuthProviderType } from '../auth-provider';
 
 export class SignupByThirdPartyCommand extends BaseCommand {
-  readonly provider!: AuthProviderType;
-  readonly data!: Auth;
+	readonly provider!: AuthProviderType;
+	readonly data!: Auth;
 }

@@ -10,6 +10,6 @@ module.exports = {
   printWidth: 120,
   tabWidth: 2,
   trailingComma: 'all',
-  useTabs: false,
+  useTabs: true,
   arrowParens: 'always',
 };

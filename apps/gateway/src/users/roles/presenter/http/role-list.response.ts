@@ -6,22 +6,22 @@ import { FilterRoleDto } from './filter-role.dto';
 import { RoleResponse } from './role.response';
 
 export class RoleListResponse extends ListResponse<RoleResponse> {
-  static from(data: Paginated<RoleEntity>, filters: FilterRoleDto): RoleListResponse {
-    return new RoleListResponse(
-      data.items.map((item) => RoleResponse.from(item)),
-      {
-        total: data.total,
-        page: filters.page,
-        pageSize: filters.pageSize,
-      },
-    );
-  }
+	static from(data: Paginated<RoleEntity>, filters: FilterRoleDto): RoleListResponse {
+		return new RoleListResponse(
+			data.items.map((item) => RoleResponse.from(item)),
+			{
+				total: data.total,
+				page: filters.page,
+				pageSize: filters.pageSize,
+			},
+		);
+	}
 
-  @ApiProperty({
-    type: RoleResponse,
-    isArray: true,
-    description: 'The Notifications',
-  })
-  @Type(() => RoleResponse)
-  declare items: RoleResponse[];
+	@ApiProperty({
+		type: RoleResponse,
+		isArray: true,
+		description: 'The Notifications',
+	})
+	@Type(() => RoleResponse)
+	declare items: RoleResponse[];
 }

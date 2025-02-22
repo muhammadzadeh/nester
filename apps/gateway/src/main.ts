@@ -16,48 +16,48 @@ import { configureSwagger } from './common/application/swagger';
 import { configureGlobalTransformers } from './common/application/transformers';
 
 async function bootstrap() {
-  const fastify = new FastifyAdapter({
-    maxParamLength: 500,
-    trustProxy: true,
-    requestTimeout: 30000,
-    connectionTimeout: 30000,
-    genReqId() {
-      return randomUUID();
-    },
-  });
-  const app = await NestFactory.create<NestFastifyApplication>(AppModule, fastify, {
-    bufferLogs: true,
-    rawBody: true,
-  });
+	const fastify = new FastifyAdapter({
+		maxParamLength: 500,
+		trustProxy: true,
+		requestTimeout: 30000,
+		connectionTimeout: 30000,
+		genReqId() {
+			return randomUUID();
+		},
+	});
+	const app = await NestFactory.create<NestFastifyApplication>(AppModule, fastify, {
+		bufferLogs: true,
+		rawBody: true,
+	});
 
-  app.enableShutdownHooks();
-  configureGlobalLogger(app);
-  configureGlobalCors(app);
-  await configureGlobalMultipart(app);
-  configureGlobalTransformers(app.select(AppModule));
-  configureSwagger(app);
-  configureSentry(app);
+	app.enableShutdownHooks();
+	configureGlobalLogger(app);
+	configureGlobalCors(app);
+	await configureGlobalMultipart(app);
+	configureGlobalTransformers(app.select(AppModule));
+	configureSwagger(app);
+	configureSentry(app);
 
-  configureGlobalFilters(app);
-  configureGlobalInterceptors(app);
-  configureGlobalPipes(app);
-  configureSecurity(app);
+	configureGlobalFilters(app);
+	configureGlobalInterceptors(app);
+	configureGlobalPipes(app);
+	configureSecurity(app);
 
-  const defaultPort = process.env.PORT || app.get(Configuration).http.port || 3000;
+	const defaultPort = process.env.PORT || app.get(Configuration).http.port || 3000;
 
-  return app.listen(
-    {
-      port: +defaultPort,
-      host: '0.0.0.0',
-    },
-    (err: Error | null, address: string) => {
-      if (err) {
-        Logger.debug(`Failed to run application!, ${err.message}`, 'NestApplication');
-        Logger.error(err, 'NestApplication');
-      } else {
-        Logger.log(`The application running on the ${address}`, 'NestApplication');
-      }
-    },
-  );
+	return app.listen(
+		{
+			port: +defaultPort,
+			host: '0.0.0.0',
+		},
+		(err: Error | null, address: string) => {
+			if (err) {
+				Logger.debug(`Failed to run application!, ${err.message}`, 'NestApplication');
+				Logger.error(err, 'NestApplication');
+			} else {
+				Logger.log(`The application running on the ${address}`, 'NestApplication');
+			}
+		},
+	);
 }
 bootstrap();

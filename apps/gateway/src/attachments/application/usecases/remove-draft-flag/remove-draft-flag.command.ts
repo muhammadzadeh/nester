@@ -1,5 +1,5 @@
-import { BaseCommand } from "@repo/types";
+import { BaseCommand } from '@repo/types';
 
 export class RemoveAttachmentDraftFlagCommand extends BaseCommand {
-  readonly attachmentIds!: string[];
+	readonly attachmentIds!: string[];
 }

@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { ListResponse, Paginated } from '@repo/types';
 import { Type } from 'class-transformer';
 import { WorkspaceUserEntity } from '../../../../../domain/entities/workspace-user.entity';
-import { FilterWorkspaceUserUserRequestDto } from '../request/filter-works-ace-user.user.request-dto';
+import { FilterWorkspaceUserUserRequestDto } from '../request/filter-workspace-user.user.request-dto';
 import { WorkspaceUserUserResponseDto } from './workspace-user.user.response-dto';
 
 export class WorkspaceUserListUserResponseDto extends ListResponse<WorkspaceUserUserResponseDto> {

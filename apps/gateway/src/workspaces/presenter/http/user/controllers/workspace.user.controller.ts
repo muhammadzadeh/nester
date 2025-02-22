@@ -13,8 +13,10 @@ import { DoneResponse } from '@repo/types';
 import { WorkspacesService } from '../../../../application/workspaces.service';
 import { AddUserToWorkspaceUserRequestDto } from '../dtos/request/add-user-to-workspace.user.request-dto';
 import { CreateWorkspaceUserRequestDto } from '../dtos/request/create-workspace.user.request-dto';
-import { FilterWorkspaceUserUserRequestDto } from '../dtos/request/filter-works-ace-user.user.request-dto';
+import { FilterWorkspaceUserUserRequestDto } from '../dtos/request/filter-workspace-user.user.request-dto';
+import { FilterWorkspaceUserRequestDto } from '../dtos/request/filter-workspace.user.request-dto';
 import { RespondInvitationUserRequestDto } from '../dtos/request/respond-invitation.user.request-dto';
+import { WorkspaceListUserResponseDto } from '../dtos/response/workspace-list.user.response-dto';
 import { WorkspaceUserListUserResponseDto } from '../dtos/response/workspace-user-list.user.response-dto';
 import { WorkspaceUserResponseDto } from '../dtos/response/workspace.user.response-dto';
 
@@ -34,6 +36,28 @@ export class WorkspaceUserController {
 	): Promise<WorkspaceUserResponseDto> {
 		const createdWorkspace = await this.workspacesService.create({ ...data, userId: user.id });
 		return WorkspaceUserResponseDto.from(createdWorkspace);
+	}
+
+	@Get()
+	@ApiOkResponse({
+		status: 200,
+		type: WorkspaceListUserResponseDto,
+	})
+	async findWorkspaces(
+		@User() user: CurrentUser,
+		@Query() filters: FilterWorkspaceUserRequestDto,
+	): Promise<WorkspaceListUserResponseDto> {
+		const result = await this.workspacesService.findWorkspaces({
+			userId: user.id,
+			conditions: {},
+			pagination: {
+				page: filters.page,
+				pageSize: filters.pageSize,
+				orderBy: filters.orderBy,
+				orderDir: filters.orderDir,
+			},
+		});
+		return WorkspaceListUserResponseDto.from(result, filters);
 	}
 
 	@Post('users')

@@ -37,6 +37,9 @@ export class TypeormAttachmentEntity {
 	@Index('attachments_uploader_share_token_idx')
 	readonly shareToken!: string | null;
 
+	@Column({ type: 'uuid', nullable: true, name: 'workspace_id' })
+	readonly workspaceId!: string | null;
+
 	@Column({ type: 'timestamptz', name: 'created_at', default: () => 'CURRENT_TIMESTAMP' })
 	readonly createdAt!: Date;
 
@@ -61,6 +64,7 @@ export class TypeormAttachmentEntity {
 			item.deletedAt,
 			item.createdAt,
 			item.updatedAt,
+			item.workspaceId,
 			baseUrl,
 		);
 	}

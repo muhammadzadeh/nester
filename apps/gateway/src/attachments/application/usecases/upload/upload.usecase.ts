@@ -32,6 +32,10 @@ export class UploadUsecase {
 			filePath,
 		);
 
+		if (command.workspaceId) {
+			createdAttachment.setWorkspaceId(command.workspaceId);
+		}
+
 		await this.storageProvider.upload({
 			path: createdAttachment.getPathAndName(),
 			mimeType: command.file.mimeType,

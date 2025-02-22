@@ -11,6 +11,7 @@ import {
 import { UserController } from '@repo/decorator';
 import { DoneResponse } from '@repo/types';
 import { WorkspacesService } from '../../../../application/workspaces.service';
+import { WorkspaceUserStatus } from '../../../../domain/enums/workspace-user-status.enum';
 import { AddUserToWorkspaceUserRequestDto } from '../dtos/request/add-user-to-workspace.user.request-dto';
 import { CreateWorkspaceUserRequestDto } from '../dtos/request/create-workspace.user.request-dto';
 import { FilterWorkspaceUserUserRequestDto } from '../dtos/request/filter-workspace-user.user.request-dto';
@@ -48,8 +49,10 @@ export class WorkspaceUserController {
 		@Query() filters: FilterWorkspaceUserRequestDto,
 	): Promise<WorkspaceListUserResponseDto> {
 		const result = await this.workspacesService.findWorkspaces({
-			userId: user.id,
-			conditions: {},
+			conditions: {
+				userIds: [user.id],
+				statuses: [WorkspaceUserStatus.ACCEPTED],
+			},
 			pagination: {
 				page: filters.page,
 				pageSize: filters.pageSize,

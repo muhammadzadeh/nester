@@ -7,4 +7,5 @@ export class UploadCommand extends AuthenticatedCommand {
 	readonly isDraft!: boolean;
 	readonly file!: FileInfo;
 	readonly storePath?: string;
+	readonly workspaceId?: string;
 }

@@ -28,6 +28,7 @@ export class AttachmentEntity {
 		deletedAt: Date | null,
 		createdAt: Date,
 		updatedAt: Date,
+		workspaceId: string | null,
 		baseUrl: string,
 	);
 	constructor(
@@ -44,6 +45,7 @@ export class AttachmentEntity {
 		deletedAt?: Date | null,
 		createdAt?: Date,
 		updatedAt?: Date,
+		workspaceId?: string | null,
 		baseUrl?: string,
 	) {
 		this.id = id ?? randomUUID();
@@ -60,6 +62,7 @@ export class AttachmentEntity {
 		this.uploaderId = uploaderId;
 		this.baseUrl = baseUrl ?? '';
 		this.path = path;
+		this.workspaceId = workspaceId ?? null;
 		this.initialUrl();
 	}
 
@@ -77,6 +80,7 @@ export class AttachmentEntity {
 	isDraft!: boolean;
 	isShared!: boolean;
 	shareToken!: string | null;
+	workspaceId!: string | null;
 
 	baseUrl!: string | null;
 
@@ -99,6 +103,10 @@ export class AttachmentEntity {
 	setBaseUrl(baseUrl: string): void {
 		this.baseUrl = baseUrl;
 		this.initialUrl();
+	}
+
+	setWorkspaceId(workspaceId: string): void {
+		this.workspaceId = workspaceId;
 	}
 
 	async updateSharedFlag(isShared: boolean): Promise<void> {

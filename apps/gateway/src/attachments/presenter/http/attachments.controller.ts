@@ -1,6 +1,6 @@
 import { Get, Param, Post, Req, StreamableFile } from '@nestjs/common';
 import { ApiBody, ApiConsumes, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { CurrentUser, User } from '@repo/authentication';
+import { CurrentUser, CurrentWorkspace, User, Workspace } from '@repo/authentication';
 import { CommonController } from '@repo/decorator';
 import { FastifyRequest } from 'fastify';
 import { extname } from 'path';
@@ -27,6 +27,7 @@ export class AttachmentsController {
 	@ApiBody({ type: FilesUploadDto })
 	async upload(
 		@Param() visibilityDto: AttachmentVisibilityDto,
+		@Workspace() workspace: CurrentWorkspace,
 		@User() user: CurrentUser,
 		@Req() request: FastifyRequest,
 	): Promise<AttachmentListResponse> {
@@ -46,6 +47,7 @@ export class AttachmentsController {
 				visibility: visibilityDto.visibility,
 				userId: user.id,
 				isDraft: false,
+				workspaceId: workspace?.id,
 			});
 
 			attachments.push(attachment);

@@ -16,9 +16,7 @@ export class FindWorkspacesUsecase {
 	) {}
 
 	async execute(query: FindWorkspacesQuery): Promise<Paginated<WorkspaceEntity>> {
-		const { items: workspaceUsers } = await this.workspaceUsersRepository.findAll({
-			userIds: [query.userId],
-		});
+		const { items: workspaceUsers } = await this.workspaceUsersRepository.findAll(query.conditions);
 
 		const userWorkspaceIds = workspaceUsers.map((item) => item.workspaceId);
 		if (!userWorkspaceIds.length) {

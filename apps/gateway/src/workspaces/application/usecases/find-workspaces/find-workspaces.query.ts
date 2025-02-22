@@ -1,7 +1,8 @@
-import { AuthenticatedCommand, PaginationOption } from '@repo/types';
-import { FindWorkspaceOptions, WorkspaceOrderBy } from '../../../domain/repositories/workspaces.repository';
+import { BaseCommand, PaginationOption } from '@repo/types';
+import { FindWorkspaceUserOptions } from '../../../domain/repositories/workspace-users.repository';
+import { WorkspaceOrderBy } from '../../../domain/repositories/workspaces.repository';
 
-export class FindWorkspacesQuery extends AuthenticatedCommand {
-	readonly conditions!: Partial<FindWorkspaceOptions>;
+export class FindWorkspacesQuery extends BaseCommand {
+	readonly conditions!: Partial<FindWorkspaceUserOptions>;
 	readonly pagination?: PaginationOption<WorkspaceOrderBy>;
 }

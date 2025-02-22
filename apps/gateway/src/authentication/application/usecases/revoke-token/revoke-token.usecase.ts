@@ -4,9 +4,9 @@ import { RevokeTokenCommand } from './revoke-token.command';
 
 @Injectable()
 export class RevokeTokenUsecase {
-  constructor(private readonly jwtService: JwtTokenService) {}
+	constructor(private readonly jwtService: JwtTokenService) {}
 
-  async execute(command: RevokeTokenCommand): Promise<void> {
-    await this.jwtService.revokeToken(command);
-  }
+	async execute(command: RevokeTokenCommand): Promise<void> {
+		await this.jwtService.revokeToken(command);
+	}
 }

@@ -5,16 +5,16 @@ import { NotificationDispatcherResponse } from '../../../application/notificatio
 
 @Injectable()
 export class LocalMailer implements Mailer {
-  private readonly logger = new Logger(LocalMailer.name);
+	private readonly logger = new Logger(LocalMailer.name);
 
-  getName(): string {
-    return 'local';
-  }
+	getName(): string {
+		return 'local';
+	}
 
-  async sendMail(data: SendEmailData): Promise<NotificationDispatcherResponse> {
-    this.logger.verbose(`localMailer::sendMail :: ${JSON.stringify(data)}`);
-    return {
-      status: NotificationChannelStatus.SENT,
-    };
-  }
+	async sendMail(data: SendEmailData): Promise<NotificationDispatcherResponse> {
+		this.logger.verbose(`localMailer::sendMail :: ${JSON.stringify(data)}`);
+		return {
+			status: NotificationChannelStatus.SENT,
+		};
+	}
 }

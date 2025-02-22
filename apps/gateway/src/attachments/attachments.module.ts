@@ -1,4 +1,4 @@
-import { Module, Provider } from '@nestjs/common';
+import { Global, Module, Provider } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Configuration } from '@repo/config';
 import { AttachmentsService } from './application/attachments.service';
@@ -19,80 +19,81 @@ import { AttachmentsController } from './presenter/http';
 import { IsPrivateAttachmentConstraint } from './presenter/http/is-private-attachment.validator';
 
 const uploaderProvider: Provider = {
-  provide: STORAGE_PROVIDER_TOKEN,
-  inject: [Configuration],
-  useFactory: (config: Configuration): StorageProvider => {
-    let uploader: StorageProvider | undefined = undefined;
+	provide: STORAGE_PROVIDER_TOKEN,
+	inject: [Configuration],
+	useFactory: (config: Configuration): StorageProvider => {
+		let uploader: StorageProvider | undefined = undefined;
 
-    switch (config.storage.type) {
-      case 'minio':
-        uploader = new MinioStorageProvider({
-          endpoint: config.storage.minio!.storageEndpoint,
-          accessKeyId: config.storage.minio!.accessKeyId,
-          secretAccessKey: config.storage.minio!.secretAccessKey,
-          privateBucketName: config.storage.minio!.privateBucket,
-          publicBucketName: config.storage.minio!.publicBucket,
-          privateBaseUrl: config.storage.minio!.privateBaseUrl,
-          publicBaseUrl: config.storage.minio!.publicBaseUrl,
-        });
-        break;
-      case 'r2':
-        uploader = new MinioStorageProvider({
-          endpoint: config.storage.r2!.storageEndpoint,
-          accessKeyId: config.storage.r2!.accessKeyId,
-          secretAccessKey: config.storage.r2!.secretAccessKey,
-          privateBucketName: config.storage.r2!.privateBucket,
-          publicBucketName: config.storage.r2!.publicBucket,
-          privateBaseUrl: config.storage.minio!.privateBaseUrl,
-          publicBaseUrl: config.storage.minio!.publicBaseUrl,
-        });
-        break;
-      case 'local':
-        uploader = new LocalStorageProvider({
-          localStoragePath: config.storage.local!.uploadDir,
-          privateDir: config.storage.local!.privateDir,
-          publicDir: config.storage.local!.publicDir,
-          privateBaseUrl: config.storage.local!.privateBaseUrl,
-          publicBaseUrl: config.storage.local!.publicBaseUrl,
-        });
-        break;
-      default:
-        uploader = new LocalStorageProvider({
-          localStoragePath: config.storage.local!.uploadDir,
-          privateDir: config.storage.local!.privateDir,
-          publicDir: config.storage.local!.publicDir,
-          privateBaseUrl: config.storage.local!.privateBaseUrl,
-          publicBaseUrl: config.storage.local!.publicBaseUrl,
-        });
-    }
+		switch (config.storage.type) {
+			case 'minio':
+				uploader = new MinioStorageProvider({
+					endpoint: config.storage.minio!.storageEndpoint,
+					accessKeyId: config.storage.minio!.accessKeyId,
+					secretAccessKey: config.storage.minio!.secretAccessKey,
+					privateBucketName: config.storage.minio!.privateBucket,
+					publicBucketName: config.storage.minio!.publicBucket,
+					privateBaseUrl: config.storage.minio!.privateBaseUrl,
+					publicBaseUrl: config.storage.minio!.publicBaseUrl,
+				});
+				break;
+			case 'r2':
+				uploader = new MinioStorageProvider({
+					endpoint: config.storage.r2!.storageEndpoint,
+					accessKeyId: config.storage.r2!.accessKeyId,
+					secretAccessKey: config.storage.r2!.secretAccessKey,
+					privateBucketName: config.storage.r2!.privateBucket,
+					publicBucketName: config.storage.r2!.publicBucket,
+					privateBaseUrl: config.storage.minio!.privateBaseUrl,
+					publicBaseUrl: config.storage.minio!.publicBaseUrl,
+				});
+				break;
+			case 'local':
+				uploader = new LocalStorageProvider({
+					localStoragePath: config.storage.local!.uploadDir,
+					privateDir: config.storage.local!.privateDir,
+					publicDir: config.storage.local!.publicDir,
+					privateBaseUrl: config.storage.local!.privateBaseUrl,
+					publicBaseUrl: config.storage.local!.publicBaseUrl,
+				});
+				break;
+			default:
+				uploader = new LocalStorageProvider({
+					localStoragePath: config.storage.local!.uploadDir,
+					privateDir: config.storage.local!.privateDir,
+					publicDir: config.storage.local!.publicDir,
+					privateBaseUrl: config.storage.local!.privateBaseUrl,
+					publicBaseUrl: config.storage.local!.publicBaseUrl,
+				});
+		}
 
-    return uploader;
-  },
+		return uploader;
+	},
 };
 
+@Global()
 @Module({
-  imports: [TypeOrmModule.forFeature([TypeormAttachmentEntity, TypeormAttachmentUserEntity])],
-  controllers: [AttachmentsController],
-  providers: [
-    AttachmentsService,
-    uploaderProvider,
-    {
-      provide: ATTACHMENTS_REPOSITORY_TOKEN,
-      useClass: TypeormAttachmentsRepository,
-    },
-    {
-      provide: ATTACHMENT_USERS_REPOSITORY_TOKEN,
-      useClass: TypeormAttachmentUsersRepository,
-    },
-    IsPrivateAttachmentConstraint,
-    UploadUsecase,
-    DownloadUsecase,
-    FindManyAttachmentUsecase,
-    DeleteAttachmentUsecase,
-    UpdateAttachmentAccessUsecase,
-    RemoveAttachmentDraftFlagUsecase,
-    UpdateAttachmentShareFlagUsecase,
-  ],
-  exports: [AttachmentsService],
+	imports: [TypeOrmModule.forFeature([TypeormAttachmentEntity, TypeormAttachmentUserEntity])],
+	controllers: [AttachmentsController],
+	providers: [
+		AttachmentsService,
+		uploaderProvider,
+		{
+			provide: ATTACHMENTS_REPOSITORY_TOKEN,
+			useClass: TypeormAttachmentsRepository,
+		},
+		{
+			provide: ATTACHMENT_USERS_REPOSITORY_TOKEN,
+			useClass: TypeormAttachmentUsersRepository,
+		},
+		IsPrivateAttachmentConstraint,
+		UploadUsecase,
+		DownloadUsecase,
+		FindManyAttachmentUsecase,
+		DeleteAttachmentUsecase,
+		UpdateAttachmentAccessUsecase,
+		RemoveAttachmentDraftFlagUsecase,
+		UpdateAttachmentShareFlagUsecase,
+	],
+	exports: [AttachmentsService],
 })
 export class AttachmentsModule {}

@@ -7,18 +7,18 @@ import { SendOtp } from '../../../application/services/auth.service';
 import { OTPType } from '../../../domain/entities';
 
 export class OtpGenerationDto {
-  @IsNotEmpty()
-  @IsEnum(OTPType)
-  type!: OTPType;
+	@IsNotEmpty()
+	@IsEnum(OTPType)
+	type!: OTPType;
 
-  @IsNotEmpty()
-  @IsString()
-  @IsNotUUID()
-  @ToLowerCase()
-  @IsIdentifier()
-  identifier!: Email | Mobile;
+	@IsNotEmpty()
+	@IsString()
+	@IsNotUUID()
+	@ToLowerCase()
+	@IsIdentifier()
+	identifier!: Email | Mobile;
 
-  toSendOtp(): SendOtp {
-    return new SendOtp(this.identifier, this.type);
-  }
+	toSendOtp(): SendOtp {
+		return new SendOtp(this.identifier, this.type);
+	}
 }

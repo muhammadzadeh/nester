@@ -1,7 +1,6 @@
 import { HttpModule } from '@nestjs/axios';
 import { Module, Provider } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AttachmentsModule } from '../../attachments/attachments.module';
 import { RolesModule } from '../roles/roles.module';
 import { DefaultUserSeeder } from './application/default-user.seeder';
 import { CreateUserUsecase } from './application/usecases/create-user/create-user.usecase';
@@ -17,24 +16,24 @@ import { TypeormUsersRepository } from './infrastructure/database/repositories/t
 import { ProfileControllerForAdmin } from './presenter/http/admin/profile.admin.controller';
 import { ProfileControllerForUser } from './presenter/http/user/profile.user.controller';
 const usersRepository: Provider = {
-  provide: USERS_REPOSITORY_TOKEN,
-  useClass: TypeormUsersRepository,
+	provide: USERS_REPOSITORY_TOKEN,
+	useClass: TypeormUsersRepository,
 };
 
 @Module({
-  imports: [TypeOrmModule.forFeature([TypeormUserEntity]), RolesModule, AttachmentsModule, HttpModule],
-  controllers: [ProfileControllerForUser, ProfileControllerForAdmin],
-  providers: [
-    UsersService,
-    usersRepository,
-    UsersConsumer,
-    DefaultUserSeeder,
-    CreateUserUsecase,
-    UpdatePasswordUsecase,
-    UpdateProfileUsecase,
-    FindOneProfileUsecase,
-    FindAllProfileUsecase,
-  ],
-  exports: [UsersService],
+	imports: [TypeOrmModule.forFeature([TypeormUserEntity]), RolesModule, HttpModule],
+	controllers: [ProfileControllerForUser, ProfileControllerForAdmin],
+	providers: [
+		UsersService,
+		usersRepository,
+		UsersConsumer,
+		DefaultUserSeeder,
+		CreateUserUsecase,
+		UpdatePasswordUsecase,
+		UpdateProfileUsecase,
+		FindOneProfileUsecase,
+		FindAllProfileUsecase,
+	],
+	exports: [UsersService],
 })
 export class ProfileModule {}

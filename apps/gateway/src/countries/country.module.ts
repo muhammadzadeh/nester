@@ -17,39 +17,39 @@ import { TypeormCountriesRepository } from './infrastructure/database/repositori
 import { TypeormStatesRepository } from './infrastructure/database/repositories/typeorm-states.repository';
 import { CountriesController } from './presenter/http/countries.controller';
 const countriesProvider: Provider = {
-  provide: COUNTRIES_REPOSITORY_TOKEN,
-  useClass: TypeormCountriesRepository,
+	provide: COUNTRIES_REPOSITORY_TOKEN,
+	useClass: TypeormCountriesRepository,
 };
 
 const statesProvider: Provider = {
-  provide: STATES_REPOSITORY_TOKEN,
-  useClass: TypeormStatesRepository,
+	provide: STATES_REPOSITORY_TOKEN,
+	useClass: TypeormStatesRepository,
 };
 
 const citiesProvider: Provider = {
-  provide: CITIES_REPOSITORY_TOKEN,
-  useClass: TypeormCitiesRepository,
+	provide: CITIES_REPOSITORY_TOKEN,
+	useClass: TypeormCitiesRepository,
 };
 
 const cityRegionsProvider: Provider = {
-  provide: CITY_REGIONS_REPOSITORY_TOKEN,
-  useClass: TypeormCityRegionsRepository,
+	provide: CITY_REGIONS_REPOSITORY_TOKEN,
+	useClass: TypeormCityRegionsRepository,
 };
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([TypeormCountryEntity, TypeormStateEntity, TypeormCityEntity, TypeormCityRegionEntity]),
-    HttpModule,
-  ],
-  providers: [
-    CountriesSeeder,
-    countriesProvider,
-    CountriesService,
-    statesProvider,
-    citiesProvider,
-    cityRegionsProvider,
-  ],
-  controllers: [CountriesController],
-  exports: [CountriesService],
+	imports: [
+		TypeOrmModule.forFeature([TypeormCountryEntity, TypeormStateEntity, TypeormCityEntity, TypeormCityRegionEntity]),
+		HttpModule,
+	],
+	providers: [
+		CountriesSeeder,
+		countriesProvider,
+		CountriesService,
+		statesProvider,
+		citiesProvider,
+		cityRegionsProvider,
+	],
+	controllers: [CountriesController],
+	exports: [CountriesService],
 })
 export class CountryModule {}

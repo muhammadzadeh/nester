@@ -4,9 +4,9 @@ import { RefreshTokenCommand } from './refresh-token.command';
 
 @Injectable()
 export class RefreshTokenUsecase {
-  constructor(private readonly jwtService: JwtTokenService) {}
+	constructor(private readonly jwtService: JwtTokenService) {}
 
-  async execute(command: RefreshTokenCommand): Promise<Token> {
-    return await this.jwtService.refresh(command);
-  }
+	async execute(command: RefreshTokenCommand): Promise<Token> {
+		return await this.jwtService.refresh(command);
+	}
 }

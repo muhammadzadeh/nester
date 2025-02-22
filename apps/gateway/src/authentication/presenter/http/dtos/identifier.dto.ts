@@ -3,8 +3,8 @@ import { ToLowerCase } from '@repo/decorator';
 import { IsIdentifier } from '@repo/validator/is-identifier.validator';
 
 export class IdentifierDto {
-  @IsNotEmpty()
-  @ToLowerCase()
-  @IsIdentifier()
-  identifier!: string;
+	@IsNotEmpty()
+	@ToLowerCase()
+	@IsIdentifier()
+	identifier!: string;
 }

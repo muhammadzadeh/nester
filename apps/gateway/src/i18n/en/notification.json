@@ -1,0 +1,12 @@
+{
+    "INVITED_TO_WORKSPACE": {
+        "email": {
+            "title": "You are invited to join workspace {name}"
+        },
+        "mobile": {},
+        "notification": {
+            "title": "You are invited to join workspace {name}",
+            "description": "{inviterName}  invited you!"
+        }
+    }
+}

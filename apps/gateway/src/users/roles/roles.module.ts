@@ -8,14 +8,14 @@ import { RoleController } from './presenter/http/role.controller';
 import { DefaultRolesSeeder } from './application/default-role.seeder';
 
 const rolesRepository: Provider = {
-  provide: ROLES_REPOSITORY_TOKEN,
-  useClass: TypeormRolesRepository,
+	provide: ROLES_REPOSITORY_TOKEN,
+	useClass: TypeormRolesRepository,
 };
 
 @Module({
-  imports: [TypeOrmModule.forFeature([TypeormRoleEntity])],
-  controllers: [RoleController],
-  providers: [rolesRepository, RolesService, DefaultRolesSeeder],
-  exports: [RolesService],
+	imports: [TypeOrmModule.forFeature([TypeormRoleEntity])],
+	controllers: [RoleController],
+	providers: [rolesRepository, RolesService, DefaultRolesSeeder],
+	exports: [RolesService],
 })
 export class RolesModule {}

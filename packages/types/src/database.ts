@@ -2,23 +2,23 @@ import { Injectable, SetMetadata, applyDecorators } from '@nestjs/common';
 import { OrderDir } from './common.enums';
 
 export abstract class BaseSeeder {
-  abstract run(): Promise<void>;
+	abstract run(): Promise<void>;
 }
 
 export const DATABASE_SEEDER_TAG = 'database_seeder_tag';
 export const DatabaseSeeder = () => applyDecorators(Injectable(), SetMetadata(DATABASE_SEEDER_TAG, true));
 
 export interface Paginated<T> {
-  items: T[];
-  total: number;
+	items: T[];
+	total: number;
 }
 
 export interface Pagination {
-  page: number;
-  pageSize: number;
+	page: number;
+	pageSize: number;
 }
 
 export interface PaginationOption<T> extends Pagination {
-  orderBy: T;
-  orderDir: OrderDir;
+	orderBy: T;
+	orderDir: OrderDir;
 }

@@ -6,9 +6,9 @@ import { FindAllProfileQuery } from './find-all-profile.query';
 
 @Injectable()
 export class FindAllProfileUsecase {
-  constructor(@Inject(USERS_REPOSITORY_TOKEN) private readonly usersRepository: UsersRepository) {}
+	constructor(@Inject(USERS_REPOSITORY_TOKEN) private readonly usersRepository: UsersRepository) {}
 
-  async execute(query: FindAllProfileQuery): Promise<Paginated<UserEntity>> {
-    return this.usersRepository.findAll(query.conditions, query.pagination);
-  }
+	async execute(query: FindAllProfileQuery): Promise<Paginated<UserEntity>> {
+		return this.usersRepository.findAll(query.conditions, query.pagination);
+	}
 }

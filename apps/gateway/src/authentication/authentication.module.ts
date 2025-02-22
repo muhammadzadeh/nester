@@ -1,8 +1,8 @@
 import { Module, Provider } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthenticationModule as BaseAuthenticationModule } from '@repo/authentication';
 import { Configuration } from '@repo/config';
 import { IsStrongPasswordConstraint } from '@repo/validator/is-strong-password.validator';
-import { CacheServiceModule } from '../common/cache/cache.module';
 import { ProfileModule } from '../users/profiles/profiles.module';
 import { RolesModule } from '../users/roles/roles.module';
 import { AuthService } from './application/services/auth.service';
@@ -29,57 +29,54 @@ import { TypeormOTPEntity } from './infrastructure/database/entities';
 import { TypeOrmOTPRepository } from './infrastructure/database/repositories';
 import { GoogleAuthProvider } from './infrastructure/providers/google';
 import { AuthenticationController } from './presenter/http';
-import { AuthorizationGuard, CheckPermissionGuard, IsUserEnableGuard } from './presenter/http/guards';
-import { CheckSignupGuard } from './presenter/http/guards/check-signup.guard';
+import { AuthorizationGuard, CheckPermissionGuard } from './presenter/http/guards';
 
 const authProviderManager: Provider = {
-  provide: AuthProviderManager,
-  inject: [Configuration],
-  useFactory: (configuration: Configuration) => {
-    const authProviders: AuthProvider[] = [new GoogleAuthProvider(configuration)];
+	provide: AuthProviderManager,
+	inject: [Configuration],
+	useFactory: (configuration: Configuration) => {
+		const authProviders: AuthProvider[] = [new GoogleAuthProvider(configuration)];
 
-    return new AuthProviderManager(authProviders);
-  },
+		return new AuthProviderManager(authProviders);
+	},
 };
 
 const otpRepository: Provider = {
-  provide: OTP_REPOSITORY_TOKEN,
-  useClass: TypeOrmOTPRepository,
+	provide: OTP_REPOSITORY_TOKEN,
+	useClass: TypeOrmOTPRepository,
 };
 
 @Module({
-  imports: [TypeOrmModule.forFeature([TypeormOTPEntity]), CacheServiceModule, ProfileModule, RolesModule],
-  controllers: [AuthenticationController],
-  providers: [
-    authProviderManager,
-    otpRepository,
-    AuthService,
-    OtpService,
-    AuthenticationNotifier,
-    JwtTokenService,
-    AuthorizationGuard,
-    CheckPermissionGuard,
-    IsUserEnableGuard,
-    CheckSignupGuard,
-    RequestResetPasswordUsecase,
-    ResetPasswordUsecase,
-    SendOtpUsecase,
-    VerifyUsecase,
-    SigninByOtpUsecase,
-    SignupByOtpUsecase,
-    SigninByPasswordUsecase,
-    SignupByPasswordUsecase,
-    ImpersonationUsecase,
-    SignupByThirdPartyUsecase,
-    SigninByThirdPartyUsecase,
-    RefreshTokenUsecase,
-    RevokeTokenUsecase,
-    {
-      provide: IsStrongPasswordConstraint,
-      inject: [Configuration],
-      useFactory: (config: Configuration) => new IsStrongPasswordConstraint(config.authentication.passwordRegEx),
-    },
-  ],
-  exports: [OtpService, AuthService, JwtTokenService],
+	imports: [TypeOrmModule.forFeature([TypeormOTPEntity]), ProfileModule, RolesModule, BaseAuthenticationModule],
+	controllers: [AuthenticationController],
+	providers: [
+		authProviderManager,
+		otpRepository,
+		AuthService,
+		OtpService,
+		AuthenticationNotifier,
+		JwtTokenService,
+		AuthorizationGuard,
+		CheckPermissionGuard,
+		RequestResetPasswordUsecase,
+		ResetPasswordUsecase,
+		SendOtpUsecase,
+		VerifyUsecase,
+		SigninByOtpUsecase,
+		SignupByOtpUsecase,
+		SigninByPasswordUsecase,
+		SignupByPasswordUsecase,
+		ImpersonationUsecase,
+		SignupByThirdPartyUsecase,
+		SigninByThirdPartyUsecase,
+		RefreshTokenUsecase,
+		RevokeTokenUsecase,
+		{
+			provide: IsStrongPasswordConstraint,
+			inject: [Configuration],
+			useFactory: (config: Configuration) => new IsStrongPasswordConstraint(config.authentication.passwordRegEx),
+		},
+	],
+	exports: [OtpService, AuthService, JwtTokenService],
 })
 export class AuthenticationModule {}

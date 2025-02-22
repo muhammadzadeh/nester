@@ -6,14 +6,14 @@ import { CreateNotificationData, NotificationsService } from './notifications.se
 
 @Injectable()
 export class NotificationsConsumer {
-  constructor(private readonly notificationsService: NotificationsService) {}
+	constructor(private readonly notificationsService: NotificationsService) {}
 
-  @OnRabbitEvent({
-    exchange: NOTIFICATION_EXCHANGE_NAME,
-    routingKey: NotificationEvents.NOTIFICATION_CREATED,
-    queue: 'notifications_created_notification',
-  })
-  async createNotification(input: CreateNotificationData): Promise<void> {
-    await this.notificationsService.consumeEvent(input);
-  }
+	@OnRabbitEvent({
+		exchange: NOTIFICATION_EXCHANGE_NAME,
+		routingKey: NotificationEvents.NOTIFICATION_CREATED,
+		queue: 'notifications_created_notification',
+	})
+	async createNotification(input: CreateNotificationData): Promise<void> {
+		await this.notificationsService.consumeEvent(input);
+	}
 }

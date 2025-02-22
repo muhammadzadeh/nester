@@ -7,14 +7,15 @@
     "build": "nest build",
     "clean": "rm -rf dist",
     "start": "nest start",
-    "start:debug": "nest start --debug --watch",
+		"debug": "nest start --debug=0.0.0.0:9229 --watch",
     "start:prod": "node dist/main",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\"",
-    "typeorm": "typeorm-ts-node-commonjs"
+    "typeorm": "typeorm-ts-node-commonjs",
+    "migration-generate": "npm run typeorm -- migration:generate src/migration/create-workspace -d src/typeorm-config"
   },
   "dependencies": {
     "@repo/decorator": "*",
@@ -24,6 +25,8 @@
     "@repo/types": "*",
     "@repo/exception": "*",
     "@repo/rabbit": "*",
+    "@repo/authentication": "*",
+    "@repo/captcha": "*",
     "@aws-sdk/client-s3": "^3.678.0",
     "@fastify/helmet": "^11.1.1",
     "@fastify/multipart": "^8.3.0",

@@ -1,4 +1,4 @@
-import { Mobile } from '@repo/types';
+import { Mobile } from '@package/types';
 import { NotificationDispatcherResponse } from './notifications.dispatcher';
 
 export const SMS_SENDER_TOKEN = Symbol('SmsSender');

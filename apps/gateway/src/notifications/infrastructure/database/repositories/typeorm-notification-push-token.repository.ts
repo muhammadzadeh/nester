@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Paginated } from '@repo/types';
+import { Paginated } from '@package/types';
 import { Repository, SelectQueryBuilder } from 'typeorm';
 import { NotificationPushTokenEntity } from '../../../domain/entities/notification-push-token.entity';
 import {

@@ -8,7 +8,7 @@ import {
 	CurrentWorkspace,
 	WORKSPACE_HEADER_KEY,
 	WorkspacePermission,
-} from '@repo/authentication';
+} from '@package/authentication';
 import { CacheService } from '../../../../../common/cache/services';
 import { WorkspacesService } from '../../../../application/workspaces.service';
 import { WorkspaceUserEntity } from '../../../../domain/entities/workspace-user.entity';

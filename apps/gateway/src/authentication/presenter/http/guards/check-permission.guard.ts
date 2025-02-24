@@ -6,7 +6,7 @@ import {
 	CurrentUser,
 	Permission,
 	SystemPermission,
-} from '@repo/authentication';
+} from '@package/authentication';
 
 @Injectable()
 export class CheckPermissionGuard implements CanActivate {

@@ -1,4 +1,4 @@
-import { WorkspaceAuthenticatedCommand } from '@repo/types';
+import { WorkspaceAuthenticatedCommand } from '@package/types';
 
 export class AddUserToWorkspaceCommand extends WorkspaceAuthenticatedCommand {
 	readonly mobile!: string | null;

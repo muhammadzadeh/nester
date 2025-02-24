@@ -1,4 +1,4 @@
-import { Paginated, PaginationOption } from '@repo/types';
+import { Paginated, PaginationOption } from '@package/types';
 import { CityEntity } from '../entities/city.entity';
 
 export const CITIES_REPOSITORY_TOKEN = Symbol('CitiesRepository');

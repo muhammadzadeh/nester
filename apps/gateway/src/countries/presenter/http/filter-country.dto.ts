@@ -1,4 +1,4 @@
-import { PaginationDto } from '@repo/types';
+import { PaginationDto } from '@package/types';
 import { IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { RegionOrderBy } from '../../domain/repositories/countries.repository';
 

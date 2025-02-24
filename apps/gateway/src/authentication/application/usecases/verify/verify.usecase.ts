@@ -1,8 +1,8 @@
 import { HttpStatus, Injectable, Logger } from '@nestjs/common';
-import { Permission } from '@repo/authentication';
-import { BaseHttpException } from '@repo/exception/base.exception';
-import { publish } from '@repo/rabbit/rabbit-mq.service';
-import { ErrorCode } from '@repo/types';
+import { Permission } from '@package/authentication';
+import { BaseHttpException } from '@package/exception/base.exception';
+import { publish } from '@package/rabbit/rabbit-mq.service';
+import { ErrorCode } from '@package/types';
 import { isEmail, isPhoneNumber } from 'class-validator';
 import { UsersService } from '../../../../users/profiles/application/users.service';
 import { UserEntity } from '../../../../users/profiles/domain/entities/user.entity';

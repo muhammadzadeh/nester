@@ -1,6 +1,6 @@
 import { HttpService } from '@nestjs/axios';
 import { Inject, Injectable, Logger } from '@nestjs/common';
-import { UserId } from '@repo/types';
+import { UserId } from '@package/types';
 import { isUUID } from 'validator';
 import { AttachmentsService } from '../../../../../attachments/application/attachments.service';
 import { AttachmentEntity, AttachmentVisibility } from '../../../../../attachments/domain/entities/attachments.entity';

@@ -1,5 +1,5 @@
 import { HttpStatus } from '@nestjs/common';
-import { ErrorCode } from '@repo/types';
+import { ErrorCode } from '@package/types';
 
 export abstract class BaseError extends Error {
 	abstract readonly code: ErrorCode;

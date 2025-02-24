@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { Paginated } from '@repo/types';
+import { Paginated } from '@package/types';
 import { UserEntity } from '../../../domain/entities/user.entity';
 import { USERS_REPOSITORY_TOKEN, UsersRepository } from '../../../domain/repositories/users.repository';
 import { FindAllProfileQuery } from './find-all-profile.query';

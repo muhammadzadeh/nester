@@ -1,6 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { HealthCheck, HealthCheckService, MemoryHealthIndicator, TypeOrmHealthIndicator } from '@nestjs/terminus';
-import { IgnoreAuthorizationGuard } from '@repo/authentication';
+import { IgnoreAuthorizationGuard } from '@package/authentication';
 
 @Controller()
 @IgnoreAuthorizationGuard()

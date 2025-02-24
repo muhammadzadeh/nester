@@ -1,4 +1,4 @@
-import { Email, Mobile, UserId } from '@repo/types';
+import { Email, Mobile, UserId } from '@package/types';
 import { Permission } from './permission.enum';
 
 export type CurrentUser = {

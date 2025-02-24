@@ -1,8 +1,8 @@
 import { Body, Get, Put } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
-import { CurrentUser, User } from '@repo/authentication';
-import { UserController } from '@repo/decorator';
-import { DoneResponse } from '@repo/types';
+import { CurrentUser, User } from '@package/authentication';
+import { UserController } from '@package/decorator';
+import { DoneResponse } from '@package/types';
 import { UsersService } from '../../../application/users.service';
 import { UserResponse } from '../common/user.response';
 import { UpdateMyProfileDto } from './update-my-profile.dto';

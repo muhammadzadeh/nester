@@ -1,4 +1,4 @@
-import { NotificationEvent } from '@repo/types';
+import { NotificationEvent } from '@package/types';
 import { Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
 import {
 	AlertStatus,

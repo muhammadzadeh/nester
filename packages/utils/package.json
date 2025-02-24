@@ -1,5 +1,5 @@
 {
-  "name": "@repo/utils",
+  "name": "@package/utils",
   "description": "The App Utils",
   "version": "0.0.1",
   "private": true,
@@ -41,8 +41,8 @@
     "luxon": "^3.5.0"
   },
   "devDependencies": {
-    "@repo/eslint-config": "*",
-    "@repo/typescript-config": "*",
+    "@package/eslint-config": "*",
+    "@package/typescript-config": "*",
     "@types/bcryptjs": "^2.4.6",
     "@types/node": "^20.3.1",
     "ts-loader": "^9.4.3",

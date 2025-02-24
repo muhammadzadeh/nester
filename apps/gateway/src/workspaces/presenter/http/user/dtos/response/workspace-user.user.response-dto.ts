@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Email, Mobile } from '@repo/types';
+import { Email, Mobile } from '@package/types';
 import { Type } from 'class-transformer';
 import { RoleResponse } from '../../../../../../users/roles/presenter/http/role.response';
 import { WorkspaceUserEntity } from '../../../../../domain/entities/workspace-user.entity';

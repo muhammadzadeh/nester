@@ -1,5 +1,5 @@
 {
-  "name": "@repo/validator",
+  "name": "@package/validator",
   "description": "The App Validator",
   "version": "0.0.1",
   "private": true,
@@ -39,8 +39,8 @@
     "class-validator": "^0.14.1"
   },
   "devDependencies": {
-    "@repo/eslint-config": "*",
-    "@repo/typescript-config": "*",
+    "@package/eslint-config": "*",
+    "@package/typescript-config": "*",
     "@types/node": "^20.3.1",
     "ts-loader": "^9.4.3",
     "ts-node": "^10.9.1",

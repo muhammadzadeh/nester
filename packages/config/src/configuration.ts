@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { ToBoolean } from '@repo/decorator';
+import { ToBoolean } from '@package/decorator';
 import { Type } from 'class-transformer';
 import { IsBoolean, IsNotEmpty, IsOptional, ValidateNested, validateSync } from 'class-validator';
 import { AppConfigs } from './app';

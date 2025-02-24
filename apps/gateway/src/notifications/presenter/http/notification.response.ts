@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { NotificationEvent } from '@repo/types';
+import { NotificationEvent } from '@package/types';
 import { Type } from 'class-transformer';
 import { randomUUID } from 'crypto';
 import {

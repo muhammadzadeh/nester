@@ -1,4 +1,4 @@
-import { Paginated, PaginationOption } from '@repo/types';
+import { Paginated, PaginationOption } from '@package/types';
 import { WorkspaceUserEntity } from '../entities/workspace-user.entity';
 import { WorkspaceUserStatus } from '../enums/workspace-user-status.enum';
 

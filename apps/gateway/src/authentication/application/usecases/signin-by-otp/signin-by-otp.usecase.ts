@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { Permission } from '@repo/authentication';
-import { publish } from '@repo/rabbit/rabbit-mq.service';
+import { Permission } from '@package/authentication';
+import { publish } from '@package/rabbit/rabbit-mq.service';
 import { isEmail, isPhoneNumber } from 'class-validator';
 import { UsersService } from '../../../../users/profiles/application/users.service';
 import { UserEntity } from '../../../../users/profiles/domain/entities/user.entity';

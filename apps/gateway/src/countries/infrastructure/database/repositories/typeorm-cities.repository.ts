@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Paginated, PaginationOption } from '@repo/types';
+import { Paginated, PaginationOption } from '@package/types';
 import { Repository, SelectQueryBuilder } from 'typeorm';
 import { CityEntity } from '../../../domain/entities/city.entity';
 import { CitiesRepository, CityOrderBy, FindCityOptions } from '../../../domain/repositories/cities.repository';

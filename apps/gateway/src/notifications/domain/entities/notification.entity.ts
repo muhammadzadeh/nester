@@ -1,5 +1,5 @@
-import { Email, Mobile, NotificationEvent } from '@repo/types';
-import { now } from '@repo/utils/time';
+import { Email, Mobile, NotificationEvent } from '@package/types';
+import { now } from '@package/utils/time';
 import { randomUUID } from 'crypto';
 import { MulticastMessage } from 'firebase-admin/messaging';
 

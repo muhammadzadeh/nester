@@ -1,4 +1,4 @@
-import { BaseCommand, UserId } from '@repo/types';
+import { BaseCommand, UserId } from '@package/types';
 
 export interface GrantAttachmentAccess {
 	readonly attachmentIds: string[];

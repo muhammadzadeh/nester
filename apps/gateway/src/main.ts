@@ -1,7 +1,7 @@
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
-import { Configuration } from '@repo/config';
+import { Configuration } from '@package/config';
 import { randomUUID } from 'crypto';
 import { AppModule } from './app/app.module';
 import { configureGlobalCors } from './common/application/cors';

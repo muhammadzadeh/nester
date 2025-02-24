@@ -1,5 +1,5 @@
 {
-  "name": "@repo/authentication",
+  "name": "@package/authentication",
   "description": "The Authentication module",
   "version": "0.0.2",
   "private": true,
@@ -36,9 +36,9 @@
     }
   },
   "dependencies": {
-    "@repo/types": "*",
-    "@repo/config": "*",
-    "@repo/captcha": "*",
+    "@package/types": "*",
+    "@package/config": "*",
+    "@package/captcha": "*",
     "@nestjs/mapped-types": "*",
     "@nestjs/common": "^10.4.6",
     "@nestjs/swagger": "^7.4.2",
@@ -46,8 +46,8 @@
     "class-validator": "^0.14.1"
   },
   "devDependencies": {
-    "@repo/eslint-config": "*",
-    "@repo/typescript-config": "*",
+    "@package/eslint-config": "*",
+    "@package/typescript-config": "*",
     "@types/node": "^20.3.1",
     "ts-loader": "^9.4.3",
     "ts-node": "^10.9.1",

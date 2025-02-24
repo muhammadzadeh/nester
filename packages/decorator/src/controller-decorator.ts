@@ -1,6 +1,6 @@
 import { applyDecorators, Controller, SetMetadata } from '@nestjs/common';
 import { ApiBearerAuth } from '@nestjs/swagger';
-import { ControllerType, MetaKey, RequestScope, TENANT_CONFIG } from '@repo/types';
+import { ControllerType, MetaKey, RequestScope, TENANT_CONFIG } from '@package/types';
 
 export const AdminController = (path?: string): ClassDecorator =>
 	applyDecorators(

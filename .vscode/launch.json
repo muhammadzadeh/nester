@@ -5,7 +5,7 @@
 			"name": "Gateway debuger",
 			"type": "node-terminal",
 			"request": "launch",
-			"command": "turbo run debug --filter gateway",
+			"command": "turbo run debug --filter @app/gateway",
 			"cwd": "${workspaceFolder}/apps/gateway"
 		},
 		{

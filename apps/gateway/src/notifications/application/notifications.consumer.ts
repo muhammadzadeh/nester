@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { OnRabbitEvent } from '@repo/rabbit/decorators';
+import { OnRabbitEvent } from '@package/rabbit/decorators';
 import { NotificationEvents } from '../domain/events';
 import { NOTIFICATION_EXCHANGE_NAME } from '../infrastructure/constants';
 import { CreateNotificationData, NotificationsService } from './notifications.service';

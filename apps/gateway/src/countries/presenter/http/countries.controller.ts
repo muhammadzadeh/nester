@@ -1,8 +1,8 @@
 import { Get, Param, Query } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
-import { IgnoreAuthorizationGuard } from '@repo/authentication';
-import { CommonController } from '@repo/decorator';
-import { FineOneUUIDDto } from '@repo/types';
+import { IgnoreAuthorizationGuard } from '@package/authentication';
+import { CommonController } from '@package/decorator';
+import { FineOneUUIDDto } from '@package/types';
 import { CountriesService } from '../../application/countries.service';
 import { CityListResponse } from './city-list.response';
 import { CityRegionListResponse } from './city-region-list.response';

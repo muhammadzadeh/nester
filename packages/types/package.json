@@ -1,5 +1,5 @@
 {
-  "name": "@repo/types",
+  "name": "@package/types",
   "description": "The App Types",
   "version": "0.0.2",
   "private": true,
@@ -40,8 +40,8 @@
     "@nestjs/swagger": "^7.4.2"
   },
   "devDependencies": {
-    "@repo/eslint-config": "*",
-    "@repo/typescript-config": "*",
+    "@package/eslint-config": "*",
+    "@package/typescript-config": "*",
     "@types/node": "^20.3.1",
     "ts-loader": "^9.4.3",
     "ts-node": "^10.9.1",

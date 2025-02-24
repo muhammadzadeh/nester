@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { LoginTicket, OAuth2Client } from 'google-auth-library';
-import { Configuration } from '@repo/config';
+import { Configuration } from '@package/config';
 import { InvalidCredentialException } from '../../../application/exceptions';
 import {
 	Auth,

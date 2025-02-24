@@ -1,8 +1,8 @@
 import { HttpStatus } from '@nestjs/common';
-import { BaseHttpException } from '@repo/exception/base.exception';
-import { ErrorCode } from '@repo/types';
-import { randomStringSync } from '@repo/utils/string';
-import { now } from '@repo/utils/time';
+import { BaseHttpException } from '@package/exception/base.exception';
+import { ErrorCode } from '@package/types';
+import { randomStringSync } from '@package/utils/string';
+import { now } from '@package/utils/time';
 import { randomUUID } from 'crypto';
 
 export class AttachmentEntity {

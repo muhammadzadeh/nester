@@ -1,8 +1,8 @@
 import { Body, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
-import { RequiredSystemPermissions, SystemPermission } from '@repo/authentication';
-import { AdminController } from '@repo/decorator';
-import { DoneResponse } from '@repo/types';
+import { RequiredSystemPermissions, SystemPermission } from '@package/authentication';
+import { AdminController } from '@package/decorator';
+import { DoneResponse } from '@package/types';
 import { RolesService } from '../../application/roles.service';
 import { CreateRoleDto } from './create-role.dto';
 import { FilterRoleDto } from './filter-role.dto';

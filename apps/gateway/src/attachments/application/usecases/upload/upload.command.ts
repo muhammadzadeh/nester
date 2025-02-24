@@ -1,4 +1,4 @@
-import { AuthenticatedCommand } from '@repo/types';
+import { AuthenticatedCommand } from '@package/types';
 import { AttachmentVisibility } from '../../../domain/entities/attachments.entity';
 import { FileInfo } from '../../storage-provider';
 

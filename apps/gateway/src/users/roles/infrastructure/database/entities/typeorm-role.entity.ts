@@ -1,4 +1,4 @@
-import { Permission } from '@repo/authentication';
+import { Permission } from '@package/authentication';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { RoleEntity } from '../../../domain/entities/role.entity';
 

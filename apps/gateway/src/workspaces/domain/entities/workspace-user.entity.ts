@@ -1,5 +1,5 @@
-import { ForbiddenStatusChangeException } from '@repo/exception';
-import { now } from '@repo/utils/time';
+import { ForbiddenStatusChangeException } from '@package/exception';
+import { now } from '@package/utils/time';
 import { UserEntity } from '../../../users/profiles/domain/entities/user.entity';
 import { RoleEntity } from '../../../users/roles/domain/entities/role.entity';
 import { WorkspaceUserStatus } from '../enums/workspace-user-status.enum';

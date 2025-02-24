@@ -1,9 +1,9 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
-import { Permission } from '@repo/authentication';
-import { Configuration, TokenConfig } from '@repo/config';
-import { BaseHttpException } from '@repo/exception/base.exception';
-import { Email, ErrorCode, Mobile, UserId } from '@repo/types';
-import { randomStringAsync } from '@repo/utils/string';
+import { Permission } from '@package/authentication';
+import { Configuration, TokenConfig } from '@package/config';
+import { BaseHttpException } from '@package/exception/base.exception';
+import { Email, ErrorCode, Mobile, UserId } from '@package/types';
+import { randomStringAsync } from '@package/utils/string';
 import { randomUUID } from 'crypto';
 import { JwtPayload, decode, sign, verify } from 'jsonwebtoken';
 import { DateTime, Duration } from 'luxon';

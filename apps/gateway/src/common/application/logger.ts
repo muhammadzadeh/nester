@@ -1,6 +1,6 @@
 import { INestApplication } from '@nestjs/common';
-import { Configuration } from '@repo/config';
-import { now } from '@repo/utils/time';
+import { Configuration } from '@package/config';
+import { now } from '@package/utils/time';
 import * as requestIp from '@supercharge/request-ip';
 import { WINSTON_MODULE_NEST_PROVIDER, WinstonLogger } from 'nest-winston';
 

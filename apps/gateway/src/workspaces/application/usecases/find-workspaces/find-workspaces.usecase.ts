@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Paginated } from '@repo/types';
+import { Paginated } from '@package/types';
 import { AttachmentsService } from '../../../../attachments/application/attachments.service';
 import { AttachmentEntity } from '../../../../attachments/domain/entities/attachments.entity';
 import { WorkspaceEntity } from '../../../domain/entities/workspace.entity';

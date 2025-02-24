@@ -1,4 +1,4 @@
-import { PaginationDto } from '@repo/types';
+import { PaginationDto } from '@package/types';
 import { IsEnum, IsNotEmpty } from 'class-validator';
 import { WorkspaceUserOrderBy } from '../../../../../domain/repositories/workspace-users.repository';
 

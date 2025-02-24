@@ -1,6 +1,6 @@
 import { Type } from 'class-transformer';
 import { IsEmail, IsNotEmpty, IsOptional, IsString } from 'class-validator';
-import { IsStrongPassword } from '@repo/validator/is-strong-password.validator';
+import { IsStrongPassword } from '@package/validator/is-strong-password.validator';
 
 export class DefaultUserConfig {
 	@IsNotEmpty()

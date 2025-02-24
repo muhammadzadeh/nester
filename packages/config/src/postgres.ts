@@ -1,6 +1,6 @@
 import { Transform, Type } from 'class-transformer';
 import { IsBoolean, IsDefined, IsNumber, IsOptional, IsString, ValidateIf, ValidateNested } from 'class-validator';
-import { ToBoolean } from '@repo/decorator';
+import { ToBoolean } from '@package/decorator';
 
 class PostgresConfigExtra {
 	readonly ssl = {

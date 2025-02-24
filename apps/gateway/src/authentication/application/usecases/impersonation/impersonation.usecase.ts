@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { Permission } from '@repo/authentication';
-import { Configuration } from '@repo/config';
+import { Permission } from '@package/authentication';
+import { Configuration } from '@package/config';
 import { UsersService } from '../../../../users/profiles/application/users.service';
 import { UserEntity } from '../../../../users/profiles/domain/entities/user.entity';
 import { RolesService } from '../../../../users/roles/application/roles.service';

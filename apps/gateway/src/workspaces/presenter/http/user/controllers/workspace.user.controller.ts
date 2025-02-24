@@ -7,9 +7,9 @@ import {
 	User,
 	Workspace,
 	WorkspacePermission,
-} from '@repo/authentication';
-import { UserController } from '@repo/decorator';
-import { DoneResponse, FineOneUUIDDto } from '@repo/types';
+} from '@package/authentication';
+import { UserController } from '@package/decorator';
+import { DoneResponse, FineOneUUIDDto } from '@package/types';
 import { WorkspacesService } from '../../../../application/workspaces.service';
 import { WorkspaceUserStatus } from '../../../../domain/enums/workspace-user-status.enum';
 import { AddUserToWorkspaceUserRequestDto } from '../dtos/request/add-user-to-workspace.user.request-dto';

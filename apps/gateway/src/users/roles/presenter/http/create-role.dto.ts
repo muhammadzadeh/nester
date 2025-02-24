@@ -1,4 +1,4 @@
-import { Permission, WorkspacePermission } from '@repo/authentication';
+import { Permission, WorkspacePermission } from '@package/authentication';
 import { IsArray, IsEnum, IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateRoleDto {

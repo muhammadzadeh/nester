@@ -1,5 +1,5 @@
 import { DynamicModule, FactoryProvider, Module, ModuleMetadata } from '@nestjs/common';
-import { mergeObjects } from '@repo/utils';
+import { mergeObjects } from '@package/utils';
 import { plainToInstance } from 'class-transformer';
 import * as VaultClient from 'node-vault';
 import { Configuration } from './configuration';

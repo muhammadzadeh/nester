@@ -1,8 +1,8 @@
 import { Inject, Logger } from '@nestjs/common';
-import { SystemPermission } from '@repo/authentication';
-import { Configuration } from '@repo/config';
-import { BaseSeeder, DatabaseSeeder } from '@repo/types';
-import { randomStringAsync } from '@repo/utils/string';
+import { SystemPermission } from '@package/authentication';
+import { Configuration } from '@package/config';
+import { BaseSeeder, DatabaseSeeder } from '@package/types';
+import { randomStringAsync } from '@package/utils/string';
 import { RolesService } from '../../roles/application/roles.service';
 import { UserEntity } from '../domain/entities/user.entity';
 import { USERS_REPOSITORY_TOKEN, UsersRepository } from '../domain/repositories/users.repository';

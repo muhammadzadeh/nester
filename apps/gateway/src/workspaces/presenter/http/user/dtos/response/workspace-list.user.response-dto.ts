@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ListResponse, Paginated } from '@repo/types';
+import { ListResponse, Paginated } from '@package/types';
 import { Type } from 'class-transformer';
 import { WorkspaceEntity } from '../../../../../domain/entities/workspace.entity';
 import { FilterWorkspaceUserRequestDto } from '../request/filter-workspace.user.request-dto';

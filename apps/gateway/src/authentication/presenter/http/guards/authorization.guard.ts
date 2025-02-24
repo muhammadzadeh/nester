@@ -1,6 +1,6 @@
 import { CanActivate, ExecutionContext, Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { AuthenticationMetaKey, CURRENT_USER_KEY, CurrentUser } from '@repo/authentication';
+import { AuthenticationMetaKey, CURRENT_USER_KEY, CurrentUser } from '@package/authentication';
 import { ExtractJwt } from 'passport-jwt';
 import { JwtTokenService } from '../../../application/services/jwt-token.service';
 

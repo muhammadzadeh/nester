@@ -1,5 +1,5 @@
 import { INestApplication } from '@nestjs/common';
-import { Configuration } from '@repo/config';
+import { Configuration } from '@package/config';
 import * as Sentry from '@sentry/node';
 
 export function configureSentry(app: INestApplication): void {

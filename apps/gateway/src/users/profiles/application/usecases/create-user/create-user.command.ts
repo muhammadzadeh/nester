@@ -1,4 +1,4 @@
-import { BaseCommand, Email, Mobile } from '@repo/types';
+import { BaseCommand, Email, Mobile } from '@package/types';
 
 export class CreateUserCommand extends BaseCommand {
 	readonly firstName?: string | null;

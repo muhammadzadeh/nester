@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Permission } from '@repo/authentication';
+import { Permission } from '@package/authentication';
 import { Type } from 'class-transformer';
 import { RoleEntity } from '../../domain/entities/role.entity';
 

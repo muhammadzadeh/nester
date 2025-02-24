@@ -1,4 +1,4 @@
-import { BaseCommand, PaginationOption } from '@repo/types';
+import { BaseCommand, PaginationOption } from '@package/types';
 import { FindUserOptions, UserOrderBy } from '../../../domain/repositories/users.repository';
 
 export class FindAllProfileQuery extends BaseCommand {

@@ -1,9 +1,9 @@
 import { Body, Post } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
-import { IgnoreAuthorizationGuard, Signup } from '@repo/authentication';
-import { Captcha } from '@repo/captcha';
-import { CommonController } from '@repo/decorator';
-import { DoneResponse } from '@repo/types';
+import { IgnoreAuthorizationGuard, Signup } from '@package/authentication';
+import { Captcha } from '@package/captcha';
+import { CommonController } from '@package/decorator';
+import { DoneResponse } from '@package/types';
 import { AuthService } from '../../application/services/auth.service';
 import {
 	AuthenticateByThirdPartyDto,

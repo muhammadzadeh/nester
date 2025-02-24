@@ -1,4 +1,4 @@
-import { Paginated, PaginationOption } from '@repo/types';
+import { Paginated, PaginationOption } from '@package/types';
 import { WorkspaceEntity } from '../entities/workspace.entity';
 
 export interface FindWorkspaceOptions {

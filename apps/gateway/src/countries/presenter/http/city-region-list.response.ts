@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ListResponse, Paginated } from '@repo/types';
+import { ListResponse, Paginated } from '@package/types';
 import { Type } from 'class-transformer';
 import { CityRegionEntity } from '../../domain/entities/city-region.entity';
 import { CityRegionResponse } from './city-region.response';

@@ -1,8 +1,8 @@
 import { Body, Get, Post, Query } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
-import { CurrentUser, User } from '@repo/authentication';
-import { CommonController } from '@repo/decorator';
-import { DoneResponse } from '@repo/types';
+import { CurrentUser, User } from '@package/authentication';
+import { CommonController } from '@package/decorator';
+import { DoneResponse } from '@package/types';
 import { NotificationsService } from '../../application/notifications.service';
 import { AddPushTokenDto } from './add-push-token.dto';
 import { FilterNotificationDto } from './filter-notification.dto';

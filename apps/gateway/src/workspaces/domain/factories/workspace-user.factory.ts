@@ -1,5 +1,5 @@
-import { randomStringSync } from '@repo/utils/string';
-import { now } from '@repo/utils/time';
+import { randomStringSync } from '@package/utils/string';
+import { now } from '@package/utils/time';
 import { randomInt, randomUUID } from 'crypto';
 import { WorkspaceUserEntity } from '../entities/workspace-user.entity';
 import { WorkspaceUserStatus } from '../enums/workspace-user-status.enum';

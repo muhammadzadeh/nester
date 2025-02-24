@@ -1,4 +1,4 @@
-import { UserId } from '@repo/types';
+import { UserId } from '@package/types';
 import { IsNotEmpty, IsUUID } from 'class-validator';
 
 export class GetUserDto {

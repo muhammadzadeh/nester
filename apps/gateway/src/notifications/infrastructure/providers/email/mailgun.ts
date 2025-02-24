@@ -1,7 +1,7 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable, Logger } from '@nestjs/common';
 import * as qs from 'qs';
-import { Configuration } from '@repo/config';
+import { Configuration } from '@package/config';
 import { SendEmailData, Mailer } from '../../../application/email-provider.interface';
 import { NotificationChannelStatus } from '../../../domain/entities/notification.entity';
 import { NotificationDispatcherResponse } from '../../../application/notifications.dispatcher';

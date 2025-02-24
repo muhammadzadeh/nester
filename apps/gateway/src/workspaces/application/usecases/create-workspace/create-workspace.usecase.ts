@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Configuration } from '@repo/config';
+import { Configuration } from '@package/config';
 import { AttachmentsService } from '../../../../attachments/application/attachments.service';
 import { InvalidAvatarException } from '../../../../users/profiles/domain/entities/user.entity';
 import { WorkspaceEntity } from '../../../domain/entities/workspace.entity';

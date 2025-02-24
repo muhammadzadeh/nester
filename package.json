@@ -15,8 +15,8 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
-    "@repo/eslint-config": "*",
-    "@repo/typescript-config": "*",
+    "@package/eslint-config": "*",
+    "@package/typescript-config": "*",
     "@types/node": "^22.7.9",
     "@types/validator": "^13.12.2",
     "@typescript-eslint/eslint-plugin": "^8.11.0",

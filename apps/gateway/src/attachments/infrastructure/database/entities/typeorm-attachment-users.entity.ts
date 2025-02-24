@@ -1,4 +1,4 @@
-import { UserId } from '@repo/types';
+import { UserId } from '@package/types';
 import { Entity, PrimaryColumn } from 'typeorm';
 import { AttachmentId, AttachmentUserEntity } from '../../../domain/entities/attachment-users.entity';
 

@@ -1,5 +1,5 @@
 import { applyDecorators, createParamDecorator, ExecutionContext, Post, SetMetadata, UseGuards } from '@nestjs/common';
-import { Captcha } from '@repo/captcha';
+import { Captcha } from '@package/captcha';
 import { AuthenticationMetaKey } from './authentication-meta-ket.enum';
 import { CheckSignupGuard } from './check-signup.guard';
 import { CURRENT_USER_KEY, CURRENT_WORKSPACE_KEY } from './constants';

@@ -1,4 +1,4 @@
-import { Email, Mobile, UserId, Username } from '@repo/types';
+import { Email, Mobile, UserId, Username } from '@package/types';
 import { Check, Column, Entity, Index, PrimaryGeneratedColumn, Unique } from 'typeorm';
 import { UserEntity } from '../../../domain/entities/user.entity';
 

@@ -1,5 +1,5 @@
 {
-  "name": "@repo/config",
+  "name": "@package/config",
   "description": "The App config",
   "version": "0.0.0",
   "private": true,
@@ -35,16 +35,16 @@
   },
   "dependencies": {
     "@nestjs/mapped-types": "*",
-    "@repo/decorator": "*",
-    "@repo/validator": "*",
-    "@repo/utils": "*",
+    "@package/decorator": "*",
+    "@package/validator": "*",
+    "@package/utils": "*",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "node-vault": "^0.10.2"
   },
   "devDependencies": {
-    "@repo/eslint-config": "*",
-    "@repo/typescript-config": "*",
+    "@package/eslint-config": "*",
+    "@package/typescript-config": "*",
     "@types/node": "^20.3.1",
     "ts-loader": "^9.4.3",
     "ts-node": "^10.9.1",

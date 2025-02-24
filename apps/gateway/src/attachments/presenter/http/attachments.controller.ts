@@ -1,7 +1,7 @@
 import { Get, Param, Post, Req, StreamableFile } from '@nestjs/common';
 import { ApiBody, ApiConsumes, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { CurrentUser, CurrentWorkspace, User, Workspace } from '@repo/authentication';
-import { CommonController } from '@repo/decorator';
+import { CurrentUser, CurrentWorkspace, User, Workspace } from '@package/authentication';
+import { CommonController } from '@package/decorator';
 import { FastifyRequest } from 'fastify';
 import { extname } from 'path';
 import { AttachmentsService } from '../../application/attachments.service';

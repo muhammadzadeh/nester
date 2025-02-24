@@ -1,6 +1,6 @@
 import { Type } from 'class-transformer';
 import { IsDefined, IsIn, IsNumber, IsString, ValidateIf, ValidateNested } from 'class-validator';
-import { PathTransform } from '@repo/utils';
+import { PathTransform } from '@package/utils';
 
 class StorageConfigLocal {
 	@IsDefined()

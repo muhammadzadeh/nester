@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Paginated } from '@repo/types';
+import { Paginated } from '@package/types';
 import { UsersService } from '../../../../users/profiles/application/users.service';
 import { UserEntity } from '../../../../users/profiles/domain/entities/user.entity';
 import { RolesService } from '../../../../users/roles/application/roles.service';

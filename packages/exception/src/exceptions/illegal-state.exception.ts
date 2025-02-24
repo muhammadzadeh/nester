@@ -1,5 +1,5 @@
 import { HttpStatus } from '@nestjs/common';
-import { ErrorCode } from '@repo/types';
+import { ErrorCode } from '@package/types';
 import { BaseHttpException } from '../base.exception';
 
 export class IllegalStateException extends BaseHttpException {

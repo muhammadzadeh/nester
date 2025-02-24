@@ -1,7 +1,7 @@
 import { HttpModule, HttpService } from '@nestjs/axios';
 import { Module, Provider } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Configuration } from '@repo/config';
+import { Configuration } from '@package/config';
 import { Mailer, MAILER_TOKEN } from './application/email-provider.interface';
 import { NotificationsConsumer } from './application/notifications.consumer';
 import { NotificationsDispatcher } from './application/notifications.dispatcher';

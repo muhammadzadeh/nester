@@ -1,5 +1,5 @@
 {
-  "name": "gateway",
+  "name": "@app/gateway",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -18,15 +18,15 @@
     "migration-generate": "npm run typeorm -- migration:generate src/migration/create-workspace -d src/typeorm-config"
   },
   "dependencies": {
-    "@repo/decorator": "*",
-    "@repo/validator": "*",
-    "@repo/utils": "*",
-    "@repo/config": "*",
-    "@repo/types": "*",
-    "@repo/exception": "*",
-    "@repo/rabbit": "*",
-    "@repo/authentication": "*",
-    "@repo/captcha": "*",
+    "@package/decorator": "*",
+    "@package/validator": "*",
+    "@package/utils": "*",
+    "@package/config": "*",
+    "@package/types": "*",
+    "@package/exception": "*",
+    "@package/rabbit": "*",
+    "@package/authentication": "*",
+    "@package/captcha": "*",
     "@aws-sdk/client-s3": "^3.678.0",
     "@fastify/helmet": "^11.1.1",
     "@fastify/multipart": "^8.3.0",

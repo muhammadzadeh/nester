@@ -1,6 +1,6 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
-import { BaseHttpException } from '@repo/exception/base.exception';
-import { ErrorCode } from '@repo/types';
+import { BaseHttpException } from '@package/exception/base.exception';
+import { ErrorCode } from '@package/types';
 import { Auth, AuthProvider, AuthProviderType, AuthUser } from './auth-provider';
 
 @Injectable()

@@ -1,6 +1,6 @@
 import { Type } from 'class-transformer';
 import { IsDefined, IsIn, IsString, ValidateNested } from 'class-validator';
-import { ToBoolean } from '@repo/decorator';
+import { ToBoolean } from '@package/decorator';
 
 export class RecaptchaConfig {
 	@IsDefined()

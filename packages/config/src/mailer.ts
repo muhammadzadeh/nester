@@ -1,6 +1,6 @@
 import { IsBoolean, IsDefined, IsIn, IsNumber, IsString, ValidateIf, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
-import { ToBoolean } from '@repo/decorator';
+import { ToBoolean } from '@package/decorator';
 
 class MailerConfigSendGridAuth {
 	@IsDefined()

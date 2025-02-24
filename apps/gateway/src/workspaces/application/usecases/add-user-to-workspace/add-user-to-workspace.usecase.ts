@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { NotificationEvent } from '@repo/types';
+import { NotificationEvent } from '@package/types';
 import { I18nContext, I18nService } from 'nestjs-i18n';
 import { sendNotification } from '../../../../notifications/infrastructure/utils';
 import { UsersService } from '../../../../users/profiles/application/users.service';

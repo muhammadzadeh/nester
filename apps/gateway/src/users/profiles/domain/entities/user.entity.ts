@@ -1,8 +1,8 @@
 import { HttpStatus } from '@nestjs/common';
-import { BaseHttpException } from '@repo/exception/base.exception';
-import { Email, ErrorCode, Mobile, UserId, Username } from '@repo/types';
-import { Hash } from '@repo/utils/hash';
-import { now } from '@repo/utils/time';
+import { BaseHttpException } from '@package/exception/base.exception';
+import { Email, ErrorCode, Mobile, UserId, Username } from '@package/types';
+import { Hash } from '@package/utils/hash';
+import { now } from '@package/utils/time';
 import { randomUUID } from 'crypto';
 export class UserEntity {
 	constructor(firstName: string | null, lastName: string | null, email: Email | null, mobile: Mobile | null);

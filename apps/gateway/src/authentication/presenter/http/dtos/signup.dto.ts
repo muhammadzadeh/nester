@@ -1,8 +1,8 @@
-import { ToLowerCase } from '@repo/decorator';
-import { Email, Mobile } from '@repo/types';
-import { IsIdentifier } from '@repo/validator/is-identifier.validator';
-import { IsNotUUID } from '@repo/validator/is-not-uuid.validator';
-import { IsStrongPassword } from '@repo/validator/is-strong-password.validator';
+import { ToLowerCase } from '@package/decorator';
+import { Email, Mobile } from '@package/types';
+import { IsIdentifier } from '@package/validator/is-identifier.validator';
+import { IsNotUUID } from '@package/validator/is-not-uuid.validator';
+import { IsStrongPassword } from '@package/validator/is-strong-password.validator';
 import { Type } from 'class-transformer';
 import { IsNotEmpty, IsString } from 'class-validator';
 import {

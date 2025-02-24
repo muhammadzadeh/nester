@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { Configuration } from '@repo/config';
-import { NotificationEvent } from '@repo/types';
+import { Configuration } from '@package/config';
+import { NotificationEvent } from '@package/types';
 import { EmailNotificationPayload } from '../../../notifications/domain/entities/notification.entity';
 import { MAIL_TEMPLATE } from '../../../notifications/infrastructure/constants';
 import { sendNotification } from '../../../notifications/infrastructure/utils';

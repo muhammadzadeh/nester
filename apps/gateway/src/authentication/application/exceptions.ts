@@ -1,6 +1,6 @@
 import { HttpStatus } from '@nestjs/common';
-import { BaseHttpException } from '@repo/exception/base.exception';
-import { ErrorCode } from '@repo/types';
+import { BaseHttpException } from '@package/exception/base.exception';
+import { ErrorCode } from '@package/types';
 
 export class UserNotRegisteredException extends BaseHttpException {
 	readonly status: HttpStatus = HttpStatus.BAD_REQUEST;

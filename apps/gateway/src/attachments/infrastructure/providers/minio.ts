@@ -11,7 +11,7 @@ import {
 	S3Client,
 } from '@aws-sdk/client-s3';
 import { Injectable } from '@nestjs/common';
-import { MapException } from '@repo/decorator/function-decorator';
+import { MapException } from '@package/decorator/function-decorator';
 import { Readable } from 'stream';
 import {
 	StorageIsUnavailableException,

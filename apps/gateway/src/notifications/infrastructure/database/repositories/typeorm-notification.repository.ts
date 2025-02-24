@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { MIN_PAGE_NUMBER, MIN_PAGE_SIZE, OrderDir, Paginated } from '@repo/types';
+import { MIN_PAGE_NUMBER, MIN_PAGE_SIZE, OrderDir, Paginated } from '@package/types';
 import { Repository, SelectQueryBuilder } from 'typeorm';
 import { NotificationEntity } from '../../../domain/entities/notification.entity';
 import {

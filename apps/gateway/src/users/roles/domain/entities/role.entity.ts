@@ -1,6 +1,6 @@
-import { Permission } from '@repo/authentication';
-import { UserId } from '@repo/types';
-import { now } from '@repo/utils/time';
+import { Permission } from '@package/authentication';
+import { UserId } from '@package/types';
+import { now } from '@package/utils/time';
 import { randomUUID } from 'crypto';
 export class RoleEntity {
 	constructor(title: string, permissions: Permission[]);

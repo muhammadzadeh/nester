@@ -1,7 +1,7 @@
 import { Inject } from '@nestjs/common';
-import { SystemPermission, WorkspacePermission } from '@repo/authentication';
-import { BaseSeeder, DatabaseSeeder } from '@repo/types';
-import { now } from '@repo/utils/time';
+import { SystemPermission, WorkspacePermission } from '@package/authentication';
+import { BaseSeeder, DatabaseSeeder } from '@package/types';
+import { now } from '@package/utils/time';
 import { randomUUID } from 'crypto';
 import { RoleEntity } from '../domain/entities/role.entity';
 import { ROLES_REPOSITORY_TOKEN, RolesRepository } from '../domain/repositories/roles.repository';

@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ListResponse, Paginated } from '@repo/types';
+import { ListResponse, Paginated } from '@package/types';
 import { Type } from 'class-transformer';
 import { RoleEntity } from '../../domain/entities/role.entity';
 import { FilterRoleDto } from './filter-role.dto';

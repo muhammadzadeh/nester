@@ -1,7 +1,7 @@
 import { HttpStatus, Inject, Injectable } from '@nestjs/common';
-import { Permission } from '@repo/authentication';
-import { BaseHttpException } from '@repo/exception/base.exception';
-import { ErrorCode, Paginated, PaginationOption } from '@repo/types';
+import { Permission } from '@package/authentication';
+import { BaseHttpException } from '@package/exception/base.exception';
+import { ErrorCode, Paginated, PaginationOption } from '@package/types';
 import { RoleEntity } from '../domain/entities/role.entity';
 import {
 	FindRoleOptions,

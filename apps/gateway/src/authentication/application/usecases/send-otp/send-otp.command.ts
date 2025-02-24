@@ -1,4 +1,4 @@
-import { BaseCommand, Email, Mobile } from '@repo/types';
+import { BaseCommand, Email, Mobile } from '@package/types';
 import { OTPType } from '../../../domain/entities';
 
 export class SendOtpCommand extends BaseCommand {

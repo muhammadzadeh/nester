@@ -1,4 +1,4 @@
-import { BaseCommand } from '@repo/types';
+import { BaseCommand } from '@package/types';
 
 export class RemoveWorkspaceUserCommand extends BaseCommand {
 	readonly workspaceUserId!: string;

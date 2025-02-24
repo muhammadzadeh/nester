@@ -1,5 +1,5 @@
 import { ValidationError as CommonValidationError, HttpStatus } from '@nestjs/common';
-import { ErrorCode } from '@repo/types';
+import { ErrorCode } from '@package/types';
 import { ValidationError as ClassValidationError } from 'class-validator';
 import { BaseHttpException } from '../base.exception';
 

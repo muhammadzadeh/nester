@@ -1,6 +1,6 @@
 import { ArgumentsHost, ExceptionFilter, Logger, RpcExceptionFilter } from '@nestjs/common';
 import { HttpAdapterHost } from '@nestjs/core';
-import { Configuration } from '@repo/config';
+import { Configuration } from '@package/config';
 import { captureException } from '@sentry/node';
 import { isNumber, isString } from 'lodash';
 import { I18nService } from 'nestjs-i18n';

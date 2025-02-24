@@ -1,6 +1,6 @@
 import { Type } from 'class-transformer';
 import { IsBoolean, IsDefined, IsNumber, IsOptional, IsString } from 'class-validator';
-import { ToBoolean } from '@repo/decorator';
+import { ToBoolean } from '@package/decorator';
 
 export class SentryConfig {
 	readonly defaultIntegrations = false;

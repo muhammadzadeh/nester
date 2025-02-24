@@ -1,8 +1,8 @@
 import { Body, Get, Param, Patch, Query } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
-import { RequiredSystemPermissions, SystemPermission } from '@repo/authentication';
-import { AdminController } from '@repo/decorator';
-import { DoneResponse } from '@repo/types';
+import { RequiredSystemPermissions, SystemPermission } from '@package/authentication';
+import { AdminController } from '@package/decorator';
+import { DoneResponse } from '@package/types';
 import { UsersService } from '../../../application/users.service';
 import { FilterUserDto } from '../common/filter-user.dto';
 import { GetUserDto } from '../common/get-user.dto';

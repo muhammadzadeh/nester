@@ -10,7 +10,7 @@ COPY . .
 
 ENV NEXT_TELEMETRY_DISABLED=1
 
-RUN turbo prune --scope=gateway --docker
+RUN turbo prune --scope=@app/gateway --docker
 
 
 FROM base AS installer
@@ -27,7 +27,7 @@ RUN npm install -g turbo
 
 ENV NEXT_TELEMETRY_DISABLED=1
 
-RUN turbo build --filter=gateway...
+RUN turbo build --filter=@app/gateway...
 
 RUN npm prune --production
 

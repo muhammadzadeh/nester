@@ -1,4 +1,4 @@
-import { now } from '@repo/utils/time';
+import { now } from '@package/utils/time';
 import { randomUUID } from 'crypto';
 import { WorkspaceEntity } from '../entities/workspace.entity';
 

@@ -1,6 +1,6 @@
 import { Global, Module, Provider } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Configuration } from '@repo/config';
+import { Configuration } from '@package/config';
 import { AttachmentsService } from './application/attachments.service';
 import { STORAGE_PROVIDER_TOKEN, StorageProvider } from './application/storage-provider';
 import { DeleteAttachmentUsecase } from './application/usecases/delete/delete-attachment.usecase';

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Paginated } from '@repo/types';
+import { Paginated } from '@package/types';
 import { WorkspaceUserEntity } from '../domain/entities/workspace-user.entity';
 import { WorkspaceEntity } from '../domain/entities/workspace.entity';
 import { AddUserToWorkspaceCommand } from './usecases/add-user-to-workspace/add-user-to-workspace.command';

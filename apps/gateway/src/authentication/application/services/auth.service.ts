@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Email, Mobile, UserId, Username } from '@repo/types';
+import { Email, Mobile, UserId, Username } from '@package/types';
 import { isEmail } from 'class-validator';
 import { OTPType } from '../../domain/entities';
 import { ImpersonationCommand } from '../usecases/impersonation/impersonation.command';

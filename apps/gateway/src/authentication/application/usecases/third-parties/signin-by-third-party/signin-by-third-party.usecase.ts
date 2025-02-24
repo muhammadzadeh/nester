@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { Permission } from '@repo/authentication';
-import { IllegalStateException } from '@repo/exception';
-import { publish } from '@repo/rabbit/rabbit-mq.service';
+import { Permission } from '@package/authentication';
+import { IllegalStateException } from '@package/exception';
+import { publish } from '@package/rabbit/rabbit-mq.service';
 import { UsersService } from '../../../../../users/profiles/application/users.service';
 import { UserEntity } from '../../../../../users/profiles/domain/entities/user.entity';
 import { RolesService } from '../../../../../users/roles/application/roles.service';

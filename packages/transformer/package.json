@@ -1,5 +1,5 @@
 {
-  "name": "@repo/transformer",
+  "name": "@package/transformer",
   "description": "The App transformer",
   "version": "0.0.1",
   "private": true,
@@ -40,8 +40,8 @@
     "slugify": "^1.6.6"
   },
   "devDependencies": {
-    "@repo/eslint-config": "*",
-    "@repo/typescript-config": "*",
+    "@package/eslint-config": "*",
+    "@package/typescript-config": "*",
     "@types/node": "^20.3.1",
     "ts-loader": "^9.4.3",
     "ts-node": "^10.9.1",

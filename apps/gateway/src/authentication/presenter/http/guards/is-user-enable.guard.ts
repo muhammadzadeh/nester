@@ -1,6 +1,6 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { AuthenticationMetaKey, CURRENT_USER_KEY, CurrentUser } from '../decorators';
+import { AuthenticationMetaKey, CURRENT_USER_KEY, CurrentUser } from '@repo/authentication';
 import { YourAccountIsBlockedException } from '../../../application/exceptions';
 
 @Injectable()
